@@ -1,0 +1,17 @@
+# dependencies
+node_modules
+
+# logs
+*.log
+
+# OS or Editor folders
+.DS_Store
+.cache
+.project
+.settings
+.tmproj
+
+# App specific
+.env
+dist
+.next

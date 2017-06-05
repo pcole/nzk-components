@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Icon Icon 1`] = `
+<i
+  className="icon-night-zookeeper-logo"
+  style={
+    Object {
+      "color": "#000",
+      "fontSize": "28px",
+      "verticalAlign": "middle",
+    }
+  }
+/>
+`;

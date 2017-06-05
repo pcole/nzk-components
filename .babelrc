@@ -1,0 +1,18 @@
+{
+  "presets": [
+    "next/babel",
+    "flow"
+  ],
+  "plugins": [
+    "transform-flow-strip-types",
+    "transform-class-properties",
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
+}
