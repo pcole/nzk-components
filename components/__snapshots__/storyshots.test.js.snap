@@ -1,5 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Button Custom dimensions 1`] = `
+<div
+  className="button"
+  data-jsx-ext="2124883717"
+  style={
+    Object {
+      "backgroundColor": "rgb(85, 172, 241)",
+      "backgroundImage": "none",
+      "borderRadius": "20px",
+      "boxShadow": "none",
+      "color": "rgb(255, 255, 255)",
+      "height": "300px",
+      "width": "300px",
+    }
+  }
+>
+  I can be any size and the text is centered and multiline
+</div>
+`;
+
+exports[`Storyshots Button Custom gradient 1`] = `
+<div
+  className="button shadow regular"
+  data-jsx-ext="2124883717"
+  style={
+    Object {
+      "backgroundColor": "rgb(129, 36, 122)",
+      "backgroundImage": "linear-gradient(to right, #81247A, #303993)",
+      "borderRadius": "20px",
+      "boxShadow": "0px 4px 0px hsl(304.5, 56.4%, 24.3%)",
+      "color": "rgb(255, 255, 255)",
+    }
+  }
+>
+  Custom gradient
+</div>
+`;
+
+exports[`Storyshots Button Dispay block 1`] = `
+<div
+  className="button block"
+  data-jsx-ext="2124883717"
+  style={
+    Object {
+      "backgroundColor": "rgb(85, 172, 241)",
+      "backgroundImage": "none",
+      "borderRadius": "20px",
+      "boxShadow": "none",
+      "color": "rgb(255, 255, 255)",
+    }
+  }
+>
+  I display block
+</div>
+`;
+
+exports[`Storyshots Button Plain button 1`] = `
+<div
+  className="button regular"
+  data-jsx-ext="2124883717"
+  style={
+    Object {
+      "backgroundColor": "rgb(85, 172, 241)",
+      "backgroundImage": "none",
+      "borderRadius": "20px",
+      "boxShadow": "none",
+      "color": "rgb(255, 255, 255)",
+    }
+  }
+>
+  A simple button
+</div>
+`;
+
+exports[`Storyshots Button Round with icon 1`] = `
+<div
+  className="button shadow round regular"
+  data-jsx-ext="2124883717"
+  style={
+    Object {
+      "backgroundColor": "rgb(129, 36, 122)",
+      "backgroundImage": "none",
+      "borderRadius": "50%",
+      "boxShadow": "0px 4px 0px hsl(304.5, 56.4%, 24.3%)",
+      "color": "rgb(255, 255, 255)",
+    }
+  }
+>
+  <i
+    className="icon-pencil"
+    style={
+      Object {
+        "color": "inherit",
+        "fontSize": "inherit",
+        "verticalAlign": "middle",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Storyshots Button With shadow and gradient 1`] = `
+<div
+  className="button shadow regular"
+  data-jsx-ext="2124883717"
+  style={
+    Object {
+      "backgroundColor": "rgb(85, 172, 241)",
+      "backgroundImage": "linear-gradient(to right, #55acf1, hsl(206.5, 84.8%, 76.7%))",
+      "borderRadius": "20px",
+      "boxShadow": "0px 4px 0px hsl(206.5, 84.8%, 47.9%)",
+      "color": "rgb(255, 255, 255)",
+    }
+  }
+>
+  With shadow & gradient
+</div>
+`;
+
 exports[`Storyshots Icon Icon 1`] = `
 <i
   className="icon-night-zookeeper-logo"

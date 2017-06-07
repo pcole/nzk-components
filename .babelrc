@@ -1,12 +1,14 @@
 {
   "presets": [
-    "next/babel",
-    "flow"
+    "env",
+    "flow",
+    "react"
   ],
   "plugins": [
     "transform-flow-strip-types",
     "transform-class-properties",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "styled-jsx/babel"
   ],
   "env": {
     "test": {

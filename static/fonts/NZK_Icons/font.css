@@ -20,6 +20,7 @@
   text-transform: none !important;
   speak: none;
   line-height: 1;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,6 +33,7 @@
   font-variant: normal !important;
   text-transform: none !important;
   speak: none;
+  position: relative;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -129,4 +131,18 @@
 }
 .icon-pro:before {
   content: "\74";
+}
+
+/* Position adjustments */
+.icon-up:before {
+  position: relative;
+  top: -0.06em;
+}
+.icon-right:before {
+  position: relative;
+  left: 0.06em;
+}
+.icon-left:before {
+  position: relative;
+  left: -0.06em;
 }
