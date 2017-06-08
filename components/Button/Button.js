@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import Color from 'color'
 import cn from 'classnames'
-import styles from './styles'
+import styles from './Button.styles'
  
 export type ButtonType = "button" | "reset" | "submit"
 export type ButtonSizeType = "x-small" | "small" | "regular" | "large" | "x-large"
