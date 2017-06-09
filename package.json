@@ -1,6 +1,6 @@
 {
   "name": "nzk-components",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "dependencies": {
     "classnames": "^2.2.5",
     "color": "^1.0.3",
@@ -31,7 +31,7 @@
     "standard-react": "^4.0.0"
   },
   "scripts": {
-    "precommit": "format && build",
+    "precommit": "yarn run test",
     "build": "rimraf dist/ && babel components --ignore 'storyshot**,**stories.js' --out-dir dist/ --copy-files",
     "test": "standard && jest",
     "standard": "standard --verbose | snazzy",
