@@ -1,6 +1,6 @@
 {
   "name": "nzk-components",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "dependencies": {
     "classnames": "^2.2.5",
     "color": "^1.0.3",
@@ -36,7 +36,9 @@
     "build-storybook": "build-storybook"
   },
   "standard": {
-    "ignore": ["dist/"],
+    "ignore": [
+      "dist/"
+    ],
     "parser": "babel-eslint"
   },
   "author": "Night Zookeeper",
