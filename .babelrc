@@ -1,11 +1,9 @@
 {
   "presets": [
     "env",
-    "flow",
     "react"
   ],
   "plugins": [
-    "transform-flow-strip-types",
     "transform-class-properties",
     "transform-object-rest-spread",
     "styled-jsx/babel"
