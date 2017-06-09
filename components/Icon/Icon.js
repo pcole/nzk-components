@@ -27,8 +27,6 @@ export default class Icon extends Component {
       [`icon-${name}`]: true
     })
 
-    return (
-      <i className={className} style={style} {...props} />
-    )
+    return <i className={className} style={style} {...props} />
   }
 }

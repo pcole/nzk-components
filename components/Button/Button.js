@@ -15,6 +15,7 @@ export default class Button extends Component {
     onClick: PropTypes.func,
     bgColor: PropTypes.string,
     bgColorTo: PropTypes.string,
+    backgroundImage: PropTypes.string,
     type: PropTypes.oneOf(['button', 'reset', 'submit']),
     color: PropTypes.string,
     size: PropTypes.oneOf(['x-mall', 'small', 'regular', 'large', 'x-large']),
@@ -63,7 +64,8 @@ export default class Button extends Component {
       shadow,
       gradient,
       element,
-      ...props } = this.props
+      ...props
+    } = this.props
 
     if (disabled) {
       props.tabIndex = -1
@@ -85,37 +87,60 @@ export default class Button extends Component {
     const colorObj = Color(color || (bgLuminosity >= 0.5 ? 'black' : 'white'))
 
     props.style = {
-      'color': colorObj.string(),
-      'backgroundColor': bgColorObj.string(),
-      'borderRadius': round ? '50%' : borderRadius || size === 'x-large' ? '30px' : '20px',
-      'boxShadow': shadow
+      color: colorObj.string(),
+      backgroundColor: bgColorObj.string(),
+      borderRadius: round
+        ? '50%'
+        : borderRadius || size === 'x-large' ? '30px' : '20px',
+      boxShadow: shadow
         ? `0px 4px 0px ${bgColorObj.darken(0.25).string()}`
         : 'none',
-      'backgroundImage': gradient || bgColorTo
-        ? `linear-gradient(to right, ${bgColor}, ${bgColorTo || bgColorObj.lighten(0.20).string()})`
+      backgroundImage: gradient || bgColorTo
+        ? `linear-gradient(to right, ${bgColor}, ${bgColorTo ||
+            bgColorObj.lighten(0.2).string()})`
         : 'none',
       ...props.style
     }
 
     if (width) {
       props.style = {
-        'width': width,
+        width: width,
         ...props.style
       }
     }
 
     if (height) {
       props.style = {
-        'height': height,
+        height: height,
         ...props.style
       }
     }
 
     switch (element) {
-      case 'span': return <span {...props} className={className}>{ children }<style jsx>{styles}</style></span>
-      case 'button': return <button {...props} className={className}>{ children }<style jsx>{styles}</style></button>
-      case 'a': return <a {...props} className={className}>{ children }<style jsx>{styles}</style></a>
-      default: return <div {...props} className={className}>{ children }<style jsx>{styles}</style></div>
+      case 'span':
+        return (
+          <span {...props} className={className}>
+            {children}<style jsx>{styles}</style>
+          </span>
+        )
+      case 'button':
+        return (
+          <button {...props} className={className}>
+            {children}<style jsx>{styles}</style>
+          </button>
+        )
+      case 'a':
+        return (
+          <a {...props} className={className}>
+            {children}<style jsx>{styles}</style>
+          </a>
+        )
+      default:
+        return (
+          <div {...props} className={className}>
+            {children}<style jsx>{styles}</style>
+          </div>
+        )
     }
   }
 }

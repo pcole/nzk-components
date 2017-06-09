@@ -21,7 +21,9 @@
     "babel-preset-env": "^1.3.3",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
+    "husky": "^0.13.4",
     "jest": "^20.0.4",
+    "prettier-standard": "^5.0.0",
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "snazzy": "^7.0.0",
@@ -29,10 +31,11 @@
     "standard-react": "^4.0.0"
   },
   "scripts": {
+    "precommit": "format && build",
     "build": "rimraf dist/ && babel components --ignore 'storyshot**,**stories.js' --out-dir dist/ --copy-files",
     "test": "standard && jest",
     "standard": "standard --verbose | snazzy",
-    "standard-fix": "standard --fix",
+    "format": "prettier-standard '**/*.js'",
     "storybook": "start-storybook -p 6006 -s ./static",
     "build-storybook": "build-storybook"
   },

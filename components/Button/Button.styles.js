@@ -1,4 +1,3 @@
-
 export default `
   .button { 
     box-sizing: border-box;
