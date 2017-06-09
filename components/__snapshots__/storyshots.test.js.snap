@@ -3,7 +3,7 @@
 exports[`Storyshots Button Custom dimensions 1`] = `
 <div
   className="button"
-  data-jsx-ext="2124883717"
+  data-jsx-ext="21690569355"
   style={
     Object {
       "backgroundColor": "rgb(85, 172, 241)",
@@ -23,7 +23,7 @@ exports[`Storyshots Button Custom dimensions 1`] = `
 exports[`Storyshots Button Custom gradient 1`] = `
 <div
   className="button shadow regular"
-  data-jsx-ext="2124883717"
+  data-jsx-ext="21690569355"
   style={
     Object {
       "backgroundColor": "rgb(129, 36, 122)",
@@ -41,7 +41,7 @@ exports[`Storyshots Button Custom gradient 1`] = `
 exports[`Storyshots Button Dispay block 1`] = `
 <div
   className="button block"
-  data-jsx-ext="2124883717"
+  data-jsx-ext="21690569355"
   style={
     Object {
       "backgroundColor": "rgb(85, 172, 241)",
@@ -59,7 +59,7 @@ exports[`Storyshots Button Dispay block 1`] = `
 exports[`Storyshots Button Plain button 1`] = `
 <div
   className="button regular"
-  data-jsx-ext="2124883717"
+  data-jsx-ext="21690569355"
   style={
     Object {
       "backgroundColor": "rgb(85, 172, 241)",
@@ -77,7 +77,7 @@ exports[`Storyshots Button Plain button 1`] = `
 exports[`Storyshots Button Round with icon 1`] = `
 <div
   className="button shadow round regular"
-  data-jsx-ext="2124883717"
+  data-jsx-ext="21690569355"
   style={
     Object {
       "backgroundColor": "rgb(129, 36, 122)",
@@ -104,7 +104,7 @@ exports[`Storyshots Button Round with icon 1`] = `
 exports[`Storyshots Button With shadow and gradient 1`] = `
 <div
   className="button shadow regular"
-  data-jsx-ext="2124883717"
+  data-jsx-ext="21690569355"
   style={
     Object {
       "backgroundColor": "rgb(85, 172, 241)",

@@ -55,7 +55,7 @@ export default `
 	}
 
 	.large {
-		font-size: 22px;
+		font-size: 24px;
 		padding: 10px 12px 5px;
 	}
 
@@ -101,7 +101,6 @@ export default `
 	.button:active, .active, .disabled {
 		transform: translateY(4px);
 		box-shadow: none !important;
-		padding-bottom: 8px;
 	}
 
 	.disabled {

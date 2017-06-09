@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Color from 'color'
 import cn from 'classnames'
 import styles from './Button.styles'
- 
+
 export type ButtonType = "button" | "reset" | "submit"
 export type ButtonSizeType = "x-small" | "small" | "regular" | "large" | "x-large"
 
@@ -24,7 +24,7 @@ type ButtonPropsType = {
 	width: string,
 	height: string,
 	borderRadius: string,
-	componentClass: string,
+	element: string,
 	children: Object,
 }
 
@@ -67,7 +67,7 @@ export default class Button extends Component<void, ButtonPropsType, void>	{
 			borderRadius,
 			shadow,
 			gradient,
-			componentClass,
+			element,
 			...props } = this.props
 			
 		if (disabled) {
@@ -92,7 +92,7 @@ export default class Button extends Component<void, ButtonPropsType, void>	{
 		props.style = {
 			'color': colorObj.string(),
 			'backgroundColor': bgColorObj.string(),
-			'borderRadius': round ? '50%' : borderRadius || '20px',
+			'borderRadius': round ? '50%' : borderRadius || size === 'x-large' ? '30px' : '20px',
 			'boxShadow': shadow
 				? `0px 4px 0px ${bgColorObj.darken(.25).string()}` 
 				: 'none',
@@ -116,7 +116,7 @@ export default class Button extends Component<void, ButtonPropsType, void>	{
 			}
 		}
 
-		switch(componentClass){
+		switch(element){
 			case 'span': return <span {...props} className={className}>{ children }<style jsx>{styles}</style></span>
 			case 'button': return <button {...props} className={className}>{ children }<style jsx>{styles}</style></button>
 			case 'a': return <a {...props} className={className}>{ children }<style jsx>{styles}</style></a>
