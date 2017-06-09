@@ -1,109 +1,109 @@
 
 export default `
-	.button { 
-		box-sizing: border-box;
-		display: inline-flex;
-		margin: 0px;
-		padding: 12px 12px 10px;
-		font-family: 'NZK';
-		letter-spacing: 1px;
-		text-transform: uppercase;
-		font-size: 16px; 
-		line-height: 1.2em;
-		border: none;
-		outline: none;
-		cursor: pointer;
-		text-decoration: none;
-		user-select: none;
-		vertical-align: top;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-	}
+  .button { 
+    box-sizing: border-box;
+    display: inline-flex;
+    margin: 0px;
+    padding: 12px 12px 10px;
+    font-family: 'NZK';
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 16px; 
+    line-height: 1.2em;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    vertical-align: top;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 
-	.button > :global(i) {
-		position: relative;
-		top: 2px;
-	}
+  .button > :global(i) {
+    position: relative;
+    top: 2px;
+  }
 
-	.button + .button {
-		margin-left: 10px;
-	}
+  .button + .button {
+    margin-left: 10px;
+  }
 
-	.button:active, .button:hover{
-		text-decoration: none;
-		color: inherit;
-	}
+  .button:active, .button:hover{
+    text-decoration: none;
+    color: inherit;
+  }
 
-	.shadow{
-		padding: 12px 12px 8px;
-	}
+  .shadow{
+    padding: 12px 12px 8px;
+  }
 
-	.block {
-		display: block;
-		width: 100%;
-	}
+  .block {
+    display: block;
+    width: 100%;
+  }
 
-	.x-small {
-		font-size: 10px;
-		padding: 8px 8px 3px;
-	}
+  .x-small {
+    font-size: 10px;
+    padding: 8px 8px 3px;
+  }
 
-	.small {
-		font-size: 12px;
-		padding: 10px 10px 6px;
-	}
+  .small {
+    font-size: 12px;
+    padding: 10px 10px 6px;
+  }
 
-	.large {
-		font-size: 24px;
-		padding: 10px 12px 5px;
-	}
+  .large {
+    font-size: 24px;
+    padding: 10px 12px 5px;
+  }
 
-	.x-large {
-		font-size: 28px;
-		padding: 10px 12px 5px;
-	}
+  .x-large {
+    font-size: 28px;
+    padding: 10px 12px 5px;
+  }
 
-	.round {
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		padding: 8px;
-		font-size: 24px;
-	}
+  .round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 8px;
+    font-size: 24px;
+  }
 
-	.round.x-small {
-		width: 28px;
-		height: 28px;
-		font-size: 12px;
-	}
+  .round.x-small {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
 
-	.round.small {
-		width: 34px;
-		height: 34px;
-		font-size: 18px;
-	}
+  .round.small {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
 
-	.round.large {
-		width: 48px;
-		height: 48px;
-		font-size: 30px;
-		padding: 8px;
-	}
+  .round.large {
+    width: 48px;
+    height: 48px;
+    font-size: 30px;
+    padding: 8px;
+  }
 
-	.round.x-large {
-		width: 60px;
-		height: 60px;
-		font-size: 40px;
-		padding: 10px;
-	}
+  .round.x-large {
+    width: 60px;
+    height: 60px;
+    font-size: 40px;
+    padding: 10px;
+  }
 
-	.button:active, .active, .disabled {
-		transform: translateY(4px);
-		box-shadow: none !important;
-	}
+  .button:active, .active, .disabled {
+    transform: translateY(4px);
+    box-shadow: none !important;
+  }
 
-	.disabled {
-		filter: grayscale();
-	}
+  .disabled {
+    filter: grayscale();
+  }
 `

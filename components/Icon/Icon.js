@@ -1,41 +1,34 @@
-// @flow
-
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-type IconPropsType = {
-	name: string,
-	color: string,
-	fontSize: string,
-}
+export default class Icon extends Component {
+  static propTypes = {
+    name: PropTypes.string,
+    color: PropTypes.string,
+    fontSize: PropTypes.string
+  }
 
-type DefaultIconPropsType = {
-	color: string,
-	fontSize: string,
-}
+  static defaultProps = {
+    color: 'inherit',
+    fontSize: 'inherit'
+  }
 
-export default class Icon extends Component<DefaultIconPropsType, IconPropsType, void>	{
+  render () {
+    const { name, color, fontSize, ...props } = this.props
 
-	static defaultProps = {
-		color: 'inherit',
-		fontSize: 'inherit',
-	}
+    const style = {
+      color: color,
+      fontSize: fontSize,
+      verticalAlign: 'middle'
+    }
 
-	render() {
-		const { name, color, fontSize, ...props } = this.props
-		
-		const style = {
-			color: color,
-			fontSize: fontSize,
-			verticalAlign: 'middle',
-		}
+    const className = classNames({
+      [`icon-${name}`]: true
+    })
 
-		const className = classNames({
-			[`icon-${name}`]: true,
-		})
-
-		return (
-			<i className={className} style={style} {...props} />
-		)
-	}
+    return (
+      <i className={className} style={style} {...props} />
+    )
+  }
 }
