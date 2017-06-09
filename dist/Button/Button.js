@@ -88,8 +88,8 @@ var Button = function (_Component) {
 			    borderRadius = _props2.borderRadius,
 			    shadow = _props2.shadow,
 			    gradient = _props2.gradient,
-			    componentClass = _props2.componentClass,
-			    props = _objectWithoutProperties(_props2, ['disabled', 'children', 'active', 'block', 'color', 'round', 'size', 'width', 'height', 'bgColor', 'bgColorTo', 'borderRadius', 'shadow', 'gradient', 'componentClass']);
+			    element = _props2.element,
+			    props = _objectWithoutProperties(_props2, ['disabled', 'children', 'active', 'block', 'color', 'round', 'size', 'width', 'height', 'bgColor', 'bgColorTo', 'borderRadius', 'shadow', 'gradient', 'element']);
 
 			if (disabled) {
 				props.tabIndex = -1;
@@ -112,7 +112,7 @@ var Button = function (_Component) {
 			props.style = _extends({
 				'color': colorObj.string(),
 				'backgroundColor': bgColorObj.string(),
-				'borderRadius': round ? '50%' : borderRadius || '20px',
+				'borderRadius': round ? '50%' : borderRadius || size === 'x-large' ? '30px' : '20px',
 				'boxShadow': shadow ? '0px 4px 0px ' + bgColorObj.darken(.25).string() : 'none',
 				'backgroundImage': gradient || bgColorTo ? 'linear-gradient(to right, ' + bgColor + ', ' + (bgColorTo || bgColorObj.lighten(.20).string()) + ')' : 'none'
 			}, props.style);
@@ -129,7 +129,7 @@ var Button = function (_Component) {
 				}, props.style);
 			}
 
-			switch (componentClass) {
+			switch (element) {
 				case 'span':
 					return _react2.default.createElement(
 						'span',
