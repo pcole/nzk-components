@@ -10,7 +10,9 @@ node_modules
 .project
 .settings
 .tmproj
+.idea
 
 # App specific
 .env
 .next
+yarn.lock
