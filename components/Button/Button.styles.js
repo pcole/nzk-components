@@ -34,6 +34,10 @@ export default `
     color: inherit;
   }
 
+  .button:hover > * {
+    text-decoration: none;
+  }
+
   .shadow{
     padding: 12px 12px 8px;
   }
