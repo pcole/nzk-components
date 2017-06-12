@@ -1,7 +1,3 @@
-/**
- * Created by benjaminafonso on 12/06/2017.
- */
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Icon from '../Icon/Icon'

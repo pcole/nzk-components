@@ -131,3 +131,748 @@ exports[`Storyshots Icon Icon 1`] = `
   }
 />
 `;
+
+exports[`Storyshots ShareDropDown Background color 1`] = `
+<div
+  className="host"
+  data-jsx-ext="24108245120"
+  style={
+    Object {
+      "backgroundColor": "orange",
+      "color": "#555",
+    }
+  }
+>
+  <div
+    className="drop attached-top"
+    data-jsx-ext="24108245120"
+  >
+    <div
+      className="arrow attached-top"
+      data-jsx-ext="24108245120"
+      style={
+        Object {
+          "borderBottom": "25px solid orange",
+          "right": "-20px",
+        }
+      }
+    />
+    <div
+      className="drop-content"
+      data-jsx-ext="24108245120"
+    >
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Share this with
+      </h4>
+      <ul
+        data-jsx-ext="24108245120"
+      >
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://www.facebook.com/sharer/sharer.php?u=https://www.nightzookeeper.com"
+            target="_blank"
+          >
+            <i
+              className="icon-facebook"
+              style={
+                Object {
+                  "color": "#323091",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Facebook
+          </a>
+        </li>
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://twitter.com/share?url=https://www.nightzookeeper.com;via=nightzookeeper"
+            target="_blank"
+          >
+            <i
+              className="icon-twitter"
+              style={
+                Object {
+                  "color": "#3BABE6",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Twitter
+          </a>
+        </li>
+      </ul>
+      <p
+        data-jsx-ext="24108245120"
+      >
+        Copy this link
+        <input
+          data-jsx-ext="24108245120"
+          onfocus="this.select();"
+          type="text"
+          value="https://www.nightzookeeper.com"
+        />
+      </p>
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Follow us on
+      </h4>
+      <a
+        data-jsx-ext="24108245120"
+        href="http://facebook.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-facebook"
+          style={
+            Object {
+              "color": "#323091",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://twitter.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-twitter"
+          style={
+            Object {
+              "color": "#3BABE6",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://www.pinterest.com/nightzookeeper/"
+        target="_blank"
+      >
+        <i
+          className="icon-pinterest"
+          style={
+            Object {
+              "color": "#B60225",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ShareDropDown Dropdown left 1`] = `
+<div
+  className="host"
+  data-jsx-ext="24108245120"
+  style={
+    Object {
+      "backgroundColor": "#eee",
+      "color": "#555",
+    }
+  }
+>
+  <div
+    className="drop attached-top"
+    data-jsx-ext="24108245120"
+  >
+    <div
+      className="arrow attached-top"
+      data-jsx-ext="24108245120"
+      style={
+        Object {
+          "borderBottom": "25px solid #eee",
+          "left": "-20px",
+        }
+      }
+    />
+    <div
+      className="drop-content"
+      data-jsx-ext="24108245120"
+    >
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Share this with
+      </h4>
+      <ul
+        data-jsx-ext="24108245120"
+      >
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://www.facebook.com/sharer/sharer.php?u=https://www.nightzookeeper.com"
+            target="_blank"
+          >
+            <i
+              className="icon-facebook"
+              style={
+                Object {
+                  "color": "#323091",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Facebook
+          </a>
+        </li>
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://twitter.com/share?url=https://www.nightzookeeper.com;via=nightzookeeper"
+            target="_blank"
+          >
+            <i
+              className="icon-twitter"
+              style={
+                Object {
+                  "color": "#3BABE6",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Twitter
+          </a>
+        </li>
+      </ul>
+      <p
+        data-jsx-ext="24108245120"
+      >
+        Copy this link
+        <input
+          data-jsx-ext="24108245120"
+          onfocus="this.select();"
+          type="text"
+          value="https://www.nightzookeeper.com"
+        />
+      </p>
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Follow us on
+      </h4>
+      <a
+        data-jsx-ext="24108245120"
+        href="http://facebook.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-facebook"
+          style={
+            Object {
+              "color": "#323091",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://twitter.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-twitter"
+          style={
+            Object {
+              "color": "#3BABE6",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://www.pinterest.com/nightzookeeper/"
+        target="_blank"
+      >
+        <i
+          className="icon-pinterest"
+          style={
+            Object {
+              "color": "#B60225",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ShareDropDown Dropdown middle 1`] = `
+<div
+  className="host"
+  data-jsx-ext="24108245120"
+  style={
+    Object {
+      "backgroundColor": "#eee",
+      "color": "#555",
+    }
+  }
+>
+  <div
+    className="drop attached-top"
+    data-jsx-ext="24108245120"
+  >
+    <div
+      className="arrow attached-top"
+      data-jsx-ext="24108245120"
+      style={
+        Object {
+          "borderBottom": "25px solid #eee",
+          "right": "90px",
+        }
+      }
+    />
+    <div
+      className="drop-content"
+      data-jsx-ext="24108245120"
+    >
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Share this with
+      </h4>
+      <ul
+        data-jsx-ext="24108245120"
+      >
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://www.facebook.com/sharer/sharer.php?u=https://www.nightzookeeper.com"
+            target="_blank"
+          >
+            <i
+              className="icon-facebook"
+              style={
+                Object {
+                  "color": "#323091",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Facebook
+          </a>
+        </li>
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://twitter.com/share?url=https://www.nightzookeeper.com;via=nightzookeeper"
+            target="_blank"
+          >
+            <i
+              className="icon-twitter"
+              style={
+                Object {
+                  "color": "#3BABE6",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Twitter
+          </a>
+        </li>
+      </ul>
+      <p
+        data-jsx-ext="24108245120"
+      >
+        Copy this link
+        <input
+          data-jsx-ext="24108245120"
+          onfocus="this.select();"
+          type="text"
+          value="https://www.nightzookeeper.com"
+        />
+      </p>
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Follow us on
+      </h4>
+      <a
+        data-jsx-ext="24108245120"
+        href="http://facebook.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-facebook"
+          style={
+            Object {
+              "color": "#323091",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://twitter.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-twitter"
+          style={
+            Object {
+              "color": "#3BABE6",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://www.pinterest.com/nightzookeeper/"
+        target="_blank"
+      >
+        <i
+          className="icon-pinterest"
+          style={
+            Object {
+              "color": "#B60225",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ShareDropDown Dropdown right 1`] = `
+<div
+  className="host"
+  data-jsx-ext="24108245120"
+  style={
+    Object {
+      "backgroundColor": "#eee",
+      "color": "#555",
+    }
+  }
+>
+  <div
+    className="drop attached-top"
+    data-jsx-ext="24108245120"
+  >
+    <div
+      className="arrow attached-top"
+      data-jsx-ext="24108245120"
+      style={
+        Object {
+          "borderBottom": "25px solid #eee",
+          "right": "-20px",
+        }
+      }
+    />
+    <div
+      className="drop-content"
+      data-jsx-ext="24108245120"
+    >
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Share this with
+      </h4>
+      <ul
+        data-jsx-ext="24108245120"
+      >
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://www.facebook.com/sharer/sharer.php?u=https://www.nightzookeeper.com"
+            target="_blank"
+          >
+            <i
+              className="icon-facebook"
+              style={
+                Object {
+                  "color": "#323091",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Facebook
+          </a>
+        </li>
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://twitter.com/share?url=https://www.nightzookeeper.com;via=nightzookeeper"
+            target="_blank"
+          >
+            <i
+              className="icon-twitter"
+              style={
+                Object {
+                  "color": "#3BABE6",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Twitter
+          </a>
+        </li>
+      </ul>
+      <p
+        data-jsx-ext="24108245120"
+      >
+        Copy this link
+        <input
+          data-jsx-ext="24108245120"
+          onfocus="this.select();"
+          type="text"
+          value="https://www.nightzookeeper.com"
+        />
+      </p>
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Follow us on
+      </h4>
+      <a
+        data-jsx-ext="24108245120"
+        href="http://facebook.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-facebook"
+          style={
+            Object {
+              "color": "#323091",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://twitter.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-twitter"
+          style={
+            Object {
+              "color": "#3BABE6",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://www.pinterest.com/nightzookeeper/"
+        target="_blank"
+      >
+        <i
+          className="icon-pinterest"
+          style={
+            Object {
+              "color": "#B60225",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ShareDropDown Text color 1`] = `
+<div
+  className="host"
+  data-jsx-ext="24108245120"
+  style={
+    Object {
+      "backgroundColor": "#eee",
+      "color": "red",
+    }
+  }
+>
+  <div
+    className="drop attached-top"
+    data-jsx-ext="24108245120"
+  >
+    <div
+      className="arrow attached-top"
+      data-jsx-ext="24108245120"
+      style={
+        Object {
+          "borderBottom": "25px solid #eee",
+          "right": "-20px",
+        }
+      }
+    />
+    <div
+      className="drop-content"
+      data-jsx-ext="24108245120"
+    >
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Share this with
+      </h4>
+      <ul
+        data-jsx-ext="24108245120"
+      >
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://www.facebook.com/sharer/sharer.php?u=https://www.nightzookeeper.com"
+            target="_blank"
+          >
+            <i
+              className="icon-facebook"
+              style={
+                Object {
+                  "color": "#323091",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Facebook
+          </a>
+        </li>
+        <li
+          data-jsx-ext="24108245120"
+        >
+          <a
+            data-jsx-ext="24108245120"
+            href="http://twitter.com/share?url=https://www.nightzookeeper.com;via=nightzookeeper"
+            target="_blank"
+          >
+            <i
+              className="icon-twitter"
+              style={
+                Object {
+                  "color": "#3BABE6",
+                  "fontSize": "inherit",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+             Twitter
+          </a>
+        </li>
+      </ul>
+      <p
+        data-jsx-ext="24108245120"
+      >
+        Copy this link
+        <input
+          data-jsx-ext="24108245120"
+          onfocus="this.select();"
+          type="text"
+          value="https://www.nightzookeeper.com"
+        />
+      </p>
+      <h4
+        data-jsx-ext="24108245120"
+      >
+        Follow us on
+      </h4>
+      <a
+        data-jsx-ext="24108245120"
+        href="http://facebook.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-facebook"
+          style={
+            Object {
+              "color": "#323091",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://twitter.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          className="icon-twitter"
+          style={
+            Object {
+              "color": "#3BABE6",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+      <a
+        data-jsx-ext="24108245120"
+        href="https://www.pinterest.com/nightzookeeper/"
+        target="_blank"
+      >
+        <i
+          className="icon-pinterest"
+          style={
+            Object {
+              "color": "#B60225",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;

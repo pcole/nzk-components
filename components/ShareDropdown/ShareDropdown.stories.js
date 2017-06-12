@@ -1,29 +1,21 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import { withKnobs, color, select } from '@storybook/addon-knobs'
 import ShareDropdown from './ShareDropdown'
 
+const positions = {
+  'left': 'left',
+  'middle': 'middle',
+  'right': 'right'
+}
+
 storiesOf('ShareDropDown', module)
-  .add('Dropdown right', () =>
+  .addDecorator(withKnobs)
+  .add('Dropdown', () =>
     <ShareDropdown
       shareLink='https://www.nightzookeeper.com'
-      position='right'
+      position={select('position', positions, 'right')}
+      bgColor={color('bgColor', '#eee')}
+      color={color('color', '#555')}
     />
-  )
-  .add('Dropdown left', () =>
-    <ShareDropdown shareLink='https://www.nightzookeeper.com' position='left' />
-  )
-  .add('Dropdown middle', () =>
-    <ShareDropdown
-      shareLink='https://www.nightzookeeper.com'
-      position='middle'
-    />
-  )
-  .add('Background color', () =>
-    <ShareDropdown
-      shareLink='https://www.nightzookeeper.com'
-      bgColor='orange'
-    />
-  )
-  .add('Text color', () =>
-    <ShareDropdown shareLink='https://www.nightzookeeper.com' color='red' />
   )

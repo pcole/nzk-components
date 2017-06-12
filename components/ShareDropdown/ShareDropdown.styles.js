@@ -1,7 +1,3 @@
-/**
- * Created by benjaminafonso on 12/06/2017.
- */
-
 export default `
     
     * {
