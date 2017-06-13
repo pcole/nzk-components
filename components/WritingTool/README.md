@@ -19,6 +19,29 @@ This tool will be used when students create long form pieces of writing. It have
 
 The writing tool will be agnostic to how the data is stored or loaded, using callbacks to load and save. It will be reponsible for automatically saving any changes to localstorage to prevent loosing data on a page refresh and handling undo/redo for the current writing session. It will attempt to call the save callback every 30 seconds if there are any changes to persit the data on the server.
 
+Here is a rough schema for the outward facing part of the data, subject to change, but it should be kept as simple as possible. 
+
+```
+{
+  title: "My title..."
+  document: "<strong>Rich</strong> text document data",
+  planning: { anyPlanningRelatedData... },
+  isDraft: true
+}
+```
+
+### LoadData callback
+
+`loadData()`
+
+The writing tool will attempt to call this method in order to load the data. It returns a promise and the writing tool will be responsible for catching any errors and informing the user that the data couldn't be loaded. 
+
+### SaveData callback
+
+`saveData(data)`
+
+The writing tool will attempt to call this method in order to save the data. The writing tool will be responsoble for catching any errors and providing useful error messages to the user. 
+
 ## Main props
 
 - **backUrl**: Url to go back to after writing is finished.
