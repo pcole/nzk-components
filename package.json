@@ -24,10 +24,10 @@
     "jest": "^20.0.4",
     "prettier-standard": "^5.0.0",
     "react-test-renderer": "^15.5.4",
+    "remote-redux-devtools": "^0.5.11",
     "rimraf": "^2.6.1",
     "snazzy": "^7.0.0",
-    "standard": "^10.0.2",
-    "remote-redux-devtools": "^0.5.11"
+    "standard": "^10.0.2"
   },
   "scripts": {
     "precommit": "yarn run test",
