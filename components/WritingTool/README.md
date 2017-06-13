@@ -10,10 +10,10 @@ This tool will be used when students create long form pieces of writing. It have
 
 - Back button: Go back to wherever you were. Asks if you want to save your work.
 - Title bar: Optional, for pieces that require a title
-- Toolbar: Undo/Redo, Italic, Bold, Quote, List ordered|unordered, Link, Image, Align left|right|center|justify, Text size small|medium|large, 
+- Toolbar: Undo/Redo, Italic, Bold, Quote, List ordered|unordered, Link, Image, Align left|right|center|justify, Text size small|medium|large, export button (exports to word/pdf).
 - The main document area: Rich text editor
 - Sidebar: Heavily customisable dependent on context. It will feature the new planning fields that are dependent on the writing type.
-- Footer: Word Count, min words/max word limits, last autosave time, Save Button (Asks if you want to save as draft or if the piece is finished). 
+- Footer: Word Count, min words/max word limits, last autosave time, save button (asks if you want to save as draft or if the piece is finished). 
 
 ## Data
 
