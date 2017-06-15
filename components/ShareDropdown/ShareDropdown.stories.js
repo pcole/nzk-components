@@ -4,9 +4,9 @@ import { withKnobs, color, select } from '@storybook/addon-knobs'
 import ShareDropdown from './ShareDropdown'
 
 const positions = {
-  'left': 'left',
-  'middle': 'middle',
-  'right': 'right'
+  left: 'left',
+  middle: 'middle',
+  right: 'right'
 }
 
 storiesOf('ShareDropDown', module)
