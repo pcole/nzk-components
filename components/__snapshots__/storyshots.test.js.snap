@@ -460,3 +460,247 @@ exports[`Storyshots ShareDropDown Dropdown 1`] = `
   </div>
 </div>
 `;
+
+exports[`Storyshots WritingTool Field 1`] = `
+<div>
+  <div
+    className="input"
+    data-jsx-ext="2606637296"
+  >
+    <input
+      className="input"
+      data-jsx-ext="2606637296"
+      onChange={undefined}
+      style={
+        Object {
+          "backgroundColor": "rgba(0,0,0,0.04)",
+          "color": "white",
+          "content": "",
+          "height": "35px",
+          "width": "33%",
+        }
+      }
+      type="text"
+      value={undefined}
+    />
+    <div
+      className="removeButton dark"
+      data-jsx-ext="2606637296"
+      onClick={undefined}
+    />
+  </div>
+  <div
+    className="input"
+    data-jsx-ext="2606637296"
+    style={
+      Object {
+        "backgroundColor": "rgba(0,0,0,0.04)",
+        "color": "white",
+        "content": "",
+        "height": "35px",
+        "width": "75%",
+      }
+    }
+    type="text"
+  >
+    <div
+      className="removeButton dark"
+      data-jsx-ext="2606637296"
+      onClick={undefined}
+    />
+  </div>
+  <button
+    className="input block button"
+    data-jsx-ext="2606637296"
+    onClick={undefined}
+    style={
+      Object {
+        "backgroundColor": "rgba(0,0,0,0.04)",
+        "color": "white",
+        "content": "",
+        "height": "35px",
+        "width": "50%",
+      }
+    }
+  >
+    +
+  </button>
+</div>
+`;
+
+exports[`Storyshots WritingTool Fields 1`] = `
+<div
+  className=""
+  data-jsx-ext="22650948305"
+>
+  <h3
+    data-jsx-ext="22650948305"
+    style={
+      Object {
+        "color": "white",
+      }
+    }
+  >
+    Opening line
+  </h3>
+  <ul
+    className="stacking"
+    data-jsx-ext="22650948305"
+  >
+    <li
+      className="stacking"
+      data-jsx-ext="22650948305"
+      style={
+        Object {
+          "width": "calc(50% - 8px)",
+        }
+      }
+    >
+      <div
+        className="input"
+        data-jsx-ext="2606637296"
+      >
+        <input
+          className="input block"
+          data-jsx-ext="2606637296"
+          onChange={undefined}
+          style={
+            Object {
+              "backgroundColor": "#3CB6BA",
+              "color": "white",
+              "content": "",
+              "height": "35px",
+              "width": "50%",
+            }
+          }
+          type="text"
+          value={undefined}
+        />
+        <div
+          className="removeButton dark"
+          data-jsx-ext="2606637296"
+          onClick={undefined}
+        />
+      </div>
+    </li>
+    <li
+      className="stacking"
+      data-jsx-ext="22650948305"
+      style={
+        Object {
+          "width": "calc(50% - 8px)",
+        }
+      }
+    >
+      <div
+        className="input"
+        data-jsx-ext="2606637296"
+      >
+        <input
+          className="input block"
+          data-jsx-ext="2606637296"
+          onChange={undefined}
+          style={
+            Object {
+              "backgroundColor": "#3CB6BA",
+              "color": "white",
+              "content": "",
+              "height": "35px",
+              "width": "50%",
+            }
+          }
+          type="text"
+          value={undefined}
+        />
+        <div
+          className="removeButton dark"
+          data-jsx-ext="2606637296"
+          onClick={undefined}
+        />
+      </div>
+    </li>
+    <li
+      className="stacking"
+      data-jsx-ext="22650948305"
+      style={
+        Object {
+          "width": "calc(50% - 8px)",
+        }
+      }
+    >
+      <div
+        className="input"
+        data-jsx-ext="2606637296"
+      >
+        <input
+          className="input block"
+          data-jsx-ext="2606637296"
+          onChange={undefined}
+          style={
+            Object {
+              "backgroundColor": "#3CB6BA",
+              "color": "white",
+              "content": "",
+              "height": "35px",
+              "width": "50%",
+            }
+          }
+          type="text"
+          value={undefined}
+        />
+        <div
+          className="removeButton dark"
+          data-jsx-ext="2606637296"
+          onClick={undefined}
+        />
+      </div>
+    </li>
+    <li
+      className="stacking"
+      data-jsx-ext="22650948305"
+      style={
+        Object {
+          "width": "calc(50% - 8px)",
+        }
+      }
+    >
+      <button
+        className="input block button"
+        data-jsx-ext="2606637296"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#A5FCFF",
+            "color": "white",
+            "content": "",
+            "height": "35px",
+            "width": "50%",
+          }
+        }
+      >
+        +
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots WritingTool Wordcount 1`] = `
+<div
+  className="host"
+  data-jsx-ext="2411121501"
+  style={
+    Object {
+      "borderBottomColor": "green",
+      "borderBottomStyle": "solid",
+      "borderBottomWidth": "2px",
+      "textAlign": "center",
+      "width": "65px",
+    }
+  }
+>
+  0
+   / 
+  0
+</div>
+`;
