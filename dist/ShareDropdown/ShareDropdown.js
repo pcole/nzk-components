@@ -142,7 +142,9 @@ var ShareDropdown = function (_Component) {
                 'data-jsx-ext': _ShareDropdown2.default.__scopedHash
               },
               'Copy this link',
-              _react2.default.createElement('input', { type: 'text', value: shareLink, onFocus: 'this.select();', 'data-jsx-ext': _ShareDropdown2.default.__scopedHash
+              _react2.default.createElement('input', { type: 'text', value: shareLink, onFocus: function onFocus(e) {
+                  return e.target.select();
+                }, 'data-jsx-ext': _ShareDropdown2.default.__scopedHash
               })
             ),
             _react2.default.createElement(

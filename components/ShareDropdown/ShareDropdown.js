@@ -73,7 +73,7 @@ export default class ShareDropdown extends Component {
             </ul>
             <p>
               Copy this link
-              <input type='text' value={shareLink} onFocus='this.select();' />
+              <input type='text' value={shareLink} onFocus={(e) => e.target.select()} />
             </p>
             <h4>Follow us on</h4>
             <a href='http://facebook.com/nightzookeeper' target='_blank'>

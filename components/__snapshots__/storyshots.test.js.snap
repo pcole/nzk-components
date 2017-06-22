@@ -119,6 +119,186 @@ exports[`Storyshots Button With shadow and gradient 1`] = `
 </div>
 `;
 
+exports[`Storyshots Footer Footer 1`] = `
+<div
+  className="host"
+  data-jsx-ext="24178985361"
+>
+  <div
+    className="links"
+    data-jsx-ext="24178985361"
+  >
+    <div
+      className="column"
+      data-jsx-ext="24178985361"
+    >
+      <a
+        data-jsx-ext="24178985361"
+        href="/"
+      >
+        Home
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="/learn-more"
+      >
+        Learn More
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="/curriculum"
+      >
+        Curriculum
+      </a>
+    </div>
+    <div
+      className="column"
+      data-jsx-ext="24178985361"
+    >
+      <a
+        data-jsx-ext="24178985361"
+        href="/edu/lesson-hive"
+      >
+        Lesson Hive
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="/edu/night-times"
+      >
+        Student Showcase
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="http://nightzooteacher.com"
+      >
+        Blog
+      </a>
+    </div>
+    <div
+      className="column"
+      data-jsx-ext="24178985361"
+    >
+      <a
+        data-jsx-ext="24178985361"
+        href="/contact"
+      >
+        Contact
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="/terms-and-conditions"
+      >
+        Terms & Conditions
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="/privacy"
+      >
+        Privacy Policy
+      </a>
+    </div>
+    <div
+      className="socials"
+      data-jsx-ext="24178985361"
+    >
+      <a
+        data-jsx-ext="24178985361"
+        href="https://twitter.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          data-jsx-ext="24178985361"
+        >
+          <svg
+            data-jsx-ext="24178985361"
+            style={
+              Object {
+                "fill": "grey",
+                "height": "24px",
+                "verticalAlign": "middle",
+                "width": "24px",
+              }
+            }
+            viewBox="0 0 512 512"
+          >
+            <g
+              data-jsx-ext="24178985361"
+            >
+              <path
+                d="m498 107c-18 8-37 13-57 15 21-12 36-31 44-55-19 12-41 20-63 24-18-19-44-31-73-31-54 0-99 45-99 99 0 8 1 16 3 23-83-4-156-44-204-104-9 15-14 32-14 50 0 35 18 65 44 83-16-1-31-5-45-13 0 1 0 1 0 1 0 48 34 89 80 98-8 2-17 3-26 3-7 0-13 0-19-2 13 40 49 68 93 69-34 27-77 43-123 43-8 0-16-1-24-2 44 28 96 45 152 45 182 0 282-151 282-282 0-5 0-9 0-13 19-14 36-31 49-51z"
+                data-jsx-ext="24178985361"
+              />
+            </g>
+          </svg>
+        </i>
+      </a>
+      <a
+        data-jsx-ext="24178985361"
+        href="https://www.facebook.com/nightzookeeper"
+        target="_blank"
+      >
+        <i
+          class="L6JCB"
+          data-jsx-ext="24178985361"
+        >
+          <svg
+            data-jsx-ext="24178985361"
+            style={
+              Object {
+                "fill": "grey",
+                "height": "24px",
+                "verticalAlign": "middle",
+                "width": "24px",
+              }
+            }
+            viewBox="0 0 512 512"
+          >
+            <g
+              data-jsx-ext="24178985361"
+            >
+              <path
+                d="m448 28l-385 0c-19 0-35 16-35 35l0 385c0 20 16 36 35 36l385 0c20 0 36-16 36-36l0-385c0-19-16-35-36-35z m-166 433l0-168-56 0 0-42 56 0 0-60c0-24 7-43 20-56 13-12 31-19 53-19 15 0 29 1 39 2l0 36-24 0c-43 0-44 33-44 44l0 53 64 0-6 42-58 0 0 168z"
+                data-jsx-ext="24178985361"
+              />
+            </g>
+          </svg>
+        </i>
+      </a>
+    </div>
+  </div>
+  <div
+    className="wonky-star"
+    data-jsx-ext="24178985361"
+  >
+    <div
+      className="wonky-star-logo"
+      data-jsx-ext="24178985361"
+    >
+      <img
+        alt="Wonkey Star Logo"
+        data-jsx-ext="24178985361"
+        src="https://dogottrtuoo78.cloudfront.net/assets/be3a8859.png"
+      />
+    </div>
+    <div
+      className="wonky-star-label"
+      data-jsx-ext="24178985361"
+    >
+      <div
+        data-jsx-ext="24178985361"
+      >
+        2011-2017. Wonky Star Ltd
+      </div>
+      <div
+        data-jsx-ext="24178985361"
+      >
+        Registered Company No. 07706300
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Icon Icon 1`] = `
 <i
   className="icon-night-zookeeper-logo"
@@ -218,7 +398,7 @@ exports[`Storyshots ShareDropDown Dropdown 1`] = `
         Copy this link
         <input
           data-jsx-ext="24108245120"
-          onfocus="this.select();"
+          onFocus={[Function]}
           type="text"
           value="https://www.nightzookeeper.com"
         />
