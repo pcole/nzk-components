@@ -1,8 +1,8 @@
 import React from 'react'
 import { Editor, Raw } from 'slate'
 import styles from './Writer.styles'
-import WordCount from '../WordCount/WordCount'
 import PropTypes from 'prop-types'
+import ProgressBar from '../ProgressBar/ProgressBar'
 
 /**
  * Define the default node type.
@@ -61,17 +61,31 @@ export default class Writer extends React.Component {
       },
       { terse: true }
     ),
-    wordCount: 0
+    wordCount: 0,
+    mobile: false,
+    focus: false
   }
 
   static propTypes = {
     nbWords: PropTypes.number,
-    minNbWords: PropTypes.number
+    minNbWords: PropTypes.number,
+    primaryColor: PropTypes.string,
+    secondaryColor: PropTypes.string,
+    light: PropTypes.bool
   }
 
   static defaultProps = {
     minNbWords: 100,
-    maxNbWords: 100
+    maxNbWords: 100,
+    progress: 0,
+    primaryColor: '#34D9E0',
+    light: false
+  }
+
+  componentDidMount () {
+    if (/Android|iPad/i.test(navigator.userAgent)) {
+      this.setState({ mobile: true })
+    }
   }
 
   /**
@@ -106,7 +120,19 @@ export default class Writer extends React.Component {
 
   onChange = state => {
     var count = state.document.text.split(' ').filter(w => w.length > 0).length
-    this.setState({ state: state, wordCount: count })
+    var progress = this.state.progress
+
+    if (count > this.state.wordCount) {
+      if (this.state.wordCount / this.props.minNbWords * 50 > 50) {
+        progress = progress + this.props.minNbWords / (2 * this.state.wordCount)
+      } else {
+        progress = this.state.wordCount / this.props.minNbWords * 50
+      }
+    }
+
+    this.setState({ state: state, wordCount: count, progress: progress })
+
+    this.recordScreenHeight()
   }
 
   /**
@@ -122,10 +148,6 @@ export default class Writer extends React.Component {
     state = state.transform().toggleMark(type).apply()
 
     this.setState({ state })
-  }
-
-  onOpen = portal => {
-    this.setState({ menu: portal.firstChild })
   }
 
   /**
@@ -192,7 +214,13 @@ export default class Writer extends React.Component {
 
   renderToolbar = () => {
     return (
-      <div className='menu toolbar-menu'>
+      <div
+        className='menu toolbar-menu'
+        style={{
+          backgroundColor: this.props.primaryColor,
+          color: this.props.light ? 'black' : 'white'
+        }}
+      >
         {this.renderMarkButton('bold', 'format_bold')}
         {this.renderMarkButton('italic', 'format_italic')}
         {this.renderMarkButton('underlined', 'format_underlined')}
@@ -222,7 +250,8 @@ export default class Writer extends React.Component {
         <span
           className='material-icons'
           style={{
-            backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null
+            backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
+            color: isActive ? 'grey' : null
           }}
         >
           {icon}
@@ -232,13 +261,28 @@ export default class Writer extends React.Component {
     )
   }
 
-  /**
-   * Render a block-toggling toolbar button.
-   *
-   * @param {String} type
-   * @param {String} icon
-   * @return {Element}
-   */
+  onFocus () {
+    this.setState({ focus: true })
+    if (this.state.mobile) {
+      var a = document.getElementsByClassName('editor')[0]
+      a.style.maxHeight =
+        parseInt(
+          window.innerHeight
+            .split('')
+            .splice(window.innerHeight.split('').length - 3, 2)
+            .join('')
+        ) - this.virtualKeyboardHeight()
+    }
+  }
+
+  onBlur () {
+    this.setState({ focus: false })
+
+    if (this.state.mobile) {
+      var a = document.getElementsByClassName('editor')[0]
+      a.style.maxHeight = '100%'
+    }
+  }
 
   renderBlockButton = (type, icon) => {
     const isActive = this.hasBlock(type)
@@ -246,10 +290,34 @@ export default class Writer extends React.Component {
 
     return (
       <span className='button' onMouseDown={onMouseDown} data-active={isActive}>
-        <span className='material-icons'>{icon}</span>
+        <span
+          className='material-icons'
+          style={{
+            backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
+            color: isActive ? 'grey' : null
+          }}
+        >
+          {icon}
+        </span>
         <style jsx>{styles}</style>
       </span>
     )
+  }
+
+  recordScreenHeight () {
+    var a = document.getElementsByClassName('editor')[0]
+
+    if (this.state.mobile) {
+      a.style.maxHeight = parseInt(window.innerHeight) - 370 + 'px'
+    }
+
+    setTimeout(() => {
+      a.scrollTop = a.scrollHeight
+    }, 100)
+  }
+
+  onKeyDown () {
+    this.recordScreenHeight()
   }
 
   /**
@@ -267,14 +335,18 @@ export default class Writer extends React.Component {
             placeholder={'Enter some rich text...'}
             schema={schema}
             state={this.state.state}
+            onFocus={this.onFocus.bind(this)}
+            onBlur={this.onBlur.bind(this)}
             onChange={this.onChange}
-            onKeyDown={this.onKeyDown}
           />
         </div>
-        <WordCount
+        <ProgressBar
           nbWords={this.state.wordCount}
           minNbWords={this.props.minNbWords}
           maxNbWords={this.props.maxNbWords}
+          progress={this.state.progress}
+          primaryColor={this.props.primaryColor}
+          secondaryColor={this.props.secondaryColor}
         />
 
         <style jsx>{styles}</style>

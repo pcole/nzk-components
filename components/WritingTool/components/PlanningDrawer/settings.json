@@ -1,0 +1,100 @@
+{
+  "poetry": {
+    "title": "Poem",
+    "fields": [
+      {
+        "title": "Opening line",
+        "type": "textarea",
+        "numberOfFields": 1,
+        "numberPerRow": 1,
+        "removeable": false,
+        "overloadable": false
+      },
+      {
+        "title": "Rhyming words",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      },
+      {
+        "title": "Alliterations to use",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      },
+      {
+        "title": "Similes to use",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      },
+      {
+        "title": "Metaphors to use",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      }
+    ]
+  },
+  "story": {
+    "title": "Story",
+    "fields": [
+      {
+        "title": "Story starter",
+        "type": "textarea",
+        "numberOfFields": 1,
+        "numberPerRow": 1,
+        "removeable": false,
+        "overloadable": false
+      },
+      {
+        "title": "Problems",
+        "type": "textarea",
+        "numberOfFields": 1,
+        "numberPerRow": 1,
+        "removeable": false,
+        "overloadable": true
+      },
+      {
+        "title": "Settings",
+        "type": "input",
+        "numberOfFields": 2,
+        "numberPerRow": 1,
+        "removeable": true,
+        "overloadable": true
+      },
+      {
+        "title": "Adjectives",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      },
+      {
+        "title": "Verbs",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      },
+      {
+        "title": "Nouns",
+        "type": "input",
+        "numberOfFields": 3,
+        "numberPerRow": 2,
+        "removeable": true,
+        "overloadable": true
+      }
+    ]
+  }
+}

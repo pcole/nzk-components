@@ -463,63 +463,82 @@ exports[`Storyshots ShareDropDown Dropdown 1`] = `
 
 exports[`Storyshots WritingTool Field 1`] = `
 <div>
-  <div
-    className="input"
-    data-jsx-ext="2606637296"
-  >
-    <input
-      className="input"
-      data-jsx-ext="2606637296"
-      onChange={undefined}
-      style={
-        Object {
-          "backgroundColor": "rgba(0,0,0,0.04)",
-          "color": "white",
-          "content": "",
-          "height": "35px",
-          "width": "33%",
-        }
+  <li
+    style={
+      Object {
+        "margin": "4px",
+        "width": "33%",
       }
-      type="text"
-      value={undefined}
-    />
+    }
+  >
     <div
-      className="removeButton dark"
-      data-jsx-ext="2606637296"
-      onClick={undefined}
-    />
-  </div>
+      className="input"
+      data-jsx-ext="23539862900"
+    >
+      <input
+        className="input"
+        data-jsx-ext="23539862900"
+        onChange={[Function]}
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.04)",
+            "color": "white",
+            "height": "35px",
+          }
+        }
+        type="text"
+        value={undefined}
+      />
+      <div
+        className="removeButton light"
+        data-jsx-ext="23539862900"
+        onClick={[Function]}
+      >
+        <div
+          className="icon"
+          data-jsx-ext="23539862900"
+        >
+          <i
+            className="icon-cross"
+            style={
+              Object {
+                "color": "inherit",
+                "fontSize": "12px",
+                "verticalAlign": "middle",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </li>
   <div
     className="input"
-    data-jsx-ext="2606637296"
+    data-jsx-ext="23539862900"
     style={
       Object {
         "backgroundColor": "rgba(0,0,0,0.04)",
         "color": "white",
-        "content": "",
         "height": "35px",
-        "width": "75%",
       }
     }
     type="text"
   >
     <div
-      className="removeButton dark"
-      data-jsx-ext="2606637296"
+      className="removeButton light"
+      data-jsx-ext="23539862900"
       onClick={undefined}
     />
   </div>
   <button
     className="input block button"
-    data-jsx-ext="2606637296"
+    data-jsx-ext="23539862900"
     onClick={undefined}
     style={
       Object {
         "backgroundColor": "rgba(0,0,0,0.04)",
         "color": "white",
-        "content": "",
         "height": "35px",
-        "width": "50%",
       }
     }
   >
@@ -548,29 +567,26 @@ exports[`Storyshots WritingTool Fields 1`] = `
     data-jsx-ext="22650948305"
   >
     <li
-      className="stacking"
-      data-jsx-ext="22650948305"
       style={
         Object {
+          "margin": "4px",
           "width": "calc(50% - 8px)",
         }
       }
     >
       <div
         className="input"
-        data-jsx-ext="2606637296"
+        data-jsx-ext="23539862900"
       >
         <input
           className="input block"
-          data-jsx-ext="2606637296"
-          onChange={undefined}
+          data-jsx-ext="23539862900"
+          onChange={[Function]}
           style={
             Object {
-              "backgroundColor": "#3CB6BA",
+              "backgroundColor": "#A5FCFF",
               "color": "white",
-              "content": "",
               "height": "35px",
-              "width": "50%",
             }
           }
           type="text"
@@ -578,35 +594,48 @@ exports[`Storyshots WritingTool Fields 1`] = `
         />
         <div
           className="removeButton dark"
-          data-jsx-ext="2606637296"
-          onClick={undefined}
-        />
+          data-jsx-ext="23539862900"
+          onClick={[Function]}
+        >
+          <div
+            className="icon"
+            data-jsx-ext="23539862900"
+          >
+            <i
+              className="icon-cross"
+              style={
+                Object {
+                  "color": "inherit",
+                  "fontSize": "12px",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+          </div>
+        </div>
       </div>
     </li>
     <li
-      className="stacking"
-      data-jsx-ext="22650948305"
       style={
         Object {
+          "margin": "4px",
           "width": "calc(50% - 8px)",
         }
       }
     >
       <div
         className="input"
-        data-jsx-ext="2606637296"
+        data-jsx-ext="23539862900"
       >
         <input
           className="input block"
-          data-jsx-ext="2606637296"
-          onChange={undefined}
+          data-jsx-ext="23539862900"
+          onChange={[Function]}
           style={
             Object {
-              "backgroundColor": "#3CB6BA",
+              "backgroundColor": "#A5FCFF",
               "color": "white",
-              "content": "",
               "height": "35px",
-              "width": "50%",
             }
           }
           type="text"
@@ -614,35 +643,48 @@ exports[`Storyshots WritingTool Fields 1`] = `
         />
         <div
           className="removeButton dark"
-          data-jsx-ext="2606637296"
-          onClick={undefined}
-        />
+          data-jsx-ext="23539862900"
+          onClick={[Function]}
+        >
+          <div
+            className="icon"
+            data-jsx-ext="23539862900"
+          >
+            <i
+              className="icon-cross"
+              style={
+                Object {
+                  "color": "inherit",
+                  "fontSize": "12px",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+          </div>
+        </div>
       </div>
     </li>
     <li
-      className="stacking"
-      data-jsx-ext="22650948305"
       style={
         Object {
+          "margin": "4px",
           "width": "calc(50% - 8px)",
         }
       }
     >
       <div
         className="input"
-        data-jsx-ext="2606637296"
+        data-jsx-ext="23539862900"
       >
         <input
           className="input block"
-          data-jsx-ext="2606637296"
-          onChange={undefined}
+          data-jsx-ext="23539862900"
+          onChange={[Function]}
           style={
             Object {
-              "backgroundColor": "#3CB6BA",
+              "backgroundColor": "#A5FCFF",
               "color": "white",
-              "content": "",
               "height": "35px",
-              "width": "50%",
             }
           }
           type="text"
@@ -650,9 +692,25 @@ exports[`Storyshots WritingTool Fields 1`] = `
         />
         <div
           className="removeButton dark"
-          data-jsx-ext="2606637296"
-          onClick={undefined}
-        />
+          data-jsx-ext="23539862900"
+          onClick={[Function]}
+        >
+          <div
+            className="icon"
+            data-jsx-ext="23539862900"
+          >
+            <i
+              className="icon-cross"
+              style={
+                Object {
+                  "color": "inherit",
+                  "fontSize": "12px",
+                  "verticalAlign": "middle",
+                }
+              }
+            />
+          </div>
+        </div>
       </div>
     </li>
     <li
@@ -666,22 +724,969 @@ exports[`Storyshots WritingTool Fields 1`] = `
     >
       <button
         className="input block button"
-        data-jsx-ext="2606637296"
+        data-jsx-ext="23539862900"
         onClick={[Function]}
         style={
           Object {
             "backgroundColor": "#A5FCFF",
             "color": "white",
-            "content": "",
             "height": "35px",
-            "width": "50%",
           }
         }
       >
-        +
+        <i
+          className="icon-plus"
+          style={
+            Object {
+              "color": "inherit",
+              "fontSize": "inherit",
+              "verticalAlign": "middle",
+            }
+          }
+        />
       </button>
     </li>
   </ul>
+</div>
+`;
+
+exports[`Storyshots WritingTool PlanningDrawer 1`] = `
+<div>
+  <div
+    className="host step1"
+    data-jsx-ext="24002739063"
+  >
+    <div
+      className="buttons"
+      data-jsx-ext="24002739063"
+      style={
+        Object {
+          "backgroundColor": "#34D9E0",
+        }
+      }
+    >
+      <div
+        className=""
+        data-jsx-ext="24002739063"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#158186",
+            "borderColor": "#158186",
+          }
+        }
+      >
+        <i
+          className="icon-left"
+          style={
+            Object {
+              "color": "white",
+              "fontSize": "25px",
+              "verticalAlign": "middle",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="drawer step1"
+      data-jsx-ext="24002739063"
+      style={
+        Object {
+          "backgroundColor": "#34D9E0",
+        }
+      }
+    >
+      <div
+        className=""
+        data-jsx-ext="22650948305"
+      >
+        <h3
+          data-jsx-ext="22650948305"
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          Opening line
+        </h3>
+        <ul
+          className="stacking"
+          data-jsx-ext="22650948305"
+        >
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(100% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <textarea
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                value={undefined}
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        className=""
+        data-jsx-ext="22650948305"
+      >
+        <h3
+          data-jsx-ext="22650948305"
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          Rhyming words
+        </h3>
+        <ul
+          className="stacking"
+          data-jsx-ext="22650948305"
+        >
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            className="stacking"
+            data-jsx-ext="22650948305"
+            style={
+              Object {
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <button
+              className="input block button"
+              data-jsx-ext="23539862900"
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#A5FCFF",
+                  "color": "white",
+                  "height": "35px",
+                }
+              }
+            >
+              <i
+                className="icon-plus"
+                style={
+                  Object {
+                    "color": "inherit",
+                    "fontSize": "inherit",
+                    "verticalAlign": "middle",
+                  }
+                }
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div
+        className=""
+        data-jsx-ext="22650948305"
+      >
+        <h3
+          data-jsx-ext="22650948305"
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          Alliteration to use
+        </h3>
+        <ul
+          className="stacking"
+          data-jsx-ext="22650948305"
+        >
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            className="stacking"
+            data-jsx-ext="22650948305"
+            style={
+              Object {
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <button
+              className="input block button"
+              data-jsx-ext="23539862900"
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#A5FCFF",
+                  "color": "white",
+                  "height": "35px",
+                }
+              }
+            >
+              <i
+                className="icon-plus"
+                style={
+                  Object {
+                    "color": "inherit",
+                    "fontSize": "inherit",
+                    "verticalAlign": "middle",
+                  }
+                }
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div
+        className=""
+        data-jsx-ext="22650948305"
+      >
+        <h3
+          data-jsx-ext="22650948305"
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          Similes to use
+        </h3>
+        <ul
+          className="stacking"
+          data-jsx-ext="22650948305"
+        >
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            className="stacking"
+            data-jsx-ext="22650948305"
+            style={
+              Object {
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <button
+              className="input block button"
+              data-jsx-ext="23539862900"
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#A5FCFF",
+                  "color": "white",
+                  "height": "35px",
+                }
+              }
+            >
+              <i
+                className="icon-plus"
+                style={
+                  Object {
+                    "color": "inherit",
+                    "fontSize": "inherit",
+                    "verticalAlign": "middle",
+                  }
+                }
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div
+        className=""
+        data-jsx-ext="22650948305"
+      >
+        <h3
+          data-jsx-ext="22650948305"
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+        >
+          Metaphors to use
+        </h3>
+        <ul
+          className="stacking"
+          data-jsx-ext="22650948305"
+        >
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            style={
+              Object {
+                "margin": "4px",
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <div
+              className="input"
+              data-jsx-ext="23539862900"
+            >
+              <input
+                className="input block"
+                data-jsx-ext="23539862900"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "#A5FCFF",
+                    "color": "white",
+                    "height": "35px",
+                  }
+                }
+                type="text"
+                value={undefined}
+              />
+              <div
+                className="removeButton dark"
+                data-jsx-ext="23539862900"
+                onClick={[Function]}
+              >
+                <div
+                  className="icon"
+                  data-jsx-ext="23539862900"
+                >
+                  <i
+                    className="icon-cross"
+                    style={
+                      Object {
+                        "color": "inherit",
+                        "fontSize": "12px",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            className="stacking"
+            data-jsx-ext="22650948305"
+            style={
+              Object {
+                "width": "calc(50% - 8px)",
+              }
+            }
+          >
+            <button
+              className="input block button"
+              data-jsx-ext="23539862900"
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#A5FCFF",
+                  "color": "white",
+                  "height": "35px",
+                }
+              }
+            >
+              <i
+                className="icon-plus"
+                style={
+                  Object {
+                    "color": "inherit",
+                    "fontSize": "inherit",
+                    "verticalAlign": "middle",
+                  }
+                }
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots WritingTool ProgressBar 1`] = `
+<div
+  className="host"
+  data-jsx-ext="23986923330"
+  style={Object {}}
+>
+  <div
+    className="full-bar"
+    data-jsx-ext="23986923330"
+    style={
+      Object {
+        "backgroundColor": "#34D9E0",
+      }
+    }
+  >
+    <div
+      className="progress"
+      data-jsx-ext="23986923330"
+      style={
+        Object {
+          "backgroundColor": "#3CB6BA",
+          "width": "undefined%",
+        }
+      }
+    />
+    <div
+      className="counter"
+      data-jsx-ext="23986923330"
+    >
+      0
+    </div>
+    <div
+      className="limit"
+      data-jsx-ext="23986923330"
+    >
+      0
+    </div>
+  </div>
 </div>
 `;
 

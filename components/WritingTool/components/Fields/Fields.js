@@ -1,98 +1,98 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styles from './Fields.styles'
 import cn from 'classnames'
 import Field from '../Field/Field'
+import Icon from '../../../Icon/Icon'
 
 export default class Fields extends Component {
   static propTypes = {
     instruction: PropTypes.string,
+    key: PropTypes.any,
     color: PropTypes.string,
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
     stacking: PropTypes.bool,
+    elements: PropTypes.string,
     nbFields: PropTypes.number,
     nbPerRow: PropTypes.number,
-    overloadable: PropTypes.bool
+    overloadable: PropTypes.bool,
+    light: PropTypes.bool,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
     stacking: true,
     nbFields: 3,
     nbPerRow: 2,
+    elements: 'input',
     overloadable: true,
     primaryColor: '#3CB6BA',
-    secondaryColor: '#A5FCFF'
+    secondaryColor: '#A5FCFF',
+    light: false,
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       nbFields: props.nbFields,
       fields: [],
-      fieldIndex: 0
+      fieldIndex: 0,
     }
     this.addField = this.addField.bind(this)
-    this.removeField = this.removeField.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
-  componentDidMount () {
-    /*
-     [...Array(this.state.nbFields)].map((elem, i) => {
-     this.addField()
-     }) */
-  }
+  addField() {
 
-  onFieldChange (event, field) {
-    var fields = this.state.fields.slice()
-    fields[this.state.fields.indexOf(field)].data = event.target.value
-    this.setState({ fields: fields })
-    console.log(fields)
-  }
+    var newField = <Field
+      key={Math.random() * 1000000000}
+      block
+      element={this.props.elements}
+      bgColor={this.props.secondaryColor}
+      removeable={this.props.removeable}
+      stacking={this.props.stacking}
+      onChange={this.onChange}
+      width={
+        this.props.stacking
+          ? `calc(${100 / this.props.nbPerRow}% - 8px)`
+          : '100%'
+      }
+      light={this.props.light}
+    />
 
-  /*
-   addField () {
-   var fields = this.state.fields.slice()
+    var newFields = this.state.fields
+    newFields.push(newField)
 
-   var field = <Field key={this.state.fieldIndex} block bgColor={this.props.primaryColor} removeAction={() => {
-   this.removeField(field) }} value={this.state.fields[this.state.fields.length - 1] ?
-   this.state.fields[gthis.state.fields.length - 1].data : 'a'} onChange={(event) => { this.onFieldChange(event, field) }}/>
-
-   fields.push({field: field, data: ''})
-
-   this.setState(() => {
-   return {
-   nbFields: this.state.nbFields + 1,
-   fields: fields,
-   fieldIndex: this.state.fieldIndex + 1
-   }
-   })
-   } */
-
-  addField () {
     this.setState(() => {
       return {
-        nbFields: this.state.nbFields + 1
+        nbFields: this.state.nbFields + 1,
+        fields: newFields,
       }
     })
   }
 
-  removeField (field) {
-    if (field) {
-      var fields = Array.from(this.state.fields)
-      fields.splice(fields.indexOf(field), 1)
-
-      this.setState({ fields: fields })
+  componentDidMount() {
+    for (var i = 0; i < this.props.nbFields; i++) {
+      this.addField()
     }
   }
 
-  render () {
+  onChange(field, newValue) {
+    //console.log(this.state.fields)
+    //console.log(field)
+    //console.log("Index: " + this.state.fields.indexOf(field))
+    //console.log(this)
+    this.props.onChange(this)
+  }
+
+  render() {
     const {
       instruction,
       stacking,
       nbPerRow,
       overloadable,
-      secondaryColor
+      secondaryColor,
     } = this.props
 
     const style = {}
@@ -100,56 +100,40 @@ export default class Fields extends Component {
     const className = cn({})
 
     const stackingClass = cn({
-      stacking: stacking
+      stacking: stacking,
     })
 
     return (
       <div className={className}>
         <h3
           style={{
-            color: this.props.light ? 'black' : 'white'
+            color: this.props.light ? 'black' : 'white',
           }}
         >
           {instruction}
         </h3>
         <ul className={stackingClass}>
 
-          {[...Array(this.state.nbFields)].map((elem, index) => {
-            return (
-              <li
-                key={index}
-                className={stackingClass}
-                style={{
-                  width: this.props.stacking
-                    ? `calc(${100 / this.props.nbPerRow}% - 8px)`
-                    : '100%'
-                }}
-              >
-                <Field
-                  key={this.state.fieldIndex}
-                  block
-                  bgColor={this.props.primaryColor}
-                  removeable={this.props.removeable}
-                />
-              </li>
-            )
+          {this.state.fields.map((elem, index) => {
+            return elem
           })}
 
           {overloadable
             ? <li
               className={stackingClass}
               style={{
-                width: stacking ? `calc(${100 / nbPerRow}% - 8px)` : '100%'
+                width: stacking ? `calc(${100 / nbPerRow}% - 8px)` : '100%',
               }}
-              >
+            >
               <Field
                 element='button'
                 block
                 bgColor={secondaryColor}
                 onClick={this.addField}
-                >
-                  +
-                </Field>
+                light={this.props.light}
+              >
+                <Icon name='plus'/>
+              </Field>
             </li>
             : null}
 

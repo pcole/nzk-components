@@ -1,11 +1,15 @@
 export default `
-    
+
     .input {
       outline: none;
       font-size: 20px;
       text-align: center;
       width: auto !import;
       border: none;
+    }
+    
+    .icon {
+      
     }
     
     .block {
@@ -30,6 +34,16 @@ export default `
       position: relative;
     }
     
+    .value {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      color: white;
+      width: 100%;
+      background-color: red;
+    }
+    
     .removeButton {
       position: absolute;
       top: -5px;
@@ -38,17 +52,24 @@ export default `
       height: 20px;
       border-radius: 50%;
       cursor: pointer;
+      color: white;
+      line-height: 20px;
     }
     
-    .light {
+    .dark {
       background-color: white;
       color: black;
     }
     
-    .dark {
+    .light {
       background-color: black;
       color: white;
     }
     
+    li.stacking {
+      width: 100%;
+      margin: 4px;
+    }
+
 
 `
