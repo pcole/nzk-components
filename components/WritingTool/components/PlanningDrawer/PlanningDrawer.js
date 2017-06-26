@@ -7,12 +7,11 @@ import settings from './settings.json'
 import Fields from '../Fields/Fields'
 import {connect} from 'react-redux'
 
-/* @connect(store => {
-  console.log(store)
+@connect((store) => {
   return {
-    fields: store.fields
+    fields: store.planning.fields
   }
-}) */
+})
 export default class PlanningDrawer extends Component {
   static propTypes = {
     children: PropTypes.any,
@@ -36,31 +35,18 @@ export default class PlanningDrawer extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      step: 1,
-      fields: []
+      step: 1
     }
   }
 
-  componentDidMount () {
-
-    var fields = settings[this.props.preset].fields.map((field, index) => {
-      return <Fields
-        key={index}
-        index={index}
-        elements={field.type}
-        instruction={field.title}
-        nbFields={field.numberOfFields}
-        nbPerRow={field.numberPerRow}
-        removeable={field.removeable}
-        overloadable={field.overloadable}
-        primaryColor={this.props.primaryColor}
-        secondaryColor={this.props.secondaryColor}
-        light={this.props.light}
-        onChange={this.onChange.bind(this)}
-      />
-    })
-
-    this.setState({ fields: fields })
+  componentDidMount () { /*
+    this.props.dispatch({
+      type: 'REMOVE_INPUT_FIELD',
+      payload: {
+        field: this.props.fields[4],
+        index: 0
+      }
+    }) */
   }
 
   nextStep () {
@@ -93,7 +79,7 @@ export default class PlanningDrawer extends Component {
   }
 
   onChange (field) {
-    this.state.fields.indexOf(field)
+    this.props.fields.indexOf(field)
     // console.log(field)
   }
 
@@ -130,7 +116,7 @@ export default class PlanningDrawer extends Component {
   }
 
   renderFields () {
-    this.state.fields.map((field, index) => {
+    this.props.fields.map((field, index) => {
       return field
     })
   }
@@ -201,9 +187,21 @@ export default class PlanningDrawer extends Component {
         <div className={classNames} style={style}>
 
           {this.renderStoryDesc()}
-          {this.state.fields.map((field) => {
-            return field
-          })}
+          { this.props.fields.map((field, index) => {
+            return <Fields
+              key={field.key}
+              index={index}
+              elements={field.type}
+              instruction={field.title}
+              nbFields={field.nbFields}
+              nbPerRow={field.nbFieldsPerRow}
+              removeable={field.removeable}
+              overloadable={field.overloadable}
+              primaryColor={this.props.primaryColor}
+              secondaryColor={this.props.secondaryColor}
+              light={this.props.light}
+              onChange={this.onChange.bind(this)}
+            />})}
 
         </div>
         <style jsx>{styles}</style>

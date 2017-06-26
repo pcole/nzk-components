@@ -4,11 +4,19 @@ import styles from './Fields.styles'
 import cn from 'classnames'
 import Field from '../Field/Field'
 import Icon from '../../../Icon/Icon'
+import {connect} from 'react-redux'
+import { addInput, fieldChanged, removeInput } from '../../store/actions/planningActions'
 
+@connect((store) => {
+  return {
+    fields: store.planning.fields,
+  }
+})
 export default class Fields extends Component {
   static propTypes = {
     instruction: PropTypes.string,
     key: PropTypes.any,
+    index: PropTypes.number,
     color: PropTypes.string,
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
@@ -18,7 +26,7 @@ export default class Fields extends Component {
     nbPerRow: PropTypes.number,
     overloadable: PropTypes.bool,
     light: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
@@ -44,32 +52,7 @@ export default class Fields extends Component {
   }
 
   addField() {
-
-    var newField = <Field
-      key={Math.random() * 1000000000}
-      block
-      element={this.props.elements}
-      bgColor={this.props.secondaryColor}
-      removeable={this.props.removeable}
-      stacking={this.props.stacking}
-      onChange={this.onChange}
-      width={
-        this.props.stacking
-          ? `calc(${100 / this.props.nbPerRow}% - 8px)`
-          : '100%'
-      }
-      light={this.props.light}
-    />
-
-    var newFields = this.state.fields
-    newFields.push(newField)
-
-    this.setState(() => {
-      return {
-        nbFields: this.state.nbFields + 1,
-        fields: newFields,
-      }
-    })
+    this.props.dispatch(addInput.bind(this, this.props.index))
   }
 
   componentDidMount() {
@@ -78,12 +61,12 @@ export default class Fields extends Component {
     }
   }
 
+  removeAction(input) {
+    this.props.dispatch(removeInput(this.props.index, input))
+  }
+
   onChange(field, newValue) {
-    //console.log(this.state.fields)
-    //console.log(field)
-    //console.log("Index: " + this.state.fields.indexOf(field))
-    //console.log(this)
-    this.props.onChange(this)
+    this.props.dispatch(fieldChanged(this.props.index, field, newValue))
   }
 
   render() {
@@ -114,8 +97,22 @@ export default class Fields extends Component {
         </h3>
         <ul className={stackingClass}>
 
-          {this.state.fields.map((elem, index) => {
-            return elem
+          {this.props.fields[this.props.index].fields.map((elem, index) => {
+            return <Field element={this.props.elements}
+                          index={index}
+                          block
+                          bgColor={this.props.secondaryColor}
+                          removeable={this.props.removeable}
+                          stacking={this.props.stacking}
+                          onChange={this.onChange}
+                          value={this.props.fields[this.props.index].fields[index].value}
+                          removeAction={this.removeAction.bind(this)}
+                          width={
+                            this.props.stacking
+                              ? `calc(${100 / this.props.nbPerRow}% - 8px)`
+                              : '100%'
+                          }
+                          light={this.props.light}/>
           })}
 
           {overloadable
@@ -129,7 +126,7 @@ export default class Fields extends Component {
                 element='button'
                 block
                 bgColor={secondaryColor}
-                onClick={this.addField}
+                onClick={() => this.props.dispatch(addInput(this.props.index))}
                 light={this.props.light}
               >
                 <Icon name='plus'/>

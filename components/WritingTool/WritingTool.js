@@ -10,12 +10,16 @@ import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import store from './store/store'
-
+import { usePreset } from './store/actions/planningActions'
 export default class WritingTool extends Component {
   static propTypes = {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
     light: PropTypes.bool
+  }
+
+  componentWillMount() {
+    usePreset(store.dispatch, 'story')
   }
 
   onStep (n) {

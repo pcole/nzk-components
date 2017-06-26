@@ -19,9 +19,11 @@ export default class Field extends Component {
   static propTypes = {
     bgColor: PropTypes.string,
     key: PropTypes.any,
+    index: PropTypes.number,
     height: PropTypes.string,
     width: PropTypes.string,
     content: PropTypes.string,
+    value: PropTypes.string,
     block: PropTypes.bool,
     borders: PropTypes.bool,
     element: PropTypes.string,
@@ -64,12 +66,13 @@ export default class Field extends Component {
     if (this.props.element === 'textarea') {
       this.textAreaAdjust(event)
     }
-    this.props.onChange(this, event.target.value)
+    this.props.onChange(this.props.index, event.target.value)
     this.setState({ value: event.target.value })
   }
 
   removeAction () {
-    this.setState({ visible: false })
+    this.props.removeAction(this.props.index)
+    //this.setState({ visible: false })
   }
 
   textAreaAdjust (o) {
