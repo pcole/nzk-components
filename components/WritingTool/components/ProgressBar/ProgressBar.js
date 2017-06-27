@@ -32,7 +32,7 @@ export default class WordCount extends Component {
 
     var maxBarClassNames = cn({
       flag: this.props.barType === 'flag',
-      bar:this.props.barType === 'bar',
+      bar: this.props.barType === 'bar',
       max: true
     })
 
@@ -58,10 +58,9 @@ export default class WordCount extends Component {
             {this.props.nbWords}
           </div>
 
-          <div className={minBarClassNames}>
-          </div>
+          <div className={minBarClassNames} />
 
-          { this.props.maxNbWords ? <div className={maxBarClassNames}/> : null }
+          { this.props.maxNbWords ? <div className={maxBarClassNames} /> : null }
 
           <div className='limit' style={{
           }}>

@@ -2,65 +2,53 @@
  * Created by benjaminafonso on 23/06/2017.
  */
 
-export default function reducer (
-  state = {
-    planning: {
-      title: '',
-      needsTitle: true,
-      icon: '',
-      informations: {
-        image: '',
-        description: ''
-      },
-      fields: [],
-      lastSave: 0
-    }
+export default function reducer (state = {
+  title: '',
+  needsTitle: true,
+  icon: '',
+  informations: {
+    image: '',
+    description: ''
   },
-  action
-) {
+  fields: [],
+  lastSave: 0
+},
+                                action) {
   var newFields
   switch (action.type) {
     case 'SET_WRITING_TYPE': {
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          title: action.payload.title,
-          icon: action.payload.icon,
-          needsTitle: action.payload.needsTitle
-        }
+        title: action.payload.title,
+        icon: action.payload.icon,
+        needsTitle: action.payload.needsTitle
       }
     }
     case 'SET_INFORMATIONS': {
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          informations: {
-            image: action.payload.image,
-            description: action.payload.description
-          }
+        informations: {
+          image: action.payload.image,
+          description: action.payload.description
         }
+
       }
     }
     case 'NEW_FIELD': {
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          fields: [
-            ...(state.planning.fields || []),
-            {
-              title: action.payload.title,
-              type: action.payload.type,
-              nbFields: action.payload.nbFields,
-              nbFieldsPerRow: action.payload.nbFieldsPerRow,
-              overloadable: action.payload.overloadable,
-              removeable: action.payload.removeable,
-              fields: action.payload.fields
-            }
-          ]
-        }
+        fields: [
+          ...(state.fields || []),
+          {
+            title: action.payload.title,
+            type: action.payload.type,
+            nbFields: action.payload.nbFields,
+            nbFieldsPerRow: action.payload.nbFieldsPerRow,
+            overloadable: action.payload.overloadable,
+            removeable: action.payload.removeable,
+            fields: action.payload.fields
+          }
+        ]
       }
     }
     case 'REMOVE_INPUT_FIELD': {
@@ -75,10 +63,7 @@ export default function reducer (
       })
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          fields: newFields
-        }
+        fields: newFields
       }
     }
     case 'ADD_INPUT_FIELD': {
@@ -89,10 +74,7 @@ export default function reducer (
       })
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          fields: newFields
-        }
+        fields: newFields
       }
     }
     case 'FIELD_CHANGED': {
@@ -101,38 +83,28 @@ export default function reducer (
         action.payload.newValue
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          fields: newFields,
-          lastSave: state.planning.lastSave + 1
-        }
+        fields: newFields,
+        lastSave: state.planning.lastSave + 1
       }
     }
     case 'SAVE_PLANNING_LOCALSTORAGE': {
       window.localStorage.setItem('nzk-planning', JSON.stringify(state.planning))
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          lastSave: 0
-        }
+        lastSave: 0
       }
     }
     case 'LOAD_PLANNING_LOCALSTORAGE': {
       var newState = JSON.parse(window.localStorage.getItem('nzk-planning'))
       return {
-        ...state,
-        planning: newState
+        newState
       }
     }
     case 'REMOVE_PLANNING_LOCALSTORAGE': {
       window.localStorage.removeItem('nzk-planning')
       return {
         ...state,
-        planning: {
-          ...state.planning,
-          lastSave: 0
-        }
+        lastSave: 0
       }
     }
     default:

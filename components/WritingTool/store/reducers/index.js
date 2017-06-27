@@ -7,6 +7,6 @@ import planningReducer from './planningReducer'
 import writingReducer from './writingReducer'
 
 export default combineReducers({
-  planningReducer,
-  writingReducer
+  planning: planningReducer,
+  writing: writingReducer
 })

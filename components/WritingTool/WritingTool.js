@@ -14,10 +14,10 @@ export default class WritingTool extends Component {
   static propTypes = {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
-    light: PropTypes.bool,
+    light: PropTypes.bool
   }
 
-  componentWillMount() {
+  componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
       usePreset(store.dispatch, 'instructions')
       store.dispatch(setInformations('https://oldassets.smarta.com/3253268/night%20zoo%20keeper.jpg',
@@ -25,7 +25,7 @@ export default class WritingTool extends Component {
     }
   }
 
-  onStep(n) {
+  onStep (n) {
     var leftWidth = document.getElementsByClassName('left')[0].style.width
     var rightWidth = document.getElementsByClassName('right')[0].style.width
     switch (n) {
@@ -47,17 +47,17 @@ export default class WritingTool extends Component {
     document.getElementsByClassName('left')[0].style.width = leftWidth
   }
 
-  render() {
+  render () {
     return (
       <Provider store={store}>
 
         <div className='host'>
           <div className='background' style={{
-            background: 'url("' + 'http://i.imgur.com/N82wzhY.png' + '")',
-          }}/>
+            background: 'url("' + 'http://i.imgur.com/N82wzhY.png' + '")'
+          }} />
           <div className='column left'>
             { store.getState().planning.needsTitle
-              ? <input className="title-bar" type="text" placeholder="Enter your title here..."/>
+              ? <input className='title-bar' type='text' placeholder='Enter your title here...' />
               : null }
             <Writer
               primaryColor={this.props.primaryColor}

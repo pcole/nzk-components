@@ -34,7 +34,7 @@ export default `
   
   .limit {
     position: absolute;
-    left: 50%;
+    left: calc(50% + 20px);
     color: white;
     height: 40px;
     line-height: 40px;
@@ -72,7 +72,7 @@ export default `
   }
   
   .min.bar {
-    left: calc(50% - 30px);
+    left: 50%;
   }
   
   .max.bar {

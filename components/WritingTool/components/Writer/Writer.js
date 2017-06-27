@@ -1,5 +1,5 @@
 import React from 'react'
-import { Editor, Raw } from 'slate'
+import {Editor, Raw} from 'slate'
 import styles from './Writer.styles'
 import PropTypes from 'prop-types'
 import ProgressBar from '../ProgressBar/ProgressBar'
@@ -35,12 +35,6 @@ const schema = {
   }
 }
 
-/**
- * The rich text example.
- *
- * @type {Component}
- */
-
 export default class Writer extends React.Component {
   /**
    * Deserialize the initial editor state.
@@ -59,7 +53,7 @@ export default class Writer extends React.Component {
           }
         ]
       },
-      { terse: true }
+      {terse: true}
     ),
     wordCount: 0,
     mobile: false,
@@ -82,7 +76,7 @@ export default class Writer extends React.Component {
 
   componentDidMount () {
     if (/Android|iPad/i.test(navigator.userAgent)) {
-      this.setState({ mobile: true })
+      this.setState({mobile: true})
     }
   }
 
@@ -94,7 +88,7 @@ export default class Writer extends React.Component {
    */
 
   hasMark = type => {
-    const { state } = this.state
+    const {state} = this.state
     return state.marks.some(mark => mark.type === type)
   }
 
@@ -106,7 +100,7 @@ export default class Writer extends React.Component {
    */
 
   hasBlock = type => {
-    const { state } = this.state
+    const {state} = this.state
     return state.blocks.some(node => node.type === type)
   }
 
@@ -119,16 +113,27 @@ export default class Writer extends React.Component {
   onChange = state => {
     var count = state.document.text.split(' ').filter(w => w.length > 0).length
     var progress = this.state.progress
+    var nbWords = Math.abs(count - this.state.wordCount)
 
-    if (count > this.state.wordCount) {
-      if (this.state.wordCount / this.props.minNbWords * 50 > 50) {
-        progress = progress + this.props.minNbWords / (2 * this.state.wordCount)
+    if (count > this.state.wordCount) { // Addition
+      if (count / this.props.minNbWords * 50 > 50) {
+        for (let i = 0; i < nbWords; i++) {
+          progress += this.props.minNbWords / (2 * count)
+        }
       } else {
-        progress = this.state.wordCount / this.props.minNbWords * 50
+        progress = count / this.props.minNbWords * 50
+      }
+    } else if (count < this.state.wordCount) { // Deletion
+      if (count / this.props.minNbWords * 50 > 50) {
+        for (let i = 0; i < nbWords; i++) {
+          progress -= this.props.minNbWords / (2 * count)
+        }
+      } else {
+        progress = count / this.props.minNbWords * 50
       }
     }
 
-    this.setState({ state: state, wordCount: count, progress: progress })
+    this.setState({state: state, wordCount: count, progress: progress})
 
     this.recordScreenHeight()
   }
@@ -141,11 +146,11 @@ export default class Writer extends React.Component {
    */
   onClickMark = (e, type) => {
     e.preventDefault()
-    let { state } = this.state
+    let {state} = this.state
 
     state = state.transform().toggleMark(type).apply()
 
-    this.setState({ state })
+    this.setState({state})
   }
 
   /**
@@ -157,9 +162,9 @@ export default class Writer extends React.Component {
 
   onClickBlock = (e, type) => {
     e.preventDefault()
-    let { state } = this.state
+    let {state} = this.state
     const transform = state.transform()
-    const { document } = state
+    const {document} = state
 
     // Handle everything but list buttons.
     if (type !== 'bulleted-list') {
@@ -186,7 +191,7 @@ export default class Writer extends React.Component {
     }
 
     state = transform.apply()
-    this.setState({ state })
+    this.setState({state})
   }
 
   /**
@@ -260,7 +265,7 @@ export default class Writer extends React.Component {
   }
 
   onFocus () {
-    this.setState({ focus: true })
+    this.setState({focus: true})
     if (this.state.mobile) {
       var a = document.getElementsByClassName('editor')[0]
       a.style.maxHeight =
@@ -274,7 +279,7 @@ export default class Writer extends React.Component {
   }
 
   onBlur () {
-    this.setState({ focus: false })
+    this.setState({focus: false})
 
     if (this.state.mobile) {
       var a = document.getElementsByClassName('editor')[0]
@@ -349,7 +354,6 @@ export default class Writer extends React.Component {
             light={this.props.light}
           />
         </div>
-
 
         <style jsx>{styles}</style>
       </div>
