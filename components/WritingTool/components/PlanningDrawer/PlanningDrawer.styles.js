@@ -126,6 +126,19 @@ export default `
       margin-left: calc(40% + 10px);
     }
     
+    @media screen and (max-width: 800px) {
+      .host.step2 {
+        position: absolute;
+        right: 0;
+      }
+      
+      .host.step1 {
+        position: absolute;
+        right: 0;
+      }
+
+    }
+    
     @media screen and (max-width: 1200px) {
       .host.step2 .story-desc .informations .description {
         margin-left: calc(40% + 30px);
@@ -141,6 +154,7 @@ export default `
     @media screen and (max-width: 1024px) {
         .host.step1 {
           width: 75px;
+          min-width: 75px;
         }
         
         .host.step2 {
@@ -161,13 +175,11 @@ export default `
     
     @media screen and (min-width: 1024px) {
         .host.step1 {
-          min-width: 400px;
-          transition: width 0.5s ease-in;
+          min-width: 430px;
         }
         
         .host.step2 {
           width: 100%;
-          transition: width 0.5s ease-in;
         }
         
         .drawer.step1 {

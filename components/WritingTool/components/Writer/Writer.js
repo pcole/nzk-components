@@ -75,8 +75,6 @@ export default class Writer extends React.Component {
   }
 
   static defaultProps = {
-    minNbWords: 100,
-    maxNbWords: 100,
     progress: 0,
     primaryColor: '#34D9E0',
     light: false
@@ -333,23 +331,25 @@ export default class Writer extends React.Component {
         <div className='editor'>
           <Editor
             spellCheck
-            placeholder={'Enter some rich text...'}
+            placeholder={'Start writing here...'}
             schema={schema}
             state={this.state.state}
             onFocus={this.onFocus.bind(this)}
             onBlur={this.onBlur.bind(this)}
             onChange={this.onChange}
           />
+
+          <ProgressBar
+            nbWords={this.state.wordCount}
+            minNbWords={this.props.minNbWords}
+            maxNbWords={this.props.maxNbWords}
+            progress={this.state.progress}
+            primaryColor={this.props.primaryColor}
+            secondaryColor={this.props.secondaryColor}
+            light={this.props.light}
+          />
         </div>
-        <ProgressBar
-          nbWords={this.state.wordCount}
-          minNbWords={this.props.minNbWords}
-          maxNbWords={this.props.maxNbWords}
-          progress={this.state.progress}
-          primaryColor={this.props.primaryColor}
-          secondaryColor={this.props.secondaryColor}
-          light={this.props.light}
-        />
+
 
         <style jsx>{styles}</style>
       </div>

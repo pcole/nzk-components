@@ -6,7 +6,7 @@ import settings from '../../components/PlanningDrawer/settings.json'
 
 export function usePreset (dispatch, preset) {
   if (settings[preset]) {
-    dispatch(setTitle(settings[preset].title, settings[preset].icon))
+    dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle))
     settings[preset].fields.map(field => {
       dispatch(
         newField(
@@ -25,12 +25,13 @@ export function usePreset (dispatch, preset) {
   }
 }
 
-export function setTitle (title, icon = '') {
+export function setWritingType (title, icon = '', needsTitle = true) {
   return {
-    type: 'SET_TITLE',
+    type: 'SET_WRITING_TYPE',
     payload: {
       title: title,
-      icon: icon
+      icon: icon,
+      needsTitle: needsTitle
     }
   }
 }
@@ -59,7 +60,7 @@ export function loadPlanningLocalstorage (dispatch) {
 }
 
 export function loadPlanning (dispatch, planning) {
-  dispatch(setTitle(planning.title, planning.icon))
+  dispatch(setWritingType(planning.title, planning.icon))
   planning.fields.map((field, i) => {
     dispatch(
       newField(

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ProgressBar.styles'
+import cn from 'classnames'
 
 export default class WordCount extends Component {
   static propTypes = {
     nbWords: PropTypes.number,
     minNbWords: PropTypes.number,
+    maxNbWords: PropTypes.number,
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
-    light: PropTypes.bool
+    light: PropTypes.bool,
+    barType: PropTypes.oneOf(['bar', 'flag'])
   }
 
   static defaultProps = {
@@ -16,10 +19,23 @@ export default class WordCount extends Component {
     minNbWords: 0,
     primaryColor: '#34D9E0',
     secondaryColor: '#3CB6BA',
-    light: false
+    light: false,
+    barType: 'bar'
   }
 
   render () {
+    var minBarClassNames = cn({
+      flag: this.props.barType === 'flag',
+      bar: this.props.barType === 'bar',
+      min: true
+    })
+
+    var maxBarClassNames = cn({
+      flag: this.props.barType === 'flag',
+      bar:this.props.barType === 'bar',
+      max: true
+    })
+
     return (
       <div className='host' style={{
         color: this.props.light ? 'black' : 'white'
@@ -41,6 +57,11 @@ export default class WordCount extends Component {
           <div className='counter'>
             {this.props.nbWords}
           </div>
+
+          <div className={minBarClassNames}>
+          </div>
+
+          { this.props.maxNbWords ? <div className={maxBarClassNames}/> : null }
 
           <div className='limit' style={{
           }}>

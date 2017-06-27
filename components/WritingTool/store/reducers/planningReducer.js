@@ -6,7 +6,7 @@ export default function reducer (
   state = {
     planning: {
       title: '',
-      writingType: '',
+      needsTitle: true,
       icon: '',
       informations: {
         image: '',
@@ -20,13 +20,14 @@ export default function reducer (
 ) {
   var newFields
   switch (action.type) {
-    case 'SET_TITLE': {
+    case 'SET_WRITING_TYPE': {
       return {
         ...state,
         planning: {
           ...state.planning,
           title: action.payload.title,
-          icon: action.payload.icon
+          icon: action.payload.icon,
+          needsTitle: action.payload.needsTitle
         }
       }
     }

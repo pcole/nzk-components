@@ -10,7 +10,7 @@ export default `
   
   .menu.toolbar-menu {
     width: 100%;
-    padding-right: 130px;
+    padding-right: 170px;
     height: 40px;
     background: white;
     line-height: 54px;
@@ -25,6 +25,7 @@ export default `
     position: relative;
     padding: 50px 0px 0 20px;
     padding-right: 120px;
+    padding-left: 40px;
     width: 100%;
     max-height: calc(100vh - 190px);
     padding-bottom: 60px;

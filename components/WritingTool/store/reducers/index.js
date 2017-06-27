@@ -3,8 +3,10 @@
  */
 
 import { combineReducers } from 'redux'
-import coreReducer from './coreReducer'
+import planningReducer from './planningReducer'
+import writingReducer from './writingReducer'
 
 export default combineReducers({
-  coreReducer
+  planningReducer,
+  writingReducer
 })

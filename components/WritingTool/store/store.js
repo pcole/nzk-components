@@ -5,7 +5,7 @@
 import { applyMiddleware, createStore, compose } from 'redux'
 import { logger } from 'redux-logger'
 import thunk from 'redux-thunk'
-import reducer from './reducers/coreReducer'
+import reducer from './reducers/planningReducer'
 
 const composeEnhancers = typeof window === 'object' &&
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

@@ -2,28 +2,30 @@
  * Created by benjaminafonso on 20/06/2017.
  */
 
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import styles from './WritingTool.styles'
 import Writer from './components/Writer/Writer'
 import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import store from './store/store'
-import { usePreset } from './store/actions/planningActions'
+import {usePreset, setInformations} from './store/actions/planningActions'
 export default class WritingTool extends Component {
   static propTypes = {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
-    light: PropTypes.bool
+    light: PropTypes.bool,
   }
 
-  componentWillMount () {
+  componentWillMount() {
     if (!(store.getState().planning.fields.length > 0)) {
-      usePreset(store.dispatch, 'story')
+      usePreset(store.dispatch, 'instructions')
+      store.dispatch(setInformations('https://oldassets.smarta.com/3253268/night%20zoo%20keeper.jpg',
+        'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'))
     }
   }
 
-  onStep (n) {
+  onStep(n) {
     var leftWidth = document.getElementsByClassName('left')[0].style.width
     var rightWidth = document.getElementsByClassName('right')[0].style.width
     switch (n) {
@@ -45,16 +47,23 @@ export default class WritingTool extends Component {
     document.getElementsByClassName('left')[0].style.width = leftWidth
   }
 
-  render () {
+  render() {
     return (
       <Provider store={store}>
 
         <div className='host'>
+          <div className='background' style={{
+            background: 'url("' + 'http://i.imgur.com/N82wzhY.png' + '")',
+          }}/>
           <div className='column left'>
+            { store.getState().planning.needsTitle
+              ? <input className="title-bar" type="text" placeholder="Enter your title here..."/>
+              : null }
             <Writer
               primaryColor={this.props.primaryColor}
               secondaryColor={this.props.secondaryColor}
               light={this.props.light}
+              minNbWords={20}
             />
           </div>
           <div className='column right'>
@@ -63,7 +72,6 @@ export default class WritingTool extends Component {
               primaryColor={this.props.primaryColor}
               secondaryColor={this.props.secondaryColor}
               light={this.props.light}
-              preset='poetry'
             />
 
           </div>
