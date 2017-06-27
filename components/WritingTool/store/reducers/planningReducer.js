@@ -52,7 +52,7 @@ export default function reducer (state = {
       }
     }
     case 'REMOVE_INPUT_FIELD': {
-      newFields = state.planning.fields.slice()
+      newFields = state.fields.slice()
       newFields[action.payload.fieldIndex].fields.splice(
         action.payload.index,
         1
@@ -67,7 +67,7 @@ export default function reducer (state = {
       }
     }
     case 'ADD_INPUT_FIELD': {
-      newFields = state.planning.fields.slice()
+      newFields = state.fields.slice()
       newFields[action.payload.fieldIndex].fields.push({
         value: '',
         index: newFields.length
@@ -78,17 +78,17 @@ export default function reducer (state = {
       }
     }
     case 'FIELD_CHANGED': {
-      newFields = state.planning.fields.slice()
+      newFields = state.fields.slice()
       newFields[action.payload.fieldIndex].fields[action.payload.inputIndex].value =
         action.payload.newValue
       return {
         ...state,
         fields: newFields,
-        lastSave: state.planning.lastSave + 1
+        lastSave: state.lastSave + 1
       }
     }
     case 'SAVE_PLANNING_LOCALSTORAGE': {
-      window.localStorage.setItem('nzk-planning', JSON.stringify(state.planning))
+      window.localStorage.setItem('nzk-planning', JSON.stringify(state))
       return {
         ...state,
         lastSave: 0
