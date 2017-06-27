@@ -72,7 +72,7 @@ export default class Field extends Component {
 
   removeAction () {
     this.props.removeAction(this.props.index)
-    //this.setState({ visible: false })
+    // this.setState({ visible: false })
   }
 
   textAreaAdjust (o) {

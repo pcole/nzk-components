@@ -8,15 +8,15 @@ import thunk from 'redux-thunk'
 import reducer from './reducers/coreReducer'
 
 const composeEnhancers = typeof window === 'object' &&
-window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(
     {
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     }
-  )
+    )
   : compose
 
-const middleware = applyMiddleware(thunk)
+const middleware = applyMiddleware(thunk, logger)
 
 const enhancer = composeEnhancers(middleware)
 let store = createStore(reducer, enhancer)

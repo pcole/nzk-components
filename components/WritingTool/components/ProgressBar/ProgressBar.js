@@ -7,19 +7,23 @@ export default class WordCount extends Component {
     nbWords: PropTypes.number,
     minNbWords: PropTypes.number,
     primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string
+    secondaryColor: PropTypes.string,
+    light: PropTypes.bool
   }
 
   static defaultProps = {
     nbWords: 0,
     minNbWords: 0,
     primaryColor: '#34D9E0',
-    secondaryColor: '#3CB6BA'
+    secondaryColor: '#3CB6BA',
+    light: false
   }
 
   render () {
     return (
-      <div className='host' style={{}}>
+      <div className='host' style={{
+        color: this.props.light ? 'black' : 'white'
+      }}>
         <div
           className='full-bar'
           style={{
@@ -38,7 +42,8 @@ export default class WordCount extends Component {
             {this.props.nbWords}
           </div>
 
-          <div className='limit'>
+          <div className='limit' style={{
+          }}>
             {this.props.minNbWords}
           </div>
         </div>

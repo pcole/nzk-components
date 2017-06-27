@@ -1,12 +1,16 @@
 export default `
   @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
  
+  .titleArea {
+    display: block;
+    width: 100%;
+    height: 100px;
+    background: red;
+  }
   
   .menu.toolbar-menu {
-    position: absolute;
     width: 100%;
-    top: 0;
-    left: 0;
+    padding-right: 130px;
     height: 40px;
     background: white;
     line-height: 54px;
@@ -18,7 +22,9 @@ export default `
   }
   
   .editor {
+    position: relative;
     padding: 50px 0px 0 20px;
+    padding-right: 120px;
     width: 100%;
     max-height: calc(100vh - 190px);
     padding-bottom: 60px;

@@ -329,6 +329,7 @@ export default class Writer extends React.Component {
   renderEditor = () => {
     return (
       <div className='host'>
+
         <div className='editor'>
           <Editor
             spellCheck
@@ -347,6 +348,7 @@ export default class Writer extends React.Component {
           progress={this.state.progress}
           primaryColor={this.props.primaryColor}
           secondaryColor={this.props.secondaryColor}
+          light={this.props.light}
         />
 
         <style jsx>{styles}</style>

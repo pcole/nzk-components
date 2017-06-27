@@ -12,6 +12,12 @@ export default `
       z-index: 100;
     }
     
+    .plan-title {
+      display: inline-block;
+      height: 40px;
+      padding-left: 50px;
+      line-height: 40px;
+    }
 
     
     .drawer {
@@ -135,19 +141,16 @@ export default `
     @media screen and (max-width: 1024px) {
         .host.step1 {
           width: 75px;
-          transition: width 0.5s ease-in;
         }
         
         .host.step2 {
           width: 415px;
-          transition: width 0.5s ease-in;
         }
         
         
         .drawer.step1 {
           right: -340px;
           width: 300px;
-          transition: right 0.5s ease-in;
         }
         
         .drawer.step2 {

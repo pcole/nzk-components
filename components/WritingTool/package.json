@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "gsap": "^1.19.1",
+    "react-gsap-enhancer": "^0.3.0",
     "react-redux": "^5.0.5",
     "redux": "^3.7.0",
     "redux-logger": "^3.0.6"

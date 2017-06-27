@@ -2,10 +2,9 @@
  * Created by benjaminafonso on 20/06/2017.
  */
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import styles from './WritingTool.styles'
 import Writer from './components/Writer/Writer'
-import Fields from './components/Fields/Fields'
 import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
@@ -18,8 +17,10 @@ export default class WritingTool extends Component {
     light: PropTypes.bool
   }
 
-  componentWillMount() {
-    usePreset(store.dispatch, 'story')
+  componentWillMount () {
+    if (!(store.getState().planning.fields.length > 0)) {
+      usePreset(store.dispatch, 'story')
+    }
   }
 
   onStep (n) {
@@ -62,10 +63,8 @@ export default class WritingTool extends Component {
               primaryColor={this.props.primaryColor}
               secondaryColor={this.props.secondaryColor}
               light={this.props.light}
-              preset="story"
-            >
-
-            </PlanningDrawer>
+              preset='poetry'
+            />
 
           </div>
 

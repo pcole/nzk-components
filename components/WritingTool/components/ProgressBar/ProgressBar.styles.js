@@ -44,7 +44,7 @@ export default `
     top: 0;
     left: -10px;
     width: 5px;
-    background: black;
+    background: white;
     
   }
   

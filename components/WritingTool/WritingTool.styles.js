@@ -25,11 +25,19 @@ export default `
      .left {
        width: calc(100vw - 150px);
      }
+     
+     .right {
+       width: 150px;
+     }
   }
   
   @media screen and (min-width: 1024px) {
      .left {
        width: calc(100vw - 450px);
+     }
+     
+     .right {
+       width: 450px;
      }
   }
 `
