@@ -11,9 +11,8 @@
     "react-dom": "^15.5.4",
     "react-dropzone": "^3.13.2",
     "styled-jsx": "^1.0.4", 
-    "axios": "^0.16.2"
-    "slate": "^0.20.4",
-    "styled-jsx": "^1.0.4"
+    "axios": "^0.16.2",
+    "slate": "^0.20.4"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "^3.0.1",

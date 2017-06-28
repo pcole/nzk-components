@@ -1,16 +1,22 @@
 import React from 'react'
-import {Editor, Raw} from 'slate'
+import {Editor, Block, Raw} from 'slate'
 import styles from './Writer.styles'
 import PropTypes from 'prop-types'
 import ProgressBar from '../ProgressBar/ProgressBar'
 import {connect} from 'react-redux'
 import {textChanged, saveLocalstorage} from '../../store/actions/writingActions'
+import Uploader from '../../../Uploader/Uploader'
 
 /**
  * Define the default node type.
  */
 const DEFAULT_NODE = 'paragraph'
 
+const defaultBlock = {
+  type: 'paragraph',
+  isVoid: false,
+  data: {}
+}
 /**
  * Define a schema.
  *
@@ -18,28 +24,65 @@ const DEFAULT_NODE = 'paragraph'
  */
 const schema = {
   nodes: {
+    images: props => {
+      const { node } = props
+      const src = node.data.get('src')
+      return (
+        <img src={src} style={{background: 'black', zIndex: 1000}} {...props.attributes} />
+      )
+    },
     'bulleted-list': props => <ul {...props.attributes}>{props.children}</ul>,
     'list-item': props => <li {...props.attributes}>{props.children}</li>,
     'heading-one': props => <h1 {...props.attributes}>{props.children}</h1>,
     'heading-two': props => <h2 {...props.attributes}>{props.children}</h2>,
-    'heading-three': props => <p {...props.attributes}>{props.children}</p>
+    'heading-three': props => <p {...props.attributes}>{props.children}</p>,
   },
+  rules: [
+    // Rule to insert a paragraph block if the document is empty.
+    {
+      match: (node) => {
+        return node.kind === 'document'
+      },
+      validate: (document) => {
+        return document.nodes.size ? null : true
+      },
+      normalize: (transform, document) => {
+        const block = Block.create(defaultBlock)
+        transform.insertNodeByKey(document.key, 0, block)
+      }
+    },
+    // Rule to insert a paragraph below a void node (the image) if that node is
+    // the last one in the document.
+    {
+      match: (node) => {
+        return node.kind === 'document'
+      },
+      validate: (document) => {
+        const lastNode = document.nodes.last()
+        return lastNode && lastNode.isVoid ? true : null
+      },
+      normalize: (transform, document) => {
+        const block = Block.create(defaultBlock)
+        transform.insertNodeByKey(document.key, document.nodes.size, block)
+      }
+    }
+  ],
   marks: {
     bold: {
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     },
     italic: {
-      fontStyle: 'italic'
+      fontStyle: 'italic',
     },
     underlined: {
-      textDecoration: 'underline'
-    }
+      textDecoration: 'underline',
+    },
   }
 }
 
 @connect((store) => {
   return {
-    writing: store.writing
+    writing: store.writing,
   }
 })
 export default class Writer extends React.Component {
@@ -49,13 +92,14 @@ export default class Writer extends React.Component {
    * @type {Object}
    */
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       state: Raw.deserialize(this.props.writing.state, {terse: true}),
       wordCount: 0,
       mobile: false,
-      focus: false
+      focus: false,
+      imagePopoverDisplayed: false,
     }
   }
 
@@ -64,16 +108,16 @@ export default class Writer extends React.Component {
     minNbWords: PropTypes.number,
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
-    light: PropTypes.bool
+    light: PropTypes.bool,
   }
 
   static defaultProps = {
     progress: 0,
     primaryColor: '#34D9E0',
-    light: false
+    light: false,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (/Android|iPad/i.test(navigator.userAgent)) {
       this.setState({mobile: true})
     }
@@ -156,6 +200,18 @@ export default class Writer extends React.Component {
     this.setState({state})
   }
 
+  insertImage = (state, src) => {
+    console.log(src)
+    return state
+      .transform()
+      .insertBlock({
+        type: 'image',
+        isVoid: true,
+        data: { src }
+      })
+      .apply()
+  }
+
   /**
    * When a block button is clicked, toggle the block type.
    *
@@ -170,7 +226,7 @@ export default class Writer extends React.Component {
     const {document} = state
 
     // Handle everything but list buttons.
-    if (type !== 'bulleted-list') {
+    if (type !== 'bulleted-list' && type !== 'image') {
       const isActive = this.hasBlock(type)
       const isList = this.hasBlock('list-item')
       if (isList) {
@@ -180,6 +236,8 @@ export default class Writer extends React.Component {
       } else {
         transform.setBlock(isActive ? DEFAULT_NODE : type)
       }
+    } else if (type === 'image') {
+      this.displayImagePopover()
     } else {
       const isList = this.hasBlock('list-item')
       const isType = state.blocks.some(block => {
@@ -195,6 +253,34 @@ export default class Writer extends React.Component {
 
     state = transform.apply()
     this.setState({state})
+  }
+
+  displayImagePopover() {
+    this.setState({imagePopoverDisplayed: true})
+  }
+
+  dismissImagePopover() {
+    this.setState({imagePopoverDisplayed: false})
+  }
+
+  imageUploadSucceeded(url) {
+    if (!url) return
+    let { state } = this.state
+    state = this.insertImage(state, url)
+    this.onChange(state)
+  }
+
+  renderImagePopover() {
+    return (
+      <div className="popover-background" onClick={(e) => {
+        e.preventDefault()
+        this.dismissImagePopover()
+      } }>
+        <div className="image-popover">
+          <Uploader api='http://localhost:3000/images/upload' uploadedImage={this.imageUploadSucceeded.bind(this)}/>
+        </div>
+        <style jsx>{styles}</style>
+      </div>)
   }
 
   /**
@@ -224,7 +310,7 @@ export default class Writer extends React.Component {
         className='menu toolbar-menu'
         style={{
           backgroundColor: this.props.primaryColor,
-          color: this.props.light ? 'black' : 'white'
+          color: this.props.light ? 'black' : 'white',
         }}
       >
         {this.renderMarkButton('bold', 'format_bold')}
@@ -234,6 +320,8 @@ export default class Writer extends React.Component {
         {this.renderBlockButton('heading-two', 'looks_two')}
         {this.renderBlockButton('heading-three', 'looks_3')}
         {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
+        {this.renderBlockButton('image', 'image')}
+
         <style jsx>{styles}</style>
       </div>
     )
@@ -246,7 +334,6 @@ export default class Writer extends React.Component {
    * @param {String} icon
    * @return {Element}
    */
-
   renderMarkButton = (type, icon) => {
     const isActive = this.hasMark(type)
     const onMouseDown = e => this.onClickMark(e, type)
@@ -257,7 +344,7 @@ export default class Writer extends React.Component {
           className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null
+            color: isActive ? 'grey' : null,
           }}
         >
           {icon}
@@ -267,21 +354,21 @@ export default class Writer extends React.Component {
     )
   }
 
-  onFocus () {
+  onFocus() {
     this.setState({focus: true})
     /* if (this.state.mobile) {
-      var a = document.getElementsByClassName('editor')[0]
-      a.style.maxHeight =
-        parseInt(
-          window.innerHeight
-            .split('')
-            .splice(window.innerHeight.split('').length - 3, 2)
-            .join('')
-        ) - this.virtualKeyboardHeight()
-    } */
+     var a = document.getElementsByClassName('editor')[0]
+     a.style.maxHeight =
+     parseInt(
+     window.innerHeight
+     .split('')
+     .splice(window.innerHeight.split('').length - 3, 2)
+     .join('')
+     ) - this.virtualKeyboardHeight()
+     } */
   }
 
-  onBlur () {
+  onBlur() {
     this.setState({focus: false})
 
     if (this.state.mobile) {
@@ -300,7 +387,7 @@ export default class Writer extends React.Component {
           className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null
+            color: isActive ? 'grey' : null,
           }}
         >
           {icon}
@@ -310,7 +397,7 @@ export default class Writer extends React.Component {
     )
   }
 
-  recordScreenHeight () {
+  recordScreenHeight() {
     var a = document.getElementsByClassName('editor')[0]
 
     if (this.state.mobile) {
@@ -322,7 +409,7 @@ export default class Writer extends React.Component {
     }, 100)
   }
 
-  onKeyDown () {
+  onKeyDown() {
     this.recordScreenHeight()
   }
 
@@ -347,6 +434,8 @@ export default class Writer extends React.Component {
             onChange={this.onChange}
           />
 
+          {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
+
           <ProgressBar
             nbWords={this.state.wordCount}
             minNbWords={this.props.minNbWords}
@@ -357,6 +446,7 @@ export default class Writer extends React.Component {
             light={this.props.light}
           />
         </div>
+
 
         <style jsx>{styles}</style>
       </div>
