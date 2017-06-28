@@ -3,6 +3,8 @@ import {Editor, Raw} from 'slate'
 import styles from './Writer.styles'
 import PropTypes from 'prop-types'
 import ProgressBar from '../ProgressBar/ProgressBar'
+import {connect} from 'react-redux'
+import {textChanged, saveLocalstorage} from '../../store/actions/writingActions'
 
 /**
  * Define the default node type.
@@ -35,6 +37,11 @@ const schema = {
   }
 }
 
+@connect((store) => {
+  return {
+    writing: store.writing
+  }
+})
 export default class Writer extends React.Component {
   /**
    * Deserialize the initial editor state.
@@ -42,22 +49,14 @@ export default class Writer extends React.Component {
    * @type {Object}
    */
 
-  state = {
-    state: Raw.deserialize(
-      {
-        nodes: [
-          {
-            kind: 'block',
-            type: 'paragraph',
-            nodes: []
-          }
-        ]
-      },
-      {terse: true}
-    ),
-    wordCount: 0,
-    mobile: false,
-    focus: false
+  constructor (props) {
+    super(props)
+    this.state = {
+      state: Raw.deserialize(this.props.writing.state, {terse: true}),
+      wordCount: 0,
+      mobile: false,
+      focus: false
+    }
   }
 
   static propTypes = {
@@ -134,7 +133,11 @@ export default class Writer extends React.Component {
     }
 
     this.setState({state: state, wordCount: count, progress: progress})
+    this.props.dispatch(textChanged(state))
 
+    if (this.props.writing.lastSave > 3) {
+      this.props.dispatch(saveLocalstorage())
+    }
     this.recordScreenHeight()
   }
 
@@ -266,7 +269,7 @@ export default class Writer extends React.Component {
 
   onFocus () {
     this.setState({focus: true})
-    if (this.state.mobile) {
+    /* if (this.state.mobile) {
       var a = document.getElementsByClassName('editor')[0]
       a.style.maxHeight =
         parseInt(
@@ -275,7 +278,7 @@ export default class Writer extends React.Component {
             .splice(window.innerHeight.split('').length - 3, 2)
             .join('')
         ) - this.virtualKeyboardHeight()
-    }
+    } */
   }
 
   onBlur () {

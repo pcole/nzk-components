@@ -70,6 +70,13 @@ export default `
       width: 100%;
       margin: 4px;
     }
-
+    
+    input {
+      border-radius: 5px;
+    }
+    
+    textarea {
+      border-radius: 5px;
+    }
 
 `

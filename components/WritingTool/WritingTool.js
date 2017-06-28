@@ -19,7 +19,7 @@ export default class WritingTool extends Component {
 
   componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
-      usePreset(store.dispatch, 'instructions')
+      usePreset(store.dispatch, 'story')
       store.dispatch(setInformations('https://oldassets.smarta.com/3253268/night%20zoo%20keeper.jpg',
         'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'))
     }

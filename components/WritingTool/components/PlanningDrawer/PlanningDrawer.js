@@ -217,7 +217,7 @@ export default class PlanningDrawer extends Component {
           {this.props.fields.map((field, index) => {
             return (
               <Fields
-                key={field.key}
+                key={index}
                 index={index}
                 elements={field.type}
                 instruction={field.title}

@@ -19,7 +19,6 @@ import {
 export default class Fields extends Component {
   static propTypes = {
     instruction: PropTypes.string,
-    key: PropTypes.any,
     index: PropTypes.number,
     color: PropTypes.string,
     primaryColor: PropTypes.string,
@@ -106,6 +105,7 @@ export default class Fields extends Component {
             return (
               <Field
                 element={this.props.elements}
+                key={index}
                 index={index}
                 block
                 bgColor={this.props.secondaryColor}

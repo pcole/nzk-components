@@ -2,22 +2,17 @@
  * Created by benjaminafonso on 23/06/2017.
  */
 
-import { Raw } from 'slate'
-
 export default function reducer (
   state = {
-    state: Raw.deserialize(
-      {
-        nodes: [
-          {
-            kind: 'block',
-            type: 'paragraph',
-            nodes: []
-          }
-        ]
-      },
-        {terse: true}
-      ),
+    state: {
+      nodes: [
+        {
+          kind: 'block',
+          type: 'paragraph',
+          nodes: []
+        }
+      ]
+    },
     lastSave: 0
   },
   action
@@ -26,7 +21,23 @@ export default function reducer (
     case 'TEXT_CHANGED': {
       return {
         ...state,
-        state: action.payload
+        state: action.payload.newState,
+        lastSave: state.lastSave + 1
+      }
+    }
+    case 'SAVE_LOCALSTORAGE': {
+      window.localStorage.setItem('nzk-writing', state)
+      return {
+        ...state,
+        lastSave: 0
+      }
+    }
+    case 'LOAD_LOCALSTORAGE': {
+      var newState = window.localStorage.getItem('nzk-writing')
+      if (newState) {
+        return newState
+      } else {
+        return state
       }
     }
     default:

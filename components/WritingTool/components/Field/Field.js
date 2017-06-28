@@ -18,7 +18,6 @@ const RemoveButton = ({ className, onClick }) => {
 export default class Field extends Component {
   static propTypes = {
     bgColor: PropTypes.string,
-    key: PropTypes.any,
     index: PropTypes.number,
     height: PropTypes.string,
     width: PropTypes.string,
@@ -125,7 +124,6 @@ export default class Field extends Component {
       case 'input': {
         return this.state.visible
           ? <li
-            key={this.props.key}
             style={{ width: this.props.width, margin: this.props.margin }}
             >
             <div className='input'>
@@ -150,7 +148,6 @@ export default class Field extends Component {
       case 'textarea':
         return this.state.visible
           ? <li
-            key={this.props.key}
             style={{ width: this.props.width, margin: this.props.margin }}
             >
             <div className='input'>
