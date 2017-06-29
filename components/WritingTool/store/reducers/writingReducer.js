@@ -9,24 +9,23 @@ export default function reducer (
         {
           kind: 'block',
           type: 'paragraph',
-          nodes: [
-            {
-              kind: "text",
-              text: "In addition to nodes that contain editable text, you can also create other types of nodes, like images or videos."
-            }
-          ]
-        },
-        {
-          kind: 'block',
-          type: 'image',
-          isVoid: true,
-          data: {
-            src: 'https://img.washingtonpost.com/wp-apps/imrs.php?src=https://img.washingtonpost.com/news/speaking-of-science/wp-content/uploads/sites/36/2015/10/as12-49-7278-1024x1024.jpg&w=1484'
-          }
-        },
+          nodes: []
+        }
       ]
     },
-    lastSave: 0
+    lastSave: 0,
+    constraints: {
+      minNbWords: 30,
+      maxNbWords: undefined
+    },
+    save: {
+      save_succeeded: false,
+      save_failed: false,
+      save_error: undefined,
+      last_save: undefined
+    },
+    nbWords: 0,
+    progress: 0
   },
   action
 ) {
@@ -43,6 +42,36 @@ export default function reducer (
       return {
         ...state,
         lastSave: 0
+      }
+    }
+    case 'UPDATE_NB_WORDS': {
+      return {
+        ...state,
+        nbWords: action.payload
+      }
+    }
+    case 'UPDATE_PROGRESS': {
+      return {
+        ...state,
+        progress: action.payload
+      }
+    }
+    case 'SET_MIN_NB_WORDS': {
+      return {
+        ...state,
+        constraints: {
+          ...state.constraints,
+          minNbWords: action.payload,
+        },
+      }
+    }
+    case 'SET_MAX_NB_WORDS': {
+      return {
+        ...state,
+        constraints: {
+          ...state.constraints,
+          maxNbWords: action.payload,
+        },
       }
     }
     case 'LOAD_LOCALSTORAGE': {

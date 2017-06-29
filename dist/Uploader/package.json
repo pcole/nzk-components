@@ -4,8 +4,5 @@
   "main": "/Uploader.js",
   "author": "",
   "license": "ISC",
-  "private": true,
-  "dependencies": {
-    "axios": "^0.16.2"
-  }
+  "private": true
 }

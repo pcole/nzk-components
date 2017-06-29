@@ -9,12 +9,18 @@ import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
 import store from './store/store'
-import {usePreset, setInformations} from './store/actions/planningActions'
+import {usePreset, setInformations, loadPlanning} from './store/actions/planningActions'
+
 export default class WritingTool extends Component {
   static propTypes = {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
-    light: PropTypes.bool
+    light: PropTypes.bool,
+    backgroundImageUrl: PropTypes.string
+  }
+
+  static defaultProps = {
+    backgroundImageUrl: 'http://i.imgur.com/N82wzhY.png'
   }
 
   componentWillMount () {
@@ -34,13 +40,20 @@ export default class WritingTool extends Component {
           leftWidth = 'calc(100% - 430px)'
           rightWidth = '430px'
         } else {
-          leftWidth = 'calc(100vw - 150px)'
-          rightWidth = '150px'
+          leftWidth = 'calc(100vw - 75px)'
+          rightWidth = '75px'
         }
         break
       case 2:
-        leftWidth = '50%'
-        rightWidth = '50%'
+
+        if (window.innerWidth > 1024) {
+          leftWidth = '50%'
+          rightWidth = '50%'
+        } else {
+          leftWidth = 'calc(100vw - 415px)'
+          rightWidth = '415px'
+        }
+
         break
     }
     document.getElementsByClassName('right')[0].style.width = rightWidth
@@ -53,11 +66,18 @@ export default class WritingTool extends Component {
 
         <div className='host'>
           <div className='background' style={{
-            background: 'url("' + 'http://i.imgur.com/N82wzhY.png' + '")'
+            background: 'url("' + this.props.backgroundImageUrl + '")'
           }} />
+          <div className='left-margin' style={{
+            background: this.props.primaryColor
+          }}/>
           <div className='column left'>
             { store.getState().planning.needsTitle
-              ? <input className='title-bar' type='text' placeholder='Enter your title here...' />
+              ? <div><div className='top-border' style={{
+                background: this.props.primaryColor
+              }}/><input className='title-bar' type='text' style={{
+                borderTop: '10px solid ' + this.props.primaryColor
+              }} placeholder='Enter your title here...' /></div>
               : null }
             <Writer
               primaryColor={this.props.primaryColor}

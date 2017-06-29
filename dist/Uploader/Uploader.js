@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -25,6 +26,10 @@ var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 var _axios = require('axios');
 
 var _axios2 = _interopRequireDefault(_axios);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -83,6 +88,7 @@ var Uploader = function (_React$Component) {
       };
       var _ = this;
       _axios2.default.post(this.props.api, data, config).then(function (res) {
+        _this3.props.uploadedImage(res.data.url);
         var images = _this3.state.images.slice();
         images.push(res.data.url);
         _.setState(function () {
@@ -90,7 +96,6 @@ var Uploader = function (_React$Component) {
             images: images
           };
         });
-        console.log(res.data);
       }).catch(function (err) {
         window.alert('Erroooor');
         console.log(err);
@@ -111,7 +116,8 @@ var Uploader = function (_React$Component) {
             style: {
               position: 'relative',
               height: '200px',
-              width: '200px'
+              width: '200px',
+              cursor: 'pointer'
             },
             'data-jsx-ext': _Uploader2.default.__scopedHash
           },
@@ -136,7 +142,12 @@ var Uploader = function (_React$Component) {
               },
               this.state.progress,
               '%'
-            ) : null
+            ) : _react2.default.createElement(
+              'div',
+              { className: 'label', 'data-jsx-ext': _Uploader2.default.__scopedHash
+              },
+              'Drag an image in the zone or click'
+            )
           ) : _react2.default.createElement(
             'p',
             {
@@ -144,21 +155,6 @@ var Uploader = function (_React$Component) {
             },
             ' Missing API to Component '
           )
-        ),
-        _react2.default.createElement(
-          'ul',
-          {
-            'data-jsx-ext': _Uploader2.default.__scopedHash
-          },
-          this.state.images.map(function (img, i) {
-            return _react2.default.createElement(
-              'li',
-              { key: i, 'data-jsx-ext': _Uploader2.default.__scopedHash
-              },
-              _react2.default.createElement('img', { src: img, style: { width: '80%' }, 'data-jsx-ext': _Uploader2.default.__scopedHash
-              })
-            );
-          })
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Uploader2.default.__scopedHash,
@@ -171,4 +167,7 @@ var Uploader = function (_React$Component) {
   return Uploader;
 }(_react2.default.Component);
 
+Uploader.propTypes = {
+  uploadedImage: _propTypes2.default.func
+};
 exports.default = Uploader;

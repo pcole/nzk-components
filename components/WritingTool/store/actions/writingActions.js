@@ -16,3 +16,17 @@ export function saveLocalstorage () {
     type: 'SAVE_LOCALSTORAGE'
   }
 }
+
+export function updateNbWords(number) {
+  return {
+    type: 'UPDATE_NB_WORDS',
+    payload: number
+  }
+}
+
+export function updateProgress(progress) {
+  return {
+    type: 'UPDATE_PROGRESS',
+    payload: progress
+  }
+}

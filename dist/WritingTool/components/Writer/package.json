@@ -1,0 +1,9 @@
+{
+  "name": "nzk-components-writing-tool-writer",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Writer.js",
+  "dependencies": {
+    "slate": "^0.20.3"
+  }
+}

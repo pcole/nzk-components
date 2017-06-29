@@ -31,22 +31,30 @@ export default `
     }
 
 
-    
     .buttons {
       position: absolute;
-      left: 0px;
-      top: 50px;
+      left: 5px;
+      z-index: 2;
       height: 50px;
-      width: 60px;
+      width: 50px;
       border-radius: 9px 0px 0px 9px;
     }
+    
+    .withTitle {
+      top: 120px;
+    }
+    
+    .withoutTitle {
+      top: 50px;
+    }
+    
     
     .buttons div:nth-child(n) {
       display: block;
       width: 40px;
       height: 40px;
       line-height: 50px;
-      margin-left: 10px;
+      margin-left: 6px;
       text-align: center;
       margin-top: 4px;
       border-radius: 50%;
@@ -126,7 +134,7 @@ export default `
       margin-left: calc(40% + 10px);
     }
     
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 900px) {
       .host.step2 {
         position: absolute;
         right: 0;

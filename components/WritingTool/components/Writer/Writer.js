@@ -4,8 +4,9 @@ import styles from './Writer.styles'
 import PropTypes from 'prop-types'
 import ProgressBar from '../ProgressBar/ProgressBar'
 import {connect} from 'react-redux'
-import {textChanged, saveLocalstorage} from '../../store/actions/writingActions'
+import {textChanged, saveLocalstorage, updateProgress, updateNbWords} from '../../store/actions/writingActions'
 import Uploader from '../../../Uploader/Uploader'
+import throttle from 'lodash/throttle'
 
 /**
  * Define the default node type.
@@ -24,11 +25,16 @@ const defaultBlock = {
  */
 const schema = {
   nodes: {
-    images: props => {
+    image: props => {
       const { node } = props
       const src = node.data.get('src')
       return (
-        <img src={src} style={{background: 'black', zIndex: 1000}} {...props.attributes} />
+        <img src={src} className="importedImage" style={{
+          width: '100%',
+          marginTop: '20px',
+          marginBottom: '20px'
+        }}
+             {...props.attributes} />
       )
     },
     'bulleted-list': props => <ul {...props.attributes}>{props.children}</ul>,
@@ -101,6 +107,7 @@ export default class Writer extends React.Component {
       focus: false,
       imagePopoverDisplayed: false,
     }
+    this.throttledSave = throttle(this.save, 3000)
   }
 
   static propTypes = {
@@ -156,33 +163,38 @@ export default class Writer extends React.Component {
   onChange = state => {
     var count = state.document.text.split(' ').filter(w => w.length > 0).length
     var progress = this.state.progress
-    var nbWords = Math.abs(count - this.state.wordCount)
+    var nbWords = Math.abs(count - this.props.writing.nbWords)
 
-    if (count > this.state.wordCount) { // Addition
-      if (count / this.props.minNbWords * 50 > 50) {
+    if (count > this.props.writing.nbWords) { // Addition
+      if (count / this.props.writing.constraints.minNbWords * 50 > 50) {
         for (let i = 0; i < nbWords; i++) {
-          progress += this.props.minNbWords / (2 * count)
+          progress += this.props.writing.constraints.minNbWords / (2 * count)
         }
       } else {
-        progress = count / this.props.minNbWords * 50
+        progress = count / this.props.writing.constraints.minNbWords * 50
       }
-    } else if (count < this.state.wordCount) { // Deletion
-      if (count / this.props.minNbWords * 50 > 50) {
+    } else if (count < this.props.writing.nbWords) { // Deletion
+      if (count / this.props.writing.constraints.minNbWords * 50 > 50) {
         for (let i = 0; i < nbWords; i++) {
-          progress -= this.props.minNbWords / (2 * count)
+          progress -= this.props.writing.constraints.minNbWords / (2 * count)
         }
       } else {
-        progress = count / this.props.minNbWords * 50
+        progress = count / this.props.writing.constraints.minNbWords * 50
       }
     }
 
-    this.setState({state: state, wordCount: count, progress: progress})
+    this.setState({state: state})
     this.props.dispatch(textChanged(state))
+    this.props.dispatch(updateNbWords(count))
+    this.props.dispatch(updateProgress(progress))
+    this.throttledSave()
+    this.recordScreenHeight()
+  }
 
+  save() {
     if (this.props.writing.lastSave > 3) {
       this.props.dispatch(saveLocalstorage())
     }
-    this.recordScreenHeight()
   }
 
   /**
@@ -437,16 +449,15 @@ export default class Writer extends React.Component {
           {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
           <ProgressBar
-            nbWords={this.state.wordCount}
-            minNbWords={this.props.minNbWords}
-            maxNbWords={this.props.maxNbWords}
-            progress={this.state.progress}
+            nbWords={this.props.writing.nbWords}
+            minNbWords={this.props.writing.constraints.minNbWords}
+            maxNbWords={this.props.writing.constraints.maxNbWords}
+            progress={this.props.writing.progress}
             primaryColor={this.props.primaryColor}
             secondaryColor={this.props.secondaryColor}
             light={this.props.light}
           />
         </div>
-
 
         <style jsx>{styles}</style>
       </div>

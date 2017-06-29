@@ -24,9 +24,9 @@ export default `
   .editor {
     position: relative;
     padding: 50px 0px 0 20px;
-    padding-right: 120px;
+    padding-right: 40px;
     padding-left: 40px;
-    width: 100%;
+    max-width: 100%;
     max-height: calc(100vh - 190px);
     padding-bottom: 60px;
     overflow-y: scroll;
@@ -49,6 +49,10 @@ export default `
     width: 300px;
     left: calc(50% - 250px);
     z-index: 11;
+  }
+  
+  .importedImage {
+
   }
   
   .editor:nth-child(n) {

@@ -4,7 +4,7 @@
 
 import settings from '../../components/PlanningDrawer/settings.json'
 
-export function usePreset (dispatch, preset) {
+export function usePreset(dispatch, preset) {
   if (settings[preset]) {
     dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle))
     settings[preset].fields.map(field => {
@@ -17,49 +17,56 @@ export function usePreset (dispatch, preset) {
           field.overloadable,
           field.removeable,
           [...Array(field.numberOfFields)].map((field, index) => {
-            return { index: index, value: '' }
-          })
-        )
+            return {index: index, value: ''}
+          }),
+        ),
       )
     })
   }
 }
 
-export function setWritingType (title, icon = '', needsTitle = true) {
+export function setWritingType(title, icon = '', needsTitle = true) {
   return {
     type: 'SET_WRITING_TYPE',
     payload: {
       title: title,
       icon: icon,
-      needsTitle: needsTitle
-    }
+      needsTitle: needsTitle,
+    },
   }
 }
 
-export function setInformations (image, description) {
+export function setInformations(image, description) {
   return {
     type: 'SET_INFORMATIONS',
     payload: {
       image: image,
-      description: description
-    }
+      description: description,
+    },
   }
 }
 
-export function savePlanningLocalStorage () {
+export function savePlanningLocalStorage() {
   return {
-    type: 'SAVE_PLANNING_LOCALSTORAGE'
+    type: 'SAVE_PLANNING_LOCALSTORAGE',
   }
 }
 
-export function loadPlanningLocalstorage (dispatch) {
+export function loadPlanningLocalstorage(dispatch) {
   var planning = window.localStorage.getItem('nzk-planning')
   if (planning) {
     loadPlanning(dispatch, JSON.parse(planning))
   }
 }
 
-export function loadPlanning (dispatch, planning) {
+export function removeFields() {
+  return {
+    type: 'REMOVE_FIELDS'
+  }
+}
+
+export function loadPlanning(dispatch, planning) {
+  dispatch(removeFields())
   dispatch(setWritingType(planning.title, planning.icon))
   planning.fields.map((field, i) => {
     dispatch(
@@ -70,21 +77,19 @@ export function loadPlanning (dispatch, planning) {
         field.numberPerRow,
         field.overloadable,
         field.removeable,
-        planning.fields[i].fields
-      )
+        planning.fields[i].fields,
+      ),
     )
   })
 }
 
-export function newField (
-  title,
-  type,
-  nbFields,
-  nbFieldsPerRow,
-  overloadable,
-  removeable,
-  fields
-) {
+export function newField(title,
+                         type,
+                         nbFields,
+                         nbFieldsPerRow,
+                         overloadable,
+                         removeable,
+                         fields) {
   return {
     type: 'NEW_FIELD',
     payload: {
@@ -95,37 +100,37 @@ export function newField (
       nbFieldsPerRow: nbFieldsPerRow,
       overloadable: overloadable,
       removeable: removeable,
-      fields: fields
-    }
+      fields: fields,
+    },
   }
 }
 
-export function removeInput (fieldIndex, index) {
+export function removeInput(fieldIndex, index) {
   return {
     type: 'REMOVE_INPUT_FIELD',
     payload: {
       fieldIndex: fieldIndex,
-      index: index
-    }
+      index: index,
+    },
   }
 }
 
-export function addInput (fieldIndex) {
+export function addInput(fieldIndex) {
   return {
     type: 'ADD_INPUT_FIELD',
     payload: {
-      fieldIndex: fieldIndex
-    }
+      fieldIndex: fieldIndex,
+    },
   }
 }
 
-export function fieldChanged (fieldIndex, inputIndex, newValue) {
+export function fieldChanged(fieldIndex, inputIndex, newValue) {
   return {
     type: 'FIELD_CHANGED',
     payload: {
       fieldIndex: fieldIndex,
       inputIndex: inputIndex,
-      newValue: newValue
-    }
+      newValue: newValue,
+    },
   }
 }

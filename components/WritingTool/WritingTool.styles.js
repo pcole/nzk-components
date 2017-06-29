@@ -17,7 +17,8 @@ export default `
   }
   
   .title-bar {
-    height: 40px;
+    opacity: 0.4;
+    height: 60px;
     width: 100%;
     padding-right: 140px;
     padding-left: 20px;
@@ -28,13 +29,30 @@ export default `
     background: rgba(0,0,0,0);
   }
   
-  .column {
+  .top-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 10px;
+  }
+  
+  .title-bar:focus {
+    opacity: 1;
+  }
+  
+  .left-margin {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 10px;
   }
 
   .left {
     display: inline-block;
-    max-width: calc(100vw - 150px);
-    min-width: 400px;
+    max-width: calc(100vw - 75px);
+    min-width: 440px;
   }
   
   .right {
@@ -44,19 +62,14 @@ export default `
     display: inline-block;
   }  
   
-  @media screen and (max-width: 840px) {
-    .left {
-      width: 100vw;
-    }
-  }
-  
+
   @media screen and (max-width: 1024px) {
      .left {
-       width: calc(100vw - 150px);
+       width: calc(100vw - 75px);
      }
      
      .right {
-       width: 150px;
+       width: 75px;
      }
   }
   

@@ -1,0 +1,12 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var __styledJsxDefaultExport = new String(".host{padding:0;margin:0;max-width:100vw}.background{position:absolute;top:0;left:0;height:100vh;width:100vw;opacity:0.3;z-index:-5}.title-bar{opacity:0.4;height:60px;width:100%;padding-right:140px;padding-left:20px;outline:none;font-size:20px;width:auto !import;border:none;background:rgba(0,0,0,0)}.top-border{position:absolute;top:0;left:0;width:100vw;height:10px}.title-bar:focus{opacity:1}.left-margin{position:absolute;left:0;top:0;height:100vh;width:10px}.left{display:inline-block;max-width:calc(100vw - 75px);min-width:440px}.right{float:right;height:100%;z-index:5;display:inline-block}@media screen and (max-width:1024px){.left{width:calc(100vw - 75px)}.right{width:75px}}@media screen and (min-width:1025px){.left{width:calc(100vw - 450px)}.right{width:450px}}");
+
+__styledJsxDefaultExport.__hash = "13381242730";
+__styledJsxDefaultExport.__scoped = ".host[data-jsx-ext~=\"23381242730\"]{padding:0;margin:0;max-width:100vw}.background[data-jsx-ext~=\"23381242730\"]{position:absolute;top:0;left:0;height:100vh;width:100vw;opacity:0.3;z-index:-5}.title-bar[data-jsx-ext~=\"23381242730\"]{opacity:0.4;height:60px;width:100%;padding-right:140px;padding-left:20px;outline:none;font-size:20px;width:auto !import;border:none;background:rgba(0,0,0,0)}.top-border[data-jsx-ext~=\"23381242730\"]{position:absolute;top:0;left:0;width:100vw;height:10px}.title-bar[data-jsx-ext~=\"23381242730\"]:focus{opacity:1}.left-margin[data-jsx-ext~=\"23381242730\"]{position:absolute;left:0;top:0;height:100vh;width:10px}.left[data-jsx-ext~=\"23381242730\"]{display:inline-block;max-width:calc(100vw - 75px);min-width:440px}.right[data-jsx-ext~=\"23381242730\"]{float:right;height:100%;z-index:5;display:inline-block}@media screen and (max-width:1024px){.left[data-jsx-ext~=\"23381242730\"]{width:calc(100vw - 75px)}.right[data-jsx-ext~=\"23381242730\"]{width:75px}}@media screen and (min-width:1025px){.left[data-jsx-ext~=\"23381242730\"]{width:calc(100vw - 450px)}.right[data-jsx-ext~=\"23381242730\"]{width:450px}}";
+__styledJsxDefaultExport.__scopedHash = "23381242730";
+exports.default = __styledJsxDefaultExport;

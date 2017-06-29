@@ -34,6 +34,12 @@ export default function reducer (state = {
 
       }
     }
+    case 'REMOVE_FIELDS': {
+      return {
+        ...state,
+        fields: []
+      }
+    }
     case 'NEW_FIELD': {
       return {
         ...state,

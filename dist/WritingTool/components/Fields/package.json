@@ -1,0 +1,6 @@
+{
+  "name": "nzk-components-writing-tool-fielsd",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Fields.js"
+}
