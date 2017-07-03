@@ -18,7 +18,7 @@ import throttle from 'lodash/throttle'
     lastSave: store.planning.lastSave,
     title: store.planning.title,
     icon: store.planning.icon,
-    titled: store.planning.needsTitle,
+    titled: store.planning.needsTitle
   }
 })
 @GSAP()
@@ -32,27 +32,27 @@ export default class PlanningDrawer extends Component {
     preset: PropTypes.string,
     customPreset: PropTypes.any,
     image: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.string
   }
 
   static defaultProps = {
     primaryColor: '#34D9E0',
     secondaryColor: '#158186',
-    light: false,
+    light: false
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
-      step: 1,
+      step: 1
     }
     this.throttledSave = throttle(this.save, 3000)
   }
 
-  componentDidMount() {
+  componentDidMount () {
   }
 
-  stepTwoAnimation({target}) {
+  stepTwoAnimation ({target}) {
     var drawer = target.find({name: 'drawer'})
     var host = target.find({name: 'host'})
 
@@ -67,7 +67,7 @@ export default class PlanningDrawer extends Component {
     }
   }
 
-  stepOneAnimation({target}) {
+  stepOneAnimation ({target}) {
     var drawer = target.find({name: 'drawer'})
     var host = target.find({name: 'host'})
 
@@ -81,7 +81,7 @@ export default class PlanningDrawer extends Component {
     }
   }
 
-  nextStep() {
+  nextStep () {
     if (this.state.step < 2) {
       var nextStep = (this.state.step + 1) % 3
       if (nextStep === 0) {
@@ -96,7 +96,7 @@ export default class PlanningDrawer extends Component {
     }
   }
 
-  previousStep() {
+  previousStep () {
     if (this.state.step > 1) {
       var nextStep = (this.state.step - 1) % 3
       if (nextStep === 0) {
@@ -110,17 +110,17 @@ export default class PlanningDrawer extends Component {
     }
   }
 
-  save() {
+  save () {
     if (this.props.lastSave > 3) {
       this.props.dispatch(savePlanningLocalStorage())
     }
   }
 
-  onChange() {
+  onChange () {
     this.throttledSave()
   }
 
-  renderStoryDesc() {
+  renderStoryDesc () {
     return (
       <div className='story-desc'>
         <div className='title'>
@@ -133,11 +133,11 @@ export default class PlanningDrawer extends Component {
               background: 'url("' + this.props.icon + '")',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
-              backgroundSize: 'cover',
+              backgroundSize: 'cover'
             }}
           />
           <div className='plan-title' style={{
-            color: this.props.light ? 'black' : 'white',
+            color: this.props.light ? 'black' : 'white'
           }}>
             Plan your {this.props.title}
           </div>
@@ -146,14 +146,14 @@ export default class PlanningDrawer extends Component {
           <div
             className='image'
             style={{
-              background: 'url("' + this.props.image + '")',
               backgroundPosition: 'center',
               backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
+              backgroundImage: 'url("' + this.props.image + '")',
+              backgroundRepeat: 'no-repeat'
             }}
           />
           <div className='description' style={{
-            color: this.props.light ? 'black' : 'white',
+            color: this.props.light ? 'black' : 'white'
           }}>
             {this.props.description}
           </div>
@@ -163,50 +163,50 @@ export default class PlanningDrawer extends Component {
     )
   }
 
-  renderFields() {
+  renderFields () {
     this.props.fields.map((field, index) => {
       return field
     })
   }
 
-  render() {
+  render () {
     const {primaryColor, secondaryColor, light} = this.props
 
     const style = {
-      backgroundColor: primaryColor,
+      backgroundColor: primaryColor
     }
 
     const buttonsStyle = {
       backgroundColor: secondaryColor,
-      borderColor: secondaryColor,
+      borderColor: secondaryColor
     }
 
     var buttonsClassNames = cn({
       withTitle: this.props.titled,
       withoutTitle: !this.props.titled,
-      buttons: true,
+      buttons: true
     })
 
     var classNames = cn({
       drawer: true,
       step1: this.state.step === 1,
       step2: this.state.step === 2,
-      step3: this.state.step === 3,
+      step3: this.state.step === 3
     })
 
     var hostClassNames = cn({
       host: true,
       step1: this.state.step === 1,
       step2: this.state.step === 2,
-      step3: this.state.step === 3,
+      step3: this.state.step === 3
     })
 
     var rightButtonClassNames = cn({
-      disabled: this.state.step === 1,
+      disabled: this.state.step === 1
     })
 
     var leftButtonClassNames = cn({
-      disabled: this.state.step === 2,
+      disabled: this.state.step === 2
     })
 
     return (

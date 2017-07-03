@@ -29,19 +29,19 @@ const schema = {
       const { node } = props
       const src = node.data.get('src')
       return (
-        <img src={src} className="importedImage" style={{
+        <img src={src} className='importedImage' style={{
           width: '100%',
           marginTop: '20px',
           marginBottom: '20px'
         }}
-             {...props.attributes} />
+          {...props.attributes} />
       )
     },
     'bulleted-list': props => <ul {...props.attributes}>{props.children}</ul>,
     'list-item': props => <li {...props.attributes}>{props.children}</li>,
     'heading-one': props => <h1 {...props.attributes}>{props.children}</h1>,
     'heading-two': props => <h2 {...props.attributes}>{props.children}</h2>,
-    'heading-three': props => <p {...props.attributes}>{props.children}</p>,
+    'heading-three': props => <p {...props.attributes}>{props.children}</p>
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.
@@ -75,20 +75,20 @@ const schema = {
   ],
   marks: {
     bold: {
-      fontWeight: 'bold',
+      fontWeight: 'bold'
     },
     italic: {
-      fontStyle: 'italic',
+      fontStyle: 'italic'
     },
     underlined: {
-      textDecoration: 'underline',
-    },
+      textDecoration: 'underline'
+    }
   }
 }
 
 @connect((store) => {
   return {
-    writing: store.writing,
+    writing: store.writing
   }
 })
 export default class Writer extends React.Component {
@@ -98,14 +98,14 @@ export default class Writer extends React.Component {
    * @type {Object}
    */
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       state: Raw.deserialize(this.props.writing.state, {terse: true}),
       wordCount: 0,
       mobile: false,
       focus: false,
-      imagePopoverDisplayed: false,
+      imagePopoverDisplayed: false
     }
     this.throttledSave = throttle(this.save, 3000)
   }
@@ -115,16 +115,16 @@ export default class Writer extends React.Component {
     minNbWords: PropTypes.number,
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
-    light: PropTypes.bool,
+    light: PropTypes.bool
   }
 
   static defaultProps = {
     progress: 0,
     primaryColor: '#34D9E0',
-    light: false,
+    light: false
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (/Android|iPad/i.test(navigator.userAgent)) {
       this.setState({mobile: true})
     }
@@ -191,7 +191,7 @@ export default class Writer extends React.Component {
     this.recordScreenHeight()
   }
 
-  save() {
+  save () {
     if (this.props.writing.lastSave > 3) {
       this.props.dispatch(saveLocalstorage())
     }
@@ -267,29 +267,29 @@ export default class Writer extends React.Component {
     this.setState({state})
   }
 
-  displayImagePopover() {
+  displayImagePopover () {
     this.setState({imagePopoverDisplayed: true})
   }
 
-  dismissImagePopover() {
+  dismissImagePopover () {
     this.setState({imagePopoverDisplayed: false})
   }
 
-  imageUploadSucceeded(url) {
+  imageUploadSucceeded (url) {
     if (!url) return
     let { state } = this.state
     state = this.insertImage(state, url)
     this.onChange(state)
   }
 
-  renderImagePopover() {
+  renderImagePopover () {
     return (
-      <div className="popover-background" onClick={(e) => {
+      <div className='popover-background' onClick={(e) => {
         e.preventDefault()
         this.dismissImagePopover()
-      } }>
-        <div className="image-popover">
-          <Uploader api='http://localhost:3000/images/upload' uploadedImage={this.imageUploadSucceeded.bind(this)}/>
+      }}>
+        <div className='image-popover'>
+          <Uploader api='http://localhost:3000/images/upload' uploadedImage={this.imageUploadSucceeded.bind(this)} />
         </div>
         <style jsx>{styles}</style>
       </div>)
@@ -322,7 +322,7 @@ export default class Writer extends React.Component {
         className='menu toolbar-menu'
         style={{
           backgroundColor: this.props.primaryColor,
-          color: this.props.light ? 'black' : 'white',
+          color: this.props.light ? 'black' : 'white'
         }}
       >
         {this.renderMarkButton('bold', 'format_bold')}
@@ -356,7 +356,7 @@ export default class Writer extends React.Component {
           className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null,
+            color: isActive ? 'grey' : null
           }}
         >
           {icon}
@@ -366,7 +366,7 @@ export default class Writer extends React.Component {
     )
   }
 
-  onFocus() {
+  onFocus () {
     this.setState({focus: true})
     /* if (this.state.mobile) {
      var a = document.getElementsByClassName('editor')[0]
@@ -380,7 +380,7 @@ export default class Writer extends React.Component {
      } */
   }
 
-  onBlur() {
+  onBlur () {
     this.setState({focus: false})
 
     if (this.state.mobile) {
@@ -399,7 +399,7 @@ export default class Writer extends React.Component {
           className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null,
+            color: isActive ? 'grey' : null
           }}
         >
           {icon}
@@ -409,7 +409,7 @@ export default class Writer extends React.Component {
     )
   }
 
-  recordScreenHeight() {
+  recordScreenHeight () {
     var a = document.getElementsByClassName('editor')[0]
 
     if (this.state.mobile) {
@@ -421,7 +421,7 @@ export default class Writer extends React.Component {
     }, 100)
   }
 
-  onKeyDown() {
+  onKeyDown () {
     this.recordScreenHeight()
   }
 

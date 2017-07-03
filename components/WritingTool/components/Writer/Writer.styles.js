@@ -26,6 +26,7 @@ export default `
     padding: 50px 0px 0 20px;
     padding-right: 40px;
     padding-left: 40px;
+    min-height: 300px;
     max-width: 100%;
     max-height: calc(100vh - 190px);
     padding-bottom: 60px;

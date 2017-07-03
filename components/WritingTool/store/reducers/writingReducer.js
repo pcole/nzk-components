@@ -61,8 +61,8 @@ export default function reducer (
         ...state,
         constraints: {
           ...state.constraints,
-          minNbWords: action.payload,
-        },
+          minNbWords: action.payload
+        }
       }
     }
     case 'SET_MAX_NB_WORDS': {
@@ -70,8 +70,8 @@ export default function reducer (
         ...state,
         constraints: {
           ...state.constraints,
-          maxNbWords: action.payload,
-        },
+          maxNbWords: action.payload
+        }
       }
     }
     case 'LOAD_LOCALSTORAGE': {
