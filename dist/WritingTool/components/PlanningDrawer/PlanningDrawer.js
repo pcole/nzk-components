@@ -199,9 +199,9 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
           _react2.default.createElement('div', {
             className: 'image',
             style: {
-              background: 'url("' + this.props.image + '")',
               backgroundPosition: 'center',
               backgroundSize: 'cover',
+              backgroundImage: 'url("' + this.props.image + '")',
               backgroundRepeat: 'no-repeat'
             },
             'data-jsx-ext': _PlanningDrawer2.default.__scopedHash

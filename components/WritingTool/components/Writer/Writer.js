@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import {textChanged, saveLocalstorage, updateProgress, updateNbWords} from '../../store/actions/writingActions'
 import Uploader from '../../../Uploader/Uploader'
 import throttle from 'lodash/throttle'
+import {FormattedMessage as T} from 'react-intl'
 
 /**
  * Define the default node type.
@@ -356,7 +357,8 @@ export default class Writer extends React.Component {
           className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null
+            color: isActive ? 'grey' : null,
+            cursor: 'pointer'
           }}
         >
           {icon}
@@ -399,7 +401,8 @@ export default class Writer extends React.Component {
           className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null
+            color: isActive ? 'grey' : null,
+            cursor: 'pointer'
           }}
         >
           {icon}
@@ -436,15 +439,20 @@ export default class Writer extends React.Component {
       <div className='host'>
 
         <div className='editor'>
-          <Editor
-            spellCheck
-            placeholder={'Start writing here...'}
-            schema={schema}
-            state={this.state.state}
-            onFocus={this.onFocus.bind(this)}
-            onBlur={this.onBlur.bind(this)}
-            onChange={this.onChange}
-          />
+
+          <T id="editor_placeholder" defaultMessage="Start writing here...">
+            {
+              (msg) => <Editor
+                spellCheck
+                placeholder={msg}
+                schema={schema}
+                state={this.state.state}
+                onFocus={this.onFocus.bind(this)}
+                onBlur={this.onBlur.bind(this)}
+                onChange={this.onChange}
+              />
+            }
+          </T>
 
           {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 

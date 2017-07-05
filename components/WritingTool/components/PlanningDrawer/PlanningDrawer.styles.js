@@ -38,6 +38,7 @@ export default `
       height: 50px;
       width: 50px;
       border-radius: 9px 0px 0px 9px;
+      cursor: pointer;
     }
     
     .withTitle {

@@ -9,6 +9,7 @@ import GSAP from 'react-gsap-enhancer'
 import {TimelineMax} from 'gsap'
 import {savePlanningLocalStorage} from '../../store/actions/planningActions'
 import throttle from 'lodash/throttle'
+import {FormattedMessage as T} from 'react-intl'
 
 @connect(store => {
   return {
@@ -139,7 +140,7 @@ export default class PlanningDrawer extends Component {
           <div className='plan-title' style={{
             color: this.props.light ? 'black' : 'white'
           }}>
-            Plan your {this.props.title}
+            <T id="plan-your" defaultMessage="Plan your">Plan your</T> {this.props.title}
           </div>
         </div>
         <div className='informations'>

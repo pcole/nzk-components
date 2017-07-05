@@ -63,7 +63,7 @@ var WritingTool = function (_Component) {
     value: function componentWillMount() {
       if (!(_store2.default.getState().planning.fields.length > 0)) {
         (0, _planningActions.usePreset)(_store2.default.dispatch, 'story');
-        _store2.default.dispatch((0, _planningActions.setInformations)('https://oldassets.smarta.com/3253268/night%20zoo%20keeper.jpg', 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'));
+        _store2.default.dispatch((0, _planningActions.setInformations)('https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg', 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'));
       }
     }
   }, {
@@ -107,7 +107,9 @@ var WritingTool = function (_Component) {
           { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
           },
           _react2.default.createElement('div', { className: 'background', style: {
-              background: 'url("' + this.props.backgroundImageUrl + '")'
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundImage: 'url("' + this.props.backgroundImageUrl + '")'
             }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
           }),
           _react2.default.createElement('div', { className: 'left-margin', style: {
@@ -169,6 +171,6 @@ WritingTool.propTypes = {
   backgroundImageUrl: _propTypes2.default.string
 };
 WritingTool.defaultProps = {
-  backgroundImageUrl: 'http://i.imgur.com/N82wzhY.png'
+  backgroundImageUrl: 'https://s3.amazonaws.com/gumroad/files/6205413369590/4dacf067b6c54651b1b6b7bcc6d727d6/original/Cover_background.jpg'
 };
 exports.default = WritingTool;
