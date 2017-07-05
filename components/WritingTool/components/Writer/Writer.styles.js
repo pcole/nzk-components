@@ -28,8 +28,9 @@ export default `
     padding-left: 40px;
     min-height: 300px;
     max-width: 100%;
-    max-height: calc(100vh - 190px);
+    max-height: calc(100vh - 200px);
     padding-bottom: 60px;
+    margin-bottom: 40px;
     overflow-y: scroll;
   }
   
@@ -54,6 +55,11 @@ export default `
   
   .importedImage {
 
+  }
+  
+  .progressBar {
+    position: fixed;
+    background: red;
   }
   
   .editor:nth-child(n) {

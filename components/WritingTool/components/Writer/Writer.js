@@ -40,7 +40,9 @@ const schema = {
     },
     'bulleted-list': props => <ul {...props.attributes}>{props.children}</ul>,
     'list-item': props => <li {...props.attributes}>{props.children}</li>,
-    'heading-one': props => <h1 {...props.attributes}>{props.children}</h1>,
+    'heading-one': props => <h1 style={{
+      fontSize: '24px'
+    }}>{props.children}</h1>,
     'heading-two': props => <h2 {...props.attributes}>{props.children}</h2>,
     'heading-three': props => <p {...props.attributes}>{props.children}</p>
   },
@@ -83,6 +85,15 @@ const schema = {
     },
     underlined: {
       textDecoration: 'underline'
+    },
+    sizeOne: {
+      fontSize: '12px'
+    },
+    sizeTwo: {
+      fontSize: '17px'
+    },
+    sizeThree: {
+      fontSize: '22px'
     }
   }
 }
@@ -209,7 +220,6 @@ export default class Writer extends React.Component {
     let {state} = this.state
 
     state = state.transform().toggleMark(type).apply()
-
     this.setState({state})
   }
 
@@ -330,8 +340,9 @@ export default class Writer extends React.Component {
         {this.renderMarkButton('italic', 'format_italic')}
         {this.renderMarkButton('underlined', 'format_underlined')}
         {this.renderBlockButton('heading-one', 'looks_one')}
-        {this.renderBlockButton('heading-two', 'looks_two')}
-        {this.renderBlockButton('heading-three', 'looks_3')}
+        {this.renderMarkButton('sizeOne', 'A', '12px')}
+        {this.renderMarkButton('sizeTwo', 'A', '18px')}
+        {this.renderMarkButton('sizeThree', 'A', '22px')}
         {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
         {this.renderBlockButton('image', 'image')}
 
@@ -347,7 +358,7 @@ export default class Writer extends React.Component {
    * @param {String} icon
    * @return {Element}
    */
-  renderMarkButton = (type, icon) => {
+  renderMarkButton = (type, icon, size = null) => {
     const isActive = this.hasMark(type)
     const onMouseDown = e => this.onClickMark(e, type)
 
@@ -358,7 +369,8 @@ export default class Writer extends React.Component {
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
             color: isActive ? 'grey' : null,
-            cursor: 'pointer'
+            cursor: 'pointer',
+            fontSize: size,
           }}
         >
           {icon}
@@ -419,9 +431,9 @@ export default class Writer extends React.Component {
       a.style.maxHeight = parseInt(window.innerHeight) - 370 + 'px'
     }
 
-    setTimeout(() => {
+    /* setTimeout(() => {
       a.scrollTop = a.scrollHeight
-    }, 100)
+    }, 100) */
   }
 
   onKeyDown () {
@@ -456,15 +468,17 @@ export default class Writer extends React.Component {
 
           {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
-          <ProgressBar
-            nbWords={this.props.writing.nbWords}
-            minNbWords={this.props.writing.constraints.minNbWords}
-            maxNbWords={this.props.writing.constraints.maxNbWords}
-            progress={this.props.writing.progress}
-            primaryColor={this.props.primaryColor}
-            secondaryColor={this.props.secondaryColor}
-            light={this.props.light}
-          />
+          <div className="progressBar">
+            <ProgressBar
+              nbWords={this.props.writing.nbWords}
+              minNbWords={this.props.writing.constraints.minNbWords}
+              maxNbWords={this.props.writing.constraints.maxNbWords}
+              progress={this.props.writing.progress}
+              primaryColor={this.props.primaryColor}
+              secondaryColor={this.props.secondaryColor}
+              light={this.props.light}
+            />
+          </div>
         </div>
 
         <style jsx>{styles}</style>
