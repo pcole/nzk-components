@@ -440,7 +440,7 @@ export default class Writer extends React.Component {
 
         <div className='editor'>
 
-          <T id="editor_placeholder" defaultMessage="Start writing here...">
+          <T id='editor_placeholder' defaultMessage='Start writing here...'>
             {
               (msg) => <Editor
                 spellCheck

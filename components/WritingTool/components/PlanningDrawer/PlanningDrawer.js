@@ -140,7 +140,7 @@ export default class PlanningDrawer extends Component {
           <div className='plan-title' style={{
             color: this.props.light ? 'black' : 'white'
           }}>
-            <T id="plan-your" defaultMessage="Plan your">Plan your</T> {this.props.title}
+            <T id='plan-your' defaultMessage='Plan your'>Plan your</T> {this.props.title}
           </div>
         </div>
         <div className='informations'>

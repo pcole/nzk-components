@@ -17,14 +17,14 @@ export default class WritingTool extends Component {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
     light: PropTypes.bool,
-    backgroundImageUrl: PropTypes.string,
+    backgroundImageUrl: PropTypes.string
   }
 
   static defaultProps = {
-    backgroundImageUrl: 'https://s3.amazonaws.com/gumroad/files/6205413369590/4dacf067b6c54651b1b6b7bcc6d727d6/original/Cover_background.jpg',
+    backgroundImageUrl: 'https://s3.amazonaws.com/gumroad/files/6205413369590/4dacf067b6c54651b1b6b7bcc6d727d6/original/Cover_background.jpg'
   }
 
-  componentWillMount() {
+  componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
       usePreset(store.dispatch, 'story')
       store.dispatch(setInformations('https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
@@ -32,7 +32,7 @@ export default class WritingTool extends Component {
     }
   }
 
-  onStep(n) {
+  onStep (n) {
     var leftWidth = document.getElementsByClassName('left')[0].style.width
     var rightWidth = document.getElementsByClassName('right')[0].style.width
     switch (n) {
@@ -61,32 +61,32 @@ export default class WritingTool extends Component {
     document.getElementsByClassName('left')[0].style.width = leftWidth
   }
 
-  render() {
+  render () {
     return (
-      <IntlProvider locale="en">
+      <IntlProvider locale='en'>
         <Provider store={store}>
 
           <div className='host'>
             <div className='background' style={{
               backgroundPosition: 'center',
               backgroundSize: 'cover',
-              backgroundImage: 'url("' + this.props.backgroundImageUrl + '")',
-            }}/>
+              backgroundImage: 'url("' + this.props.backgroundImageUrl + '")'
+            }} />
             <div className='left-margin' style={{
-              background: this.props.primaryColor,
-            }}/>
+              background: this.props.primaryColor
+            }} />
             <div className='column left'>
               { store.getState().planning.needsTitle
                 ? <div>
                   <div className='top-border' style={{
-                    background: this.props.primaryColor,
-                  }}/>
+                    background: this.props.primaryColor
+                  }} />
 
-                  <T id="enter_title" defaultMessage="Enter your title here">
+                  <T id='enter_title' defaultMessage='Enter your title here'>
                     {
                       (msg) => <input className='title-bar' type='text' style={{
-                        borderTop: '10px solid ' + this.props.primaryColor,
-                      }} placeholder={msg}/>
+                        borderTop: '10px solid ' + this.props.primaryColor
+                      }} placeholder={msg} />
                     }
                   </T>
 
