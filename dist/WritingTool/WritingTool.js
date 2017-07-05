@@ -39,6 +39,8 @@ var _store2 = _interopRequireDefault(_store);
 
 var _planningActions = require('./store/actions/planningActions');
 
+var _reactIntl = require('react-intl');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -99,63 +101,75 @@ var WritingTool = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
-        _reactRedux.Provider,
-        { store: _store2.default },
+        _reactIntl.IntlProvider,
+        { locale: 'en' },
         _react2.default.createElement(
-          'div',
-          { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-          },
-          _react2.default.createElement('div', { className: 'background', style: {
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              backgroundImage: 'url("' + this.props.backgroundImageUrl + '")'
-            }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
-          }),
-          _react2.default.createElement('div', { className: 'left-margin', style: {
-              background: this.props.primaryColor
-            }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
-          }),
+          _reactRedux.Provider,
+          { store: _store2.default },
           _react2.default.createElement(
             'div',
-            { className: 'column left', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+            { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
-            _store2.default.getState().planning.needsTitle ? _react2.default.createElement(
+            _react2.default.createElement('div', { className: 'background', style: {
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundImage: 'url("' + this.props.backgroundImageUrl + '")'
+              }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
+            }),
+            _react2.default.createElement('div', { className: 'left-margin', style: {
+                background: this.props.primaryColor
+              }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
+            }),
+            _react2.default.createElement(
               'div',
-              {
-                'data-jsx-ext': _WritingTool2.default.__scopedHash
+              { className: 'column left', 'data-jsx-ext': _WritingTool2.default.__scopedHash
               },
-              _react2.default.createElement('div', { className: 'top-border', style: {
-                  background: this.props.primaryColor
-                }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
-              }),
-              _react2.default.createElement('input', { className: 'title-bar', type: 'text', style: {
-                  borderTop: '10px solid ' + this.props.primaryColor
-                }, placeholder: 'Enter your title here...', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              _store2.default.getState().planning.needsTitle ? _react2.default.createElement(
+                'div',
+                {
+                  'data-jsx-ext': _WritingTool2.default.__scopedHash
+                },
+                _react2.default.createElement('div', { className: 'top-border', style: {
+                    background: this.props.primaryColor
+                  }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
+                }),
+                _react2.default.createElement(
+                  _reactIntl.FormattedMessage,
+                  { id: 'enter_title', defaultMessage: 'Enter your title here' },
+                  function (msg) {
+                    return _react2.default.createElement('input', { className: 'title-bar', type: 'text', style: {
+                        borderTop: '10px solid ' + _this2.props.primaryColor
+                      }, placeholder: msg, 'data-jsx-ext': _WritingTool2.default.__scopedHash
+                    });
+                  }
+                )
+              ) : null,
+              _react2.default.createElement(_Writer2.default, {
+                primaryColor: this.props.primaryColor,
+                secondaryColor: this.props.secondaryColor,
+                light: this.props.light,
+                minNbWords: 20
               })
-            ) : null,
-            _react2.default.createElement(_Writer2.default, {
-              primaryColor: this.props.primaryColor,
-              secondaryColor: this.props.secondaryColor,
-              light: this.props.light,
-              minNbWords: 20
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'column right', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              },
+              _react2.default.createElement(_PlanningDrawer2.default, {
+                onStep: this.onStep,
+                primaryColor: this.props.primaryColor,
+                secondaryColor: this.props.secondaryColor,
+                light: this.props.light
+              })
+            ),
+            _react2.default.createElement(_style2.default, {
+              styleId: _WritingTool2.default.__scopedHash,
+              css: _WritingTool2.default.__scoped
             })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'column right', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-            },
-            _react2.default.createElement(_PlanningDrawer2.default, {
-              onStep: this.onStep,
-              primaryColor: this.props.primaryColor,
-              secondaryColor: this.props.secondaryColor,
-              light: this.props.light
-            })
-          ),
-          _react2.default.createElement(_style2.default, {
-            styleId: _WritingTool2.default.__scopedHash,
-            css: _WritingTool2.default.__scoped
-          })
+          )
         )
       );
     }

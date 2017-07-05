@@ -45,6 +45,8 @@ var _throttle = require('lodash/throttle');
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
+var _reactIntl = require('react-intl');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -336,7 +338,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             className: 'material-icons',
             style: {
               backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-              color: isActive ? 'grey' : null
+              color: isActive ? 'grey' : null,
+              cursor: 'pointer'
             },
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
@@ -365,7 +368,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             className: 'material-icons',
             style: {
               backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-              color: isActive ? 'grey' : null
+              color: isActive ? 'grey' : null,
+              cursor: 'pointer'
             },
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
@@ -387,15 +391,21 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           'div',
           { className: 'editor', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          _react2.default.createElement(_slate.Editor, {
-            spellCheck: true,
-            placeholder: 'Start writing here...',
-            schema: schema,
-            state: _this.state.state,
-            onFocus: _this.onFocus.bind(_this),
-            onBlur: _this.onBlur.bind(_this),
-            onChange: _this.onChange
-          }),
+          _react2.default.createElement(
+            _reactIntl.FormattedMessage,
+            { id: 'editor_placeholder', defaultMessage: 'Start writing here...' },
+            function (msg) {
+              return _react2.default.createElement(_slate.Editor, {
+                spellCheck: true,
+                placeholder: msg,
+                schema: schema,
+                state: _this.state.state,
+                onFocus: _this.onFocus.bind(_this),
+                onBlur: _this.onBlur.bind(_this),
+                onChange: _this.onChange
+              });
+            }
+          ),
           _this.state.imagePopoverDisplayed ? _this.renderImagePopover() : null,
           _react2.default.createElement(_ProgressBar2.default, {
             nbWords: _this.props.writing.nbWords,

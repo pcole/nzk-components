@@ -51,6 +51,8 @@ var _throttle = require('lodash/throttle');
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
+var _reactIntl = require('react-intl');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -188,7 +190,12 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
                 color: this.props.light ? 'black' : 'white'
               }, 'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
             },
-            'Plan your ',
+            _react2.default.createElement(
+              _reactIntl.FormattedMessage,
+              { id: 'plan-your', defaultMessage: 'Plan your' },
+              'Plan your'
+            ),
+            ' ',
             this.props.title
           )
         ),

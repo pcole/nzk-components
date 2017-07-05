@@ -15,9 +15,9 @@ exports.removeInput = removeInput;
 exports.addInput = addInput;
 exports.fieldChanged = fieldChanged;
 
-var _settings = require('../../components/PlanningDrawer/settings.json');
+var _settings_en = require('../../assets/settings_en.json');
 
-var _settings2 = _interopRequireDefault(_settings);
+var _settings_en2 = _interopRequireDefault(_settings_en);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,9 +26,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                                                                                                                                                                                      */
 
 function usePreset(dispatch, preset) {
-  if (_settings2.default[preset]) {
-    dispatch(setWritingType(_settings2.default[preset].title, _settings2.default[preset].icon, _settings2.default[preset].needsTitle));
-    _settings2.default[preset].fields.map(function (field) {
+  var settings = _settings_en2.default;
+
+  if (settings[preset]) {
+    dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle));
+    settings[preset].fields.map(function (field) {
       dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, [].concat(_toConsumableArray(Array(field.numberOfFields))).map(function (field, index) {
         return { index: index, value: '' };
       })));
