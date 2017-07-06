@@ -219,6 +219,14 @@ export default class Writer extends React.Component {
     e.preventDefault()
     let {state} = this.state
 
+    const sizes = ['sizeOne', 'sizeTwo', 'sizeThree']
+    if (sizes.indexOf(type) > -1) {
+      sizes.map((size) => {
+        if (size !== type) {
+          state = state.transform().removeMark(size).apply()
+        }
+      })
+    }
     state = state.transform().toggleMark(type).apply()
     this.setState({state})
   }

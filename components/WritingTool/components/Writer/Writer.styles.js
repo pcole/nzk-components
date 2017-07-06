@@ -24,6 +24,7 @@ export default `
   .editor {
     position: relative;
     padding: 50px 0px 0 20px;
+    padding-top: 30px;
     padding-right: 40px;
     padding-left: 40px;
     min-height: 300px;
