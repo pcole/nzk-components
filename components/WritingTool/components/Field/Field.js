@@ -97,7 +97,8 @@ export default class Field extends Component {
     const style = {
       backgroundColor: bgColor,
       color: color,
-      height: height
+      height: height,
+      fontSize: '16px'
     }
 
     const className = cn({
