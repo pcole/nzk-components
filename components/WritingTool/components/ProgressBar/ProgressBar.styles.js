@@ -2,7 +2,6 @@ export default `
   .host {
     position: fixed;
     width: 100%;
-    background: blue;
     z-index: 1;
     bottom: 0px;
     left: 0px;
@@ -11,7 +10,7 @@ export default `
   .full-bar {
     position: relative;
     height: 40px;
-    background: red;
+    width: 100%;
   }
   
   .progress {
@@ -88,15 +87,5 @@ export default `
     background: white;
   }
    
-  @media screen and (max-width: 1024px) {
-     .host {
-       width: calc(100vw - 20px);
-     }  
-  }
-  
-  @media screen and (min-width: 1024px) {
-     .host {
-       width: calc(100vw - 340px);
-     }  
-  }
+
 `

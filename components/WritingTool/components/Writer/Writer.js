@@ -8,6 +8,8 @@ import {textChanged, saveLocalstorage, updateProgress, updateNbWords} from '../.
 import Uploader from '../../../Uploader/Uploader'
 import throttle from 'lodash/throttle'
 import {FormattedMessage as T} from 'react-intl'
+import Icon from '../../../Icon/Icon'
+import Button from '../../../Button/Button'
 
 /**
  * Define the default node type.
@@ -27,7 +29,7 @@ const defaultBlock = {
 const schema = {
   nodes: {
     image: props => {
-      const { node } = props
+      const {node} = props
       const src = node.data.get('src')
       return (
         <img src={src} className='importedImage' style={{
@@ -140,6 +142,8 @@ export default class Writer extends React.Component {
     if (/Android|iPad/i.test(navigator.userAgent)) {
       this.setState({mobile: true})
     }
+
+    this.focus()
   }
 
   /**
@@ -238,7 +242,7 @@ export default class Writer extends React.Component {
       .insertBlock({
         type: 'image',
         isVoid: true,
-        data: { src }
+        data: {src}
       })
       .apply()
   }
@@ -296,7 +300,7 @@ export default class Writer extends React.Component {
 
   imageUploadSucceeded (url) {
     if (!url) return
-    let { state } = this.state
+    let {state} = this.state
     state = this.insertImage(state, url)
     this.onChange(state)
   }
@@ -338,21 +342,32 @@ export default class Writer extends React.Component {
   renderToolbar = () => {
     return (
       <div
-        className='menu toolbar-menu'
         style={{
-          backgroundColor: this.props.primaryColor,
           color: this.props.light ? 'black' : 'white'
         }}
       >
-        {this.renderMarkButton('bold', 'format_bold')}
-        {this.renderMarkButton('italic', 'format_italic')}
-        {this.renderMarkButton('underlined', 'format_underlined')}
-        {this.renderBlockButton('heading-one', 'looks_one')}
-        {this.renderMarkButton('sizeOne', 'A', '12px')}
-        {this.renderMarkButton('sizeTwo', 'A', '18px')}
-        {this.renderMarkButton('sizeThree', 'A', '22px')}
-        {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
-        {this.renderBlockButton('image', 'image')}
+
+        <div className='menu toolbar-menu'
+          style={{
+            backgroundColor: this.props.primaryColor,
+            color: this.props.light ? 'black' : 'white'
+          }}>
+
+          <div className='toolbar-button'>
+            <Button bgColor='white' shadow round>
+              <Icon name='left' color='black' />
+            </Button>
+          </div>
+
+          {this.renderMarkButton('bold', 'format_bold')}
+          {this.renderMarkButton('italic', 'format_italic')}
+          {this.renderMarkButton('underlined', 'format_underlined')}
+          {this.renderBlockButton('image', 'image')}
+
+          <div className='toolbar-button save'>
+            <Button bgColor='white' shadow>SAVE</Button>
+          </div>
+        </div>
 
         <style jsx>{styles}</style>
       </div>
@@ -366,7 +381,7 @@ export default class Writer extends React.Component {
    * @param {String} icon
    * @return {Element}
    */
-  renderMarkButton = (type, icon, size = null) => {
+  renderMarkButton = (type, icon, size = null, lineHeight = null) => {
     const isActive = this.hasMark(type)
     const onMouseDown = e => this.onClickMark(e, type)
 
@@ -379,6 +394,7 @@ export default class Writer extends React.Component {
             color: isActive ? 'grey' : null,
             cursor: 'pointer',
             fontSize: size,
+            lineHeight: lineHeight
           }}
         >
           {icon}
@@ -440,12 +456,15 @@ export default class Writer extends React.Component {
     }
 
     /* setTimeout(() => {
-      a.scrollTop = a.scrollHeight
-    }, 100) */
+     a.scrollTop = a.scrollHeight
+     }, 100) */
   }
 
   onKeyDown () {
     this.recordScreenHeight()
+  }
+
+  focus () {
   }
 
   /**
@@ -458,7 +477,11 @@ export default class Writer extends React.Component {
     return (
       <div className='host'>
 
-        <div className='editor'>
+        <div className='editor' style={{
+          background: `linear-gradient(to bottom,
+            ${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'} 0%, rgba(0,0,0,0) 100%)`,
+          color: this.props.light ? 'black' : 'white'
+        }}>
 
           <T id='editor_placeholder' defaultMessage='Start writing here...'>
             {
@@ -466,6 +489,7 @@ export default class Writer extends React.Component {
                 spellCheck
                 placeholder={msg}
                 schema={schema}
+                focus={this.focus.bind(this)}
                 state={this.state.state}
                 onFocus={this.onFocus.bind(this)}
                 onBlur={this.onBlur.bind(this)}
@@ -476,7 +500,7 @@ export default class Writer extends React.Component {
 
           {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
-          <div className="progressBar">
+          <div className='progressBar'>
             <ProgressBar
               nbWords={this.props.writing.nbWords}
               minNbWords={this.props.writing.constraints.minNbWords}

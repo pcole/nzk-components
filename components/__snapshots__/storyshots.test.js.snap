@@ -473,16 +473,18 @@ exports[`Storyshots WritingTool Field 1`] = `
   >
     <div
       className="input"
-      data-jsx-ext="23539862900"
+      data-jsx-ext="21835364613"
+      name="field"
     >
       <input
         className="input"
-        data-jsx-ext="23539862900"
+        data-jsx-ext="21835364613"
         onChange={[Function]}
         style={
           Object {
             "backgroundColor": "rgba(0,0,0,0.04)",
             "color": "white",
+            "fontSize": "16px",
             "height": "35px",
           }
         }
@@ -491,12 +493,12 @@ exports[`Storyshots WritingTool Field 1`] = `
       />
       <div
         className="removeButton light"
-        data-jsx-ext="23539862900"
+        data-jsx-ext="21835364613"
         onClick={[Function]}
       >
         <div
           className="icon"
-          data-jsx-ext="23539862900"
+          data-jsx-ext="21835364613"
         >
           <i
             className="icon-cross"
@@ -514,11 +516,12 @@ exports[`Storyshots WritingTool Field 1`] = `
   </li>
   <div
     className="input"
-    data-jsx-ext="23539862900"
+    data-jsx-ext="21835364613"
     style={
       Object {
         "backgroundColor": "rgba(0,0,0,0.04)",
         "color": "white",
+        "fontSize": "16px",
         "height": "35px",
       }
     }
@@ -526,18 +529,19 @@ exports[`Storyshots WritingTool Field 1`] = `
   >
     <div
       className="removeButton light"
-      data-jsx-ext="23539862900"
+      data-jsx-ext="21835364613"
       onClick={undefined}
     />
   </div>
   <button
     className="input block button"
-    data-jsx-ext="23539862900"
+    data-jsx-ext="21835364613"
     onClick={undefined}
     style={
       Object {
-        "backgroundColor": "rgba(0,0,0,0.04)",
+        "backgroundColor": "hsla(0,0,10%,0.04)",
         "color": "white",
+        "fontSize": "16px",
         "height": "35px",
       }
     }
@@ -550,7 +554,7 @@ exports[`Storyshots WritingTool Field 1`] = `
 exports[`Storyshots WritingTool ProgressBar 1`] = `
 <div
   className="host"
-  data-jsx-ext="2199874583"
+  data-jsx-ext="2950151016"
   style={
     Object {
       "color": "white",
@@ -559,7 +563,7 @@ exports[`Storyshots WritingTool ProgressBar 1`] = `
 >
   <div
     className="full-bar"
-    data-jsx-ext="2199874583"
+    data-jsx-ext="2950151016"
     style={
       Object {
         "backgroundColor": "#34D9E0",
@@ -568,7 +572,7 @@ exports[`Storyshots WritingTool ProgressBar 1`] = `
   >
     <div
       className="progress"
-      data-jsx-ext="2199874583"
+      data-jsx-ext="2950151016"
       style={
         Object {
           "backgroundColor": "#3CB6BA",
@@ -578,17 +582,17 @@ exports[`Storyshots WritingTool ProgressBar 1`] = `
     />
     <div
       className="counter"
-      data-jsx-ext="2199874583"
+      data-jsx-ext="2950151016"
     >
       0
     </div>
     <div
       className="bar min"
-      data-jsx-ext="2199874583"
+      data-jsx-ext="2950151016"
     />
     <div
       className="limit"
-      data-jsx-ext="2199874583"
+      data-jsx-ext="2950151016"
       style={Object {}}
     >
       0

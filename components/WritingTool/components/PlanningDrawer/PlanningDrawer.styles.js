@@ -4,12 +4,14 @@ export default `
       position: relative;
       height: 100vh;
       top: 0;
+      right: 0;
       margin: 0;
       padding: 0;
       float: right;
-      overflow-x: hidden;
+      overflow-x: hidden;      
       overflow-y: hidden;
       z-index: 100;
+      width: 100%;
     }
     
     .plan-title {
@@ -23,59 +25,13 @@ export default `
     .drawer {
       position: absolute;
       top: 0;
-      right: 0;
       padding: 20px 30px;
       padding-bottom: 100px;
+      min-width: 200px;
       height: calc(100% - 60px);
+      width: calc(100% - 60px);
       overflow-y: scroll;
-    }
-
-
-    .buttons {
-      position: absolute;
-      left: 5px;
-      z-index: 2;
-      height: 50px;
-      width: 50px;
-      border-radius: 9px 0px 0px 9px;
-      cursor: pointer;
-    }
-    
-    .withTitle {
-      top: 120px;
-    }
-    
-    .withoutTitle {
-      top: 50px;
-    }
-    
-    
-    .buttons div:nth-child(n) {
-      display: block;
-      width: 40px;
-      height: 40px;
-      line-height: 50px;
-      margin-left: 6px;
-      text-align: center;
-      margin-top: 4px;
-      border-radius: 50%;
-      background: yellow;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.2);
-    }
-    
-    .buttons div:nth-child(n):active {
-      box-shadow: 0 0px 0 rgba(0,0,0,0.2);
-      transform: translateY(3px);
-    }
-    
-    
-    
-    .buttons div.disabled {
-      box-sizing: border-box;
-      line-height: 42px;
-      background: rgba(0,0,0,0) !important;
-      border-width: 3px;
-      border-style: solid;
+      overflow-x: hidden;
     }
     
     .story-desc {
@@ -95,45 +51,30 @@ export default `
     .story-desc .informations {
       min-height: 150px;
       height: 150px;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
     
     .story-desc .informations .image {
       position: relative;
+      display: inline-block;
       width: 40%;
-      max-width: 200px;
+      height: 100%;
+      max-width: 300px;
       background-color: black;
       background-size: cover;
       background-repeat: no-repeat;
     }
     
-    .host.step1 .story-desc .informations .image {
-      position: absolute;
-      height: 100px;
-      top: 80px;
-    }
-    
-    .host.step2 .story-desc .informations .image {
-      position: absolute;
-      height: 140px;
-      margin-top: 5px;
-    }
-    
-    .story-desc .informations .description {
-      margin-right: 30px;
+    .host .story-desc .informations .description {
+      display: inline-block;
+      width: calc(60% - 20px);
+      margin-left: 20px;
+      transform: translateY(-50%);
+      height: 100%;
     }
 
-    .host.step1 .story-desc .informations .description {
-      position: absolute;
-      height: 75px;
-      top: 80px;
-      margin-left: calc(40% + 10px);
-    }
     
-    .host.step2 .story-desc .informations .description {
-      height: 75px;
-      height: 140px;
-      margin-left: calc(40% + 10px);
-    }
     
     @media screen and (max-width: 900px) {
       .host.step2 {
@@ -159,48 +100,7 @@ export default `
         margin-left: calc(200px + 10px);
       }
     }
-    
-    @media screen and (max-width: 1024px) {
-        .host.step1 {
-          width: 75px;
-          min-width: 75px;
-        }
-        
-        .host.step2 {
-          width: 415px;
-        }
-        
-        
-        .drawer.step1 {
-          right: -340px;
-          width: 300px;
-        }
-        
-        .drawer.step2 {
-          right: 0px;
-          width: calc(100% - 115px);
-        }
-    }
-    
-    @media screen and (min-width: 1024px) {
-        .host.step1 {
-          min-width: 430px;
-        }
-        
-        .host.step2 {
-          width: 100%;
-        }
-        
-        .drawer.step1 {
-          right: 0;
-          width: calc(100% - 115px);
-        }
-        
-        .drawer.step2 {
-          right: 0px;
-          width: calc(100% - 115px);
-        }
-    }
+   
 
 
 `

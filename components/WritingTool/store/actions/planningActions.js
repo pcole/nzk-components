@@ -2,10 +2,10 @@
  * Created by benjaminafonso on 26/06/2017.
  */
 
-import settings_en from '../../assets/settings_en.json'
+import settingsEn from '../../assets/settings_en.json'
 
 export function usePreset (dispatch, preset) {
-  const settings = settings_en
+  const settings = settingsEn
 
   if (settings[preset]) {
     dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle))

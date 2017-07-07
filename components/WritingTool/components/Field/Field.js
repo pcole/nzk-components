@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styles from './Field.styles'
 import cn from 'classnames'
 import Icon from '../../../Icon/Icon'
+import GSAP from 'react-gsap-enhancer'
+import {TimelineMax} from 'gsap'
 
-const RemoveButton = ({ className, onClick }) => {
+const RemoveButton = ({className, onClick}) => {
   return (
     <div className={className} onClick={onClick}>
       <div className='icon'>
@@ -15,6 +17,7 @@ const RemoveButton = ({ className, onClick }) => {
   )
 }
 
+@GSAP()
 export default class Field extends Component {
   static propTypes = {
     bgColor: PropTypes.string,
@@ -61,22 +64,47 @@ export default class Field extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentDidMount () {
+    this.addAnimation(this.animateAppear.bind(this))
+  }
+
+  animateAppear (utils) {
+    return new TimelineMax()
+      .from(utils.target, 0.3, {scale: 3, opacity: 0})
+  }
+
+  animateRemove (utils) {
+    return new TimelineMax({onComplete: () => { this.props.removeAction(this.props.index) }})
+      .to(utils.target, 1, {rotation: 360, opacity: 0})
+      .to(utils.target, 0, {opacity: 1})
+  }
+
+  animateTyping (utils) {
+    var random = Math.random() * 3
+    return new TimelineMax()
+      .to(utils.target, 0.1, {rotation: random})
+      .to(utils.target, 0.1, {rotation: -random}, 0.1)
+  }
+
   handleChange (event) {
+    this.addAnimation(this.animateTyping)
     if (this.props.element === 'textarea') {
       this.textAreaAdjust(event)
     }
     this.props.onChange(this.props.index, event.target.value)
-    this.setState({ value: event.target.value })
+    this.setState({value: event.target.value})
   }
 
   removeAction () {
-    this.props.removeAction(this.props.index)
+    this.addAnimation(this.animateRemove.bind(this))
+    // this.props.removeAction(this.props.index)
     // this.setState({ visible: false })
   }
 
   textAreaAdjust (o) {
     o.target.style.height = '1px'
     o.target.style.height = `${10 + o.target.scrollHeight}px`
+    console.log(o.target.style.height)
   }
 
   render () {
@@ -116,8 +144,18 @@ export default class Field extends Component {
 
     switch (element) {
       case 'button':
+        var buttonColor = bgColor.split('').slice(5, bgColor.split('').length - 1).join('').split(',')
+        buttonColor[2] = (parseInt(buttonColor[2]) + 10) + '%'
+        buttonColor = `hsla(${buttonColor.join(',')})`
+
+        const buttonStyle = {
+          backgroundColor: buttonColor,
+          color: color,
+          height: height,
+          fontSize: '16px'
+        }
         return (
-          <button className={className} style={style} onClick={onClick}>
+          <button className={className} style={buttonStyle} onClick={onClick}>
             {children}
             <style jsx>{styles}</style>
           </button>
@@ -125,22 +163,22 @@ export default class Field extends Component {
       case 'input': {
         return this.state.visible
           ? <li
-            style={{ width: this.props.width, margin: this.props.margin }}
-            >
-            <div className='input'>
+            style={{width: this.props.width, margin: this.props.margin}}
+          >
+            <div className='input' name='field'>
               <input
                 className={className}
                 type='text'
                 style={style}
                 value={this.props.value}
                 onChange={this.handleChange}
-                />
+              />
               {removeable
-                  ? <RemoveButton
-                    className={removeButtonClass}
-                    onClick={this.removeAction.bind(this)}
-                    />
-                  : null}
+                ? <RemoveButton
+                  className={removeButtonClass}
+                  onClick={this.removeAction.bind(this)}
+                />
+                : null}
               <style jsx>{styles}</style>
             </div>
           </li>
@@ -149,18 +187,18 @@ export default class Field extends Component {
       case 'textarea':
         return this.state.visible
           ? <li
-            style={{ width: this.props.width, margin: this.props.margin }}
-            >
+            style={{width: this.props.width, margin: this.props.margin}}
+          >
             <div className='input'>
               <textarea
                 className={className}
                 style={style}
                 value={this.props.value}
                 onChange={this.handleChange}
-                />
+              />
               {removeable
-                  ? <RemoveButton onClick={this.removeAction.bind(this)} />
-                  : null}
+                ? <RemoveButton onClick={this.removeAction.bind(this)} />
+                : null}
               <style jsx>{styles}</style>
             </div>
           </li>

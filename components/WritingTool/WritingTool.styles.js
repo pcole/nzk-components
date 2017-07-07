@@ -5,6 +5,66 @@ export default `
     margin: 0;
     max-width: 100vw;
   }
+  
+  .right {
+    float: right;
+    position: relative;
+  }
+  
+    .buttons {
+      position: absolute;
+      left: -50px;
+      z-index: 2;
+      height: 50px;
+      width: 50px;
+      border-radius: 9px 0px 0px 9px;
+      cursor: pointer;
+    }
+    
+    .buttonBackground {
+      position: absolute;
+      height: 50px;
+      width: 50px;
+      left: -50px;
+      border-radius: 9px 0px 0px 9px;
+    }
+    
+    .withTitle {
+      top: 140px;
+    }
+    
+    .withoutTitle {
+      top: 70px;
+    }
+    
+    
+    .buttons div:nth-child(n) {
+      display: block;
+      width: 40px;
+      height: 40px;
+      line-height: 50px;
+      margin-left: 6px;
+      text-align: center;
+      margin-top: 4px;
+      border-radius: 50%;
+      background: yellow;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    }
+    
+    .buttons div:nth-child(n):active {
+      box-shadow: 0 0px 0 rgba(0,0,0,0.2);
+      transform: translateY(3px);
+    }
+    
+    
+    
+    .buttons div.disabled {
+      box-sizing: border-box;
+      line-height: 42px;
+      background: rgba(0,0,0,0) !important;
+      border-width: 3px;
+      border-style: solid;
+    }
 
   .background {
     position: absolute;
@@ -12,7 +72,7 @@ export default `
     left: 0;
     height: 100vh;
     width: 100vw;
-    opacity: 0.3;
+    opacity: 1;
     z-index: -5;
   }
   
@@ -20,22 +80,20 @@ export default `
     opacity: 0.4;
     height: 60px;
     width: 100%;
-    padding-right: 140px;
-    padding-left: 20px;
+    padding-right: 0px;
+    padding-left: 40px;
     outline: none;
-    font-size: 20px;
+    font-size: 24px;
     width: auto !import;
     border: none;
     background: rgba(0,0,0,0);
+    font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
   }
-  
-  .top-border {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 10px;
-  }
+ 
   
   .title-bar:focus {
     opacity: 1;
@@ -52,7 +110,7 @@ export default `
   .left {
     display: inline-block;
     max-width: calc(100vw - 75px);
-    min-width: 440px;
+    min-width: 470px;
   }
   
   .right {
@@ -60,26 +118,75 @@ export default `
     height: 100%;
     z-index: 5;
     display: inline-block;
-  }  
+  }
   
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1280px) {
      .left {
        width: calc(100vw - 75px);
      }
      
      .right {
-       width: 75px;
+       width: 30px;
+       transform: translateX(0px);
      }
+ 
+     .right.planningExpanded {
+       width: 415px;
+     }
+     
+     .left.planningExpanded {
+       width: calc(100vw - 415px);
+     }
+
   }
   
-  @media screen and (min-width: 1025px) {
+  @media screen and (min-width: 1281px) {
      .left {
-       width: calc(100vw - 450px);
+       width: calc(100vw - 75px);
      }
      
      .right {
-       width: 450px;
+       width: 30px;
+       transform: translateX(0px);
      }
+     
+     .right.planningExpanded {
+       width: 40%;
+     }
+     
+     .left.planningExpanded {
+       width: 60%;
+     }
+     
+         
+    .buttons div:nth-child(n) {
+      display: none;
+    }
+    
+    .buttonBackground {
+      display: none;
+    }
   }
+  
+    @media screen and (max-width: 950px) {
+      .right {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      
+      .left {
+      
+      }
+      
+      .right.planningExpanded {
+      
+      }
+
+      .left.planningExpanded {
+        
+      }
+
+    }
 `
