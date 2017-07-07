@@ -132,6 +132,27 @@
 .icon-pro:before {
   content: "\74";
 }
+.icon-align-center:before {
+  content: "\4c";
+}
+.icon-align-left:before {
+  content: "\4e";
+}
+.icon-align-right:before {
+  content: "\4f";
+}
+.icon-bold:before {
+  content: "\50";
+}
+.icon-italic:before {
+  content: "\49";
+}
+.icon-underline:before {
+  content: "\4b";
+}
+.icon-picture-o:before {
+  content: "\4a";
+}
 
 /* Position adjustments */
 .icon-up:before {
