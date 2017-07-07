@@ -35,7 +35,7 @@ export default `
     height: 55px;
     background: white;
     z-index: 5;
-    line-height: 55px;
+    line-height: 63px;
     width: 100%;
   }
   
@@ -56,6 +56,7 @@ export default `
   
   .menu.toolbar-menu .button {
     margin-left: 28px;
+    font-size: 23px;
   }
   
   .editor {

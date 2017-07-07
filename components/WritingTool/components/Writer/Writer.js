@@ -45,6 +45,15 @@ const schema = {
     'heading-one': props => <h1 style={{
       fontSize: '24px'
     }}>{props.children}</h1>,
+    'align-left': props => <p style={{
+      textAlign: 'left'
+    }}>{props.children}</p>,
+    'align-center': props => <p style={{
+      textAlign: 'center'
+    }}>{props.children}</p>,
+    'align-right': props => <p style={{
+      textAlign: 'right'
+    }}>{props.children}</p>,
     'heading-two': props => <h2 {...props.attributes}>{props.children}</h2>,
     'heading-three': props => <p {...props.attributes}>{props.children}</p>
   },
@@ -143,7 +152,6 @@ export default class Writer extends React.Component {
       this.setState({mobile: true})
     }
 
-    this.focus()
   }
 
   /**
@@ -236,7 +244,6 @@ export default class Writer extends React.Component {
   }
 
   insertImage = (state, src) => {
-    console.log(src)
     return state
       .transform()
       .insertBlock({
@@ -359,10 +366,14 @@ export default class Writer extends React.Component {
             </Button>
           </div>
 
-          {this.renderMarkButton('bold', 'format_bold')}
-          {this.renderMarkButton('italic', 'format_italic')}
-          {this.renderMarkButton('underlined', 'format_underlined')}
-          {this.renderBlockButton('image', 'image')}
+          {this.renderMarkButton('bold', 'bold')}
+          {this.renderMarkButton('italic', 'italic')}
+          {this.renderMarkButton('underlined', 'underline')}
+          {this.renderBlockButton('align-left', 'align-left')}
+          {this.renderBlockButton('align-center', 'align-center')}
+          {this.renderBlockButton('align-right', 'align-right')}
+
+          {this.renderBlockButton('image', 'picture-o')}
 
           <div className='toolbar-button save'>
             <Button bgColor='white' shadow>SAVE</Button>
@@ -381,23 +392,20 @@ export default class Writer extends React.Component {
    * @param {String} icon
    * @return {Element}
    */
-  renderMarkButton = (type, icon, size = null, lineHeight = null) => {
+  renderMarkButton = (type, icon) => {
     const isActive = this.hasMark(type)
     const onMouseDown = e => this.onClickMark(e, type)
 
     return (
       <span className='button' onMouseDown={onMouseDown} data-active={isActive}>
         <span
-          className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
             color: isActive ? 'grey' : null,
-            cursor: 'pointer',
-            fontSize: size,
-            lineHeight: lineHeight
+            cursor: 'pointer'
           }}
         >
-          {icon}
+          <Icon name={icon}/>
         </span>
         <style jsx>{styles}</style>
       </span>
@@ -434,14 +442,13 @@ export default class Writer extends React.Component {
     return (
       <span className='button' onMouseDown={onMouseDown} data-active={isActive}>
         <span
-          className='material-icons'
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
             color: isActive ? 'grey' : null,
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
-          {icon}
+          <Icon name={icon}/>
         </span>
         <style jsx>{styles}</style>
       </span>
@@ -489,7 +496,6 @@ export default class Writer extends React.Component {
                 spellCheck
                 placeholder={msg}
                 schema={schema}
-                focus={this.focus.bind(this)}
                 state={this.state.state}
                 onFocus={this.onFocus.bind(this)}
                 onBlur={this.onBlur.bind(this)}
