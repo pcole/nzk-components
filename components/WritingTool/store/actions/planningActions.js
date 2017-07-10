@@ -136,3 +136,14 @@ export function fieldChanged (fieldIndex, inputIndex, newValue) {
     }
   }
 }
+
+export function strikeField (fieldIndex, inputIndex, striked) {
+  return {
+    type: 'STRIKE_FIELD',
+    payload: {
+      fieldIndex: fieldIndex,
+      inputIndex: inputIndex,
+      striked: striked
+    }
+  }
+}

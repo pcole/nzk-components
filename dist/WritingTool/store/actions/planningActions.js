@@ -14,6 +14,7 @@ exports.newField = newField;
 exports.removeInput = removeInput;
 exports.addInput = addInput;
 exports.fieldChanged = fieldChanged;
+exports.strikeField = strikeField;
 
 var _settings_en = require('../../assets/settings_en.json');
 
@@ -131,6 +132,17 @@ function fieldChanged(fieldIndex, inputIndex, newValue) {
       fieldIndex: fieldIndex,
       inputIndex: inputIndex,
       newValue: newValue
+    }
+  };
+}
+
+function strikeField(fieldIndex, inputIndex, striked) {
+  return {
+    type: 'STRIKE_FIELD',
+    payload: {
+      fieldIndex: fieldIndex,
+      inputIndex: inputIndex,
+      striked: striked
     }
   };
 }

@@ -5,6 +5,8 @@ import cn from 'classnames'
 import Icon from '../../../Icon/Icon'
 import GSAP from 'react-gsap-enhancer'
 import {TimelineMax} from 'gsap'
+import Color from 'color'
+import throttle from 'lodash/throttle'
 
 const RemoveButton = ({className, onClick}) => {
   return (
@@ -20,7 +22,7 @@ const RemoveButton = ({className, onClick}) => {
 @GSAP()
 export default class Field extends Component {
   static propTypes = {
-    bgColor: PropTypes.string,
+    bgColor: PropTypes.object,
     index: PropTypes.number,
     height: PropTypes.string,
     width: PropTypes.string,
@@ -37,11 +39,11 @@ export default class Field extends Component {
     removeAction: PropTypes.func,
     stacking: PropTypes.bool,
     margin: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    striked: PropTypes.bool
   }
 
   static defaultProps = {
-    bgColor: 'rgba(0,0,0,0.04)',
     height: '35px',
     width: '50%',
     content: '',
@@ -52,7 +54,8 @@ export default class Field extends Component {
     removeable: true,
     light: true,
     stacking: true,
-    margin: '4px'
+    margin: '4px',
+    striked: false
   }
 
   constructor (props) {
@@ -62,9 +65,13 @@ export default class Field extends Component {
       visible: true
     }
     this.handleChange = this.handleChange.bind(this)
+    this.throttledTypingAnimation = throttle(() => { this.addAnimation(this.animateTyping) }, 200)
   }
 
   componentDidMount () {
+    if (this.props.element === 'textarea') {
+      this.addAnimation(this.resizeTextarea)
+    }
     this.addAnimation(this.animateAppear.bind(this))
   }
 
@@ -80,14 +87,21 @@ export default class Field extends Component {
   }
 
   animateTyping (utils) {
-    var random = Math.random() * 3
+    var random = Math.random() * 2
     return new TimelineMax()
       .to(utils.target, 0.1, {rotation: random})
       .to(utils.target, 0.1, {rotation: -random}, 0.1)
   }
 
+  resizeTextarea ({target}) {
+    const textarea = target.find({name: 'textarea'})
+    return new TimelineMax()
+      .to(textarea, 0, {height: '1px'})
+      .to(textarea, 0, {height: `${10 + textarea[0].scrollHeight}px`})
+  }
+
   handleChange (event) {
-    this.addAnimation(this.animateTyping)
+    this.throttledTypingAnimation()
     if (this.props.element === 'textarea') {
       this.textAreaAdjust(event)
     }
@@ -102,9 +116,11 @@ export default class Field extends Component {
   }
 
   textAreaAdjust (o) {
-    o.target.style.height = '1px'
-    o.target.style.height = `${10 + o.target.scrollHeight}px`
-    console.log(o.target.style.height)
+    console.log(o.target.style.height, o.target.scrollHeight)
+
+    // o.target.style.height = '1px'
+    // o.target.style.height = `${10 + o.target.scrollHeight}px`
+    this.addAnimation(this.resizeTextarea)
   }
 
   render () {
@@ -119,21 +135,24 @@ export default class Field extends Component {
       onClick,
       removeable,
       light,
-      removeAction
+      removeAction,
+      striked
     } = this.props
 
     const style = {
       backgroundColor: bgColor,
       color: color,
       height: height,
-      fontSize: '16px'
+      fontSize: '16px',
+      overflow: 'hidden'
     }
 
     const className = cn({
       input: true,
       block: block,
       borders: borders,
-      button: element === 'button'
+      button: element === 'button',
+      striked: striked
     })
 
     const removeButtonClass = cn({
@@ -144,9 +163,7 @@ export default class Field extends Component {
 
     switch (element) {
       case 'button':
-        var buttonColor = bgColor.split('').slice(5, bgColor.split('').length - 1).join('').split(',')
-        buttonColor[2] = (parseInt(buttonColor[2]) + 10) + '%'
-        buttonColor = `hsla(${buttonColor.join(',')})`
+        var buttonColor = new Color(bgColor).fade(0.5)
 
         const buttonStyle = {
           backgroundColor: buttonColor,
@@ -187,7 +204,7 @@ export default class Field extends Component {
       case 'textarea':
         return this.state.visible
           ? <li
-            style={{width: this.props.width, margin: this.props.margin}}
+            style={{width: '100%', margin: this.props.margin}}
           >
             <div className='input'>
               <textarea
@@ -195,6 +212,7 @@ export default class Field extends Component {
                 style={style}
                 value={this.props.value}
                 onChange={this.handleChange}
+                name='textarea'
               />
               {removeable
                 ? <RemoveButton onClick={this.removeAction.bind(this)} />

@@ -146,7 +146,8 @@ var Fields = (_dec = (0, _reactRedux.connect)(function (store) {
               value: _this2.props.fields[_this2.props.index].fields[index].value,
               removeAction: _this2.removeAction.bind(_this2),
               width: _this2.props.stacking ? 'calc(' + 100 / _this2.props.nbPerRow + '% - 8px)' : '100%',
-              light: _this2.props.light
+              light: _this2.props.light,
+              striked: _this2.props.fields[_this2.props.index].fields[index].striked
             });
           }),
           overloadable ? _react2.default.createElement(
@@ -187,8 +188,8 @@ Fields.propTypes = {
   instruction: _propTypes2.default.string,
   index: _propTypes2.default.number,
   color: _propTypes2.default.string,
-  primaryColor: _propTypes2.default.string,
-  secondaryColor: _propTypes2.default.string,
+  primaryColor: _propTypes2.default.object,
+  secondaryColor: _propTypes2.default.object,
   stacking: _propTypes2.default.bool,
   elements: _propTypes2.default.string,
   nbFields: _propTypes2.default.number,
@@ -203,8 +204,6 @@ Fields.defaultProps = {
   nbPerRow: 2,
   elements: 'input',
   overloadable: true,
-  primaryColor: '#3CB6BA',
-  secondaryColor: '#A5FCFF',
   light: false
 };
 exports.default = Fields;

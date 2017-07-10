@@ -7,6 +7,8 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _dec, _class;
+
 var _style = require('styled-jsx/style');
 
 var _style2 = _interopRequireDefault(_style);
@@ -30,6 +32,20 @@ var _classnames2 = _interopRequireDefault(_classnames);
 var _Icon = require('../../../Icon/Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
+
+var _reactGsapEnhancer = require('react-gsap-enhancer');
+
+var _reactGsapEnhancer2 = _interopRequireDefault(_reactGsapEnhancer);
+
+var _gsap = require('gsap');
+
+var _color = require('color');
+
+var _color2 = _interopRequireDefault(_color);
+
+var _throttle = require('lodash/throttle');
+
+var _throttle2 = _interopRequireDefault(_throttle);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -60,7 +76,7 @@ var RemoveButton = function RemoveButton(_ref) {
   );
 };
 
-var Field = function (_Component) {
+var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (_Component) {
   _inherits(Field, _Component);
 
   function Field(props) {
@@ -73,12 +89,52 @@ var Field = function (_Component) {
       visible: true
     };
     _this.handleChange = _this.handleChange.bind(_this);
+    _this.throttledTypingAnimation = (0, _throttle2.default)(function () {
+      _this.addAnimation(_this.animateTyping);
+    }, 200);
     return _this;
   }
 
   _createClass(Field, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.element === 'textarea') {
+        this.addAnimation(this.resizeTextarea);
+      }
+      this.addAnimation(this.animateAppear.bind(this));
+    }
+  }, {
+    key: 'animateAppear',
+    value: function animateAppear(utils) {
+      return new _gsap.TimelineMax().from(utils.target, 0.3, { scale: 3, opacity: 0 });
+    }
+  }, {
+    key: 'animateRemove',
+    value: function animateRemove(utils) {
+      var _this2 = this;
+
+      return new _gsap.TimelineMax({ onComplete: function onComplete() {
+          _this2.props.removeAction(_this2.props.index);
+        } }).to(utils.target, 1, { rotation: 360, opacity: 0 }).to(utils.target, 0, { opacity: 1 });
+    }
+  }, {
+    key: 'animateTyping',
+    value: function animateTyping(utils) {
+      var random = Math.random() * 2;
+      return new _gsap.TimelineMax().to(utils.target, 0.1, { rotation: random }).to(utils.target, 0.1, { rotation: -random }, 0.1);
+    }
+  }, {
+    key: 'resizeTextarea',
+    value: function resizeTextarea(_ref2) {
+      var target = _ref2.target;
+
+      var textarea = target.find({ name: 'textarea' });
+      return new _gsap.TimelineMax().to(textarea, 0, { height: '1px' }).to(textarea, 0, { height: 10 + textarea[0].scrollHeight + 'px' });
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(event) {
+      this.throttledTypingAnimation();
       if (this.props.element === 'textarea') {
         this.textAreaAdjust(event);
       }
@@ -88,15 +144,19 @@ var Field = function (_Component) {
   }, {
     key: 'removeAction',
     value: function removeAction() {
-      this.props.removeAction(this.props.index
+      this.addAnimation(this.animateRemove.bind(this)
+      // this.props.removeAction(this.props.index)
       // this.setState({ visible: false })
       );
     }
   }, {
     key: 'textAreaAdjust',
     value: function textAreaAdjust(o) {
-      o.target.style.height = '1px';
-      o.target.style.height = 10 + o.target.scrollHeight + 'px';
+      console.log(o.target.style.height, o.target.scrollHeight
+
+      // o.target.style.height = '1px'
+      // o.target.style.height = `${10 + o.target.scrollHeight}px`
+      );this.addAnimation(this.resizeTextarea);
     }
   }, {
     key: 'render',
@@ -112,20 +172,24 @@ var Field = function (_Component) {
           onClick = _props.onClick,
           removeable = _props.removeable,
           light = _props.light,
-          removeAction = _props.removeAction;
+          removeAction = _props.removeAction,
+          striked = _props.striked;
 
 
       var style = {
         backgroundColor: bgColor,
         color: color,
-        height: height
+        height: height,
+        fontSize: '16px',
+        overflow: 'hidden'
       };
 
       var className = (0, _classnames2.default)({
         input: true,
         block: block,
         borders: borders,
-        button: element === 'button'
+        button: element === 'button',
+        striked: striked
       });
 
       var removeButtonClass = (0, _classnames2.default)({
@@ -136,9 +200,17 @@ var Field = function (_Component) {
 
       switch (element) {
         case 'button':
+          var buttonColor = new _color2.default(bgColor).fade(0.5);
+
+          var buttonStyle = {
+            backgroundColor: buttonColor,
+            color: color,
+            height: height,
+            fontSize: '16px'
+          };
           return _react2.default.createElement(
             'button',
-            { className: className, style: style, onClick: onClick, 'data-jsx-ext': _Field2.default.__scopedHash
+            { className: className, style: buttonStyle, onClick: onClick, 'data-jsx-ext': _Field2.default.__scopedHash
             },
             children,
             _react2.default.createElement(_style2.default, {
@@ -155,7 +227,7 @@ var Field = function (_Component) {
               },
               _react2.default.createElement(
                 'div',
-                { className: 'input', 'data-jsx-ext': _Field2.default.__scopedHash
+                { className: 'input', name: 'field', 'data-jsx-ext': _Field2.default.__scopedHash
                 },
                 _react2.default.createElement('input', {
                   className: className,
@@ -180,7 +252,7 @@ var Field = function (_Component) {
           return this.state.visible ? _react2.default.createElement(
             'li',
             {
-              style: { width: this.props.width, margin: this.props.margin }
+              style: { width: '100%', margin: this.props.margin }
             },
             _react2.default.createElement(
               'div',
@@ -191,6 +263,7 @@ var Field = function (_Component) {
                 style: style,
                 value: this.props.value,
                 onChange: this.handleChange,
+                name: 'textarea',
                 'data-jsx-ext': _Field2.default.__scopedHash
               }),
               removeable ? _react2.default.createElement(RemoveButton, { onClick: this.removeAction.bind(this) }) : null,
@@ -219,10 +292,9 @@ var Field = function (_Component) {
   }]);
 
   return Field;
-}(_react.Component);
-
+}(_react.Component)) || _class);
 Field.propTypes = {
-  bgColor: _propTypes2.default.string,
+  bgColor: _propTypes2.default.object,
   index: _propTypes2.default.number,
   height: _propTypes2.default.string,
   width: _propTypes2.default.string,
@@ -239,10 +311,10 @@ Field.propTypes = {
   removeAction: _propTypes2.default.func,
   stacking: _propTypes2.default.bool,
   margin: _propTypes2.default.string,
-  onChange: _propTypes2.default.func
+  onChange: _propTypes2.default.func,
+  striked: _propTypes2.default.bool
 };
 Field.defaultProps = {
-  bgColor: 'rgba(0,0,0,0.04)',
   height: '35px',
   width: '50%',
   content: '',
@@ -253,6 +325,7 @@ Field.defaultProps = {
   removeable: true,
   light: true,
   stacking: true,
-  margin: '4px'
+  margin: '4px',
+  striked: false
 };
 exports.default = Field;

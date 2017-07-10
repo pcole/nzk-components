@@ -11,9 +11,15 @@ export function textChanged (newState) {
   }
 }
 
-export function saveLocalstorage () {
+export function saveWritingLocalstorage () {
   return {
     type: 'SAVE_LOCALSTORAGE'
+  }
+}
+
+export function loadWritingLocalstorage () {
+  return {
+    type: 'LOAD_WRITING_LOCALSTORAGE'
   }
 }
 

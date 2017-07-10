@@ -114,16 +114,14 @@ WordCount.propTypes = {
   nbWords: _propTypes2.default.number,
   minNbWords: _propTypes2.default.number,
   maxNbWords: _propTypes2.default.number,
-  primaryColor: _propTypes2.default.string,
-  secondaryColor: _propTypes2.default.string,
+  primaryColor: _propTypes2.default.object,
+  secondaryColor: _propTypes2.default.object,
   light: _propTypes2.default.bool,
   barType: _propTypes2.default.oneOf(['bar', 'flag'])
 };
 WordCount.defaultProps = {
   nbWords: 0,
   minNbWords: 0,
-  primaryColor: '#34D9E0',
-  secondaryColor: '#3CB6BA',
   light: false,
   barType: 'bar'
 };

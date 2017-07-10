@@ -4,7 +4,7 @@ import styles from './Writer.styles'
 import PropTypes from 'prop-types'
 import ProgressBar from '../ProgressBar/ProgressBar'
 import {connect} from 'react-redux'
-import {textChanged, saveLocalstorage, updateProgress, updateNbWords} from '../../store/actions/writingActions'
+import {textChanged, saveWritingLocalstorage, updateProgress, updateNbWords} from '../../store/actions/writingActions'
 import Uploader from '../../../Uploader/Uploader'
 import throttle from 'lodash/throttle'
 import {FormattedMessage as T} from 'react-intl'
@@ -111,7 +111,8 @@ const schema = {
 
 @connect((store) => {
   return {
-    writing: store.writing
+    writing: store.writing,
+    needsTitle: store.planning.needsTitle
   }
 })
 export default class Writer extends React.Component {
@@ -136,14 +137,13 @@ export default class Writer extends React.Component {
   static propTypes = {
     nbWords: PropTypes.number,
     minNbWords: PropTypes.number,
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
+    primaryColor: PropTypes.object,
+    secondaryColor: PropTypes.object,
     light: PropTypes.bool
   }
 
   static defaultProps = {
     progress: 0,
-    primaryColor: '#34D9E0',
     light: false
   }
 
@@ -151,7 +151,7 @@ export default class Writer extends React.Component {
     if (/Android|iPad/i.test(navigator.userAgent)) {
       this.setState({mobile: true})
     }
-
+    this.props.dispatch({type: 'LOAD_WRITING_LOCALSTORAGE '})
   }
 
   /**
@@ -185,8 +185,14 @@ export default class Writer extends React.Component {
    */
 
   onChange = state => {
-    var count = state.document.text.split(' ').filter(w => w.length > 0).length
-    var progress = this.state.progress
+    this.setState({state: state})
+    this.props.dispatch(textChanged(state))
+    this.recordScreenHeight()
+  }
+
+  onDocumentChange = (document, state) => {
+    var count = document.text.split(' ').filter(w => w.length > 0).length
+    var progress = state.progress
     var nbWords = Math.abs(count - this.props.writing.nbWords)
 
     if (count > this.props.writing.nbWords) { // Addition
@@ -207,17 +213,14 @@ export default class Writer extends React.Component {
       }
     }
 
-    this.setState({state: state})
-    this.props.dispatch(textChanged(state))
     this.props.dispatch(updateNbWords(count))
     this.props.dispatch(updateProgress(progress))
     this.throttledSave()
-    this.recordScreenHeight()
   }
 
   save () {
     if (this.props.writing.lastSave > 3) {
-      this.props.dispatch(saveLocalstorage())
+      this.props.dispatch(saveWritingLocalstorage())
     }
   }
 
@@ -312,6 +315,13 @@ export default class Writer extends React.Component {
     this.onChange(state)
   }
 
+  handleTitleChange (e) {
+    this.props.dispatch({
+      type: 'SET_TITLE',
+      payload: e.target.value
+    })
+  }
+
   renderImagePopover () {
     return (
       <div className='popover-background' onClick={(e) => {
@@ -334,8 +344,22 @@ export default class Writer extends React.Component {
   render = () => {
     return (
       <div>
+        { this.props.needsTitle
+          ? <div>
+
+            <T id='enter_title' defaultMessage='Enter your title here'>
+              {
+                (msg) => <input className='title-bar' type='text' placeholder={msg} style={{
+                  color: this.props.light ? 'black' : 'white'
+                }} value={this.props.writing.title} onChange={this.handleTitleChange.bind(this)} />
+              }
+            </T>
+
+          </div>
+          : null }
         {this.renderToolbar()}
         {this.renderEditor()}
+        <style jsx>{styles}</style>
       </div>
     )
   }
@@ -405,7 +429,7 @@ export default class Writer extends React.Component {
             cursor: 'pointer'
           }}
         >
-          <Icon name={icon}/>
+          <Icon name={icon} />
         </span>
         <style jsx>{styles}</style>
       </span>
@@ -445,10 +469,10 @@ export default class Writer extends React.Component {
           style={{
             backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
             color: isActive ? 'grey' : null,
-            cursor: 'pointer',
+            cursor: 'pointer'
           }}
         >
-          <Icon name={icon}/>
+          <Icon name={icon} />
         </span>
         <style jsx>{styles}</style>
       </span>
@@ -500,6 +524,7 @@ export default class Writer extends React.Component {
                 onFocus={this.onFocus.bind(this)}
                 onBlur={this.onBlur.bind(this)}
                 onChange={this.onChange}
+                onDocumentChange={this.onDocumentChange}
               />
             }
           </T>

@@ -21,8 +21,8 @@ export default class Fields extends Component {
     instruction: PropTypes.string,
     index: PropTypes.number,
     color: PropTypes.string,
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
+    primaryColor: PropTypes.object,
+    secondaryColor: PropTypes.object,
     stacking: PropTypes.bool,
     elements: PropTypes.string,
     nbFields: PropTypes.number,
@@ -38,8 +38,6 @@ export default class Fields extends Component {
     nbPerRow: 2,
     elements: 'input',
     overloadable: true,
-    primaryColor: '#3CB6BA',
-    secondaryColor: '#A5FCFF',
     light: false
   }
 
@@ -120,6 +118,7 @@ export default class Fields extends Component {
                     : '100%'
                 }
                 light={this.props.light}
+                striked={this.props.fields[this.props.index].fields[index].striked}
               />
             )
           })}

@@ -93,6 +93,14 @@ export default function reducer (state = {
         lastSave: state.lastSave + 1
       }
     }
+    case 'STRIKE_FIELD': {
+      newFields = state.fields.slice()
+      newFields[action.payload.fieldIndex].fields[action.payload.inputIndex].striked = action.payload.striked
+      return {
+        ...state,
+        fields: newFields
+      }
+    }
     case 'SAVE_PLANNING_LOCALSTORAGE': {
       window.localStorage.setItem('nzk-planning', JSON.stringify(state))
       return {
@@ -102,6 +110,7 @@ export default function reducer (state = {
     }
     case 'LOAD_PLANNING_LOCALSTORAGE': {
       var newState = JSON.parse(window.localStorage.getItem('nzk-planning'))
+      console.log(newState)
       return {
         newState
       }

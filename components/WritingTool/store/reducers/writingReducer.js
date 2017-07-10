@@ -2,9 +2,12 @@
  * Created by benjaminafonso on 23/06/2017.
  */
 
+import { Raw } from 'slate'
+
 export default function reducer (
   state = {
-    state: {
+    title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
+    state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
       nodes: [
         {
           kind: 'block',
@@ -38,7 +41,11 @@ export default function reducer (
       }
     }
     case 'SAVE_LOCALSTORAGE': {
-      window.localStorage.setItem('nzk-writing', state)
+      const content = state.state
+      window.localStorage.setItem('nzk-writing', JSON.stringify({
+        ...state,
+        state: Raw.serialize(content)
+      }))
       return {
         ...state,
         lastSave: 0
@@ -74,8 +81,14 @@ export default function reducer (
         }
       }
     }
-    case 'LOAD_LOCALSTORAGE': {
-      var newState = window.localStorage.getItem('nzk-writing')
+    case 'SET_TITLE': {
+      return {
+        ...state,
+        title: action.payload
+      }
+    }
+    case 'LOAD_WRITING_LOCALSTORAGE': {
+      var newState = JSON.parse(window.localStorage.getItem('nzk-writing'))
       if (newState) {
         return newState
       } else {

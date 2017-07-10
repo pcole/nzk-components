@@ -4,7 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.textChanged = textChanged;
-exports.saveLocalstorage = saveLocalstorage;
+exports.saveWritingLocalstorage = saveWritingLocalstorage;
+exports.loadWritingLocalstorage = loadWritingLocalstorage;
 exports.updateNbWords = updateNbWords;
 exports.updateProgress = updateProgress;
 /**
@@ -20,9 +21,15 @@ function textChanged(newState) {
   };
 }
 
-function saveLocalstorage() {
+function saveWritingLocalstorage() {
   return {
     type: 'SAVE_LOCALSTORAGE'
+  };
+}
+
+function loadWritingLocalstorage() {
+  return {
+    type: 'LOAD_WRITING_LOCALSTORAGE'
   };
 }
 

@@ -23,8 +23,8 @@ export default class PlanningDrawer extends Component {
   static propTypes = {
     children: PropTypes.any,
     step: PropTypes.number,
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
+    primaryColor: PropTypes.object,
+    secondaryColor: PropTypes.object,
     light: PropTypes.bool,
     preset: PropTypes.string,
     customPreset: PropTypes.any,
@@ -33,8 +33,6 @@ export default class PlanningDrawer extends Component {
   }
 
   static defaultProps = {
-    primaryColor: '#34D9E0',
-    secondaryColor: '#158186',
     light: false
   }
 

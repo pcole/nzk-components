@@ -8,8 +8,8 @@ export default class WordCount extends Component {
     nbWords: PropTypes.number,
     minNbWords: PropTypes.number,
     maxNbWords: PropTypes.number,
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
+    primaryColor: PropTypes.object,
+    secondaryColor: PropTypes.object,
     light: PropTypes.bool,
     barType: PropTypes.oneOf(['bar', 'flag'])
   }
@@ -17,8 +17,6 @@ export default class WordCount extends Component {
   static defaultProps = {
     nbWords: 0,
     minNbWords: 0,
-    primaryColor: '#34D9E0',
-    secondaryColor: '#3CB6BA',
     light: false,
     barType: 'bar'
   }

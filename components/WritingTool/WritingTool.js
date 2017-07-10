@@ -9,13 +9,14 @@ import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
 import store from './store/store'
-import {usePreset, setInformations} from './store/actions/planningActions'
-import {IntlProvider, FormattedMessage as T} from 'react-intl'
+import {usePreset, setInformations, loadPlanningLocalstorage} from './store/actions/planningActions'
+import {IntlProvider} from 'react-intl'
 import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
 import {TimelineMax, Elastic} from 'gsap'
 import Icon from '../Icon/Icon'
 import cn from 'classnames'
+import Color from 'color'
 
 @GSAP()
 export default class WritingTool extends Component {
@@ -33,9 +34,10 @@ export default class WritingTool extends Component {
   state = {
     step: 1,
     planningExpanded: true,
-    primaryColor: 'rgba(0,0,0,0)',
-    secondaryColor: 'rgba(0,0,0,0)',
-    image: undefined
+    primaryColor: undefined,
+    secondaryColor: undefined,
+    image: undefined,
+    light: false
   }
 
   componentWillMount () {
@@ -70,36 +72,34 @@ export default class WritingTool extends Component {
         return
       }
 
-      var hsl = palette.Vibrant.getHsl()
-      hsl = hsl.map((col, index) => {
-        return index > 0 ? `${('' + (col * 100)).split('.')[0]}%` : `${('' + (col * 360)).split('.')[0]}`
-      })
+      var primaryColor = new Color(palette.Vibrant.getRgb())
+      primaryColor.fade(0.5)
 
-      hsl.push(0.85)
-
-      var color = `hsla(${hsl.join(',')})`
-      var primaryColor = color
-      var secondaryColor = hsl.slice()
-
-      var darker = true
-
-      if (darker) {
-        secondaryColor[2] = (parseInt(secondaryColor[2]) - 20) + '%'
+      var light
+      var secondaryColor = new Color(palette.Vibrant.getRgb())
+      if (primaryColor.light()) {
+        light = true
+        secondaryColor = secondaryColor.darken(0.2)
       } else {
-        secondaryColor[2] = (parseInt(secondaryColor[2]) + 20) + '%'
+        light = false
+        secondaryColor = secondaryColor.lighten(0.2)
       }
-      secondaryColor = `hsla(${secondaryColor.join(',')})`
 
       this.setState({
         primaryColor: primaryColor,
         secondaryColor: secondaryColor,
-        image: pickedImage
+        image: pickedImage,
+        light: light
       })
     })
   }
 
   componentDidMount () {
     this.getColorsFromBackground()
+
+    if (window.localStorage.getItem('nzk-planning')) {
+      loadPlanningLocalstorage(store.dispatch)
+    }
   }
 
   onResize (e) {
@@ -149,6 +149,7 @@ export default class WritingTool extends Component {
       borderColor: this.state.secondaryColor
     }
 
+    console.log(store)
     return (
       <IntlProvider locale='en'>
         <Provider store={store}>
@@ -162,23 +163,10 @@ export default class WritingTool extends Component {
             }} />
 
             <div className='column left planningExpanded' name='leftCol'>
-              { store.getState().planning.needsTitle
-                ? <div onClick={this.toggleExpand.bind(this)}>
-
-                  <T id='enter_title' defaultMessage='Enter your title here'>
-                    {
-                      (msg) => <input className='title-bar' type='text' placeholder={msg} style={{
-                        color: this.props.light ? 'black' : 'white'
-                      }} />
-                    }
-                  </T>
-
-                </div>
-                : null }
               <Writer
                 primaryColor={this.state.primaryColor}
                 secondaryColor={this.state.secondaryColor}
-                light={this.props.light}
+                light={this.state.light}
                 minNbWords={20}
               />
             </div>
@@ -197,7 +185,7 @@ export default class WritingTool extends Component {
                   <Icon
                     name={this.state.planningExpanded ? 'right' : 'left'}
                     fontSize='25px'
-                    color={this.props.light ? 'black' : 'white'}
+                    color={this.state.light ? 'black' : 'white'}
                   />
 
                 </div>
@@ -206,7 +194,7 @@ export default class WritingTool extends Component {
               <PlanningDrawer
                 primaryColor={this.state.primaryColor}
                 secondaryColor={this.state.secondaryColor}
-                light={this.props.light}
+                light={this.state.light}
               />
 
             </div>

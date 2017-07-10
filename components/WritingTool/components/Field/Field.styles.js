@@ -26,6 +26,10 @@ export default `
       border: 1px solid black;
     }
     
+    .striked {
+      text-decoration: line-through;
+    }
+    
     .button {
       box-shadow: 0px 4px 0px rgba(0,0,0,0.25);
       border-radius: 10px;
@@ -84,6 +88,8 @@ export default `
     
     textarea {
       border-radius: 5px;
+      padding-top: 10px;
+      height: auto;
     }
 
 `

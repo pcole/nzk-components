@@ -66,15 +66,12 @@ export default `
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
-    padding: 50px 0px 0 20px;
     padding-top: 30px;
-    padding-right: 40px;
+    padding-right: 60px;
     padding-left: 40px;
     min-height: 300px;
     max-width: 100%;
-    max-height: calc(100vh - 200px);
-    padding-bottom: 60px;
-    margin-bottom: 40px;
+    max-height: calc(100vh - 220px);
     overflow-y: scroll;
     color: white;
     font-size: 18px;
@@ -105,7 +102,7 @@ export default `
   
   .progressBar {
     position: fixed;
-    background: red;
+    z-index: 10;
     width: 100%;
   }
   
@@ -114,5 +111,28 @@ export default `
   }
   
   .button:active {
+  }
+  
+  .title-bar {
+    opacity: 0.4;
+    height: 60px;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 40px;
+    outline: none;
+    font-size: 24px;
+    width: auto !import;
+    border: none;
+    background: rgba(0,0,0,0);
+    font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+ 
+  
+  .title-bar:focus {
+    opacity: 1;
   }
 `

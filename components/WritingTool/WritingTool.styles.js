@@ -76,28 +76,7 @@ export default `
     z-index: -5;
   }
   
-  .title-bar {
-    opacity: 0.4;
-    height: 60px;
-    width: 100%;
-    padding-right: 0px;
-    padding-left: 40px;
-    outline: none;
-    font-size: 24px;
-    width: auto !import;
-    border: none;
-    background: rgba(0,0,0,0);
-    font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.5;
-  }
- 
-  
-  .title-bar:focus {
-    opacity: 1;
-  }
+
   
   .left-margin {
     position: absolute;
@@ -109,7 +88,7 @@ export default `
 
   .left {
     display: inline-block;
-    max-width: calc(100vw - 75px);
+    max-width: calc(100vw - 30px);
     min-width: 470px;
   }
   
@@ -123,7 +102,7 @@ export default `
 
   @media screen and (max-width: 1280px) {
      .left {
-       width: calc(100vw - 75px);
+       width: calc(100vw - 30px);
      }
      
      .right {
@@ -143,7 +122,7 @@ export default `
   
   @media screen and (min-width: 1281px) {
      .left {
-       width: calc(100vw - 75px);
+       width: calc(100vw - 30px);
      }
      
      .right {

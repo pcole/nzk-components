@@ -4,16 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+                                                                                                                                                                                                                                                                   * Created by benjaminafonso on 23/06/2017.
+                                                                                                                                                                                                                                                                   */
 
 exports.default = reducer;
-/**
- * Created by benjaminafonso on 23/06/2017.
- */
+
+var _slate = require('slate');
 
 function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    state: {
+    title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
+    state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
       nodes: [{
         kind: 'block',
         type: 'paragraph',
@@ -46,7 +48,10 @@ function reducer() {
       }
     case 'SAVE_LOCALSTORAGE':
       {
-        window.localStorage.setItem('nzk-writing', state);
+        var content = state.state;
+        window.localStorage.setItem('nzk-writing', JSON.stringify(_extends({}, state, {
+          state: _slate.Raw.serialize(content)
+        })));
         return _extends({}, state, {
           lastSave: 0
         });
@@ -79,9 +84,15 @@ function reducer() {
           })
         });
       }
-    case 'LOAD_LOCALSTORAGE':
+    case 'SET_TITLE':
       {
-        var newState = window.localStorage.getItem('nzk-writing');
+        return _extends({}, state, {
+          title: action.payload
+        });
+      }
+    case 'LOAD_WRITING_LOCALSTORAGE':
+      {
+        var newState = JSON.parse(window.localStorage.getItem('nzk-writing'));
         if (newState) {
           return newState;
         } else {

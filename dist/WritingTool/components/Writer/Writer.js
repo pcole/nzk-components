@@ -47,6 +47,14 @@ var _throttle2 = _interopRequireDefault(_throttle);
 
 var _reactIntl = require('react-intl');
 
+var _Icon = require('../../../Icon/Icon');
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
+var _Button = require('../../../Button/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -99,7 +107,36 @@ var defaultBlock = {
     'heading-one': function headingOne(props) {
       return _react2.default.createElement(
         'h1',
-        props.attributes,
+        { style: {
+            fontSize: '24px'
+          } },
+        props.children
+      );
+    },
+    'align-left': function alignLeft(props) {
+      return _react2.default.createElement(
+        'p',
+        { style: {
+            textAlign: 'left'
+          } },
+        props.children
+      );
+    },
+    'align-center': function alignCenter(props) {
+      return _react2.default.createElement(
+        'p',
+        { style: {
+            textAlign: 'center'
+          } },
+        props.children
+      );
+    },
+    'align-right': function alignRight(props) {
+      return _react2.default.createElement(
+        'p',
+        { style: {
+            textAlign: 'right'
+          } },
         props.children
       );
     },
@@ -156,13 +193,23 @@ var defaultBlock = {
     },
     underlined: {
       textDecoration: 'underline'
+    },
+    sizeOne: {
+      fontSize: '12px'
+    },
+    sizeTwo: {
+      fontSize: '17px'
+    },
+    sizeThree: {
+      fontSize: '22px'
     }
   }
 };
 
 var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   return {
-    writing: store.writing
+    writing: store.writing,
+    needsTitle: store.planning.needsTitle
   };
 }), _dec(_class = function (_React$Component) {
   _inherits(Writer, _React$Component);
@@ -195,10 +242,16 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.onChange = function (state) {
-      var count = state.document.text.split(' ').filter(function (w) {
+      _this.setState({ state: state });
+      _this.props.dispatch((0, _writingActions.textChanged)(state));
+      _this.recordScreenHeight();
+    };
+
+    _this.onDocumentChange = function (document, state) {
+      var count = document.text.split(' ').filter(function (w) {
         return w.length > 0;
       }).length;
-      var progress = _this.state.progress;
+      var progress = state.progress;
       var nbWords = Math.abs(count - _this.props.writing.nbWords);
 
       if (count > _this.props.writing.nbWords) {
@@ -221,12 +274,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         }
       }
 
-      _this.setState({ state: state });
-      _this.props.dispatch((0, _writingActions.textChanged)(state));
       _this.props.dispatch((0, _writingActions.updateNbWords)(count));
       _this.props.dispatch((0, _writingActions.updateProgress)(progress));
       _this.throttledSave();
-      _this.recordScreenHeight();
     };
 
     _this.onClickMark = function (e, type) {
@@ -234,13 +284,19 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       var state = _this.state.state;
 
 
+      var sizes = ['sizeOne', 'sizeTwo', 'sizeThree'];
+      if (sizes.indexOf(type) > -1) {
+        sizes.map(function (size) {
+          if (size !== type) {
+            state = state.transform().removeMark(size).apply();
+          }
+        });
+      }
       state = state.transform().toggleMark(type).apply();
-
       _this.setState({ state: state });
     };
 
     _this.insertImage = function (state, src) {
-      console.log(src);
       return state.transform().insertBlock({
         type: 'image',
         isVoid: true,
@@ -290,9 +346,31 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.render = function () {
       return _react2.default.createElement(
         'div',
-        null,
+        {
+          'data-jsx-ext': _Writer2.default.__scopedHash
+        },
+        _this.props.needsTitle ? _react2.default.createElement(
+          'div',
+          {
+            'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(
+            _reactIntl.FormattedMessage,
+            { id: 'enter_title', defaultMessage: 'Enter your title here' },
+            function (msg) {
+              return _react2.default.createElement('input', { className: 'title-bar', type: 'text', placeholder: msg, style: {
+                  color: _this.props.light ? 'black' : 'white'
+                }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
+              });
+            }
+          )
+        ) : null,
         _this.renderToolbar(),
-        _this.renderEditor()
+        _this.renderEditor(),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
       );
     };
 
@@ -300,21 +378,47 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       return _react2.default.createElement(
         'div',
         {
-          className: 'menu toolbar-menu',
           style: {
-            backgroundColor: _this.props.primaryColor,
             color: _this.props.light ? 'black' : 'white'
           },
           'data-jsx-ext': _Writer2.default.__scopedHash
         },
-        _this.renderMarkButton('bold', 'format_bold'),
-        _this.renderMarkButton('italic', 'format_italic'),
-        _this.renderMarkButton('underlined', 'format_underlined'),
-        _this.renderBlockButton('heading-one', 'looks_one'),
-        _this.renderBlockButton('heading-two', 'looks_two'),
-        _this.renderBlockButton('heading-three', 'looks_3'),
-        _this.renderBlockButton('bulleted-list', 'format_list_bulleted'),
-        _this.renderBlockButton('image', 'image'),
+        _react2.default.createElement(
+          'div',
+          { className: 'menu toolbar-menu',
+            style: {
+              backgroundColor: _this.props.primaryColor,
+              color: _this.props.light ? 'black' : 'white'
+            }, 'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(
+            'div',
+            { className: 'toolbar-button', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              { bgColor: 'white', shadow: true, round: true },
+              _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
+            )
+          ),
+          _this.renderMarkButton('bold', 'bold'),
+          _this.renderMarkButton('italic', 'italic'),
+          _this.renderMarkButton('underlined', 'underline'),
+          _this.renderBlockButton('align-left', 'align-left'),
+          _this.renderBlockButton('align-center', 'align-center'),
+          _this.renderBlockButton('align-right', 'align-right'),
+          _this.renderBlockButton('image', 'picture-o'),
+          _react2.default.createElement(
+            'div',
+            { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              { bgColor: 'white', shadow: true },
+              'SAVE'
+            )
+          )
+        ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
           css: _Writer2.default.__scoped
@@ -335,7 +439,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         _react2.default.createElement(
           'span',
           {
-            className: 'material-icons',
             style: {
               backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
               color: isActive ? 'grey' : null,
@@ -343,7 +446,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          icon
+          _react2.default.createElement(_Icon2.default, { name: icon })
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -365,7 +468,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         _react2.default.createElement(
           'span',
           {
-            className: 'material-icons',
             style: {
               backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
               color: isActive ? 'grey' : null,
@@ -373,7 +475,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          icon
+          _react2.default.createElement(_Icon2.default, { name: icon })
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -389,7 +491,10 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         },
         _react2.default.createElement(
           'div',
-          { className: 'editor', 'data-jsx-ext': _Writer2.default.__scopedHash
+          { className: 'editor', style: {
+              background: 'linear-gradient(to bottom,\n            ' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0%, rgba(0,0,0,0) 100%)',
+              color: _this.props.light ? 'black' : 'white'
+            }, 'data-jsx-ext': _Writer2.default.__scopedHash
           },
           _react2.default.createElement(
             _reactIntl.FormattedMessage,
@@ -402,20 +507,26 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
                 state: _this.state.state,
                 onFocus: _this.onFocus.bind(_this),
                 onBlur: _this.onBlur.bind(_this),
-                onChange: _this.onChange
+                onChange: _this.onChange,
+                onDocumentChange: _this.onDocumentChange
               });
             }
           ),
           _this.state.imagePopoverDisplayed ? _this.renderImagePopover() : null,
-          _react2.default.createElement(_ProgressBar2.default, {
-            nbWords: _this.props.writing.nbWords,
-            minNbWords: _this.props.writing.constraints.minNbWords,
-            maxNbWords: _this.props.writing.constraints.maxNbWords,
-            progress: _this.props.writing.progress,
-            primaryColor: _this.props.primaryColor,
-            secondaryColor: _this.props.secondaryColor,
-            light: _this.props.light
-          })
+          _react2.default.createElement(
+            'div',
+            { className: 'progressBar', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(_ProgressBar2.default, {
+              nbWords: _this.props.writing.nbWords,
+              minNbWords: _this.props.writing.constraints.minNbWords,
+              maxNbWords: _this.props.writing.constraints.maxNbWords,
+              progress: _this.props.writing.progress,
+              primaryColor: _this.props.primaryColor,
+              secondaryColor: _this.props.secondaryColor,
+              light: _this.props.light
+            })
+          )
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -441,6 +552,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       if (/Android|iPad/i.test(navigator.userAgent)) {
         this.setState({ mobile: true });
       }
+      this.props.dispatch({ type: 'LOAD_WRITING_LOCALSTORAGE ' });
     }
 
     /**
@@ -467,7 +579,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     key: 'save',
     value: function save() {
       if (this.props.writing.lastSave > 3) {
-        this.props.dispatch((0, _writingActions.saveLocalstorage)());
+        this.props.dispatch((0, _writingActions.saveWritingLocalstorage)());
       }
     }
 
@@ -504,6 +616,14 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
 
       state = this.insertImage(state, url);
       this.onChange(state);
+    }
+  }, {
+    key: 'handleTitleChange',
+    value: function handleTitleChange(e) {
+      this.props.dispatch({
+        type: 'SET_TITLE',
+        payload: e.target.value
+      });
     }
   }, {
     key: 'renderImagePopover',
@@ -585,15 +705,18 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         a.style.maxHeight = parseInt(window.innerHeight) - 370 + 'px';
       }
 
-      setTimeout(function () {
-        a.scrollTop = a.scrollHeight;
-      }, 100);
+      /* setTimeout(() => {
+       a.scrollTop = a.scrollHeight
+       }, 100) */
     }
   }, {
     key: 'onKeyDown',
     value: function onKeyDown() {
       this.recordScreenHeight();
     }
+  }, {
+    key: 'focus',
+    value: function focus() {}
 
     /**
      * Render the Slate editor.
@@ -608,13 +731,12 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
 Writer.propTypes = {
   nbWords: _propTypes2.default.number,
   minNbWords: _propTypes2.default.number,
-  primaryColor: _propTypes2.default.string,
-  secondaryColor: _propTypes2.default.string,
+  primaryColor: _propTypes2.default.object,
+  secondaryColor: _propTypes2.default.object,
   light: _propTypes2.default.bool
 };
 Writer.defaultProps = {
   progress: 0,
-  primaryColor: '#34D9E0',
   light: false
 };
 exports.default = Writer;
