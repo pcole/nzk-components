@@ -118,13 +118,32 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 
       var images = ['/assets/angry-alligator-creek-back.jpg', '/assets/arctic-wanderlust-back.jpg', '/assets/doomed-sea-back.jpg', '/assets/lava-tunnel-back.jpg', '/assets/lesson-hive.jpg', '/assets/temple.jpg', '/assets/welcome-bg.jpg', '/assets/what-why-where-woods-back.jpg', '/assets/ac7ywy8tv3qf3quimykx.jpg', '/assets/aa7ellrkrwfyljjnryne.jpg', '/assets/papbnwocavrkia6fai0n.jpg', '/assets/hhzgyh7bgdbhtbu8rpzs.jpg', '/assets/fqutf1jckgysqaivhgpq.jpg'];
       var pickedImage = images[Math.floor(Math.random() * (images.length - 1))];
+
+      // CACHED BACKGROUND COLORS
+      /* if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
+        var cached = JSON.parse(window.localStorage.getItem(`nzk-bg-${pickedImage}`))
+         var secondaryColor = new Color(cached.primaryColor.color)
+        if (cached.light) {
+          secondaryColor = secondaryColor.darken(0.2)
+        } else {
+          secondaryColor = secondaryColor.lighten(0.2)
+        }
+         this.setState({
+          primaryColor: new Color(cached.primaryColor.color),
+          secondaryColor: secondaryColor,
+          image: cached.image,
+          light: cached.light
+        })
+        return
+      } */
+
+      // NOT CACHED BACKGROUND COLORS
       Vibrant.from(pickedImage).getPalette(function (err, palette) {
         if (err) {
           return;
         }
 
         var primaryColor = new _color2.default(palette.Vibrant.getRgb());
-        primaryColor.fade(0.5);
 
         var light;
         var secondaryColor = new _color2.default(palette.Vibrant.getRgb());
@@ -142,6 +161,13 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
           image: pickedImage,
           light: light
         });
+
+        window.localStorage.setItem('nzk-bg-' + pickedImage, JSON.stringify({
+          primaryColor: primaryColor,
+          secondaryColor: secondaryColor,
+          image: pickedImage,
+          light: light
+        }));
       });
     }
   }, {
@@ -152,6 +178,10 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       if (window.localStorage.getItem('nzk-planning')) {
         (0, _planningActions.loadPlanningLocalstorage)(_store2.default.dispatch);
       }
+
+      document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      });
     }
   }, {
     key: 'onResize',
@@ -201,7 +231,6 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         borderColor: this.state.secondaryColor
       };
 
-      console.log(_store2.default);
       return _react2.default.createElement(
         _reactIntl.IntlProvider,
         { locale: 'en' },

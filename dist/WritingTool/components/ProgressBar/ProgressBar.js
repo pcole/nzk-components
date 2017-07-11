@@ -35,16 +35,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var WordCount = function (_Component) {
-  _inherits(WordCount, _Component);
+var ProgressBar = function (_Component) {
+  _inherits(ProgressBar, _Component);
 
-  function WordCount() {
-    _classCallCheck(this, WordCount);
+  function ProgressBar() {
+    _classCallCheck(this, ProgressBar);
 
-    return _possibleConstructorReturn(this, (WordCount.__proto__ || Object.getPrototypeOf(WordCount)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ProgressBar.__proto__ || Object.getPrototypeOf(ProgressBar)).apply(this, arguments));
   }
 
-  _createClass(WordCount, [{
+  _createClass(ProgressBar, [{
     key: 'render',
     value: function render() {
       var minBarClassNames = (0, _classnames2.default)({
@@ -107,10 +107,10 @@ var WordCount = function (_Component) {
     }
   }]);
 
-  return WordCount;
+  return ProgressBar;
 }(_react.Component);
 
-WordCount.propTypes = {
+ProgressBar.propTypes = {
   nbWords: _propTypes2.default.number,
   minNbWords: _propTypes2.default.number,
   maxNbWords: _propTypes2.default.number,
@@ -119,10 +119,10 @@ WordCount.propTypes = {
   light: _propTypes2.default.bool,
   barType: _propTypes2.default.oneOf(['bar', 'flag'])
 };
-WordCount.defaultProps = {
+ProgressBar.defaultProps = {
   nbWords: 0,
   minNbWords: 0,
   light: false,
   barType: 'bar'
 };
-exports.default = WordCount;
+exports.default = ProgressBar;

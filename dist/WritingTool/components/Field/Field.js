@@ -152,11 +152,10 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
   }, {
     key: 'textAreaAdjust',
     value: function textAreaAdjust(o) {
-      console.log(o.target.style.height, o.target.scrollHeight
 
       // o.target.style.height = '1px'
       // o.target.style.height = `${10 + o.target.scrollHeight}px`
-      );this.addAnimation(this.resizeTextarea);
+      this.addAnimation(this.resizeTextarea);
     }
   }, {
     key: 'render',

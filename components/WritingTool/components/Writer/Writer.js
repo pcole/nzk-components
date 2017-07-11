@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import {Editor, Block, Raw} from 'slate'
 import styles from './Writer.styles'
 import PropTypes from 'prop-types'
@@ -156,6 +155,17 @@ export default class Writer extends React.Component {
       this.setState({mobile: true})
     }
 
+    document.addEventListener('touchmove', '.editor', function (e) {
+      if (e.currentTarget.scrollTop === 0) {
+        e.currentTarget.scrollTop = 1
+      } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
+        e.currentTarget.scrollTop = -1
+      }
+    })
+
+    document.getElementsByClassName('editor')[0].addEventListener('touchmove', function(e) {
+      e.stopPropagation()
+    })
   }
 
   /**

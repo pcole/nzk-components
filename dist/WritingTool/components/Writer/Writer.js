@@ -7,7 +7,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _class;
+var _dec, _dec2, _class;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -54,6 +54,12 @@ var _Icon2 = _interopRequireDefault(_Icon);
 var _Button = require('../../../Button/Button');
 
 var _Button2 = _interopRequireDefault(_Button);
+
+var _reactGsapEnhancer = require('react-gsap-enhancer');
+
+var _reactGsapEnhancer2 = _interopRequireDefault(_reactGsapEnhancer);
+
+var _gsap = require('gsap');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -211,7 +217,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     writing: store.writing,
     needsTitle: store.planning.needsTitle
   };
-}), _dec(_class = function (_React$Component) {
+}), _dec2 = (0, _reactGsapEnhancer2.default)(), _dec(_class = _dec2(_class = function (_React$Component) {
   _inherits(Writer, _React$Component);
 
   /**
@@ -359,7 +365,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             { id: 'enter_title', defaultMessage: 'Enter your title here' },
             function (msg) {
               return _react2.default.createElement('input', { className: 'title-bar', type: 'text', placeholder: msg, style: {
-                  color: _this.props.light ? 'black' : 'white'
+                  color: _this.props.light ? 'black' : 'white',
+                  background: '' + (_this.props.light ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)')
                 }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
               });
             }
@@ -492,9 +499,10 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         _react2.default.createElement(
           'div',
           { className: 'editor', style: {
-              background: 'linear-gradient(to bottom,\n            ' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0%, rgba(0,0,0,0) 100%)',
+              background: '' + (_this.props.light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'),
+              boxShadow: '22px 62px 170px 100px ' + (_this.props.light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'),
               color: _this.props.light ? 'black' : 'white'
-            }, 'data-jsx-ext': _Writer2.default.__scopedHash
+            }, onClick: _this.focusEditor.bind(_this), name: 'editor', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
           _react2.default.createElement(
             _reactIntl.FormattedMessage,
@@ -508,7 +516,10 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
                 onFocus: _this.onFocus.bind(_this),
                 onBlur: _this.onBlur.bind(_this),
                 onChange: _this.onChange,
-                onDocumentChange: _this.onDocumentChange
+                onDocumentChange: _this.onDocumentChange,
+                style: {
+                  height: '100%'
+                }
               });
             }
           ),
@@ -552,7 +563,18 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       if (/Android|iPad/i.test(navigator.userAgent)) {
         this.setState({ mobile: true });
       }
-      this.props.dispatch({ type: 'LOAD_WRITING_LOCALSTORAGE ' });
+
+      document.addEventListener('touchmove', '.editor', function (e) {
+        if (e.currentTarget.scrollTop === 0) {
+          e.currentTarget.scrollTop = 1;
+        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
+          e.currentTarget.scrollTop = -1;
+        }
+      });
+
+      document.getElementsByClassName('editor')[0].addEventListener('touchmove', function (e) {
+        e.stopPropagation();
+      });
     }
 
     /**
@@ -575,6 +597,13 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
      * @param {State} state
      */
 
+  }, {
+    key: 'focusEditor',
+    value: function focusEditor() {
+      var state = this.state.state.transform().focus().apply();
+
+      this.setState({ state: state });
+    }
   }, {
     key: 'save',
     value: function save() {
@@ -671,20 +700,29 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
      */
 
   }, {
+    key: 'resizeEditorAnimation',
+    value: function resizeEditorAnimation(_ref) {
+      var target = _ref.target;
+
+      var editor = target.find({ name: 'editor' });
+      return new _gsap.TimelineMax().to(editor, 1, { height: '40px', maxHeight: '100px' });
+    }
+  }, {
     key: 'onFocus',
     value: function onFocus() {
-      this.setState({ focus: true }
-      /* if (this.state.mobile) {
-       var a = document.getElementsByClassName('editor')[0]
-       a.style.maxHeight =
-       parseInt(
-       window.innerHeight
-       .split('')
-       .splice(window.innerHeight.split('').length - 3, 2)
-       .join('')
-       ) - this.virtualKeyboardHeight()
-       } */
-      );
+      this.setState({ focus: true });
+      if (this.state.mobile) {
+        var a = document.getElementsByClassName('editor')[0];
+        a.style.maxHeight = '150px';
+        a.style.minHeight = '150px';
+        a.style.height = '150px';
+        //this.addAnimation(this.resizeEditorAnimation)
+      }
+    }
+  }, {
+    key: 'virtualKeyboardHeight',
+    value: function virtualKeyboardHeight() {
+      return 700;
     }
   }, {
     key: 'onBlur',
@@ -727,7 +765,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }]);
 
   return Writer;
-}(_react2.default.Component)) || _class);
+}(_react2.default.Component)) || _class) || _class);
 Writer.propTypes = {
   nbWords: _propTypes2.default.number,
   minNbWords: _propTypes2.default.number,

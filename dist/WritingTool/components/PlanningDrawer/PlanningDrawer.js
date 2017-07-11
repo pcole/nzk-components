@@ -78,7 +78,20 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
 
   _createClass(PlanningDrawer, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+
+      document.addEventListener('touchmove', '.drawer', function (e) {
+        if (e.currentTarget.scrollTop === 0) {
+          e.currentTarget.scrollTop = 1;
+        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
+          e.currentTarget.scrollTop = -1;
+        }
+      });
+
+      document.getElementsByClassName('drawer')[0].addEventListener('touchmove', function (e) {
+        e.stopPropagation();
+      });
+    }
   }, {
     key: 'nextStep',
     value: function nextStep() {

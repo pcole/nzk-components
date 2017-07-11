@@ -129,6 +129,10 @@ export default class WritingTool extends Component {
     if (window.localStorage.getItem('nzk-planning')) {
       loadPlanningLocalstorage(store.dispatch)
     }
+
+    document.addEventListener('touchmove', function (e) {
+      e.preventDefault()
+    })
   }
 
   onResize (e) {
