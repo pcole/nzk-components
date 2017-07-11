@@ -565,14 +565,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       }
 
       document.getElementsByClassName('editor')[0].addEventListener('touchmove', function (e) {
-        if (e.currentTarget.scrollTop === 0) {
-          e.currentTarget.scrollTop = 1;
-        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
-          e.currentTarget.scrollTop = -1;
-        }
-      });
-
-      document.getElementsByClassName('editor')[0].addEventListener('touchmove', function (e) {
         e.stopPropagation();
       });
     }
@@ -732,6 +724,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       if (this.state.mobile) {
         var a = document.getElementsByClassName('editor')[0];
         a.style.maxHeight = '100%';
+        a.style.minHeight = '100%';
+        a.style.height = '100%';
       }
     }
   }, {
