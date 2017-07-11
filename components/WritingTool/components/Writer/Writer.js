@@ -155,7 +155,7 @@ export default class Writer extends React.Component {
       this.setState({mobile: true})
     }
 
-    document.addEventListener('touchmove', '.editor', function (e) {
+    document.getElementsByClassName('editor')[0].addEventListener('touchmove', function (e) {
       if (e.currentTarget.scrollTop === 0) {
         e.currentTarget.scrollTop = 1
       } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {

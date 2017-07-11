@@ -32,6 +32,11 @@ export default `
       width: calc(100% - 60px);
       overflow-y: scroll;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .drawer * {
+        -webkit-transform: translate3d(0,0,0);
     }
     
     .story-desc {

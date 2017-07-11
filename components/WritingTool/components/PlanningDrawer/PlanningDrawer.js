@@ -46,11 +46,17 @@ export default class PlanningDrawer extends Component {
 
   componentDidMount () {
 
-    document.addEventListener('touchmove', '.drawer', function (e) {
-      if (e.currentTarget.scrollTop === 0) {
-        e.currentTarget.scrollTop = 1
-      } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
-        e.currentTarget.scrollTop = -1
+    var scrolling = false
+    document.getElementsByClassName('drawer')[0].addEventListener('touchstart', function (e) {
+      // Only execute the below code once at a time
+      if (!scrolling) {
+        scrolling = true
+        if (e.currentTarget.scrollTop === 0) {
+          e.currentTarget.scrollTop = 1
+        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
+          e.currentTarget.scrollTop -= 1
+        }
+        scrolling = false
       }
     })
 
