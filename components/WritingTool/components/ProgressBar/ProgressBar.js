@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './ProgressBar.styles'
 import cn from 'classnames'
 
-export default class WordCount extends Component {
+export default class ProgressBar extends Component {
   static propTypes = {
     nbWords: PropTypes.number,
     minNbWords: PropTypes.number,

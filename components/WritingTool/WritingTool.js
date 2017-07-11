@@ -24,11 +24,11 @@ export default class WritingTool extends Component {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
     light: PropTypes.bool,
-    backgroundImageUrl: PropTypes.string,
+    backgroundImageUrl: PropTypes.string
   }
 
   static defaultProps = {
-    backgroundImageUrl: '/assets/welcome-bg.jpg',
+    backgroundImageUrl: '/assets/welcome-bg.jpg'
   }
 
   state = {
@@ -37,10 +37,10 @@ export default class WritingTool extends Component {
     primaryColor: undefined,
     secondaryColor: undefined,
     image: undefined,
-    light: false,
+    light: false
   }
 
-  componentWillMount() {
+  componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
       usePreset(store.dispatch, 'story')
       store.dispatch(setInformations('https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
@@ -50,7 +50,7 @@ export default class WritingTool extends Component {
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
-  getColorsFromBackground() {
+  getColorsFromBackground () {
     const images = [
       '/assets/angry-alligator-creek-back.jpg',
       '/assets/arctic-wanderlust-back.jpg',
@@ -64,11 +64,12 @@ export default class WritingTool extends Component {
       '/assets/aa7ellrkrwfyljjnryne.jpg',
       '/assets/papbnwocavrkia6fai0n.jpg',
       '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
-      '/assets/fqutf1jckgysqaivhgpq.jpg',
+      '/assets/fqutf1jckgysqaivhgpq.jpg'
     ]
     var pickedImage = images[Math.floor(Math.random() * (images.length - 1))]
-    
-    if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
+
+    // CACHED BACKGROUND COLORS
+    /* if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
       var cached = JSON.parse(window.localStorage.getItem(`nzk-bg-${pickedImage}`))
 
       var secondaryColor = new Color(cached.primaryColor.color)
@@ -85,14 +86,16 @@ export default class WritingTool extends Component {
         light: cached.light
       })
       return
-    }
+    } */
+
+    // NOT CACHED BACKGROUND COLORS
     Vibrant.from(pickedImage).getPalette((err, palette) => {
       if (err) {
         return
       }
 
+
       var primaryColor = new Color(palette.Vibrant.getRgb())
-      primaryColor.fade(0.5)
 
       var light
       var secondaryColor = new Color(palette.Vibrant.getRgb())
@@ -108,19 +111,19 @@ export default class WritingTool extends Component {
         primaryColor: primaryColor,
         secondaryColor: secondaryColor,
         image: pickedImage,
-        light: light,
+        light: light
       })
 
       window.localStorage.setItem(`nzk-bg-${pickedImage}`, JSON.stringify({
         primaryColor: primaryColor,
         secondaryColor: secondaryColor,
         image: pickedImage,
-        light: light,
+        light: light
       }))
     })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.getColorsFromBackground()
 
     if (window.localStorage.getItem('nzk-planning')) {
@@ -128,14 +131,14 @@ export default class WritingTool extends Component {
     }
   }
 
-  onResize(e) {
+  onResize (e) {
     if (e.target.window.innerWidth > 1280) {
       this.setState({planningExpanded: true})
       this.addAnimation(this.expandDrawerAnimation.bind(this))
     }
   }
 
-  expandDrawerAnimation({target}) {
+  expandDrawerAnimation ({target}) {
     var left = target.find({name: 'leftCol'})
     var right = target.find({name: 'rightCol'})
 
@@ -152,27 +155,27 @@ export default class WritingTool extends Component {
     }
   }
 
-  toggleExpand() {
+  toggleExpand () {
     this.addAnimation(this.expandDrawerAnimation.bind(this))
     this.setState({planningExpanded: !this.state.planningExpanded})
   }
 
-  render() {
+  render () {
     var buttonsClassNames = cn({
       withTitle: store.getState().planning.needsTitle,
       withoutTitle: !store.getState().planning.needsTitle,
-      buttons: true,
+      buttons: true
     })
 
     var buttonBackgroundClassNames = cn({
       withTitle: store.getState().planning.needsTitle,
       withoutTitle: !store.getState().planning.needsTitle,
-      buttonBackground: true,
+      buttonBackground: true
     })
 
     const buttonsStyle = {
       backgroundColor: this.state.secondaryColor,
-      borderColor: this.state.secondaryColor,
+      borderColor: this.state.secondaryColor
     }
 
     return (
@@ -184,8 +187,8 @@ export default class WritingTool extends Component {
             <div className='background' style={{
               backgroundPosition: 'center',
               backgroundSize: 'cover',
-              backgroundImage: 'url("' + this.state.image + '")',
-            }}/>
+              backgroundImage: 'url("' + this.state.image + '")'
+            }} />
 
             <div className='column left planningExpanded' name='leftCol'>
               <Writer
@@ -199,8 +202,8 @@ export default class WritingTool extends Component {
             <div className='column right planningExpanded' name='rightCol'>
 
               <div className={buttonBackgroundClassNames} style={{
-                backgroundColor: this.state.primaryColor,
-              }}/>
+                backgroundColor: this.state.primaryColor
+              }} />
 
               <div className={buttonsClassNames}>
                 <div

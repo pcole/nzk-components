@@ -70,11 +70,12 @@ export default `
     padding-right: 60px;
     padding-left: 40px;
     min-height: 300px;
-    max-width: 100%;
+    max-width: 800px;
     max-height: calc(100vh - 220px);
     overflow-y: scroll;
     color: white;
     font-size: 18px;
+    margin: auto auto;
   }
   
   .popover-background {
@@ -114,7 +115,7 @@ export default `
   }
   
   .title-bar {
-    opacity: 0.4;
+    opacity: 1;
     height: 60px;
     width: 100%;
     padding-right: 0px;
@@ -122,8 +123,8 @@ export default `
     outline: none;
     font-size: 24px;
     width: auto !import;
+    background: transparent;
     border: none;
-    background: rgba(0,0,0,0);
     font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
     -webkit-font-smoothing: antialiased;

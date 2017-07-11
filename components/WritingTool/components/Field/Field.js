@@ -116,7 +116,6 @@ export default class Field extends Component {
   }
 
   textAreaAdjust (o) {
-    console.log(o.target.style.height, o.target.scrollHeight)
 
     // o.target.style.height = '1px'
     // o.target.style.height = `${10 + o.target.scrollHeight}px`
