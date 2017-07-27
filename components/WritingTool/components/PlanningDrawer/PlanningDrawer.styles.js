@@ -67,7 +67,6 @@ export default `
       width: 40%;
       height: 100%;
       max-width: 300px;
-      background-color: black;
       background-size: cover;
       background-repeat: no-repeat;
     }
