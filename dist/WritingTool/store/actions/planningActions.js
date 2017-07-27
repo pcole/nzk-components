@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.usePreset = usePreset;
+exports.useCustomPreset = useCustomPreset;
 exports.setWritingType = setWritingType;
 exports.setInformations = setInformations;
 exports.savePlanningLocalStorage = savePlanningLocalStorage;
@@ -37,6 +38,33 @@ function usePreset(dispatch, preset) {
       })));
     });
   }
+}
+
+/**
+ * Preset:
+ * - title: string (Plan your ${title})
+ * - icon: base64 icon
+ * - needsTitle: boolean
+ * - fields
+ *   - title: string (The question above the inputs)
+ *   - type: ['input','textarea'] (The type of fields to render)
+ *   - numberOfFields: number
+ *   - numberPerRow: number
+ *   - overloadable: boolean
+ *   - removeable: boolean
+ *   - fields: string[] (The values of the inputs :: fields.length === numberOfFields)
+ *
+ *
+ * @param dispatch
+ * @param preset
+ */
+function useCustomPreset(dispatch, preset) {
+  dispatch(setWritingType(preset.title, preset.icon, preset.needsTitle));
+  preset.fields.map(function (field) {
+    return dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, field.fields.map(function (field, index) {
+      return { index: index, value: field };
+    })));
+  });
 }
 
 function setWritingType(title) {

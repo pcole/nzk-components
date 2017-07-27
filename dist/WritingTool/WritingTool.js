@@ -109,7 +109,13 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     key: 'componentWillMount',
     value: function componentWillMount() {
       if (!(_store2.default.getState().planning.fields.length > 0)) {
-        (0, _planningActions.usePreset)(_store2.default.dispatch, this.props.type);
+
+        if (this.props.type === 'custom' || this.props.customType) {
+          (0, _planningActions.useCustomPreset)(_store2.default.dispatch, this.props.customType);
+        } else {
+          (0, _planningActions.usePreset)(_store2.default.dispatch, this.props.type);
+        }
+
         _store2.default.dispatch((0, _planningActions.setInformations)(this.props.writingImage, this.props.writingDescription));
       }
 
@@ -348,7 +354,21 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 WritingTool.propTypes = {
   image: _propTypes2.default.string,
   planning: _propTypes2.default.any,
-  type: _propTypes2.default.oneOf('story', 'poetry', 'explanation', 'instructions', 'opinion', 'news', 'letter', 'diary', 'playscript', 'recount', 'biography', 'report, freewrite'),
+  type: _propTypes2.default.oneOf('story', 'poetry', 'explanation', 'instructions', 'opinion', 'news', 'letter', 'diary', 'playscript', 'recount', 'biography', 'report, freewrite', 'custom'),
+  customType: _propTypes2.default.shape({
+    title: _propTypes2.default.string,
+    icon: _propTypes2.default.string,
+    needsTitle: _propTypes2.default.bool,
+    fields: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+      title: _propTypes2.default.string,
+      type: _propTypes2.default.oneOf('input', 'textarea'),
+      numberOfFields: _propTypes2.default.number,
+      numberPerRow: _propTypes2.default.number,
+      overloadable: _propTypes2.default.bool,
+      removeable: _propTypes2.default.bool,
+      fields: _propTypes2.default.arrayOf(_propTypes2.default.string)
+    }))
+  }),
   writingImage: _propTypes2.default.string,
   writingDescription: _propTypes2.default.string,
   backCallback: _propTypes2.default.func

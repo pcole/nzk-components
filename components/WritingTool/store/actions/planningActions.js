@@ -27,6 +27,43 @@ export function usePreset (dispatch, preset) {
   }
 }
 
+/**
+ * Preset:
+ * - title: string (Plan your ${title})
+ * - icon: base64 icon
+ * - needsTitle: boolean
+ * - fields
+ *   - title: string (The question above the inputs)
+ *   - type: ['input','textarea'] (The type of fields to render)
+ *   - numberOfFields: number
+ *   - numberPerRow: number
+ *   - overloadable: boolean
+ *   - removeable: boolean
+ *   - fields: string[] (The values of the inputs :: fields.length === numberOfFields)
+ *
+ *
+ * @param dispatch
+ * @param preset
+ */
+export function useCustomPreset (dispatch, preset) {
+  dispatch(setWritingType(preset.title, preset.icon, preset.needsTitle))
+  preset.fields.map(field => {
+    return dispatch(
+      newField(
+        field.title,
+        field.type,
+        field.numberOfFields,
+        field.numberPerRow,
+        field.overloadable,
+        field.removeable,
+        field.fields.map((field, index) => {
+          return {index: index, value: field}
+        })
+      )
+    )
+  })
+}
+
 export function setWritingType (title, icon = '', needsTitle = true) {
   return {
     type: 'SET_WRITING_TYPE',
@@ -86,12 +123,12 @@ export function loadPlanning (dispatch, planning) {
 }
 
 export function newField (title,
-                         type,
-                         nbFields,
-                         nbFieldsPerRow,
-                         overloadable,
-                         removeable,
-                         fields) {
+                          type,
+                          nbFields,
+                          nbFieldsPerRow,
+                          overloadable,
+                          removeable,
+                          fields) {
   return {
     type: 'NEW_FIELD',
     payload: {

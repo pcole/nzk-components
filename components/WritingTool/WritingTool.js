@@ -9,7 +9,7 @@ import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
 import store from './store/store'
-import {usePreset, setInformations, loadPlanningLocalstorage} from './store/actions/planningActions'
+import {usePreset, setInformations, loadPlanningLocalstorage, useCustomPreset} from './store/actions/planningActions'
 import {IntlProvider} from 'react-intl'
 import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
@@ -26,7 +26,21 @@ export default class WritingTool extends Component {
     planning: PropTypes.any,
     type: PropTypes.oneOf('story', 'poetry', 'explanation',
       'instructions', 'opinion', 'news', 'letter', 'diary',
-      'playscript', 'recount', 'biography', 'report, freewrite'),
+      'playscript', 'recount', 'biography', 'report, freewrite', 'custom'),
+    customType: PropTypes.shape({
+      title: PropTypes.string,
+      icon: PropTypes.string,
+      needsTitle: PropTypes.bool,
+      fields: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string,
+        type: PropTypes.oneOf('input', 'textarea'),
+        numberOfFields: PropTypes.number,
+        numberPerRow: PropTypes.number,
+        overloadable: PropTypes.bool,
+        removeable: PropTypes.bool,
+        fields: PropTypes.arrayOf(PropTypes.string)
+      }))
+    }),
     writingImage: PropTypes.string,
     writingDescription: PropTypes.string,
     backCallback: PropTypes.func
@@ -48,7 +62,13 @@ export default class WritingTool extends Component {
 
   componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
-      usePreset(store.dispatch, this.props.type)
+
+      if (this.props.type === 'custom' || this.props.customType) {
+        useCustomPreset(store.dispatch, this.props.customType)
+      } else {
+        usePreset(store.dispatch, this.props.type)
+      }
+
       store.dispatch(setInformations(this.props.writingImage,
         this.props.writingDescription))
     }
@@ -155,14 +175,14 @@ export default class WritingTool extends Component {
 
     if (!this.state.planningExpanded) {
       return new TimelineMax()
-        .to(left, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
-        .to(right, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
+      .to(left, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
+      .to(right, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
     } else {
       return new TimelineMax()
-        .to(left, 0, {position: 'absolute'}, 0)
-        .to(left, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
-        .to(right, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
-        .to(left, 0, {position: 'relative'}, 1.5)
+      .to(left, 0, {position: 'absolute'}, 0)
+      .to(left, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
+      .to(right, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
+      .to(left, 0, {position: 'relative'}, 1.5)
     }
   }
 
@@ -204,7 +224,7 @@ export default class WritingTool extends Component {
               backgroundPosition: 'center',
               backgroundSize: 'cover',
               backgroundImage: 'url("' + this.state.image + '")'
-            }} />
+            }}/>
 
             <div className='column left planningExpanded' name='leftCol'>
               <Writer
@@ -221,7 +241,7 @@ export default class WritingTool extends Component {
 
               <div className={buttonBackgroundClassNames} style={{
                 backgroundColor: this.state.primaryColor
-              }} />
+              }}/>
 
               <div className={buttonsClassNames}>
                 <div
