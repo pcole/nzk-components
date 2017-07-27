@@ -1,8 +1,7 @@
 import React from 'react'
-import {Editor, Block, Raw} from 'slate'
+import {Editor, Block, Raw, Html} from 'slate'
 import styles from './Writer.styles'
 import PropTypes from 'prop-types'
-import ProgressBar from '../ProgressBar/ProgressBar'
 import {connect} from 'react-redux'
 import {textChanged, saveWritingLocalstorage, updateProgress, updateNbWords} from '../../store/actions/writingActions'
 import Uploader from '../../../Uploader/Uploader'
@@ -12,6 +11,7 @@ import Icon from '../../../Icon/Icon'
 import Button from '../../../Button/Button'
 import GSAP from 'react-gsap-enhancer'
 import {TimelineMax} from 'gsap'
+import cn from 'classnames'
 
 /**
  * Define the default node type.
@@ -23,6 +23,8 @@ const defaultBlock = {
   isVoid: false,
   data: {},
 }
+
+
 /**
  * Define a schema.
  *
@@ -34,8 +36,13 @@ const schema = {
       const {node} = props
       const src = node.data.get('src')
       return (
-        <img src={src} className='importedImage' style={{
-          width: '100%',
+        <img src={src} className='importedImage' alt='' align='middle' style={{
+          maxWidth: '75%',
+          maxHeight: '400px',
+          textAlign: 'center',
+          display: 'block',
+          marginLeft: 'auto',
+          marginRight: 'auto',
           marginTop: '20px',
           marginBottom: '20px',
         }}
@@ -133,6 +140,7 @@ export default class Writer extends React.Component {
       mobile: false,
       focus: false,
       imagePopoverDisplayed: false,
+      toolbarDisabled: true
     }
     this.throttledSave = throttle(this.save, 3000)
   }
@@ -143,6 +151,7 @@ export default class Writer extends React.Component {
     primaryColor: PropTypes.object,
     secondaryColor: PropTypes.object,
     light: PropTypes.bool,
+    onMobileFocus: PropTypes.func
   }
 
   static defaultProps = {
@@ -153,11 +162,49 @@ export default class Writer extends React.Component {
   componentDidMount() {
     if (/Android|iPad/i.test(navigator.userAgent)) {
       this.setState({mobile: true})
+      this.refs.writer.style.height = 'calc(100vh - 155px)'
     }
 
-    document.getElementsByClassName('editor')[0].addEventListener('touchmove', function(e) {
+    this.refs.writer.addEventListener('touchmove', function(e) {
       e.stopPropagation()
     })
+
+
+    this.refs.writer.addEventListener('click', (function(e) {
+
+    }).bind(this))
+
+    this.refs.writer.addEventListener('touchstart', (function(e) {
+
+      if (!this.state.focus) {
+        setTimeout((() => {
+          if (e.target.offsetTop > 120) {
+            this.refs.writer.scrollTop = e.target.offsetTop
+          }
+        }).bind(this),200)
+      }
+
+      e.stopPropagation()
+
+    }).bind(this))
+
+  }
+
+  setCaretPosition(ctrl, pos)
+  {
+
+    if(ctrl.setSelectionRange)
+    {
+      ctrl.focus();
+      ctrl.setSelectionRange(pos,pos);
+    }
+    else if (ctrl.createTextRange) {
+      var range = ctrl.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+    }
   }
 
   /**
@@ -255,6 +302,7 @@ export default class Writer extends React.Component {
         if (size !== type) {
           state = state.transform().removeMark(size).apply()
         }
+        return null
       })
     }
     state = state.transform().toggleMark(type).apply()
@@ -344,7 +392,7 @@ export default class Writer extends React.Component {
         this.dismissImagePopover()
       }}>
         <div className='image-popover'>
-          <Uploader api='http://localhost:3000/images/upload' uploadedImage={this.imageUploadSucceeded.bind(this)}/>
+          <Uploader api='http://file.nightzookeeper.com/images/upload' uploadedImage={this.imageUploadSucceeded.bind(this)}/>
         </div>
         <style jsx>{styles}</style>
       </div>)
@@ -357,24 +405,38 @@ export default class Writer extends React.Component {
    */
 
   render = () => {
+
+    const titlebarClassNames = cn({
+      titleBar: true,
+      dark: this.props.light,
+      light: !this.props.light
+    })
+
     return (
-      <div>
+      <div className='host' style={{
+        boxShadow: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'} 0px 60px 59px 140px`
+      }}>
+        {this.renderToolbar()}
+
+        <div className='writer' ref='writer'>
         { this.props.needsTitle
           ? <div>
 
             <T id='enter_title' defaultMessage='Enter your title here'>
               {
-                (msg) => <input className='title-bar' type='text' placeholder={msg} style={{
+                (msg) => <input className={titlebarClassNames} type='text' placeholder={msg} style={{
                   color: this.props.light ? 'black' : 'white',
-                  background: `${this.props.light ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'}`,
+                  background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
+                  borderBottom: `5px solid ${this.props.primaryColor}`
                 }} value={this.props.writing.title} onChange={this.handleTitleChange.bind(this)}/>
               }
             </T>
 
           </div>
           : null }
-        {this.renderToolbar()}
+
         {this.renderEditor()}
+        </div>
         <style jsx>{styles}</style>
       </div>
     )
@@ -434,16 +496,26 @@ export default class Writer extends React.Component {
    */
   renderMarkButton = (type, icon) => {
     const isActive = this.hasMark(type)
+    const isDisabled = this.state.toolbarDisabled
     const onMouseDown = e => this.onClickMark(e, type)
 
+    const style = {
+      cursor: 'pointer'
+    }
+
+    const activeStyle = {
+      ...style,
+      color: this.props.light ? 'white' : 'black',
+    }
+
+    const disabledStyle = {
+      opacity: 0.3
+    }
+
     return (
-      <span className='button' onMouseDown={onMouseDown} data-active={isActive}>
+      <span className='button' onMouseDown={isDisabled ? () => {} : onMouseDown} data-active={isActive}>
         <span
-          style={{
-            backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null,
-            cursor: 'pointer',
-          }}
+          style={isDisabled ? disabledStyle : (isActive ? activeStyle : style) }
         >
           <Icon name={icon}/>
         </span>
@@ -459,13 +531,23 @@ export default class Writer extends React.Component {
   }
 
   onFocus() {
-    this.setState({focus: true})
+    this.setState({focus: true, toolbarDisabled: false})
     if (this.state.mobile) {
-      const a = document.getElementsByClassName('editor')[0]
-      a.style.maxHeight = '150px'
-      a.style.minHeight = '150px'
-      a.style.height = '150px'
-      //this.addAnimation(this.resizeEditorAnimation)
+      this.props.onMobileFocus()
+
+      // Disables iPad view pushing
+      window.scrollTo(0, 0)
+      document.body.scrollTop = 0
+
+      if (window.innerHeight < window.innerWidth) {
+        this.refs.writer.style.minHeight = '220px'
+        this.refs.writer.style.height = '220px'
+      } else {
+        this.refs.writer.style.minHeight = '560px'
+        this.refs.writer.style.height = '560px'
+      }
+
+
     }
   }
 
@@ -474,28 +556,38 @@ export default class Writer extends React.Component {
   }
 
   onBlur() {
-    this.setState({focus: false})
+    this.setState({focus: false, toolbarDisabled: true})
 
     if (this.state.mobile) {
-      const a = document.getElementsByClassName('editor')[0]
-      a.style.maxHeight = '100%'
-      a.style.minHeight = '100%'
-      a.style.height = '100%'
+      this.refs.writer.style.minHeight = '300px'
+      this.refs.writer.style.height = 'calc(100vh - 155px)'
+      //  var a = this.refs.writer
+    //  a.style.height = 'calc(100vh - 95px)'
     }
   }
 
   renderBlockButton = (type, icon) => {
     const isActive = this.hasBlock(type)
     const onMouseDown = e => this.onClickBlock(e, type)
+    const isDisabled = this.state.toolbarDisabled
+
+    const style = {
+      cursor: 'pointer'
+    }
+
+    const activeStyle = {
+      ...style,
+      color: this.props.light ? 'white' : 'black',
+    }
+
+    const disabledStyle = {
+      opacity: 0.3
+    }
 
     return (
-      <span className='button' onMouseDown={onMouseDown} data-active={isActive}>
+      <span className='button' onMouseDown={isDisabled ? () => {} : onMouseDown} data-active={isActive}>
         <span
-          style={{
-            backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-            color: isActive ? 'grey' : null,
-            cursor: 'pointer',
-          }}
+          style={isDisabled ? disabledStyle : (isActive ? activeStyle : style) }
         >
           <Icon name={icon}/>
         </span>
@@ -505,11 +597,6 @@ export default class Writer extends React.Component {
   }
 
   recordScreenHeight() {
-    var a = document.getElementsByClassName('editor')[0]
-
-    if (this.state.mobile) {
-      a.style.maxHeight = parseInt(window.innerHeight) - 370 + 'px'
-    }
 
     /* setTimeout(() => {
      a.scrollTop = a.scrollHeight
@@ -523,6 +610,10 @@ export default class Writer extends React.Component {
   focus() {
   }
 
+  exportAsHtml() {
+    // console.log(serializer.serialize(this.state.state))
+  }
+
   /**
    * Render the Slate editor.
    *
@@ -531,11 +622,12 @@ export default class Writer extends React.Component {
 
   renderEditor = () => {
     return (
-      <div className='host'>
+      <div className='host' ref='host' style={{
+        boxShadow: `0px 149px 207px 72px ${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`
+      }}>
 
-        <div className='editor' style={{
-          background: `${this.props.light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'}`,
-          boxShadow: `22px 62px 170px 100px ${this.props.light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'}`,
+        <div className='editor' ref='editor' style={{
+          background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
           color: this.props.light ? 'black' : 'white',
         }} onClick={this.focusEditor.bind(this)} name='editor'>
 
@@ -545,6 +637,7 @@ export default class Writer extends React.Component {
                 spellCheck
                 placeholder={msg}
                 schema={schema}
+                ref='slate'
                 state={this.state.state}
                 onFocus={this.onFocus.bind(this)}
                 onBlur={this.onBlur.bind(this)}
@@ -557,20 +650,10 @@ export default class Writer extends React.Component {
             }
           </T>
 
-          {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
-          <div className='progressBar'>
-            <ProgressBar
-              nbWords={this.props.writing.nbWords}
-              minNbWords={this.props.writing.constraints.minNbWords}
-              maxNbWords={this.props.writing.constraints.maxNbWords}
-              progress={this.props.writing.progress}
-              primaryColor={this.props.primaryColor}
-              secondaryColor={this.props.secondaryColor}
-              light={this.props.light}
-            />
-          </div>
         </div>
+
+        {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
         <style jsx>{styles}</style>
       </div>

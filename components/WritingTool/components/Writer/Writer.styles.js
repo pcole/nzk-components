@@ -27,9 +27,18 @@ export default `
     vertical-align: middle;  
   }
   
+  .writer {
+    margin-top: 55px;
+    height: calc(100vh - 95px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  
   .menu.toolbar-menu {
+    position: fixed;
     display: inline-block;
-    position: relative;
     padding-right: 5px;
     padding-left: 40px;
     height: 55px;
@@ -59,6 +68,11 @@ export default `
     font-size: 23px;
   }
   
+  .host {
+    overflow-x: hidden;
+    z-index: 0;
+  }
+  
   .editor {
     position: relative;
     font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
@@ -69,32 +83,29 @@ export default `
     padding-top: 30px;
     padding-right: 60px;
     padding-left: 40px;
-    min-height: 300px;
-    max-width: 800px;
-    max-height: calc(100vh - 220px);
-    overflow-y: scroll;
     color: white;
+    min-height: 300px;
     font-size: 18px;
     margin: auto auto;
   }
   
   .popover-background {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0,0,0,0.7);
-    z-index: 10;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 20;
   }
   
   .image-popover {
-    position: fixed;
-    top: calc(50% - 170px);
+    position: absolute;
+    top: calc(50% - 150px);
     height: 300px;
     width: 300px;
-    left: calc(50% - 250px);
-    z-index: 11;
+    left: calc(50% - 150px);
+    z-index: 21;
   }
   
   .importedImage {
@@ -103,6 +114,7 @@ export default `
   
   .progressBar {
     position: fixed;
+    bottom: 0;
     z-index: 10;
     width: 100%;
   }
@@ -114,7 +126,7 @@ export default `
   .button:active {
   }
   
-  .title-bar {
+  .titleBar {
     opacity: 1;
     height: 60px;
     width: 100%;
@@ -130,6 +142,14 @@ export default `
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
+  }
+  
+  .titleBar.dark::placeholder {
+    color: black
+  }
+  
+  .titleBar.light::placeholder {
+    color: white
   }
  
   

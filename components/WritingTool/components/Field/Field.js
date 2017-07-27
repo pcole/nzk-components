@@ -93,6 +93,12 @@ export default class Field extends Component {
       .to(utils.target, 0.1, {rotation: -random}, 0.1)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+
+    return (this.props.value !== nextProps.value ||
+    this.props.bgColor !== nextProps.bgColor)
+  }
+
   resizeTextarea ({target}) {
     const textarea = target.find({name: 'textarea'})
     return new TimelineMax()
@@ -101,7 +107,8 @@ export default class Field extends Component {
   }
 
   handleChange (event) {
-    this.throttledTypingAnimation()
+    //this.throttledTypingAnimation()
+
     if (this.props.element === 'textarea') {
       this.textAreaAdjust(event)
     }
@@ -123,6 +130,7 @@ export default class Field extends Component {
   }
 
   render () {
+
     const {
       bgColor,
       height,
@@ -140,7 +148,7 @@ export default class Field extends Component {
 
     const style = {
       backgroundColor: bgColor,
-      color: color,
+      color: this.props.light ? 'black' : 'white',
       height: height,
       fontSize: '16px',
       overflow: 'hidden'
@@ -168,13 +176,15 @@ export default class Field extends Component {
           backgroundColor: buttonColor,
           color: color,
           height: height,
-          fontSize: '16px'
+          fontSize: '16px',
+          cursor: 'pointer',
+          lineHeight: '38px'
         }
         return (
-          <button className={className} style={buttonStyle} onClick={onClick}>
+          <div className={className} style={buttonStyle} onClick={onClick}>
             {children}
             <style jsx>{styles}</style>
-          </button>
+          </div>
         )
       case 'input': {
         return this.state.visible
@@ -231,6 +241,8 @@ export default class Field extends Component {
             <style jsx>{styles}</style>
           </div>
         )
+      default:
+        return null
     }
   }
 }

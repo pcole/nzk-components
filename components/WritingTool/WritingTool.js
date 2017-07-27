@@ -13,10 +13,11 @@ import {usePreset, setInformations, loadPlanningLocalstorage} from './store/acti
 import {IntlProvider} from 'react-intl'
 import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
-import {TimelineMax, Elastic} from 'gsap'
+import {TimelineMax, Elastic, Bounce} from 'gsap'
 import Icon from '../Icon/Icon'
 import cn from 'classnames'
 import Color from 'color'
+import ProgressBar from './components/ProgressBar/ProgressBar'
 
 @GSAP()
 export default class WritingTool extends Component {
@@ -24,11 +25,6 @@ export default class WritingTool extends Component {
     primaryColor: PropTypes.string,
     secondaryColor: PropTypes.string,
     light: PropTypes.bool,
-    backgroundImageUrl: PropTypes.string
-  }
-
-  static defaultProps = {
-    backgroundImageUrl: '/assets/welcome-bg.jpg'
   }
 
   state = {
@@ -148,20 +144,25 @@ export default class WritingTool extends Component {
 
     if (!this.state.planningExpanded) {
       return new TimelineMax()
-        .to(left, 0.5, {className: '-=planningExpanded'}, 0)
-        .to(right, 0.5, {className: '-=planningExpanded'}, 0)
+        .to(left, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
+        .to(right, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
     } else {
       return new TimelineMax()
         .to(left, 0, {position: 'absolute'}, 0)
-        .to(left, 1, {ease: Elastic.easeOut.config(1, 0.4), className: '+=planningExpanded'}, 0)
-        .to(right, 1, {ease: Elastic.easeOut.config(1, 0.4), className: '+=planningExpanded'}, 0)
-        .to(left, 0, {position: 'relative'})
+        .to(left, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
+        .to(right, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
+        .to(left, 0, {position: 'relative'}, 1.5)
     }
   }
 
   toggleExpand () {
     this.addAnimation(this.expandDrawerAnimation.bind(this))
     this.setState({planningExpanded: !this.state.planningExpanded})
+  }
+
+  closeDrawer () {
+    this.addAnimation(this.expandDrawerAnimation.bind(this))
+    this.setState({planningExpanded: false})
   }
 
   render () {
@@ -200,6 +201,7 @@ export default class WritingTool extends Component {
                 secondaryColor={this.state.secondaryColor}
                 light={this.state.light}
                 minNbWords={20}
+                onMobileFocus={this.closeDrawer.bind(this)}
               />
             </div>
 
@@ -232,6 +234,19 @@ export default class WritingTool extends Component {
             </div>
 
             <style jsx>{styles}</style>
+
+            <div className='progressBar'>
+              <ProgressBar
+                nbWords={store.getState().writing.nbWords}
+                minNbWords={store.getState().writing.constraints.minNbWords}
+                maxNbWords={store.getState().writing.constraints.maxNbWords}
+                progress={store.getState().writing.progress}
+                primaryColor={this.state.primaryColor}
+                secondaryColor={this.state.secondaryColor}
+                light={this.state.light}
+              />
+            </div>
+
           </div>
         </Provider>
       </IntlProvider>

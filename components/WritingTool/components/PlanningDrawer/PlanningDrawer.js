@@ -194,6 +194,14 @@ export default class PlanningDrawer extends Component {
             )
           })}
 
+          <div className='bottom-gradient' style={{
+            position: 'fixed',
+            bottom: '40px',
+            left: '0',
+            height: '20px',
+            width: '100%',
+            background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)`
+          }}/>
         </div>
         <style jsx>{styles}</style>
       </div>

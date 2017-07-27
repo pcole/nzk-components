@@ -10,7 +10,7 @@ export function usePreset (dispatch, preset) {
   if (settings[preset]) {
     dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle))
     settings[preset].fields.map(field => {
-      dispatch(
+      return dispatch(
         newField(
           field.title,
           field.type,
@@ -71,7 +71,7 @@ export function loadPlanning (dispatch, planning) {
   dispatch(removeFields())
   dispatch(setWritingType(planning.title, planning.icon))
   planning.fields.map((field, i) => {
-    dispatch(
+    return dispatch(
       newField(
         field.title,
         field.type,

@@ -67,7 +67,7 @@ export default class Fields extends Component {
   }
 
   onChange (field, newValue) {
-    this.props.onChange()
+    this.props.onChange() // Throttled save
     this.props.dispatch(fieldChanged(this.props.index, field, newValue))
   }
 

@@ -27,9 +27,9 @@ export default `
       top: 0;
       padding: 20px 30px;
       padding-bottom: 100px;
-      min-width: 200px;
+      min-width: 365px;
       height: calc(100% - 60px);
-      width: calc(100% - 60px);
+      width: calc(100% - 40px);
       overflow-y: scroll;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
@@ -45,6 +45,7 @@ export default `
     
     .story-desc .title {
       font-size: 24px;
+      margin-top: -15px;
     }
     
     .story-desc .title .icon {
@@ -56,7 +57,7 @@ export default `
     .story-desc .informations {
       min-height: 150px;
       height: 150px;
-      margin-top: 20px;
+      margin-top: 10px;
       margin-bottom: 20px;
     }
     

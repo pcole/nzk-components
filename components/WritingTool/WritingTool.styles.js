@@ -37,6 +37,12 @@ export default `
       top: 70px;
     }
     
+      .progressBar {
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+  }
     
     .buttons div:nth-child(n) {
       display: block;
@@ -89,7 +95,7 @@ export default `
   .left {
     display: inline-block;
     max-width: calc(100vw - 30px);
-    min-width: 470px;
+    min-width: 508px;
   }
   
   .right {
@@ -148,7 +154,7 @@ export default `
     }
   }
   
-    @media screen and (max-width: 950px) {
+    @media screen and (max-width: 925px) {
       .right {
         position: absolute;
         right: 0;
