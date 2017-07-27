@@ -24,16 +24,16 @@ export default class WritingTool extends Component {
   static propTypes = {
     image: PropTypes.string,
     planning: PropTypes.any,
-    type: PropTypes.oneOf('story', 'poetry', 'explanation',
+    type: PropTypes.oneOf(['story', 'poetry', 'explanation',
       'instructions', 'opinion', 'news', 'letter', 'diary',
-      'playscript', 'recount', 'biography', 'report, freewrite', 'custom'),
+      'playscript', 'recount', 'biography', 'report, freewrite', 'custom']),
     customType: PropTypes.shape({
       title: PropTypes.string,
       icon: PropTypes.string,
       needsTitle: PropTypes.bool,
       fields: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string,
-        type: PropTypes.oneOf('input', 'textarea'),
+        type: PropTypes.oneOf(['input', 'textarea']),
         numberOfFields: PropTypes.number,
         numberPerRow: PropTypes.number,
         overloadable: PropTypes.bool,

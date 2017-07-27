@@ -354,14 +354,14 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 WritingTool.propTypes = {
   image: _propTypes2.default.string,
   planning: _propTypes2.default.any,
-  type: _propTypes2.default.oneOf('story', 'poetry', 'explanation', 'instructions', 'opinion', 'news', 'letter', 'diary', 'playscript', 'recount', 'biography', 'report, freewrite', 'custom'),
+  type: _propTypes2.default.oneOf(['story', 'poetry', 'explanation', 'instructions', 'opinion', 'news', 'letter', 'diary', 'playscript', 'recount', 'biography', 'report, freewrite', 'custom']),
   customType: _propTypes2.default.shape({
     title: _propTypes2.default.string,
     icon: _propTypes2.default.string,
     needsTitle: _propTypes2.default.bool,
     fields: _propTypes2.default.arrayOf(_propTypes2.default.shape({
       title: _propTypes2.default.string,
-      type: _propTypes2.default.oneOf('input', 'textarea'),
+      type: _propTypes2.default.oneOf(['input', 'textarea']),
       numberOfFields: _propTypes2.default.number,
       numberPerRow: _propTypes2.default.number,
       overloadable: _propTypes2.default.bool,
