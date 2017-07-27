@@ -91,8 +91,8 @@ var Fields = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'onChange',
     value: function onChange(field, newValue) {
-      this.props.onChange();
-      this.props.dispatch((0, _planningActions.fieldChanged)(this.props.index, field, newValue));
+      this.props.onChange // Throttled save
+      ();this.props.dispatch((0, _planningActions.fieldChanged)(this.props.index, field, newValue));
     }
   }, {
     key: 'render',

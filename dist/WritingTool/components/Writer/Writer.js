@@ -29,10 +29,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _ProgressBar = require('../ProgressBar/ProgressBar');
-
-var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
-
 var _reactRedux = require('react-redux');
 
 var _writingActions = require('../../store/actions/writingActions');
@@ -61,6 +57,10 @@ var _reactGsapEnhancer2 = _interopRequireDefault(_reactGsapEnhancer);
 
 var _gsap = require('gsap');
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -78,6 +78,7 @@ var defaultBlock = {
   type: 'paragraph',
   isVoid: false,
   data: {}
+
   /**
    * Define a schema.
    *
@@ -89,8 +90,13 @@ var defaultBlock = {
       var node = props.node;
 
       var src = node.data.get('src');
-      return _react2.default.createElement('img', _extends({ src: src, className: 'importedImage', style: {
-          width: '100%',
+      return _react2.default.createElement('img', _extends({ src: src, className: 'importedImage', alt: '', align: 'middle', style: {
+          maxWidth: '75%',
+          maxHeight: '400px',
+          textAlign: 'center',
+          display: 'block',
+          marginLeft: 'auto',
+          marginRight: 'auto',
           marginTop: '20px',
           marginBottom: '20px'
         }
@@ -296,6 +302,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           if (size !== type) {
             state = state.transform().removeMark(size).apply();
           }
+          return null;
         });
       }
       state = state.transform().toggleMark(type).apply();
@@ -350,30 +357,44 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.render = function () {
+
+      var titlebarClassNames = (0, _classnames2.default)({
+        titleBar: true,
+        dark: _this.props.light,
+        light: !_this.props.light
+      });
+
       return _react2.default.createElement(
         'div',
-        {
-          'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'host', style: {
+            boxShadow: (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0px 60px 59px 140px'
+          }, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
-        _this.props.needsTitle ? _react2.default.createElement(
-          'div',
-          {
-            'data-jsx-ext': _Writer2.default.__scopedHash
-          },
-          _react2.default.createElement(
-            _reactIntl.FormattedMessage,
-            { id: 'enter_title', defaultMessage: 'Enter your title here' },
-            function (msg) {
-              return _react2.default.createElement('input', { className: 'title-bar', type: 'text', placeholder: msg, style: {
-                  color: _this.props.light ? 'black' : 'white',
-                  background: '' + (_this.props.light ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)')
-                }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
-              });
-            }
-          )
-        ) : null,
         _this.renderToolbar(),
-        _this.renderEditor(),
+        _react2.default.createElement(
+          'div',
+          { className: 'writer', ref: 'writer', 'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _this.props.needsTitle ? _react2.default.createElement(
+            'div',
+            {
+              'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _reactIntl.FormattedMessage,
+              { id: 'enter_title', defaultMessage: 'Enter your title here' },
+              function (msg) {
+                return _react2.default.createElement('input', { className: titlebarClassNames, type: 'text', placeholder: msg, style: {
+                    color: _this.props.light ? 'black' : 'white',
+                    background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
+                    borderBottom: '5px solid ' + _this.props.primaryColor
+                  }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
+                });
+              }
+            )
+          ) : null,
+          _this.renderEditor()
+        ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
           css: _Writer2.default.__scoped
@@ -435,22 +456,31 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
 
     _this.renderMarkButton = function (type, icon) {
       var isActive = _this.hasMark(type);
+      var isDisabled = _this.state.toolbarDisabled;
       var onMouseDown = function onMouseDown(e) {
         return _this.onClickMark(e, type);
       };
 
+      var style = {
+        cursor: 'pointer'
+      };
+
+      var activeStyle = _extends({}, style, {
+        color: _this.props.light ? 'white' : 'black'
+      });
+
+      var disabledStyle = {
+        opacity: 0.3
+      };
+
       return _react2.default.createElement(
         'span',
-        { className: 'button', onMouseDown: onMouseDown, 'data-active': isActive, 'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'button', onMouseDown: isDisabled ? function () {} : onMouseDown, 'data-active': isActive, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
           'span',
           {
-            style: {
-              backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-              color: isActive ? 'grey' : null,
-              cursor: 'pointer'
-            },
+            style: isDisabled ? disabledStyle : isActive ? activeStyle : style,
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
           _react2.default.createElement(_Icon2.default, { name: icon })
@@ -467,19 +497,28 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       var onMouseDown = function onMouseDown(e) {
         return _this.onClickBlock(e, type);
       };
+      var isDisabled = _this.state.toolbarDisabled;
+
+      var style = {
+        cursor: 'pointer'
+      };
+
+      var activeStyle = _extends({}, style, {
+        color: _this.props.light ? 'white' : 'black'
+      });
+
+      var disabledStyle = {
+        opacity: 0.3
+      };
 
       return _react2.default.createElement(
         'span',
-        { className: 'button', onMouseDown: onMouseDown, 'data-active': isActive, 'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'button', onMouseDown: isDisabled ? function () {} : onMouseDown, 'data-active': isActive, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
           'span',
           {
-            style: {
-              backgroundColor: isActive ? 'rgba(0,0,0,0.04)' : null,
-              color: isActive ? 'grey' : null,
-              cursor: 'pointer'
-            },
+            style: isDisabled ? disabledStyle : isActive ? activeStyle : style,
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
           _react2.default.createElement(_Icon2.default, { name: icon })
@@ -494,13 +533,14 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.renderEditor = function () {
       return _react2.default.createElement(
         'div',
-        { className: 'host', 'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'host', ref: 'host', style: {
+            boxShadow: '0px 149px 207px 72px ' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+          }, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
           'div',
-          { className: 'editor', style: {
-              background: '' + (_this.props.light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'),
-              boxShadow: '22px 62px 170px 100px ' + (_this.props.light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'),
+          { className: 'editor', ref: 'editor', style: {
+              background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
               color: _this.props.light ? 'black' : 'white'
             }, onClick: _this.focusEditor.bind(_this), name: 'editor', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
@@ -512,6 +552,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
                 spellCheck: true,
                 placeholder: msg,
                 schema: schema,
+                ref: 'slate',
                 state: _this.state.state,
                 onFocus: _this.onFocus.bind(_this),
                 onBlur: _this.onBlur.bind(_this),
@@ -522,23 +563,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
                 }
               });
             }
-          ),
-          _this.state.imagePopoverDisplayed ? _this.renderImagePopover() : null,
-          _react2.default.createElement(
-            'div',
-            { className: 'progressBar', 'data-jsx-ext': _Writer2.default.__scopedHash
-            },
-            _react2.default.createElement(_ProgressBar2.default, {
-              nbWords: _this.props.writing.nbWords,
-              minNbWords: _this.props.writing.constraints.minNbWords,
-              maxNbWords: _this.props.writing.constraints.maxNbWords,
-              progress: _this.props.writing.progress,
-              primaryColor: _this.props.primaryColor,
-              secondaryColor: _this.props.secondaryColor,
-              light: _this.props.light
-            })
           )
         ),
+        _this.state.imagePopoverDisplayed ? _this.renderImagePopover() : null,
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
           css: _Writer2.default.__scoped
@@ -551,7 +578,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       wordCount: 0,
       mobile: false,
       focus: false,
-      imagePopoverDisplayed: false
+      imagePopoverDisplayed: false,
+      toolbarDisabled: true
     };
     _this.throttledSave = (0, _throttle2.default)(_this.save, 3000);
     return _this;
@@ -562,11 +590,43 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     value: function componentDidMount() {
       if (/Android|iPad/i.test(navigator.userAgent)) {
         this.setState({ mobile: true });
+        this.refs.writer.style.height = 'calc(100vh - 155px)';
       }
 
-      document.getElementsByClassName('editor')[0].addEventListener('touchmove', function (e) {
+      this.refs.writer.addEventListener('touchmove', function (e) {
         e.stopPropagation();
       });
+
+      this.refs.writer.addEventListener('click', function (e) {}.bind(this));
+
+      this.refs.writer.addEventListener('touchstart', function (e) {
+        var _this2 = this;
+
+        if (!this.state.focus) {
+          setTimeout(function () {
+            if (e.target.offsetTop > 120) {
+              _this2.refs.writer.scrollTop = e.target.offsetTop;
+            }
+          }.bind(this), 200);
+        }
+
+        e.stopPropagation();
+      }.bind(this));
+    }
+  }, {
+    key: 'setCaretPosition',
+    value: function setCaretPosition(ctrl, pos) {
+
+      if (ctrl.setSelectionRange) {
+        ctrl.focus();
+        ctrl.setSelectionRange(pos, pos);
+      } else if (ctrl.createTextRange) {
+        var range = ctrl.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
+      }
     }
 
     /**
@@ -649,20 +709,20 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'renderImagePopover',
     value: function renderImagePopover() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react2.default.createElement(
         'div',
         { className: 'popover-background', onClick: function onClick(e) {
             e.preventDefault();
-            _this2.dismissImagePopover();
+            _this3.dismissImagePopover();
           }, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
           'div',
           { className: 'image-popover', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          _react2.default.createElement(_Uploader2.default, { api: 'http://localhost:3000/images/upload', uploadedImage: this.imageUploadSucceeded.bind(this) })
+          _react2.default.createElement(_Uploader2.default, { api: 'http://file.nightzookeeper.com/images/upload', uploadedImage: this.imageUploadSucceeded.bind(this) })
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -702,13 +762,21 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'onFocus',
     value: function onFocus() {
-      this.setState({ focus: true });
+      this.setState({ focus: true, toolbarDisabled: false });
       if (this.state.mobile) {
-        var a = document.getElementsByClassName('editor')[0];
-        a.style.maxHeight = '150px';
-        a.style.minHeight = '150px';
-        a.style.height = '150px';
-        //this.addAnimation(this.resizeEditorAnimation)
+        this.props.onMobileFocus
+
+        // Disables iPad view pushing
+        ();window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+
+        if (window.innerHeight < window.innerWidth) {
+          this.refs.writer.style.minHeight = '220px';
+          this.refs.writer.style.height = '220px';
+        } else {
+          this.refs.writer.style.minHeight = '560px';
+          this.refs.writer.style.height = '560px';
+        }
       }
     }
   }, {
@@ -719,23 +787,18 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'onBlur',
     value: function onBlur() {
-      this.setState({ focus: false });
+      this.setState({ focus: false, toolbarDisabled: true });
 
       if (this.state.mobile) {
-        var a = document.getElementsByClassName('editor')[0];
-        a.style.maxHeight = '100%';
-        a.style.minHeight = '100%';
-        a.style.height = '100%';
+        this.refs.writer.style.minHeight = '300px';
+        this.refs.writer.style.height = 'calc(100vh - 155px)';
+        //  var a = this.refs.writer
+        //  a.style.height = 'calc(100vh - 95px)'
       }
     }
   }, {
     key: 'recordScreenHeight',
     value: function recordScreenHeight() {
-      var a = document.getElementsByClassName('editor')[0];
-
-      if (this.state.mobile) {
-        a.style.maxHeight = parseInt(window.innerHeight) - 370 + 'px';
-      }
 
       /* setTimeout(() => {
        a.scrollTop = a.scrollHeight
@@ -749,6 +812,11 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'focus',
     value: function focus() {}
+  }, {
+    key: 'exportAsHtml',
+    value: function exportAsHtml() {}
+    // console.log(serializer.serialize(this.state.state))
+
 
     /**
      * Render the Slate editor.
@@ -765,7 +833,8 @@ Writer.propTypes = {
   minNbWords: _propTypes2.default.number,
   primaryColor: _propTypes2.default.object,
   secondaryColor: _propTypes2.default.object,
-  light: _propTypes2.default.bool
+  light: _propTypes2.default.bool,
+  onMobileFocus: _propTypes2.default.func
 };
 Writer.defaultProps = {
   progress: 0,

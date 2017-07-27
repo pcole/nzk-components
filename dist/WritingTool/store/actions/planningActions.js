@@ -32,7 +32,7 @@ function usePreset(dispatch, preset) {
   if (settings[preset]) {
     dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle));
     settings[preset].fields.map(function (field) {
-      dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, [].concat(_toConsumableArray(Array(field.numberOfFields))).map(function (field, index) {
+      return dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, [].concat(_toConsumableArray(Array(field.numberOfFields))).map(function (field, index) {
         return { index: index, value: '' };
       })));
     });
@@ -86,7 +86,7 @@ function loadPlanning(dispatch, planning) {
   dispatch(removeFields());
   dispatch(setWritingType(planning.title, planning.icon));
   planning.fields.map(function (field, i) {
-    dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, planning.fields[i].fields));
+    return dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, planning.fields[i].fields));
   });
 }
 

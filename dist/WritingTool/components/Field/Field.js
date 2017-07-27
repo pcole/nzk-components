@@ -124,6 +124,12 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
       return new _gsap.TimelineMax().to(utils.target, 0.1, { rotation: random }).to(utils.target, 0.1, { rotation: -random }, 0.1);
     }
   }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+
+      return this.props.value !== nextProps.value || this.props.bgColor !== nextProps.bgColor;
+    }
+  }, {
     key: 'resizeTextarea',
     value: function resizeTextarea(_ref2) {
       var target = _ref2.target;
@@ -134,7 +140,8 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
   }, {
     key: 'handleChange',
     value: function handleChange(event) {
-      this.throttledTypingAnimation();
+      //this.throttledTypingAnimation()
+
       if (this.props.element === 'textarea') {
         this.textAreaAdjust(event);
       }
@@ -177,7 +184,7 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
 
       var style = {
         backgroundColor: bgColor,
-        color: color,
+        color: this.props.light ? 'black' : 'white',
         height: height,
         fontSize: '16px',
         overflow: 'hidden'
@@ -205,10 +212,12 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
             backgroundColor: buttonColor,
             color: color,
             height: height,
-            fontSize: '16px'
+            fontSize: '16px',
+            cursor: 'pointer',
+            lineHeight: '38px'
           };
           return _react2.default.createElement(
-            'button',
+            'div',
             { className: className, style: buttonStyle, onClick: onClick, 'data-jsx-ext': _Field2.default.__scopedHash
             },
             children,
@@ -286,6 +295,8 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
               css: _Field2.default.__scoped
             })
           );
+        default:
+          return null;
       }
     }
   }]);

@@ -67,6 +67,10 @@ var _color = require('color');
 
 var _color2 = _interopRequireDefault(_color);
 
+var _ProgressBar = require('./components/ProgressBar/ProgressBar');
+
+var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -200,9 +204,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       var right = target.find({ name: 'rightCol' });
 
       if (!this.state.planningExpanded) {
-        return new _gsap.TimelineMax().to(left, 0.5, { className: '-=planningExpanded' }, 0).to(right, 0.5, { className: '-=planningExpanded' }, 0);
+        return new _gsap.TimelineMax().to(left, 1, { ease: _gsap.Bounce.easeOut, className: '-=planningExpanded' }, 0).to(right, 1, { ease: _gsap.Bounce.easeOut, className: '-=planningExpanded' }, 0);
       } else {
-        return new _gsap.TimelineMax().to(left, 0, { position: 'absolute' }, 0).to(left, 1, { ease: _gsap.Elastic.easeOut.config(1, 0.4), className: '+=planningExpanded' }, 0).to(right, 1, { ease: _gsap.Elastic.easeOut.config(1, 0.4), className: '+=planningExpanded' }, 0).to(left, 0, { position: 'relative' });
+        return new _gsap.TimelineMax().to(left, 0, { position: 'absolute' }, 0).to(left, 1.5, { ease: _gsap.Bounce.easeOut, className: '+=planningExpanded' }, 0).to(right, 1.5, { ease: _gsap.Bounce.easeOut, className: '+=planningExpanded' }, 0).to(left, 0, { position: 'relative' }, 1.5);
       }
     }
   }, {
@@ -210,6 +214,12 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function toggleExpand() {
       this.addAnimation(this.expandDrawerAnimation.bind(this));
       this.setState({ planningExpanded: !this.state.planningExpanded });
+    }
+  }, {
+    key: 'closeDrawer',
+    value: function closeDrawer() {
+      this.addAnimation(this.expandDrawerAnimation.bind(this));
+      this.setState({ planningExpanded: false });
     }
   }, {
     key: 'render',
@@ -255,7 +265,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
                 primaryColor: this.state.primaryColor,
                 secondaryColor: this.state.secondaryColor,
                 light: this.state.light,
-                minNbWords: 20
+                minNbWords: 20,
+                onMobileFocus: this.closeDrawer.bind(this)
               })
             ),
             _react2.default.createElement(
@@ -293,7 +304,21 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             _react2.default.createElement(_style2.default, {
               styleId: _WritingTool2.default.__scopedHash,
               css: _WritingTool2.default.__scoped
-            })
+            }),
+            _react2.default.createElement(
+              'div',
+              { className: 'progressBar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              },
+              _react2.default.createElement(_ProgressBar2.default, {
+                nbWords: _store2.default.getState().writing.nbWords,
+                minNbWords: _store2.default.getState().writing.constraints.minNbWords,
+                maxNbWords: _store2.default.getState().writing.constraints.maxNbWords,
+                progress: _store2.default.getState().writing.progress,
+                primaryColor: this.state.primaryColor,
+                secondaryColor: this.state.secondaryColor,
+                light: this.state.light
+              })
+            )
           )
         )
       );
@@ -305,10 +330,6 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 WritingTool.propTypes = {
   primaryColor: _propTypes2.default.string,
   secondaryColor: _propTypes2.default.string,
-  light: _propTypes2.default.bool,
-  backgroundImageUrl: _propTypes2.default.string
-};
-WritingTool.defaultProps = {
-  backgroundImageUrl: '/assets/welcome-bg.jpg'
+  light: _propTypes2.default.bool
 };
 exports.default = WritingTool;

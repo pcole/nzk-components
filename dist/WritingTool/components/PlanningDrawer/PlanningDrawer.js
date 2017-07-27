@@ -256,6 +256,15 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
               light: _this2.props.light,
               onChange: _this2.onChange.bind(_this2)
             });
+          }),
+          _react2.default.createElement('div', { className: 'bottom-gradient', style: {
+              position: 'fixed',
+              bottom: '40px',
+              left: '0',
+              height: '20px',
+              width: '100%',
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)'
+            }, 'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
           })
         ),
         _react2.default.createElement(_style2.default, {
