@@ -425,7 +425,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             _react2.default.createElement(
               _Button2.default,
-              { bgColor: 'white', shadow: true, round: true },
+              { bgColor: 'white', shadow: true, round: true, onClick: _this.props.backCallback ? _this.props.backCallback : function () {} },
               _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
             )
           ),
@@ -834,7 +834,8 @@ Writer.propTypes = {
   primaryColor: _propTypes2.default.object,
   secondaryColor: _propTypes2.default.object,
   light: _propTypes2.default.bool,
-  onMobileFocus: _propTypes2.default.func
+  onMobileFocus: _propTypes2.default.func,
+  backCallback: _propTypes2.default.func
 };
 Writer.defaultProps = {
   progress: 0,

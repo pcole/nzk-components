@@ -13,7 +13,7 @@ import {usePreset, setInformations, loadPlanningLocalstorage} from './store/acti
 import {IntlProvider} from 'react-intl'
 import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
-import {TimelineMax, Elastic, Bounce} from 'gsap'
+import {TimelineMax, Bounce} from 'gsap'
 import Icon from '../Icon/Icon'
 import cn from 'classnames'
 import Color from 'color'
@@ -22,9 +22,19 @@ import ProgressBar from './components/ProgressBar/ProgressBar'
 @GSAP()
 export default class WritingTool extends Component {
   static propTypes = {
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
-    light: PropTypes.bool,
+    image: PropTypes.string,
+    planning: PropTypes.any,
+    type: PropTypes.oneOf('story', 'poetry', 'explanation',
+      'instructions', 'opinion', 'news', 'letter', 'diary',
+      'playscript', 'recount', 'biography', 'report, freewrite'),
+    writingImage: PropTypes.string,
+    writingDescription: PropTypes.string,
+    backCallback: PropTypes.func
+  }
+
+  static defaultProps = {
+    writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
+    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'
   }
 
   state = {
@@ -38,16 +48,17 @@ export default class WritingTool extends Component {
 
   componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
-      usePreset(store.dispatch, 'story')
-      store.dispatch(setInformations('https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-        'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'))
+      usePreset(store.dispatch, this.props.type)
+      store.dispatch(setInformations(this.props.writingImage,
+        this.props.writingDescription))
     }
 
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
   getColorsFromBackground () {
-    const images = [
+
+    /* const images = [
       '/assets/angry-alligator-creek-back.jpg',
       '/assets/arctic-wanderlust-back.jpg',
       '/assets/doomed-sea-back.jpg',
@@ -62,10 +73,11 @@ export default class WritingTool extends Component {
       '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
       '/assets/fqutf1jckgysqaivhgpq.jpg'
     ]
-    var pickedImage = images[Math.floor(Math.random() * (images.length - 1))]
+    var pickedImage = images[Math.floor(Math.random() * (images.length - 1))] */
+    var pickedImage = this.props.image
 
     // CACHED BACKGROUND COLORS
-    /* if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
+    if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
       var cached = JSON.parse(window.localStorage.getItem(`nzk-bg-${pickedImage}`))
 
       var secondaryColor = new Color(cached.primaryColor.color)
@@ -82,14 +94,13 @@ export default class WritingTool extends Component {
         light: cached.light
       })
       return
-    } */
+    }
 
     // NOT CACHED BACKGROUND COLORS
     Vibrant.from(pickedImage).getPalette((err, palette) => {
       if (err) {
         return
       }
-
 
       var primaryColor = new Color(palette.Vibrant.getRgb())
 
@@ -200,8 +211,9 @@ export default class WritingTool extends Component {
                 primaryColor={this.state.primaryColor}
                 secondaryColor={this.state.secondaryColor}
                 light={this.state.light}
-                minNbWords={20}
+                minNbWords={this.props.minNbWords}
                 onMobileFocus={this.closeDrawer.bind(this)}
+                backCallback={this.props.backCallback}
               />
             </div>
 

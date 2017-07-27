@@ -1,14 +1,31 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import WritingTool from './WritingTool'
-import { withKnobs, color, boolean } from '@storybook/addon-knobs'
+import { withKnobs, select, text } from '@storybook/addon-knobs'
+
+const types = {
+  story: 'story',
+  poetry: 'poetry',
+  explanation: 'explanation',
+  instructions: 'instructions',
+  opinion: 'opinion',
+  news: 'news',
+  letter: 'letter',
+  diary: 'diary',
+  playscript: 'playscript',
+  recount: 'recount',
+  biography: 'biography',
+  report: 'report',
+  freewrite: 'feewrite'
+}
 
 storiesOf('WritingTool', module)
   .addDecorator(withKnobs)
   .add('WritingTool', () =>
     <WritingTool
-      primaryColor={color('primary', '#55acf1')}
-      secondaryColor={color('secondary', '#84DBF8')}
-      light={boolean('light', false)}
+      image={text('BackgroundImage', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJnQ4RQr3UV2VvHC59P01kszpnQdTogkiZNdLweBlSqNtJfrCMA')}
+      type={select('type', types, 'story')}
+      writingImage={text('Image', '')}
+      writingDescription={text('Description', '')}
     />
   )

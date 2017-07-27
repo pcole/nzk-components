@@ -151,7 +151,8 @@ export default class Writer extends React.Component {
     primaryColor: PropTypes.object,
     secondaryColor: PropTypes.object,
     light: PropTypes.bool,
-    onMobileFocus: PropTypes.func
+    onMobileFocus: PropTypes.func,
+    backCallback: PropTypes.func
   }
 
   static defaultProps = {
@@ -463,7 +464,7 @@ export default class Writer extends React.Component {
              }}>
 
           <div className='toolbar-button'>
-            <Button bgColor='white' shadow round>
+            <Button bgColor='white' shadow round onClick={this.props.backCallback ? this.props.backCallback : () => {}}>
               <Icon name='left' color='black'/>
             </Button>
           </div>

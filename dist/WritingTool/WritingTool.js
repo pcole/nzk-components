@@ -109,8 +109,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     key: 'componentWillMount',
     value: function componentWillMount() {
       if (!(_store2.default.getState().planning.fields.length > 0)) {
-        (0, _planningActions.usePreset)(_store2.default.dispatch, 'story');
-        _store2.default.dispatch((0, _planningActions.setInformations)('https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg', 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'));
+        (0, _planningActions.usePreset)(_store2.default.dispatch, this.props.type);
+        _store2.default.dispatch((0, _planningActions.setInformations)(this.props.writingImage, this.props.writingDescription));
       }
 
       window.addEventListener('resize', this.onResize.bind(this));
@@ -120,26 +120,43 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function getColorsFromBackground() {
       var _this2 = this;
 
-      var images = ['/assets/angry-alligator-creek-back.jpg', '/assets/arctic-wanderlust-back.jpg', '/assets/doomed-sea-back.jpg', '/assets/lava-tunnel-back.jpg', '/assets/lesson-hive.jpg', '/assets/temple.jpg', '/assets/welcome-bg.jpg', '/assets/what-why-where-woods-back.jpg', '/assets/ac7ywy8tv3qf3quimykx.jpg', '/assets/aa7ellrkrwfyljjnryne.jpg', '/assets/papbnwocavrkia6fai0n.jpg', '/assets/hhzgyh7bgdbhtbu8rpzs.jpg', '/assets/fqutf1jckgysqaivhgpq.jpg'];
-      var pickedImage = images[Math.floor(Math.random() * (images.length - 1))];
+      /* const images = [
+        '/assets/angry-alligator-creek-back.jpg',
+        '/assets/arctic-wanderlust-back.jpg',
+        '/assets/doomed-sea-back.jpg',
+        '/assets/lava-tunnel-back.jpg',
+        '/assets/lesson-hive.jpg',
+        '/assets/temple.jpg',
+        '/assets/welcome-bg.jpg',
+        '/assets/what-why-where-woods-back.jpg',
+        '/assets/ac7ywy8tv3qf3quimykx.jpg',
+        '/assets/aa7ellrkrwfyljjnryne.jpg',
+        '/assets/papbnwocavrkia6fai0n.jpg',
+        '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
+        '/assets/fqutf1jckgysqaivhgpq.jpg'
+      ]
+      var pickedImage = images[Math.floor(Math.random() * (images.length - 1))] */
+      var pickedImage = this.props.image;
 
       // CACHED BACKGROUND COLORS
-      /* if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
-        var cached = JSON.parse(window.localStorage.getItem(`nzk-bg-${pickedImage}`))
-         var secondaryColor = new Color(cached.primaryColor.color)
+      if (window.localStorage.getItem('nzk-bg-' + pickedImage)) {
+        var cached = JSON.parse(window.localStorage.getItem('nzk-bg-' + pickedImage));
+
+        var secondaryColor = new _color2.default(cached.primaryColor.color);
         if (cached.light) {
-          secondaryColor = secondaryColor.darken(0.2)
+          secondaryColor = secondaryColor.darken(0.2);
         } else {
-          secondaryColor = secondaryColor.lighten(0.2)
+          secondaryColor = secondaryColor.lighten(0.2);
         }
-         this.setState({
-          primaryColor: new Color(cached.primaryColor.color),
+
+        this.setState({
+          primaryColor: new _color2.default(cached.primaryColor.color),
           secondaryColor: secondaryColor,
           image: cached.image,
           light: cached.light
-        })
-        return
-      } */
+        });
+        return;
+      }
 
       // NOT CACHED BACKGROUND COLORS
       Vibrant.from(pickedImage).getPalette(function (err, palette) {
@@ -265,8 +282,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
                 primaryColor: this.state.primaryColor,
                 secondaryColor: this.state.secondaryColor,
                 light: this.state.light,
-                minNbWords: 20,
-                onMobileFocus: this.closeDrawer.bind(this)
+                minNbWords: this.props.minNbWords,
+                onMobileFocus: this.closeDrawer.bind(this),
+                backCallback: this.props.backCallback
               })
             ),
             _react2.default.createElement(
@@ -328,8 +346,15 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   return WritingTool;
 }(_react.Component)) || _class);
 WritingTool.propTypes = {
-  primaryColor: _propTypes2.default.string,
-  secondaryColor: _propTypes2.default.string,
-  light: _propTypes2.default.bool
+  image: _propTypes2.default.string,
+  planning: _propTypes2.default.any,
+  type: _propTypes2.default.oneOf('story', 'poetry', 'explanation', 'instructions', 'opinion', 'news', 'letter', 'diary', 'playscript', 'recount', 'biography', 'report, freewrite'),
+  writingImage: _propTypes2.default.string,
+  writingDescription: _propTypes2.default.string,
+  backCallback: _propTypes2.default.func
+};
+WritingTool.defaultProps = {
+  writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
+  writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'
 };
 exports.default = WritingTool;
