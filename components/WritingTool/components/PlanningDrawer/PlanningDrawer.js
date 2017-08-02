@@ -115,7 +115,7 @@ export default class PlanningDrawer extends Component {
               height: '40px',
               width: '40px',
               position: 'absolute',
-              background: 'url("' + this.props.icon + '")',
+              backgroundImage: 'url("' + this.props.icon + '")',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               backgroundSize: 'cover'

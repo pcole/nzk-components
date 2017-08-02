@@ -18,6 +18,7 @@ import Icon from '../Icon/Icon'
 import cn from 'classnames'
 import Color from 'color'
 import ProgressBar from './components/ProgressBar/ProgressBar'
+import TypePickerPopover from './components/TypePickerPopover/TypePickerPopover'
 
 @GSAP()
 export default class WritingTool extends Component {
@@ -43,7 +44,10 @@ export default class WritingTool extends Component {
     }),
     writingImage: PropTypes.string,
     writingDescription: PropTypes.string,
-    backCallback: PropTypes.func
+    backCallback: PropTypes.func,
+    hideImageButton: PropTypes.bool,
+    hideTextStyleButtons: PropTypes.bool,
+    hideAlignButtons: PropTypes.bool
   }
 
   static defaultProps = {
@@ -63,6 +67,7 @@ export default class WritingTool extends Component {
   componentWillMount () {
     if (!(store.getState().planning.fields.length > 0)) {
 
+      window.usePreset = (preset) => { usePreset(store.dispatch, preset) }
       if (this.props.type === 'custom' || this.props.customType) {
         useCustomPreset(store.dispatch, this.props.customType)
       } else {
@@ -78,23 +83,28 @@ export default class WritingTool extends Component {
 
   getColorsFromBackground () {
 
-    /* const images = [
-      '/assets/angry-alligator-creek-back.jpg',
-      '/assets/arctic-wanderlust-back.jpg',
-      '/assets/doomed-sea-back.jpg',
-      '/assets/lava-tunnel-back.jpg',
-      '/assets/lesson-hive.jpg',
-      '/assets/temple.jpg',
-      '/assets/welcome-bg.jpg',
-      '/assets/what-why-where-woods-back.jpg',
-      '/assets/ac7ywy8tv3qf3quimykx.jpg',
-      '/assets/aa7ellrkrwfyljjnryne.jpg',
-      '/assets/papbnwocavrkia6fai0n.jpg',
-      '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
-      '/assets/fqutf1jckgysqaivhgpq.jpg'
-    ]
-    var pickedImage = images[Math.floor(Math.random() * (images.length - 1))] */
-    var pickedImage = this.props.image
+
+
+    if (this.props.image) {
+      var pickedImage = this.props.image
+    } else {
+      const images = [
+        '/assets/angry-alligator-creek-back.jpg',
+        '/assets/arctic-wanderlust-back.jpg',
+        '/assets/doomed-sea-back.jpg',
+        '/assets/lava-tunnel-back.jpg',
+        '/assets/lesson-hive.jpg',
+        '/assets/temple.jpg',
+        '/assets/welcome-bg.jpg',
+        '/assets/what-why-where-woods-back.jpg',
+        '/assets/ac7ywy8tv3qf3quimykx.jpg',
+        '/assets/aa7ellrkrwfyljjnryne.jpg',
+        '/assets/papbnwocavrkia6fai0n.jpg',
+        '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
+        '/assets/fqutf1jckgysqaivhgpq.jpg'
+      ]
+      var pickedImage = images[Math.floor(Math.random() * (images.length - 1))]
+    }
 
     // CACHED BACKGROUND COLORS
     if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
@@ -196,6 +206,15 @@ export default class WritingTool extends Component {
     this.setState({planningExpanded: false})
   }
 
+  pick (type) {
+    const POSSIBLE_TYPES = ['story', 'poetry', 'letter', 'instructions', 'opinion', 'news',]
+    if (POSSIBLE_TYPES.indexOf(type) < 0) {
+      return
+    }
+
+    usePreset(store.dispatch, type)
+  }
+
   render () {
     var buttonsClassNames = cn({
       withTitle: store.getState().planning.needsTitle,
@@ -220,6 +239,8 @@ export default class WritingTool extends Component {
 
           <div className='host'>
 
+            <TypePickerPopover pick={this.pick} />
+
             <div className='background' style={{
               backgroundPosition: 'center',
               backgroundSize: 'cover',
@@ -234,6 +255,9 @@ export default class WritingTool extends Component {
                 minNbWords={this.props.minNbWords}
                 onMobileFocus={this.closeDrawer.bind(this)}
                 backCallback={this.props.backCallback}
+                hideTextStyleButtons={this.props.hideTextStyleButtons}
+                hideAlignButtons={this.props.hideAlignButtons}
+                hideImageButton={this.props.hideImageButton}
               />
             </div>
 

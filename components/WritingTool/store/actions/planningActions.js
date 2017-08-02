@@ -7,6 +7,8 @@ import settingsEn from '../../assets/settings_en.json'
 export function usePreset (dispatch, preset) {
   const settings = settingsEn
 
+  dispatch(removeFields())
+
   if (settings[preset]) {
     dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle))
     settings[preset].fields.map(field => {

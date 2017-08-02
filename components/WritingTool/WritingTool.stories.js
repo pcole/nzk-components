@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import WritingTool from './WritingTool'
-import { withKnobs, select, text } from '@storybook/addon-knobs'
+import { withKnobs, select, text, boolean } from '@storybook/addon-knobs'
 
 const types = {
   story: 'story',
@@ -27,5 +27,8 @@ storiesOf('WritingTool', module)
       type={select('type', types, 'story')}
       writingImage={text('Image', '')}
       writingDescription={text('Description', '')}
+      hideImageButton={boolean('hideImageButton', true)}
+      hideTextStyleButtons={boolean('hideTextStyleButtons', true)}
+      hideAlignButtons={boolean('hideAlignButtons', true)}
     />
   )

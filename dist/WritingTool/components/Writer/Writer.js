@@ -813,7 +813,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     key: 'focus',
     value: function focus() {}
   }, {
-    key: 'exportAsHtml',
+    key: 'exportAsPdf',
     value: function exportAsHtml() {}
     // console.log(serializer.serialize(this.state.state))
 
