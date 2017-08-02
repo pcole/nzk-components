@@ -71,6 +71,10 @@ var _ProgressBar = require('./components/ProgressBar/ProgressBar');
 
 var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
 
+var _TypePickerPopover = require('./components/TypePickerPopover/TypePickerPopover');
+
+var _TypePickerPopover2 = _interopRequireDefault(_TypePickerPopover);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -110,6 +114,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function componentWillMount() {
       if (!(_store2.default.getState().planning.fields.length > 0)) {
 
+        window.usePreset = function (preset) {
+          (0, _planningActions.usePreset)(_store2.default.dispatch, preset);
+        };
         if (this.props.type === 'custom' || this.props.customType) {
           (0, _planningActions.useCustomPreset)(_store2.default.dispatch, this.props.customType);
         } else {
@@ -126,23 +133,12 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function getColorsFromBackground() {
       var _this2 = this;
 
-      /* const images = [
-        '/assets/angry-alligator-creek-back.jpg',
-        '/assets/arctic-wanderlust-back.jpg',
-        '/assets/doomed-sea-back.jpg',
-        '/assets/lava-tunnel-back.jpg',
-        '/assets/lesson-hive.jpg',
-        '/assets/temple.jpg',
-        '/assets/welcome-bg.jpg',
-        '/assets/what-why-where-woods-back.jpg',
-        '/assets/ac7ywy8tv3qf3quimykx.jpg',
-        '/assets/aa7ellrkrwfyljjnryne.jpg',
-        '/assets/papbnwocavrkia6fai0n.jpg',
-        '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
-        '/assets/fqutf1jckgysqaivhgpq.jpg'
-      ]
-      var pickedImage = images[Math.floor(Math.random() * (images.length - 1))] */
-      var pickedImage = this.props.image;
+      if (this.props.image) {
+        var pickedImage = this.props.image;
+      } else {
+        var images = ['/assets/angry-alligator-creek-back.jpg', '/assets/arctic-wanderlust-back.jpg', '/assets/doomed-sea-back.jpg', '/assets/lava-tunnel-back.jpg', '/assets/lesson-hive.jpg', '/assets/temple.jpg', '/assets/welcome-bg.jpg', '/assets/what-why-where-woods-back.jpg', '/assets/ac7ywy8tv3qf3quimykx.jpg', '/assets/aa7ellrkrwfyljjnryne.jpg', '/assets/papbnwocavrkia6fai0n.jpg', '/assets/hhzgyh7bgdbhtbu8rpzs.jpg', '/assets/fqutf1jckgysqaivhgpq.jpg'];
+        var pickedImage = images[Math.floor(Math.random() * (images.length - 1))];
+      }
 
       // CACHED BACKGROUND COLORS
       if (window.localStorage.getItem('nzk-bg-' + pickedImage)) {
@@ -245,6 +241,16 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       this.setState({ planningExpanded: false });
     }
   }, {
+    key: 'pick',
+    value: function pick(type) {
+      var POSSIBLE_TYPES = ['story', 'poetry', 'letter', 'instructions', 'opinion', 'news'];
+      if (POSSIBLE_TYPES.indexOf(type) < 0) {
+        return;
+      }
+
+      (0, _planningActions.usePreset)(_store2.default.dispatch, type);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var buttonsClassNames = (0, _classnames2.default)({
@@ -274,6 +280,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             'div',
             { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
+            _react2.default.createElement(_TypePickerPopover2.default, { pick: this.pick }),
             _react2.default.createElement('div', { className: 'background', style: {
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
@@ -290,7 +297,10 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
                 light: this.state.light,
                 minNbWords: this.props.minNbWords,
                 onMobileFocus: this.closeDrawer.bind(this),
-                backCallback: this.props.backCallback
+                backCallback: this.props.backCallback,
+                hideTextStyleButtons: this.props.hideTextStyleButtons,
+                hideAlignButtons: this.props.hideAlignButtons,
+                hideImageButton: this.props.hideImageButton
               })
             ),
             _react2.default.createElement(
@@ -371,7 +381,10 @@ WritingTool.propTypes = {
   }),
   writingImage: _propTypes2.default.string,
   writingDescription: _propTypes2.default.string,
-  backCallback: _propTypes2.default.func
+  backCallback: _propTypes2.default.func,
+  hideImageButton: _propTypes2.default.bool,
+  hideTextStyleButtons: _propTypes2.default.bool,
+  hideAlignButtons: _propTypes2.default.bool
 };
 WritingTool.defaultProps = {
   writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',

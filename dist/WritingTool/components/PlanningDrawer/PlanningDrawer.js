@@ -158,7 +158,7 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
               height: '40px',
               width: '40px',
               position: 'absolute',
-              background: 'url("' + this.props.icon + '")',
+              backgroundImage: 'url("' + this.props.icon + '")',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               backgroundSize: 'cover'

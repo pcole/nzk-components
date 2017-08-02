@@ -30,6 +30,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function usePreset(dispatch, preset) {
   var settings = _settings_en2.default;
 
+  dispatch(removeFields());
+
   if (settings[preset]) {
     dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle));
     settings[preset].fields.map(function (field) {

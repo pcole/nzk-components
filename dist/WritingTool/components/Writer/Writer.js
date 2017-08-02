@@ -61,6 +61,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _jspdf = require('jspdf');
+
+var _jspdf2 = _interopRequireDefault(_jspdf);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -102,29 +106,6 @@ var defaultBlock = {
         }
       }, props.attributes));
     },
-    'bulleted-list': function bulletedList(props) {
-      return _react2.default.createElement(
-        'ul',
-        props.attributes,
-        props.children
-      );
-    },
-    'list-item': function listItem(props) {
-      return _react2.default.createElement(
-        'li',
-        props.attributes,
-        props.children
-      );
-    },
-    'heading-one': function headingOne(props) {
-      return _react2.default.createElement(
-        'h1',
-        { style: {
-            fontSize: '24px'
-          } },
-        props.children
-      );
-    },
     'align-left': function alignLeft(props) {
       return _react2.default.createElement(
         'p',
@@ -149,20 +130,6 @@ var defaultBlock = {
         { style: {
             textAlign: 'right'
           } },
-        props.children
-      );
-    },
-    'heading-two': function headingTwo(props) {
-      return _react2.default.createElement(
-        'h2',
-        props.attributes,
-        props.children
-      );
-    },
-    'heading-three': function headingThree(props) {
-      return _react2.default.createElement(
-        'p',
-        props.attributes,
         props.children
       );
     }
@@ -218,9 +185,113 @@ var defaultBlock = {
   }
 };
 
+var BLOCK_TAGS = {
+  p: 'paragraph',
+  em: 'italic',
+  u: 'underline',
+  s: 'strikethrough'
+};
+
+var MARK_TAGS = {
+  strong: 'bold',
+  em: 'italic',
+  u: 'underline'
+};
+
+var RULES = [{
+  deserialize: function deserialize(el, next) {
+    var block = BLOCK_TAGS[el.tagName];
+    if (!block) return;
+    return {
+      kind: 'block',
+      type: block,
+      nodes: next(el.childNodes)
+    };
+  }
+}, {
+  serialize: function serialize(object, children) {
+    if (object.kind !== 'block') return;
+    switch (object.type) {
+      case 'paragraph':
+        return _react2.default.createElement(
+          'p',
+          null,
+          children
+        );
+      case 'align-left':
+        return _react2.default.createElement(
+          'p',
+          { style: { textAlign: 'left' } },
+          children
+        );
+      case 'align-center':
+        return _react2.default.createElement(
+          'p',
+          { style: { textAlign: 'center' } },
+          children
+        );
+      case 'align-right':
+        return _react2.default.createElement(
+          'p',
+          { style: { textAlign: 'right' } },
+          children
+        );
+      case 'image':
+        return _react2.default.createElement('img', { src: object.data.get('src'), className: 'importedImage', alt: '', align: 'middle', style: {
+            maxWidth: '75%',
+            maxHeight: '400px',
+            textAlign: 'center',
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '20px',
+            marginBottom: '20px'
+          }
+        });
+    }
+  }
+}, {
+  deserialize: function deserialize(el, next) {
+    var mark = MARK_TAGS[el.tagName];
+    if (!mark) return;
+    return {
+      kind: 'mark',
+      type: mark,
+      nodes: next(el.childNodes)
+    };
+  }
+}, {
+  serialize: function serialize(object, children) {
+    if (object.kind !== 'mark') return;
+    switch (object.type) {
+      case 'bold':
+        return _react2.default.createElement(
+          'strong',
+          null,
+          children
+        );
+      case 'italic':
+        return _react2.default.createElement(
+          'em',
+          null,
+          children
+        );
+      case 'underlined':
+        return _react2.default.createElement(
+          'u',
+          null,
+          children
+        );
+    }
+  }
+}];
+
+var serializer = new _slate.Html({ rules: RULES });
+
 var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   return {
     writing: store.writing,
+    planning: store.planning,
     needsTitle: store.planning.needsTitle
   };
 }), _dec2 = (0, _reactGsapEnhancer2.default)(), _dec(_class = _dec2(_class = function (_React$Component) {
@@ -429,20 +500,20 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
             )
           ),
-          _this.renderMarkButton('bold', 'bold'),
-          _this.renderMarkButton('italic', 'italic'),
-          _this.renderMarkButton('underlined', 'underline'),
-          _this.renderBlockButton('align-left', 'align-left'),
-          _this.renderBlockButton('align-center', 'align-center'),
-          _this.renderBlockButton('align-right', 'align-right'),
-          _this.renderBlockButton('image', 'picture-o'),
+          _this.props.hideTextStyleButtons ? null : _this.renderMarkButton('bold', 'bold'),
+          _this.props.hideTextStyleButtons ? null : _this.renderMarkButton('italic', 'italic'),
+          _this.props.hideTextStyleButtons ? null : _this.renderMarkButton('underlined', 'underline'),
+          _this.props.hideAlignButtons ? null : _this.renderBlockButton('align-left', 'align-left'),
+          _this.props.hideAlignButtons ? null : _this.renderBlockButton('align-center', 'align-center'),
+          _this.props.hideAlignButtons ? null : _this.renderBlockButton('align-right', 'align-right'),
+          _this.props.hideImageButton ? null : _this.renderBlockButton('image', 'picture-o'),
           _react2.default.createElement(
             'div',
             { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
             },
             _react2.default.createElement(
               _Button2.default,
-              { bgColor: 'white', shadow: true },
+              { bgColor: 'white', shadow: true, onClick: _this.saveAction.bind(_this) },
               'SAVE'
             )
           )
@@ -722,7 +793,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           'div',
           { className: 'image-popover', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          _react2.default.createElement(_Uploader2.default, { api: 'http://file.nightzookeeper.com/images/upload', uploadedImage: this.imageUploadSucceeded.bind(this) })
+          _react2.default.createElement(_Uploader2.default, { api: 'http://file.nightzookeeper.com/images/upload',
+            uploadedImage: this.imageUploadSucceeded.bind(this) })
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -736,6 +808,12 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
      *
      * @return {Element}
      */
+
+  }, {
+    key: 'saveAction',
+    value: function saveAction() {
+      this.exportAsPdf();
+    }
 
     /**
      * Render the toolbar.
@@ -813,10 +891,35 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     key: 'focus',
     value: function focus() {}
   }, {
+    key: 'print',
+    value: function print() {
+      var printWindow = window.open('', '', 'height=400,width=800');
+      printWindow.document.write('<html><head><title>Writing Tool Export</title>');
+      printWindow.document.write('</head><body style="margin: 20px; max-width: calc(100vw - 40px);">');
+      var content = '<div style="width: 100%; word-wrap: break-word;"><h1>' + this.props.writing.title + '</h1><div>' + html + '</div></div>';
+      printWindow.document.write('<div id="print">' + content + '</div>');
+      printWindow.document.write('<footer>Created by NightZooKeeper</footer>');
+      printWindow.document.write('</body></html>'
+      //printWindow.print()
+      //printWindow.close()
+      );
+    }
+  }, {
     key: 'exportAsPdf',
-    value: function exportAsHtml() {}
-    // console.log(serializer.serialize(this.state.state))
+    value: function exportAsPdf() {
+      var plain = _slate.Plain.serialize(this.state.state);
+      plain = '<p>' + plain.replace(/\n\n/g, '</p><p>');
+      plain += '</p>';
+      var content = '\n    <div style="height: 100%; background: red;">\n        <h1> Writing Sparks </h1>\n        \n        \n        <h2>Your ' + this.props.planning.title + '</h2>\n        <div><b>Date:</b> ' + new Date() + '</div>\n        \n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <h2>' + this.props.writing.title + '</h2>\n        <div>' + plain.replace(/\n/g, '<br />') + '</div>\n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons</div>\n    </div>\n    ';
 
+      var pdf = new _jspdf2.default();
+
+      pdf.fromHTML(content, 15, 15, {
+        'width': 175
+      }, function () {
+        pdf.save('WritingToolExport.pdf');
+      });
+    }
 
     /**
      * Render the Slate editor.
@@ -835,7 +938,10 @@ Writer.propTypes = {
   secondaryColor: _propTypes2.default.object,
   light: _propTypes2.default.bool,
   onMobileFocus: _propTypes2.default.func,
-  backCallback: _propTypes2.default.func
+  backCallback: _propTypes2.default.func,
+  hideImageButton: _propTypes2.default.bool,
+  hideTextStyleButtons: _propTypes2.default.bool,
+  hideAlignButtons: _propTypes2.default.bool
 };
 Writer.defaultProps = {
   progress: 0,
