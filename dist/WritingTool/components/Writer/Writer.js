@@ -528,7 +528,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: _this.clear },
-              _react2.default.createElement(_Icon2.default, { name: 'cross' })
+              'Clear'
             )
           )
         ),

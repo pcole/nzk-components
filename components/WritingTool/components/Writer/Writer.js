@@ -569,7 +569,7 @@ export default class Writer extends React.Component {
 
           <div className='toolbar-button save'>
             <Button bgColor='white' shadow onClick={this.clear}>
-              <Icon name='cross' />
+              Clear
             </Button>
           </div>
         </div>
