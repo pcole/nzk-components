@@ -124,6 +124,13 @@ export function loadPlanning (dispatch, planning) {
   })
 }
 
+export function clearPlanning () {
+  return {
+    type: 'CLEAR_PLANNING'
+  }
+}
+
+
 export function newField (title,
                           type,
                           nbFields,

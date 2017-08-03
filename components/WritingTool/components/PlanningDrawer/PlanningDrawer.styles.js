@@ -27,6 +27,7 @@ export default `
       top: 0;
       padding: 20px 30px;
       padding-bottom: 100px;
+      box-sizing: content-box;
       min-width: 365px;
       height: calc(100% - 60px);
       width: calc(100% - 40px);
@@ -55,6 +56,7 @@ export default `
     }
     
     .story-desc .informations {
+      display: flex;
       min-height: 150px;
       height: 150px;
       margin-top: 10px;
@@ -72,11 +74,9 @@ export default `
     }
     
     .host .story-desc .informations .description {
-      display: inline-block;
+      display: flex;
       width: calc(60% - 20px);
-      margin-left: 20px;
-      transform: translateY(-50%);
-      height: 100%;
+      margin-left: 20px;      
     }
 
     
@@ -91,12 +91,18 @@ export default `
         position: absolute;
         right: 0;
       }
+      
+
 
     }
     
     @media screen and (max-width: 1200px) {
       .host.step2 .story-desc .informations .description {
         margin-left: calc(40% + 30px);
+      }
+      
+      .drawer {
+         height: calc(100% - 140px);
       }
     }
     

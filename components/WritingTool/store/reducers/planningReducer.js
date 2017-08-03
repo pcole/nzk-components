@@ -122,6 +122,16 @@ export default function reducer (state = {
         lastSave: 0
       }
     }
+    case 'CLEAR_PLANNING': {
+      newFields = state.fields.slice()
+      newFields.map((field, i) => {
+        field.fields.map(input => input.value = '')
+      })
+      return {
+        ...state,
+        fields: newFields
+      }
+    }
     default:
       return state
   }

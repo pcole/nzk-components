@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ProgressBar.styles'
 import cn from 'classnames'
+import {connect} from 'react-redux'
 
+@connect(store => {
+  return {
+    nbWords: store.writing.nbWords,
+    lastSaveTime: store.writing.lastSaveTime
+  }
+})
 export default class ProgressBar extends Component {
   static propTypes = {
     nbWords: PropTypes.number,
@@ -56,14 +63,27 @@ export default class ProgressBar extends Component {
             {this.props.nbWords}
           </div>
 
-          <div className={minBarClassNames} />
+          { this.props.maxNbWords ? <div className={maxBarClassNames} /> : null }
+
+
 
           { this.props.maxNbWords ? <div className={maxBarClassNames} /> : null }
 
-          <div className='limit' style={{
+          { this.props.minNbWords ?  <div><div className={minBarClassNames} /><div className='limit' style={{
           }}>
             {this.props.minNbWords}
-          </div>
+          </div></div> : null }
+
+          { this.props.lastSaveTime
+            ? <div style={{
+            float: 'right',
+            marginRight: '20px',
+            lineHeight: '40px'
+          }}>Last save: {new Date(this.props.lastSaveTime).getHours()}:
+            {new Date(this.props.lastSaveTime).getMinutes()}:
+            {new Date(this.props.lastSaveTime).getSeconds()}</div>
+            : null }
+
         </div>
 
         <style jsx>{styles}</style>

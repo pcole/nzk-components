@@ -13,6 +13,7 @@ import GSAP from 'react-gsap-enhancer'
 import {TimelineMax} from 'gsap'
 import cn from 'classnames'
 import JsPDF from 'jspdf'
+import ProgressBar from '../ProgressBar/ProgressBar'
 
 /**
  * Define the default node type.
@@ -318,6 +319,13 @@ export default class Writer extends React.Component {
     this.recordScreenHeight()
   }
 
+
+  clear = () => {
+    this.props.clearPlanning();
+    this.props.clearWriting();
+    this.setState({state: Plain.deserialize('')})
+  }
+
   onDocumentChange = (document, state) => {
     var count = document.text.split(' ').filter(w => w.length > 0).length
     var progress = state.progress
@@ -498,15 +506,12 @@ export default class Writer extends React.Component {
           {this.props.needsTitle
             ? <div>
 
-              <T id='enter_title' defaultMessage='Enter your title here'>
-                {
-                  (msg) => <input className={titlebarClassNames} type='text' placeholder={msg} style={{
+              <input className={titlebarClassNames} type='text' placeholder={'Enter your title here'} style={{
                     color: this.props.light ? 'black' : 'white',
                     background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
                     borderBottom: `5px solid ${this.props.primaryColor}`
                   }} value={this.props.writing.title} onChange={this.handleTitleChange.bind(this)}/>
-                }
-              </T>
+
 
             </div>
             : null}
@@ -560,6 +565,12 @@ export default class Writer extends React.Component {
 
           <div className='toolbar-button save'>
             <Button bgColor='white' shadow onClick={this.saveAction.bind(this)}>SAVE</Button>
+          </div>
+
+          <div className='toolbar-button save'>
+            <Button bgColor='white' shadow onClick={this.clear}>
+              <Icon name='cross' />
+            </Button>
           </div>
         </div>
 
@@ -693,6 +704,8 @@ export default class Writer extends React.Component {
   }
 
   print() {
+    var html = serializer.serialize(this.state.state)
+
     var printWindow = window.open('', '', 'height=400,width=800')
     printWindow.document.write('<html><head><title>Writing Tool Export</title>')
     printWindow.document.write('</head><body style="margin: 20px; max-width: calc(100vw - 40px);">')
@@ -724,7 +737,7 @@ export default class Writer extends React.Component {
         <br/>
         <div>__________________________________________________________________________________</div>
         <br/>
-        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons</div>
+        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>
     </div>
     `
 
@@ -754,11 +767,9 @@ export default class Writer extends React.Component {
           color: this.props.light ? 'black' : 'white'
         }} onClick={this.focusEditor.bind(this)} name='editor'>
 
-          <T id='editor_placeholder' defaultMessage='Start writing here...'>
-            {
-              (msg) => <Editor
+           <Editor
                 spellCheck
-                placeholder={msg}
+                placeholder={'Start writing here...'}
                 schema={schema}
                 ref='slate'
                 state={this.state.state}
@@ -770,13 +781,13 @@ export default class Writer extends React.Component {
                   height: '100%'
                 }}
               />
-            }
-          </T>
+
 
 
         </div>
 
         {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
+
 
         <style jsx>{styles}</style>
       </div>

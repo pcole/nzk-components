@@ -30,7 +30,6 @@ export default `
   .writer {
     margin-top: 55px;
     height: calc(100vh - 95px);
-    overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }

@@ -9,7 +9,9 @@ import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
 import store from './store/store'
-import {usePreset, setInformations, loadPlanningLocalstorage, useCustomPreset} from './store/actions/planningActions'
+import {usePreset, setInformations, loadPlanningLocalstorage, useCustomPreset, clearPlanning} from './store/actions/planningActions'
+import {clearWriting} from './store/actions/writingActions'
+
 import {IntlProvider} from 'react-intl'
 import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
@@ -170,6 +172,10 @@ export default class WritingTool extends Component {
     document.addEventListener('touchmove', function (e) {
       e.preventDefault()
     })
+
+    document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
+      e.preventDefault()
+    })
   }
 
   onResize (e) {
@@ -215,6 +221,16 @@ export default class WritingTool extends Component {
     usePreset(store.dispatch, type)
   }
 
+  clearPlanning() {
+    window.localStorage.removeItem('nzk-planning')
+    store.dispatch(clearPlanning())
+  }
+
+  clearWriting() {
+    window.localStorage.removeItem('nzk-writing')
+    store.dispatch(clearWriting())
+  }
+
   render () {
     var buttonsClassNames = cn({
       withTitle: store.getState().planning.needsTitle,
@@ -234,7 +250,6 @@ export default class WritingTool extends Component {
     }
 
     return (
-      <IntlProvider locale='en'>
         <Provider store={store}>
 
           <div className='host'>
@@ -258,6 +273,8 @@ export default class WritingTool extends Component {
                 hideTextStyleButtons={this.props.hideTextStyleButtons}
                 hideAlignButtons={this.props.hideAlignButtons}
                 hideImageButton={this.props.hideImageButton}
+                clearWriting={this.clearWriting}
+                clearPlanning={this.clearPlanning}
               />
             </div>
 
@@ -289,11 +306,12 @@ export default class WritingTool extends Component {
 
             </div>
 
+
+            <style jsx global>{`* { box-sizing: border-box; }`}</style>
             <style jsx>{styles}</style>
 
             <div className='progressBar'>
               <ProgressBar
-                nbWords={store.getState().writing.nbWords}
                 minNbWords={store.getState().writing.constraints.minNbWords}
                 maxNbWords={store.getState().writing.constraints.maxNbWords}
                 progress={store.getState().writing.progress}
@@ -305,7 +323,6 @@ export default class WritingTool extends Component {
 
           </div>
         </Provider>
-      </IntlProvider>
     )
   }
 }

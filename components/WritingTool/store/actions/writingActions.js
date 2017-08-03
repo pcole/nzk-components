@@ -36,3 +36,9 @@ export function updateProgress (progress) {
     payload: progress
   }
 }
+
+export function clearWriting () {
+  return {
+    type: 'CLEAR_WRITING'
+  }
+}

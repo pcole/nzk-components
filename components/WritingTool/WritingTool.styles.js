@@ -65,7 +65,6 @@ export default `
     
     
     .buttons div.disabled {
-      box-sizing: border-box;
       line-height: 42px;
       background: rgba(0,0,0,0) !important;
       border-width: 3px;
@@ -73,7 +72,7 @@ export default `
     }
 
   .background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -99,6 +98,7 @@ export default `
   }
   
   .right {
+
     float: right;
     height: 100%;
     z-index: 5;

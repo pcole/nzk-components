@@ -4,32 +4,35 @@
 
 import { Raw } from 'slate'
 
-export default function reducer (
-  state = {
-    title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
-    state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
-      nodes: [
-        {
-          kind: 'block',
-          type: 'paragraph',
-          nodes: []
-        }
-      ]
-    },
-    lastSave: 0,
-    constraints: {
-      minNbWords: 30,
-      maxNbWords: undefined
-    },
-    save: {
-      save_succeeded: false,
-      save_failed: false,
-      save_error: undefined,
-      last_save: undefined
-    },
-    nbWords: 0,
-    progress: 0
+const initialState = {
+  title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
+  state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
+    nodes: [
+      {
+        kind: 'block',
+        type: 'paragraph',
+        nodes: []
+      }
+    ]
   },
+  lastSave: 0,
+  lastSaveTime: undefined,
+  constraints: {
+    minNbWords: undefined,
+    maxNbWords: undefined
+  },
+  save: {
+    save_succeeded: false,
+    save_failed: false,
+    save_error: undefined,
+    last_save: undefined
+  },
+  nbWords: 0,
+  progress: 0
+}
+
+export default function reducer (
+  state = initialState,
   action
 ) {
   switch (action.type) {
@@ -48,7 +51,8 @@ export default function reducer (
       }))
       return {
         ...state,
-        lastSave: 0
+        lastSave: 0,
+        lastSaveTime: Date.now()
       }
     }
     case 'UPDATE_NB_WORDS': {
@@ -93,6 +97,26 @@ export default function reducer (
         return newState
       } else {
         return state
+      }
+    }
+    case 'CLEAR_WRITING': {
+      return {
+        ...initialState,
+        title: '',
+        state: {
+          nodes: [
+            {
+              kind: 'block',
+              type: 'paragraph',
+              nodes: []
+            }
+          ]
+        },
+        lastSave: 0,
+        constraints: {
+          minNbWords: 30,
+          maxNbWords: undefined
+        }
       }
     }
     default:

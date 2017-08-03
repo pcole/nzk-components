@@ -124,25 +124,37 @@ export default class PlanningDrawer extends Component {
           <div className='plan-title' style={{
             color: this.props.light ? 'black' : 'white'
           }}>
-            <T id='plan-your' defaultMessage='Plan your' /> {this.props.title}
+            Plan your {this.props.title}
           </div>
         </div>
-        <div className='informations'>
-          <div
-            className='image'
-            style={{
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              backgroundImage: 'url("' + this.props.image + '")',
-              backgroundRepeat: 'no-repeat'
-            }}
-          />
-          <div className='description' style={{
-            color: this.props.light ? 'black' : 'white'
-          }}>
-            {this.props.description}
+
+        { this.props.image || this.props.description
+
+          ? <div className='informations'>
+
+            { this.props.image
+              ? <div
+                className='image'
+                style={{
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  backgroundImage: 'url("' + this.props.image + '")',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              />
+              : null }
+
+            { this.props.description
+              ? <div className='description' style={{
+                color: this.props.light ? 'black' : 'white'
+              }}>
+                {this.props.description}
+              </div>
+              : null }
+
           </div>
-        </div>
+          : null
+        }
         <style jsx>{styles}</style>
       </div>
     )
