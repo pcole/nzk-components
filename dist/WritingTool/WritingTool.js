@@ -43,6 +43,8 @@ var _store2 = _interopRequireDefault(_store);
 
 var _planningActions = require('./store/actions/planningActions');
 
+var _writingActions = require('./store/actions/writingActions');
+
 var _reactIntl = require('react-intl');
 
 var _nodeVibrant = require('node-vibrant');
@@ -205,6 +207,10 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       document.addEventListener('touchmove', function (e) {
         e.preventDefault();
       });
+
+      document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      });
     }
   }, {
     key: 'onResize',
@@ -251,6 +257,18 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       (0, _planningActions.usePreset)(_store2.default.dispatch, type);
     }
   }, {
+    key: 'clearPlanning',
+    value: function clearPlanning() {
+      window.localStorage.removeItem('nzk-planning');
+      _store2.default.dispatch((0, _planningActions.clearPlanning)());
+    }
+  }, {
+    key: 'clearWriting',
+    value: function clearWriting() {
+      window.localStorage.removeItem('nzk-writing');
+      _store2.default.dispatch((0, _writingActions.clearWriting)());
+    }
+  }, {
     key: 'render',
     value: function render() {
       var buttonsClassNames = (0, _classnames2.default)({
@@ -271,88 +289,97 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       };
 
       return _react2.default.createElement(
-        _reactIntl.IntlProvider,
-        { locale: 'en' },
+        _reactRedux.Provider,
+        { store: _store2.default },
         _react2.default.createElement(
-          _reactRedux.Provider,
-          { store: _store2.default },
+          'div',
+          { className: 'host', 'data-jsx': 4006594116,
+            'data-jsx-ext': _WritingTool2.default.__scopedHash
+          },
+          _react2.default.createElement(_TypePickerPopover2.default, { pick: this.pick }),
+          _react2.default.createElement('div', { className: 'background', style: {
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundImage: 'url("' + this.state.image + '")'
+            }, 'data-jsx': 4006594116,
+            'data-jsx-ext': _WritingTool2.default.__scopedHash
+          }),
           _react2.default.createElement(
             'div',
-            { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+            { className: 'column left planningExpanded', name: 'leftCol', 'data-jsx': 4006594116,
+              'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
-            _react2.default.createElement(_TypePickerPopover2.default, { pick: this.pick }),
-            _react2.default.createElement('div', { className: 'background', style: {
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-                backgroundImage: 'url("' + this.state.image + '")'
-              }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
+            _react2.default.createElement(_Writer2.default, {
+              primaryColor: this.state.primaryColor,
+              secondaryColor: this.state.secondaryColor,
+              light: this.state.light,
+              minNbWords: this.props.minNbWords,
+              onMobileFocus: this.closeDrawer.bind(this),
+              backCallback: this.props.backCallback,
+              hideTextStyleButtons: this.props.hideTextStyleButtons,
+              hideAlignButtons: this.props.hideAlignButtons,
+              hideImageButton: this.props.hideImageButton,
+              clearWriting: this.clearWriting,
+              clearPlanning: this.clearPlanning
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'column right planningExpanded', name: 'rightCol', 'data-jsx': 4006594116,
+              'data-jsx-ext': _WritingTool2.default.__scopedHash
+            },
+            _react2.default.createElement('div', { className: buttonBackgroundClassNames, style: {
+                backgroundColor: this.state.primaryColor
+              }, 'data-jsx': 4006594116,
+              'data-jsx-ext': _WritingTool2.default.__scopedHash
             }),
             _react2.default.createElement(
               'div',
-              { className: 'column left planningExpanded', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              { className: buttonsClassNames, 'data-jsx': 4006594116,
+                'data-jsx-ext': _WritingTool2.default.__scopedHash
               },
-              _react2.default.createElement(_Writer2.default, {
-                primaryColor: this.state.primaryColor,
-                secondaryColor: this.state.secondaryColor,
-                light: this.state.light,
-                minNbWords: this.props.minNbWords,
-                onMobileFocus: this.closeDrawer.bind(this),
-                backCallback: this.props.backCallback,
-                hideTextStyleButtons: this.props.hideTextStyleButtons,
-                hideAlignButtons: this.props.hideAlignButtons,
-                hideImageButton: this.props.hideImageButton
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'column right planningExpanded', name: 'rightCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-              },
-              _react2.default.createElement('div', { className: buttonBackgroundClassNames, style: {
-                  backgroundColor: this.state.primaryColor
-                }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
-              }),
               _react2.default.createElement(
                 'div',
-                { className: buttonsClassNames, 'data-jsx-ext': _WritingTool2.default.__scopedHash
+                {
+                  onClick: this.toggleExpand.bind(this),
+                  style: buttonsStyle,
+                  'data-jsx': 4006594116,
+                  'data-jsx-ext': _WritingTool2.default.__scopedHash
                 },
-                _react2.default.createElement(
-                  'div',
-                  {
-                    onClick: this.toggleExpand.bind(this),
-                    style: buttonsStyle,
-                    'data-jsx-ext': _WritingTool2.default.__scopedHash
-                  },
-                  _react2.default.createElement(_Icon2.default, {
-                    name: this.state.planningExpanded ? 'right' : 'left',
-                    fontSize: '25px',
-                    color: this.state.light ? 'black' : 'white'
-                  })
-                )
-              ),
-              _react2.default.createElement(_PlanningDrawer2.default, {
-                primaryColor: this.state.primaryColor,
-                secondaryColor: this.state.secondaryColor,
-                light: this.state.light
-              })
+                _react2.default.createElement(_Icon2.default, {
+                  name: this.state.planningExpanded ? 'right' : 'left',
+                  fontSize: '25px',
+                  color: this.state.light ? 'black' : 'white'
+                })
+              )
             ),
-            _react2.default.createElement(_style2.default, {
-              styleId: _WritingTool2.default.__scopedHash,
-              css: _WritingTool2.default.__scoped
-            }),
-            _react2.default.createElement(
-              'div',
-              { className: 'progressBar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-              },
-              _react2.default.createElement(_ProgressBar2.default, {
-                nbWords: _store2.default.getState().writing.nbWords,
-                minNbWords: _store2.default.getState().writing.constraints.minNbWords,
-                maxNbWords: _store2.default.getState().writing.constraints.maxNbWords,
-                progress: _store2.default.getState().writing.progress,
-                primaryColor: this.state.primaryColor,
-                secondaryColor: this.state.secondaryColor,
-                light: this.state.light
-              })
-            )
+            _react2.default.createElement(_PlanningDrawer2.default, {
+              primaryColor: this.state.primaryColor,
+              secondaryColor: this.state.secondaryColor,
+              light: this.state.light
+            })
+          ),
+          _react2.default.createElement(_style2.default, {
+            styleId: 4006594116,
+            css: '*{box-sizing:border-box}'
+          }),
+          _react2.default.createElement(_style2.default, {
+            styleId: _WritingTool2.default.__scopedHash,
+            css: _WritingTool2.default.__scoped
+          }),
+          _react2.default.createElement(
+            'div',
+            { className: 'progressBar', 'data-jsx': 4006594116,
+              'data-jsx-ext': _WritingTool2.default.__scopedHash
+            },
+            _react2.default.createElement(_ProgressBar2.default, {
+              minNbWords: _store2.default.getState().writing.constraints.minNbWords,
+              maxNbWords: _store2.default.getState().writing.constraints.maxNbWords,
+              progress: _store2.default.getState().writing.progress,
+              primaryColor: this.state.primaryColor,
+              secondaryColor: this.state.secondaryColor,
+              light: this.state.light
+            })
           )
         )
       );

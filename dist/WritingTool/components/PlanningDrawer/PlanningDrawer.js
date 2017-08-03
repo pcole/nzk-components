@@ -171,16 +171,15 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
                 color: this.props.light ? 'black' : 'white'
               }, 'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
             },
-            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'plan-your', defaultMessage: 'Plan your' }),
-            ' ',
+            'Plan your ',
             this.props.title
           )
         ),
-        _react2.default.createElement(
+        this.props.image || this.props.description ? _react2.default.createElement(
           'div',
           { className: 'informations', 'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
           },
-          _react2.default.createElement('div', {
+          this.props.image ? _react2.default.createElement('div', {
             className: 'image',
             style: {
               backgroundPosition: 'center',
@@ -189,16 +188,16 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
               backgroundRepeat: 'no-repeat'
             },
             'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
-          }),
-          _react2.default.createElement(
+          }) : null,
+          this.props.description ? _react2.default.createElement(
             'div',
             { className: 'description', style: {
                 color: this.props.light ? 'black' : 'white'
               }, 'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
             },
             this.props.description
-          )
-        ),
+          ) : null
+        ) : null,
         _react2.default.createElement(_style2.default, {
           styleId: _PlanningDrawer2.default.__scopedHash,
           css: _PlanningDrawer2.default.__scoped

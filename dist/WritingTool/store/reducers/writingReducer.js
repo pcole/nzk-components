@@ -12,30 +12,33 @@ exports.default = reducer;
 
 var _slate = require('slate');
 
+var initialState = {
+  title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
+  state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
+    nodes: [{
+      kind: 'block',
+      type: 'paragraph',
+      nodes: []
+    }]
+  },
+  lastSave: 0,
+  lastSaveTime: undefined,
+  constraints: {
+    minNbWords: undefined,
+    maxNbWords: undefined
+  },
+  save: {
+    save_succeeded: false,
+    save_failed: false,
+    save_error: undefined,
+    last_save: undefined
+  },
+  nbWords: 0,
+  progress: 0
+};
+
 function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
-    state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
-      nodes: [{
-        kind: 'block',
-        type: 'paragraph',
-        nodes: []
-      }]
-    },
-    lastSave: 0,
-    constraints: {
-      minNbWords: 30,
-      maxNbWords: undefined
-    },
-    save: {
-      save_succeeded: false,
-      save_failed: false,
-      save_error: undefined,
-      last_save: undefined
-    },
-    nbWords: 0,
-    progress: 0
-  };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
   switch (action.type) {
@@ -53,7 +56,8 @@ function reducer() {
           state: _slate.Raw.serialize(content)
         })));
         return _extends({}, state, {
-          lastSave: 0
+          lastSave: 0,
+          lastSaveTime: Date.now()
         });
       }
     case 'UPDATE_NB_WORDS':
@@ -98,6 +102,24 @@ function reducer() {
         } else {
           return state;
         }
+      }
+    case 'CLEAR_WRITING':
+      {
+        return _extends({}, initialState, {
+          title: '',
+          state: {
+            nodes: [{
+              kind: 'block',
+              type: 'paragraph',
+              nodes: []
+            }]
+          },
+          lastSave: 0,
+          constraints: {
+            minNbWords: 30,
+            maxNbWords: undefined
+          }
+        });
       }
     default:
       return state;

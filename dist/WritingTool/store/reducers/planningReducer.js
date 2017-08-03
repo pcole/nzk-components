@@ -130,6 +130,18 @@ function reducer() {
           lastSave: 0
         });
       }
+    case 'CLEAR_PLANNING':
+      {
+        newFields = state.fields.slice();
+        newFields.map(function (field, i) {
+          field.fields.map(function (input) {
+            return input.value = '';
+          });
+        });
+        return _extends({}, state, {
+          fields: newFields
+        });
+      }
     default:
       return state;
   }

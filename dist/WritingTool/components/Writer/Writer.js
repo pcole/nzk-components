@@ -65,6 +65,10 @@ var _jspdf = require('jspdf');
 
 var _jspdf2 = _interopRequireDefault(_jspdf);
 
+var _ProgressBar = require('../ProgressBar/ProgressBar');
+
+var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -330,6 +334,12 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       _this.recordScreenHeight();
     };
 
+    _this.clear = function () {
+      _this.props.clearPlanning();
+      _this.props.clearWriting();
+      _this.setState({ state: _slate.Plain.deserialize('') });
+    };
+
     _this.onDocumentChange = function (document, state) {
       var count = document.text.split(' ').filter(function (w) {
         return w.length > 0;
@@ -451,18 +461,12 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             {
               'data-jsx-ext': _Writer2.default.__scopedHash
             },
-            _react2.default.createElement(
-              _reactIntl.FormattedMessage,
-              { id: 'enter_title', defaultMessage: 'Enter your title here' },
-              function (msg) {
-                return _react2.default.createElement('input', { className: titlebarClassNames, type: 'text', placeholder: msg, style: {
-                    color: _this.props.light ? 'black' : 'white',
-                    background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
-                    borderBottom: '5px solid ' + _this.props.primaryColor
-                  }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
-                });
-              }
-            )
+            _react2.default.createElement('input', { className: titlebarClassNames, type: 'text', placeholder: 'Enter your title here', style: {
+                color: _this.props.light ? 'black' : 'white',
+                background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
+                borderBottom: '5px solid ' + _this.props.primaryColor
+              }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
+            })
           ) : null,
           _this.renderEditor()
         ),
@@ -515,6 +519,16 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: _this.saveAction.bind(_this) },
               'SAVE'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              { bgColor: 'white', shadow: true, onClick: _this.clear },
+              _react2.default.createElement(_Icon2.default, { name: 'cross' })
             )
           )
         ),
@@ -615,26 +629,20 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               color: _this.props.light ? 'black' : 'white'
             }, onClick: _this.focusEditor.bind(_this), name: 'editor', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          _react2.default.createElement(
-            _reactIntl.FormattedMessage,
-            { id: 'editor_placeholder', defaultMessage: 'Start writing here...' },
-            function (msg) {
-              return _react2.default.createElement(_slate.Editor, {
-                spellCheck: true,
-                placeholder: msg,
-                schema: schema,
-                ref: 'slate',
-                state: _this.state.state,
-                onFocus: _this.onFocus.bind(_this),
-                onBlur: _this.onBlur.bind(_this),
-                onChange: _this.onChange,
-                onDocumentChange: _this.onDocumentChange,
-                style: {
-                  height: '100%'
-                }
-              });
+          _react2.default.createElement(_slate.Editor, {
+            spellCheck: true,
+            placeholder: 'Start writing here...',
+            schema: schema,
+            ref: 'slate',
+            state: _this.state.state,
+            onFocus: _this.onFocus.bind(_this),
+            onBlur: _this.onBlur.bind(_this),
+            onChange: _this.onChange,
+            onDocumentChange: _this.onDocumentChange,
+            style: {
+              height: '100%'
             }
-          )
+          })
         ),
         _this.state.imagePopoverDisplayed ? _this.renderImagePopover() : null,
         _react2.default.createElement(_style2.default, {
@@ -893,6 +901,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'print',
     value: function print() {
+      var html = serializer.serialize(this.state.state);
+
       var printWindow = window.open('', '', 'height=400,width=800');
       printWindow.document.write('<html><head><title>Writing Tool Export</title>');
       printWindow.document.write('</head><body style="margin: 20px; max-width: calc(100vw - 40px);">');
@@ -910,7 +920,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       var plain = _slate.Plain.serialize(this.state.state);
       plain = '<p>' + plain.replace(/\n\n/g, '</p><p>');
       plain += '</p>';
-      var content = '\n    <div style="height: 100%; background: red;">\n        <h1> Writing Sparks </h1>\n        \n        \n        <h2>Your ' + this.props.planning.title + '</h2>\n        <div><b>Date:</b> ' + new Date() + '</div>\n        \n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <h2>' + this.props.writing.title + '</h2>\n        <div>' + plain.replace(/\n/g, '<br />') + '</div>\n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons</div>\n    </div>\n    ';
+      var content = '\n    <div style="height: 100%; background: red;">\n        <h1> Writing Sparks </h1>\n        \n        \n        <h2>Your ' + this.props.planning.title + '</h2>\n        <div><b>Date:</b> ' + new Date() + '</div>\n        \n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <h2>' + this.props.writing.title + '</h2>\n        <div>' + plain.replace(/\n/g, '<br />') + '</div>\n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>\n    </div>\n    ';
 
       var pdf = new _jspdf2.default();
 

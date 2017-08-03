@@ -11,6 +11,7 @@ exports.savePlanningLocalStorage = savePlanningLocalStorage;
 exports.loadPlanningLocalstorage = loadPlanningLocalstorage;
 exports.removeFields = removeFields;
 exports.loadPlanning = loadPlanning;
+exports.clearPlanning = clearPlanning;
 exports.newField = newField;
 exports.removeInput = removeInput;
 exports.addInput = addInput;
@@ -118,6 +119,12 @@ function loadPlanning(dispatch, planning) {
   planning.fields.map(function (field, i) {
     return dispatch(newField(field.title, field.type, field.numberOfFields, field.numberPerRow, field.overloadable, field.removeable, planning.fields[i].fields));
   });
+}
+
+function clearPlanning() {
+  return {
+    type: 'CLEAR_PLANNING'
+  };
 }
 
 function newField(title, type, nbFields, nbFieldsPerRow, overloadable, removeable, fields) {

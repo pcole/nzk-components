@@ -8,6 +8,7 @@ exports.saveWritingLocalstorage = saveWritingLocalstorage;
 exports.loadWritingLocalstorage = loadWritingLocalstorage;
 exports.updateNbWords = updateNbWords;
 exports.updateProgress = updateProgress;
+exports.clearWriting = clearWriting;
 /**
  * Created by benjaminafonso on 26/06/2017.
  */
@@ -44,5 +45,11 @@ function updateProgress(progress) {
   return {
     type: 'UPDATE_PROGRESS',
     payload: progress
+  };
+}
+
+function clearWriting() {
+  return {
+    type: 'CLEAR_WRITING'
   };
 }
