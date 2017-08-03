@@ -11,7 +11,7 @@ export default `
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       line-height: 1.5;
-                box-sizing: content-box;
+      box-sizing: content-box;
 
     }
     

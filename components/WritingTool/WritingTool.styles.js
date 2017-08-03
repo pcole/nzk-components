@@ -112,11 +112,15 @@ export default `
      }
      
      .right {
+       position: absolute;
+       right: 0;
+       top: 0;
        width: 30px;
        transform: translateX(0px);
      }
  
      .right.planningExpanded {
+     
        width: 415px;
      }
      
