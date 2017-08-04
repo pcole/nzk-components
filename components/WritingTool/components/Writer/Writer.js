@@ -14,6 +14,7 @@ import {TimelineMax} from 'gsap'
 import cn from 'classnames'
 import JsPDF from 'jspdf'
 import ProgressBar from '../ProgressBar/ProgressBar'
+import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 /**
  * Define the default node type.
@@ -160,7 +161,7 @@ const RULES = [
             marginTop: '20px',
             marginBottom: '20px'
           }}
-           />
+          />
       }
     }
   },
@@ -215,7 +216,8 @@ export default class Writer extends React.Component {
       mobile: false,
       focus: false,
       imagePopoverDisplayed: false,
-      toolbarDisabled: true
+      toolbarDisabled: true,
+      modal: null
     }
     this.throttledSave = throttle(this.save, 3000)
   }
@@ -319,10 +321,9 @@ export default class Writer extends React.Component {
     this.recordScreenHeight()
   }
 
-
   clear = () => {
-    this.props.clearPlanning();
-    this.props.clearWriting();
+    this.props.clearPlanning()
+    this.props.clearWriting()
     this.setState({state: Plain.deserialize('')})
   }
 
@@ -367,6 +368,22 @@ export default class Writer extends React.Component {
     if (this.props.writing.lastSave > 3) {
       this.props.dispatch(saveWritingLocalstorage())
     }
+  }
+
+  displayModal (message, onConfirm, onCancel, confirmMessage, cancelMessage) {
+    this.setState({
+      modal: <ConfirmModal message={message}
+                           onConfirm={onConfirm}
+                           onCancel={onCancel}
+                           confirmText={confirmMessage}
+                           cancelText={cancelMessage} />
+    })
+  }
+
+  dismissModal () {
+    this.setState({
+      modal: null
+    })
   }
 
   /**
@@ -507,16 +524,19 @@ export default class Writer extends React.Component {
             ? <div>
 
               <input className={titlebarClassNames} type='text' placeholder={'Enter your title here'} style={{
-                    color: this.props.light ? 'black' : 'white',
-                    background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
-                    borderBottom: `5px solid ${this.props.primaryColor}`
-                  }} value={this.props.writing.title} onChange={this.handleTitleChange.bind(this)}/>
+                color: this.props.light ? 'black' : 'white',
+                background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
+                borderBottom: `5px solid ${this.props.primaryColor}`
+              }} value={this.props.writing.title} onChange={this.handleTitleChange.bind(this)}/>
 
 
             </div>
             : null}
 
           {this.renderEditor()}
+
+          {this.state.modal}
+
         </div>
         <style jsx>{styles}</style>
       </div>
@@ -548,7 +568,9 @@ export default class Writer extends React.Component {
              }}>
 
           <div className='toolbar-button'>
-            <Button bgColor='white' shadow round onClick={this.props.backCallback ? this.props.backCallback : () => {
+            <Button bgColor='white' shadow round onClick={this.props.backCallback ? () => {
+              this.displayModal("Are you sure? Have you saved your work?", () => { this.clear(); this.props.backCallback() }, this.dismissModal.bind(this),  'Yes', 'No')
+            } : () => {
             }}>
               <Icon name='left' color='black'/>
             </Button>
@@ -568,7 +590,9 @@ export default class Writer extends React.Component {
           </div>
 
           <div className='toolbar-button save'>
-            <Button bgColor='white' shadow onClick={this.clear}>
+            <Button bgColor='white' shadow onClick={() => {
+              this.displayModal("Are you sure? This will clear everything on the page.", this.clear.bind(this), this.dismissModal.bind(this))
+            }}>
               Clear
             </Button>
           </div>
@@ -703,7 +727,7 @@ export default class Writer extends React.Component {
   focus () {
   }
 
-  print() {
+  print () {
     var html = serializer.serialize(this.state.state)
 
     var printWindow = window.open('', '', 'height=400,width=800')
@@ -719,7 +743,7 @@ export default class Writer extends React.Component {
 
   exportAsPdf () {
     var plain = Plain.serialize(this.state.state)
-    plain = '<p>'+plain.replace(/\n\n/g, '</p><p>')
+    plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
     plain += '</p>'
     var content = `
     <div style="height: 100%; background: red;">
@@ -767,21 +791,20 @@ export default class Writer extends React.Component {
           color: this.props.light ? 'black' : 'white'
         }} onClick={this.focusEditor.bind(this)} name='editor'>
 
-           <Editor
-                spellCheck
-                placeholder={'Start writing here...'}
-                schema={schema}
-                ref='slate'
-                state={this.state.state}
-                onFocus={this.onFocus.bind(this)}
-                onBlur={this.onBlur.bind(this)}
-                onChange={this.onChange}
-                onDocumentChange={this.onDocumentChange}
-                style={{
-                  height: '100%'
-                }}
-              />
-
+          <Editor
+            spellCheck
+            placeholder={'Start writing here...'}
+            schema={schema}
+            ref='slate'
+            state={this.state.state}
+            onFocus={this.onFocus.bind(this)}
+            onBlur={this.onBlur.bind(this)}
+            onChange={this.onChange}
+            onDocumentChange={this.onDocumentChange}
+            style={{
+              height: '100%'
+            }}
+          />
 
 
         </div>

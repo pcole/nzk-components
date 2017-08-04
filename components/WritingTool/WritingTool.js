@@ -54,7 +54,7 @@ export default class WritingTool extends Component {
 
   static defaultProps = {
     writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'
+    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
   }
 
   state = {

@@ -30,5 +30,6 @@ storiesOf('WritingTool', module)
       hideImageButton={boolean('hideImageButton', true)}
       hideTextStyleButtons={boolean('hideTextStyleButtons', true)}
       hideAlignButtons={boolean('hideAlignButtons', true)}
+      backCallback={() => {console.log('BACK ACTION')}}
     />
   )
