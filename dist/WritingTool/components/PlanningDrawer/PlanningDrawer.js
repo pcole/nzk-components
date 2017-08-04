@@ -184,7 +184,7 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
             className: 'image',
             style: {
               backgroundPosition: 'center',
-              backgroundSize: 'cover',
+              backgroundSize: 'contain',
               backgroundImage: 'url("' + this.props.image + '")',
               backgroundRepeat: 'no-repeat'
             },

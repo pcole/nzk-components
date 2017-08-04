@@ -139,7 +139,7 @@ export default class PlanningDrawer extends Component {
                 className='image'
                 style={{
                   backgroundPosition: 'center',
-                  backgroundSize: 'cover',
+                  backgroundSize: 'contain',
                   backgroundImage: 'url("' + this.props.image + '")',
                   backgroundRepeat: 'no-repeat'
                 }}
