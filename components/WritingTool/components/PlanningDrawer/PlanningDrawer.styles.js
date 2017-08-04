@@ -76,6 +76,7 @@ export default `
     .host .story-desc .informations .description {
       display: flex;
       width: calc(60% - 20px);
+      align-self: center;
       margin-left: 20px;      
     }
 
