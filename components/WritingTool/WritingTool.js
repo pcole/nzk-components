@@ -9,7 +9,13 @@ import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
 import store from './store/store'
-import {usePreset, setInformations, loadPlanningLocalstorage, useCustomPreset, clearPlanning} from './store/actions/planningActions'
+import {
+  usePreset,
+  setInformations,
+  loadPlanningLocalstorage,
+  useCustomPreset,
+  clearPlanning
+} from './store/actions/planningActions'
 import {clearWriting} from './store/actions/writingActions'
 
 import {IntlProvider} from 'react-intl'
@@ -54,7 +60,7 @@ export default class WritingTool extends Component {
 
   static defaultProps = {
     writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
+    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'
   }
 
   state = {
@@ -67,25 +73,23 @@ export default class WritingTool extends Component {
   }
 
   componentWillMount () {
-    if (!(store.getState().planning.fields.length > 0)) {
 
-      window.usePreset = (preset) => { usePreset(store.dispatch, preset) }
-      if (this.props.type === 'custom' || this.props.customType) {
-        useCustomPreset(store.dispatch, this.props.customType)
-      } else {
-        usePreset(store.dispatch, this.props.type)
-      }
-
-      store.dispatch(setInformations(this.props.writingImage,
-        this.props.writingDescription))
+    window.usePreset = (preset) => {
+      usePreset(store.dispatch, preset)
     }
+    if (this.props.type === 'custom' || this.props.customType) {
+      useCustomPreset(store.dispatch, this.props.customType)
+    } else {
+      usePreset(store.dispatch, this.props.type)
+    }
+
+    store.dispatch(setInformations(this.props.writingImage,
+      this.props.writingDescription))
 
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
   getColorsFromBackground () {
-
-
 
     if (this.props.image) {
       var pickedImage = this.props.image
@@ -213,7 +217,7 @@ export default class WritingTool extends Component {
   }
 
   pick (type) {
-    const POSSIBLE_TYPES = ['story', 'poetry', 'letter', 'instructions', 'opinion', 'news',]
+    const POSSIBLE_TYPES = ['story', 'poetry', 'letter', 'instructions', 'opinion', 'news']
     if (POSSIBLE_TYPES.indexOf(type) < 0) {
       return
     }
@@ -221,12 +225,12 @@ export default class WritingTool extends Component {
     usePreset(store.dispatch, type)
   }
 
-  clearPlanning() {
+  clearPlanning () {
     window.localStorage.removeItem('nzk-planning')
     store.dispatch(clearPlanning())
   }
 
-  clearWriting() {
+  clearWriting () {
     window.localStorage.removeItem('nzk-writing')
     store.dispatch(clearWriting())
   }
@@ -250,79 +254,79 @@ export default class WritingTool extends Component {
     }
 
     return (
-        <Provider store={store}>
+      <Provider store={store}>
 
-          <div className='host'>
+        <div className='host'>
 
-            <TypePickerPopover pick={this.pick} />
+          <TypePickerPopover pick={this.pick}/>
 
-            <div className='background' style={{
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              backgroundImage: 'url("' + this.state.image + '")'
+          <div className='background' style={{
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundImage: 'url("' + this.state.image + '")'
+          }}/>
+
+          <div className='column left planningExpanded' name='leftCol'>
+            <Writer
+              primaryColor={this.state.primaryColor}
+              secondaryColor={this.state.secondaryColor}
+              light={this.state.light}
+              minNbWords={this.props.minNbWords}
+              onMobileFocus={this.closeDrawer.bind(this)}
+              backCallback={this.props.backCallback}
+              hideTextStyleButtons={this.props.hideTextStyleButtons}
+              hideAlignButtons={this.props.hideAlignButtons}
+              hideImageButton={this.props.hideImageButton}
+              clearWriting={this.clearWriting}
+              clearPlanning={this.clearPlanning}
+            />
+          </div>
+
+          <div className='column right planningExpanded' name='rightCol'>
+
+            <div className={buttonBackgroundClassNames} style={{
+              backgroundColor: this.state.primaryColor
             }}/>
 
-            <div className='column left planningExpanded' name='leftCol'>
-              <Writer
-                primaryColor={this.state.primaryColor}
-                secondaryColor={this.state.secondaryColor}
-                light={this.state.light}
-                minNbWords={this.props.minNbWords}
-                onMobileFocus={this.closeDrawer.bind(this)}
-                backCallback={this.props.backCallback}
-                hideTextStyleButtons={this.props.hideTextStyleButtons}
-                hideAlignButtons={this.props.hideAlignButtons}
-                hideImageButton={this.props.hideImageButton}
-                clearWriting={this.clearWriting}
-                clearPlanning={this.clearPlanning}
-              />
-            </div>
+            <div className={buttonsClassNames}>
+              <div
+                onClick={this.toggleExpand.bind(this)}
+                style={buttonsStyle}
+              >
+                <Icon
+                  name={this.state.planningExpanded ? 'right' : 'left'}
+                  fontSize='25px'
+                  color={this.state.light ? 'black' : 'white'}
+                />
 
-            <div className='column right planningExpanded' name='rightCol'>
-
-              <div className={buttonBackgroundClassNames} style={{
-                backgroundColor: this.state.primaryColor
-              }}/>
-
-              <div className={buttonsClassNames}>
-                <div
-                  onClick={this.toggleExpand.bind(this)}
-                  style={buttonsStyle}
-                >
-                  <Icon
-                    name={this.state.planningExpanded ? 'right' : 'left'}
-                    fontSize='25px'
-                    color={this.state.light ? 'black' : 'white'}
-                  />
-
-                </div>
               </div>
-
-              <PlanningDrawer
-                primaryColor={this.state.primaryColor}
-                secondaryColor={this.state.secondaryColor}
-                light={this.state.light}
-              />
-
             </div>
 
-
-            <style jsx global>{`* { box-sizing: border-box; }`}</style>
-            <style jsx>{styles}</style>
-
-            <div className='progressBar'>
-              <ProgressBar
-                minNbWords={store.getState().writing.constraints.minNbWords}
-                maxNbWords={store.getState().writing.constraints.maxNbWords}
-                progress={store.getState().writing.progress}
-                primaryColor={this.state.primaryColor}
-                secondaryColor={this.state.secondaryColor}
-                light={this.state.light}
-              />
-            </div>
+            <PlanningDrawer
+              primaryColor={this.state.primaryColor}
+              secondaryColor={this.state.secondaryColor}
+              light={this.state.light}
+            />
 
           </div>
-        </Provider>
+
+
+          <style jsx global>{`* { box-sizing: border-box; }`}</style>
+          <style jsx>{styles}</style>
+
+          <div className='progressBar'>
+            <ProgressBar
+              minNbWords={store.getState().writing.constraints.minNbWords}
+              maxNbWords={store.getState().writing.constraints.maxNbWords}
+              progress={store.getState().writing.progress}
+              primaryColor={this.state.primaryColor}
+              secondaryColor={this.state.secondaryColor}
+              light={this.state.light}
+            />
+          </div>
+
+        </div>
+      </Provider>
     )
   }
 }

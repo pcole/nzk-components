@@ -114,19 +114,17 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   _createClass(WritingTool, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      if (!(_store2.default.getState().planning.fields.length > 0)) {
 
-        window.usePreset = function (preset) {
-          (0, _planningActions.usePreset)(_store2.default.dispatch, preset);
-        };
-        if (this.props.type === 'custom' || this.props.customType) {
-          (0, _planningActions.useCustomPreset)(_store2.default.dispatch, this.props.customType);
-        } else {
-          (0, _planningActions.usePreset)(_store2.default.dispatch, this.props.type);
-        }
-
-        _store2.default.dispatch((0, _planningActions.setInformations)(this.props.writingImage, this.props.writingDescription));
+      window.usePreset = function (preset) {
+        (0, _planningActions.usePreset)(_store2.default.dispatch, preset);
+      };
+      if (this.props.type === 'custom' || this.props.customType) {
+        (0, _planningActions.useCustomPreset)(_store2.default.dispatch, this.props.customType);
+      } else {
+        (0, _planningActions.usePreset)(_store2.default.dispatch, this.props.type);
       }
+
+      _store2.default.dispatch((0, _planningActions.setInformations)(this.props.writingImage, this.props.writingDescription));
 
       window.addEventListener('resize', this.onResize.bind(this));
     }
