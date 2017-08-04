@@ -69,6 +69,10 @@ var _ProgressBar = require('../ProgressBar/ProgressBar');
 
 var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
 
+var _ConfirmModal = require('../ConfirmModal/ConfirmModal');
+
+var _ConfirmModal2 = _interopRequireDefault(_ConfirmModal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -468,7 +472,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
             })
           ) : null,
-          _this.renderEditor()
+          _this.renderEditor(),
+          _this.state.modal
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -500,7 +505,11 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             _react2.default.createElement(
               _Button2.default,
-              { bgColor: 'white', shadow: true, round: true, onClick: _this.props.backCallback ? _this.props.backCallback : function () {} },
+              { bgColor: 'white', shadow: true, round: true, onClick: _this.props.backCallback ? function () {
+                  _this.displayModal("Are you sure? Have you saved your work?", function () {
+                    _this.clear();_this.props.backCallback();
+                  }, _this.dismissModal.bind(_this), 'Yes', 'No');
+                } : function () {} },
               _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
             )
           ),
@@ -527,7 +536,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             _react2.default.createElement(
               _Button2.default,
-              { bgColor: 'white', shadow: true, onClick: _this.clear },
+              { bgColor: 'white', shadow: true, onClick: function onClick() {
+                  _this.displayModal("Are you sure? This will clear everything on the page.", _this.clear.bind(_this), _this.dismissModal.bind(_this));
+                } },
               'Clear'
             )
           )
@@ -658,7 +669,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       mobile: false,
       focus: false,
       imagePopoverDisplayed: false,
-      toolbarDisabled: true
+      toolbarDisabled: true,
+      modal: null
     };
     _this.throttledSave = (0, _throttle2.default)(_this.save, 3000);
     return _this;
@@ -741,6 +753,24 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       if (this.props.writing.lastSave > 3) {
         this.props.dispatch((0, _writingActions.saveWritingLocalstorage)());
       }
+    }
+  }, {
+    key: 'displayModal',
+    value: function displayModal(message, onConfirm, onCancel, confirmMessage, cancelMessage) {
+      this.setState({
+        modal: _react2.default.createElement(_ConfirmModal2.default, { message: message,
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          confirmText: confirmMessage,
+          cancelText: cancelMessage })
+      });
+    }
+  }, {
+    key: 'dismissModal',
+    value: function dismissModal() {
+      this.setState({
+        modal: null
+      });
     }
 
     /**
