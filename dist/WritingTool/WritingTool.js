@@ -77,6 +77,10 @@ var _TypePickerPopover = require('./components/TypePickerPopover/TypePickerPopov
 
 var _TypePickerPopover2 = _interopRequireDefault(_TypePickerPopover);
 
+var _ConfirmModal = require('./components/ConfirmModal/ConfirmModal');
+
+var _ConfirmModal2 = _interopRequireDefault(_ConfirmModal);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -107,7 +111,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       primaryColor: undefined,
       secondaryColor: undefined,
       image: undefined,
-      light: false
+      light: false,
+      modal: undefined
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -216,6 +221,24 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       });
     }
   }, {
+    key: 'displayModal',
+    value: function displayModal(message, onConfirm, onCancel, confirmMessage, cancelMessage) {
+      this.setState({
+        modal: _react2.default.createElement(_ConfirmModal2.default, { message: message,
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          confirmText: confirmMessage,
+          cancelText: cancelMessage })
+      });
+    }
+  }, {
+    key: 'dismissModal',
+    value: function dismissModal() {
+      this.setState({
+        modal: null
+      });
+    }
+  }, {
     key: 'onResize',
     value: function onResize(e) {
       if (e.target.window.innerWidth > 1280) {
@@ -304,6 +327,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             'data-jsx-ext': _WritingTool2.default.__scopedHash
           },
           _react2.default.createElement(_TypePickerPopover2.default, { pick: this.pick }),
+          this.state.modal,
           _react2.default.createElement('div', { className: 'background', style: {
               backgroundPosition: 'center',
               backgroundSize: 'cover',
@@ -328,7 +352,10 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               hideImageButton: this.props.hideImageButton,
               hideClearButton: this.props.hideClearButton,
               clearWriting: this.clearWriting,
-              clearPlanning: this.clearPlanning
+              clearPlanning: this.clearPlanning,
+              displayModal: this.displayModal.bind(this),
+              dismissModal: this.dismissModal.bind(this)
+
             })
           ),
           _react2.default.createElement(

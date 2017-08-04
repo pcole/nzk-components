@@ -373,21 +373,9 @@ export default class Writer extends React.Component {
     }
   }
 
-  displayModal (message, onConfirm, onCancel, confirmMessage, cancelMessage) {
-    this.setState({
-      modal: <ConfirmModal message={message}
-                           onConfirm={onConfirm}
-                           onCancel={onCancel}
-                           confirmText={confirmMessage}
-                           cancelText={cancelMessage} />
-    })
-  }
 
-  dismissModal () {
-    this.setState({
-      modal: null
-    })
-  }
+
+
 
   /**
    * When a mark button is clicked, toggle the current mark.
@@ -538,7 +526,6 @@ export default class Writer extends React.Component {
 
           {this.renderEditor()}
 
-          {this.state.modal}
 
         </div>
         <style jsx>{styles}</style>
@@ -572,7 +559,7 @@ export default class Writer extends React.Component {
 
           <div className='toolbar-button'>
             <Button bgColor='white' shadow round onClick={this.props.backCallback ? () => {
-              this.displayModal("Are you sure? Have you saved your work?", () => { this.clear(); this.props.backCallback() }, this.dismissModal.bind(this),  'Yes', 'No')
+              this.props.displayModal("Are you sure? Have you saved your work?", () => { this.clear(); this.props.backCallback() }, this.props.dismissModal,  'Yes', 'No')
             } : () => {
             }}>
               <Icon name='left' color='black'/>
@@ -594,7 +581,7 @@ export default class Writer extends React.Component {
 
           {this.props.hideClearButton ? null : <div className='toolbar-button save'>
             <Button bgColor='white' shadow onClick={() => {
-              this.displayModal("Are you sure? This will clear everything on the page.", this.clear.bind(this), this.dismissModal.bind(this))
+              this.props.displayModal("Are you sure? This will clear everything on the page.", this.clear.bind(this), this.props.dismissModal)
             }}>
               Clear
             </Button>

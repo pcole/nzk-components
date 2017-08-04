@@ -472,8 +472,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               }, value: _this.props.writing.title, onChange: _this.handleTitleChange.bind(_this), 'data-jsx-ext': _Writer2.default.__scopedHash
             })
           ) : null,
-          _this.renderEditor(),
-          _this.state.modal
+          _this.renderEditor()
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,
@@ -506,9 +505,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, round: true, onClick: _this.props.backCallback ? function () {
-                  _this.displayModal("Are you sure? Have you saved your work?", function () {
+                  _this.props.displayModal("Are you sure? Have you saved your work?", function () {
                     _this.clear();_this.props.backCallback();
-                  }, _this.dismissModal.bind(_this), 'Yes', 'No');
+                  }, _this.props.dismissModal, 'Yes', 'No');
                 } : function () {} },
               _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
             )
@@ -537,7 +536,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: function onClick() {
-                  _this.displayModal("Are you sure? This will clear everything on the page.", _this.clear.bind(_this), _this.dismissModal.bind(_this));
+                  _this.props.displayModal("Are you sure? This will clear everything on the page.", _this.clear.bind(_this), _this.props.dismissModal);
                 } },
               'Clear'
             )
@@ -752,24 +751,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       if (this.props.writing.lastSave > 3) {
         this.props.dispatch((0, _writingActions.saveWritingLocalstorage)());
       }
-    }
-  }, {
-    key: 'displayModal',
-    value: function displayModal(message, onConfirm, onCancel, confirmMessage, cancelMessage) {
-      this.setState({
-        modal: _react2.default.createElement(_ConfirmModal2.default, { message: message,
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          confirmText: confirmMessage,
-          cancelText: cancelMessage })
-      });
-    }
-  }, {
-    key: 'dismissModal',
-    value: function dismissModal() {
-      this.setState({
-        modal: null
-      });
     }
 
     /**

@@ -27,6 +27,7 @@ import cn from 'classnames'
 import Color from 'color'
 import ProgressBar from './components/ProgressBar/ProgressBar'
 import TypePickerPopover from './components/TypePickerPopover/TypePickerPopover'
+import ConfirmModal from './components/ConfirmModal/ConfirmModal'
 
 @GSAP()
 export default class WritingTool extends Component {
@@ -71,7 +72,8 @@ export default class WritingTool extends Component {
     primaryColor: undefined,
     secondaryColor: undefined,
     image: undefined,
-    light: false
+    light: false,
+    modal: undefined
   }
 
   componentWillMount () {
@@ -195,6 +197,22 @@ export default class WritingTool extends Component {
     })
   }
 
+  displayModal (message, onConfirm, onCancel, confirmMessage, cancelMessage) {
+    this.setState({
+      modal: <ConfirmModal message={message}
+                           onConfirm={onConfirm}
+                           onCancel={onCancel}
+                           confirmText={confirmMessage}
+                           cancelText={cancelMessage} />
+    })
+  }
+
+  dismissModal () {
+    this.setState({
+      modal: null
+    })
+  }
+
   onResize (e) {
     if (e.target.window.innerWidth > 1280) {
       this.setState({planningExpanded: true})
@@ -273,6 +291,8 @@ export default class WritingTool extends Component {
 
           <TypePickerPopover pick={this.pick}/>
 
+          {this.state.modal}
+
           <div className='background' style={{
             backgroundPosition: 'center',
             backgroundSize: 'cover',
@@ -293,6 +313,9 @@ export default class WritingTool extends Component {
               hideClearButton={this.props.hideClearButton}
               clearWriting={this.clearWriting}
               clearPlanning={this.clearPlanning}
+              displayModal={this.displayModal.bind(this)}
+              dismissModal={this.dismissModal.bind(this)}
+
             />
           </div>
 
