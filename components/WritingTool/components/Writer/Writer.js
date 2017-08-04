@@ -232,7 +232,8 @@ export default class Writer extends React.Component {
     backCallback: PropTypes.func,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
-    hideAlignButtons: PropTypes.bool
+    hideAlignButtons: PropTypes.bool,
+    hideClearButton: PropTypes.bool
   }
 
   static defaultProps = {
@@ -246,15 +247,17 @@ export default class Writer extends React.Component {
       this.refs.writer.style.height = 'calc(100vh - 155px)'
     }
 
-    this.refs.writer.addEventListener('touchmove', function (e) {
+    this.refs.editor.addEventListener('touchmove', function (e) {
       e.stopPropagation()
     })
+
+
 
     this.refs.writer.addEventListener('click', (function (e) {
 
     }).bind(this))
 
-    this.refs.writer.addEventListener('touchstart', (function (e) {
+    /* this.refs.writer.addEventListener('touchstart', (function (e) {
 
       if (!this.state.focus) {
         setTimeout((() => {
@@ -266,7 +269,7 @@ export default class Writer extends React.Component {
 
       e.stopPropagation()
 
-    }).bind(this))
+    }).bind(this)) */
 
   }
 
@@ -589,13 +592,13 @@ export default class Writer extends React.Component {
             <Button bgColor='white' shadow onClick={this.saveAction.bind(this)}>SAVE</Button>
           </div>
 
-          <div className='toolbar-button save'>
+          {this.props.hideClearButton ? null : <div className='toolbar-button save'>
             <Button bgColor='white' shadow onClick={() => {
               this.displayModal("Are you sure? This will clear everything on the page.", this.clear.bind(this), this.dismissModal.bind(this))
             }}>
               Clear
             </Button>
-          </div>
+          </div> }
         </div>
 
         <style jsx>{styles}</style>
@@ -657,11 +660,11 @@ export default class Writer extends React.Component {
       document.body.scrollTop = 0
 
       if (window.innerHeight < window.innerWidth) {
-        this.refs.writer.style.minHeight = '220px'
-        this.refs.writer.style.height = '220px'
+        this.refs.writer.style.minHeight = '255px'
+        this.refs.writer.style.height = '255px'
       } else {
-        this.refs.writer.style.minHeight = '560px'
-        this.refs.writer.style.height = '560px'
+        this.refs.writer.style.minHeight = '565px'
+        this.refs.writer.style.height = '565px'
       }
 
     }
@@ -782,7 +785,7 @@ export default class Writer extends React.Component {
 
   renderEditor = () => {
     return (
-      <div className='host' ref='host' style={{
+      <div className='editor-wrapper' ref='host' style={{
         boxShadow: `0px 149px 207px 72px ${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`
       }}>
 

@@ -206,7 +206,12 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         e.preventDefault();
       });
 
+      document.getElementsByClassName('host')[0].addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      });
+
       document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
+
         e.preventDefault();
       });
     }
@@ -269,6 +274,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var buttonsClassNames = (0, _classnames2.default)({
         withTitle: _store2.default.getState().planning.needsTitle,
         withoutTitle: !_store2.default.getState().planning.needsTitle,
@@ -291,7 +298,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         { store: _store2.default },
         _react2.default.createElement(
           'div',
-          { className: 'host', 'data-jsx': 4006594116,
+          { className: 'host', ref: function ref(w) {
+              return _this3.writingtool = w;
+            }, 'data-jsx': 4006594116,
             'data-jsx-ext': _WritingTool2.default.__scopedHash
           },
           _react2.default.createElement(_TypePickerPopover2.default, { pick: this.pick }),
@@ -317,6 +326,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               hideTextStyleButtons: this.props.hideTextStyleButtons,
               hideAlignButtons: this.props.hideAlignButtons,
               hideImageButton: this.props.hideImageButton,
+              hideClearButton: this.props.hideClearButton,
               clearWriting: this.clearWriting,
               clearPlanning: this.clearPlanning
             })
@@ -409,10 +419,12 @@ WritingTool.propTypes = {
   backCallback: _propTypes2.default.func,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
-  hideAlignButtons: _propTypes2.default.bool
+  hideAlignButtons: _propTypes2.default.bool,
+  hideClearButton: _propTypes2.default.bool
 };
 WritingTool.defaultProps = {
   writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-  writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'
+  writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
+  hideClearButton: true
 };
 exports.default = WritingTool;

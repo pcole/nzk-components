@@ -55,12 +55,14 @@ export default class WritingTool extends Component {
     backCallback: PropTypes.func,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
-    hideAlignButtons: PropTypes.bool
+    hideAlignButtons: PropTypes.bool,
+    hideClearButton: PropTypes.bool
   }
 
   static defaultProps = {
     writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.'
+    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
+    hideClearButton: true
   }
 
   state = {
@@ -85,6 +87,8 @@ export default class WritingTool extends Component {
 
     store.dispatch(setInformations(this.props.writingImage,
       this.props.writingDescription))
+
+
 
     window.addEventListener('resize', this.onResize.bind(this))
   }
@@ -173,12 +177,21 @@ export default class WritingTool extends Component {
       loadPlanningLocalstorage(store.dispatch)
     }
 
+
     document.addEventListener('touchmove', function (e) {
       e.preventDefault()
+
+    })
+
+    document.getElementsByClassName('host')[0].addEventListener('touchmove', function (e) {
+      e.preventDefault()
+
     })
 
     document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
+
       e.preventDefault()
+
     })
   }
 
@@ -256,7 +269,7 @@ export default class WritingTool extends Component {
     return (
       <Provider store={store}>
 
-        <div className='host'>
+        <div className='host' ref={w => this.writingtool = w}>
 
           <TypePickerPopover pick={this.pick}/>
 
@@ -277,6 +290,7 @@ export default class WritingTool extends Component {
               hideTextStyleButtons={this.props.hideTextStyleButtons}
               hideAlignButtons={this.props.hideAlignButtons}
               hideImageButton={this.props.hideImageButton}
+              hideClearButton={this.props.hideClearButton}
               clearWriting={this.clearWriting}
               clearPlanning={this.clearPlanning}
             />

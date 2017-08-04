@@ -92,6 +92,7 @@ var PlanningDrawer = (_dec = (0, _reactRedux.connect)(function (store) {
           }
           scrolling = false;
         }
+        e.stopPropagation();
       });
 
       document.getElementsByClassName('drawer')[0].addEventListener('touchmove', function (e) {

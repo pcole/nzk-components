@@ -58,6 +58,8 @@ export default class PlanningDrawer extends Component {
         }
         scrolling = false
       }
+      e.stopPropagation()
+
     })
 
     document.getElementsByClassName('drawer')[0].addEventListener('touchmove', function(e) {

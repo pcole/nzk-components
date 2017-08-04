@@ -28,15 +28,22 @@ export default `
   }
   
   .writer {
+    position: absolute;
+    top: 0;
+    width: 100%;
     margin-top: 55px;
     height: calc(100vh - 95px);
     overflow-x: hidden;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
 
+  .writer * {
+    -webkit-transform: translate3d(0,0,0);
+  }
   
   .menu.toolbar-menu {
-    position: fixed;
+    position: absolute;
     display: inline-block;
     padding-right: 5px;
     padding-left: 40px;
@@ -68,6 +75,10 @@ export default `
   }
   
   .host {
+    position: relative;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
     z-index: 0;
   }

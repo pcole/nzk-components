@@ -81,7 +81,7 @@ export default `
 
     
     
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1100px) {
       .host.step2 {
         position: absolute;
         right: 0;

@@ -530,7 +530,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               'SAVE'
             )
           ),
-          _react2.default.createElement(
+          _this.props.hideClearButton ? null : _react2.default.createElement(
             'div',
             { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
             },
@@ -629,7 +629,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.renderEditor = function () {
       return _react2.default.createElement(
         'div',
-        { className: 'host', ref: 'host', style: {
+        { className: 'editor-wrapper', ref: 'host', style: {
             boxShadow: '0px 149px 207px 72px ' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
           }, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
@@ -684,25 +684,24 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         this.refs.writer.style.height = 'calc(100vh - 155px)';
       }
 
-      this.refs.writer.addEventListener('touchmove', function (e) {
+      this.refs.editor.addEventListener('touchmove', function (e) {
         e.stopPropagation();
       });
 
-      this.refs.writer.addEventListener('click', function (e) {}.bind(this));
+      this.refs.writer.addEventListener('click', function (e) {}.bind(this)
 
-      this.refs.writer.addEventListener('touchstart', function (e) {
-        var _this2 = this;
-
-        if (!this.state.focus) {
-          setTimeout(function () {
+      /* this.refs.writer.addEventListener('touchstart', (function (e) {
+         if (!this.state.focus) {
+          setTimeout((() => {
             if (e.target.offsetTop > 120) {
-              _this2.refs.writer.scrollTop = e.target.offsetTop;
+              this.refs.writer.scrollTop = e.target.offsetTop
             }
-          }.bind(this), 200);
+          }).bind(this), 200)
         }
+         e.stopPropagation()
+       }).bind(this)) */
 
-        e.stopPropagation();
-      }.bind(this));
+      );
     }
   }, {
     key: 'setCaretPosition',
@@ -818,13 +817,13 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'renderImagePopover',
     value: function renderImagePopover() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _react2.default.createElement(
         'div',
         { className: 'popover-background', onClick: function onClick(e) {
             e.preventDefault();
-            _this3.dismissImagePopover();
+            _this2.dismissImagePopover();
           }, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
@@ -887,11 +886,11 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         document.body.scrollTop = 0;
 
         if (window.innerHeight < window.innerWidth) {
-          this.refs.writer.style.minHeight = '220px';
-          this.refs.writer.style.height = '220px';
+          this.refs.writer.style.minHeight = '255px';
+          this.refs.writer.style.height = '255px';
         } else {
-          this.refs.writer.style.minHeight = '560px';
-          this.refs.writer.style.height = '560px';
+          this.refs.writer.style.minHeight = '565px';
+          this.refs.writer.style.height = '565px';
         }
       }
     }
@@ -981,7 +980,8 @@ Writer.propTypes = {
   backCallback: _propTypes2.default.func,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
-  hideAlignButtons: _propTypes2.default.bool
+  hideAlignButtons: _propTypes2.default.bool,
+  hideClearButton: _propTypes2.default.bool
 };
 Writer.defaultProps = {
   progress: 0,

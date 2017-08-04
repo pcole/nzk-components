@@ -4,11 +4,17 @@ export default `
     padding: 0;
     margin: 0;
     max-width: 100vw;
+    max-height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    top: 0;
   }
   
   .right {
+    position: absolute;
+    top: 0;
+    right: 0;
     float: right;
-    position: relative;
   }
   
     .buttons {
@@ -92,20 +98,15 @@ export default `
   }
 
   .left {
-    display: inline-block;
+    position: absolute;
+    top: 0px;
+    left: 0;
     max-width: calc(100vw - 30px);
-    min-width: 508px;
-  }
-  
-  .right {
-
-    float: right;
-    height: 100%;
-    z-index: 5;
-    display: inline-block;
+    min-width: 677px;
   }
   
 
+ 
   @media screen and (max-width: 1280px) {
      .left {
        width: calc(100vw - 30px);
@@ -120,7 +121,6 @@ export default `
      }
  
      .right.planningExpanded {
-     
        width: 415px;
      }
      
