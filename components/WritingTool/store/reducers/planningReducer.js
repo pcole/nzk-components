@@ -1,19 +1,17 @@
-/**
- * Created by benjaminafonso on 23/06/2017.
- */
-
-export default function reducer (state = {
-  title: '',
-  needsTitle: true,
-  icon: '',
-  informations: {
-    image: '',
-    description: ''
+export default function reducer (
+  state = {
+    title: '',
+    needsTitle: true,
+    icon: '',
+    informations: {
+      image: '',
+      description: ''
+    },
+    fields: [],
+    lastSave: 0
   },
-  fields: [],
-  lastSave: 0
-},
-                                action) {
+  action
+) {
   var newFields
   switch (action.type) {
     case 'SET_WRITING_TYPE': {
@@ -31,7 +29,6 @@ export default function reducer (state = {
           image: action.payload.image,
           description: action.payload.description
         }
-
       }
     }
     case 'REMOVE_FIELDS': {
@@ -63,10 +60,16 @@ export default function reducer (state = {
         action.payload.index,
         1
       )
-      newFields[action.payload.fieldIndex].fields = newFields[action.payload.fieldIndex].fields.map((field, index) => {
+
+      /* eslint-disable */
+      newFields[action.payload.fieldIndex].fields = newFields[
+        action.payload.fieldIndex
+      ].fields.map((field, index) => {
         field.index = index
         return field
       })
+      /* eslint-enable */
+
       return {
         ...state,
         fields: newFields
@@ -85,8 +88,14 @@ export default function reducer (state = {
     }
     case 'FIELD_CHANGED': {
       newFields = state.fields.slice()
-      newFields[action.payload.fieldIndex].fields[action.payload.inputIndex].value =
+
+      /* eslint-disable */
+      newFields[action.payload.fieldIndex].fields[
+        action.payload.inputIndex
+      ].value =
         action.payload.newValue
+      /* eslint-enable */
+
       return {
         ...state,
         fields: newFields,
@@ -95,7 +104,14 @@ export default function reducer (state = {
     }
     case 'STRIKE_FIELD': {
       newFields = state.fields.slice()
-      newFields[action.payload.fieldIndex].fields[action.payload.inputIndex].striked = action.payload.striked
+
+      /* eslint-disable */
+      newFields[action.payload.fieldIndex].fields[
+        action.payload.inputIndex
+      ].striked =
+        action.payload.striked
+      /* eslint-enable */
+
       return {
         ...state,
         fields: newFields
@@ -125,7 +141,9 @@ export default function reducer (state = {
     case 'CLEAR_PLANNING': {
       newFields = state.fields.slice()
       newFields.map((field, i) => {
-        field.fields.map(input => input.value = '')
+        field.fields.map(input => {
+          input.value = ''
+        })
       })
       return {
         ...state,

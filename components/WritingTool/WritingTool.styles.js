@@ -1,5 +1,4 @@
 export default `
-
   .host {
     padding: 0;
     margin: 0;
@@ -43,12 +42,12 @@ export default `
       top: 70px;
     }
     
-      .progressBar {
-    position: fixed;
-    bottom: 0;
-    z-index: 10;
-    width: 100%;
-  }
+    .statusBar {
+      position: fixed;
+      bottom: 0;
+      z-index: 10;
+      width: 100%;
+    }
     
     .buttons div:nth-child(n) {
       display: block;

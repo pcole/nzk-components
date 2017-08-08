@@ -118,24 +118,6 @@ export default `
     z-index: 21;
   }
   
-  .importedImage {
-
-  }
-  
-  .progressBar {
-    position: fixed;
-    bottom: 0;
-    z-index: 10;
-    width: 100%;
-  }
-  
-  .editor:nth-child(n) {
-
-  }
-  
-  .button:active {
-  }
-  
   .titleBar {
     opacity: 1;
     height: 60px;

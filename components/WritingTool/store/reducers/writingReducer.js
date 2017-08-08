@@ -1,20 +1,20 @@
-/**
- * Created by benjaminafonso on 23/06/2017.
- */
-
 import { Raw } from 'slate'
 
 const initialState = {
-  title: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).title : '',
-  state: window.localStorage.getItem('nzk-writing') ? JSON.parse(window.localStorage.getItem('nzk-writing')).state : {
-    nodes: [
-      {
-        kind: 'block',
-        type: 'paragraph',
-        nodes: []
-      }
-    ]
-  },
+  title: window.localStorage.getItem('nzk-writing')
+    ? JSON.parse(window.localStorage.getItem('nzk-writing')).title
+    : '',
+  state: window.localStorage.getItem('nzk-writing')
+    ? JSON.parse(window.localStorage.getItem('nzk-writing')).state
+    : {
+      nodes: [
+        {
+          kind: 'block',
+          type: 'paragraph',
+          nodes: []
+        }
+      ]
+    },
   lastSave: 0,
   lastSaveTime: undefined,
   constraints: {
@@ -31,10 +31,7 @@ const initialState = {
   progress: 0
 }
 
-export default function reducer (
-  state = initialState,
-  action
-) {
+export default function reducer (state = initialState, action) {
   switch (action.type) {
     case 'TEXT_CHANGED': {
       return {
@@ -45,10 +42,13 @@ export default function reducer (
     }
     case 'SAVE_LOCALSTORAGE': {
       const content = state.state
-      window.localStorage.setItem('nzk-writing', JSON.stringify({
-        ...state,
-        state: Raw.serialize(content)
-      }))
+      window.localStorage.setItem(
+        'nzk-writing',
+        JSON.stringify({
+          ...state,
+          state: Raw.serialize(content)
+        })
+      )
       return {
         ...state,
         lastSave: 0,

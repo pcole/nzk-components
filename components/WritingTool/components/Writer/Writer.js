@@ -1,20 +1,22 @@
 import React from 'react'
-import {Editor, Block, Raw, Html, Plain} from 'slate'
+import { Editor, Block, Raw, Html, Plain } from 'slate'
 import styles from './Writer.styles'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {textChanged, saveWritingLocalstorage, updateProgress, updateNbWords} from '../../store/actions/writingActions'
+import { connect } from 'react-redux'
+import {
+  textChanged,
+  saveWritingLocalstorage,
+  updateProgress,
+  updateNbWords
+} from '../../store/actions/writingActions'
 import Uploader from '../../../Uploader/Uploader'
 import throttle from 'lodash/throttle'
-import {FormattedMessage as T} from 'react-intl'
 import Icon from '../../../Icon/Icon'
 import Button from '../../../Button/Button'
 import GSAP from 'react-gsap-enhancer'
-import {TimelineMax} from 'gsap'
+import { TimelineMax } from 'gsap'
 import cn from 'classnames'
 import JsPDF from 'jspdf'
-import ProgressBar from '../ProgressBar/ProgressBar'
-import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 /**
  * Define the default node type.
@@ -35,39 +37,60 @@ const defaultBlock = {
 const schema = {
   nodes: {
     image: props => {
-      const {node} = props
+      const { node } = props
       const src = node.data.get('src')
       return (
-        <img src={src} className='importedImage' alt='' align='middle' style={{
-          maxWidth: '75%',
-          maxHeight: '400px',
-          textAlign: 'center',
-          display: 'block',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          marginTop: '20px',
-          marginBottom: '20px'
-        }}
-             {...props.attributes} />
+        <img
+          src={src}
+          className='importedImage'
+          alt=''
+          align='middle'
+          style={{
+            maxWidth: '75%',
+            maxHeight: '400px',
+            textAlign: 'center',
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '20px',
+            marginBottom: '20px'
+          }}
+          {...props.attributes}
+        />
       )
     },
-    'align-left': props => <p style={{
-      textAlign: 'left'
-    }}>{props.children}</p>,
-    'align-center': props => <p style={{
-      textAlign: 'center'
-    }}>{props.children}</p>,
-    'align-right': props => <p style={{
-      textAlign: 'right'
-    }}>{props.children}</p>
+    'align-left': props =>
+      <p
+        style={{
+          textAlign: 'left'
+        }}
+      >
+        {props.children}
+      </p>,
+    'align-center': props =>
+      <p
+        style={{
+          textAlign: 'center'
+        }}
+      >
+        {props.children}
+      </p>,
+    'align-right': props =>
+      <p
+        style={{
+          textAlign: 'right'
+        }}
+      >
+        {props.children}
+      </p>
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.
     {
-      match: (node) => {
+      match: node => {
         return node.kind === 'document'
       },
-      validate: (document) => {
+      validate: document => {
         return document.nodes.size ? null : true
       },
       normalize: (transform, document) => {
@@ -78,10 +101,10 @@ const schema = {
     // Rule to insert a paragraph below a void node (the image) if that node is
     // the last one in the document.
     {
-      match: (node) => {
+      match: node => {
         return node.kind === 'document'
       },
-      validate: (document) => {
+      validate: document => {
         const lastNode = document.nodes.last()
         return lastNode && lastNode.isVoid ? true : null
       },
@@ -143,25 +166,48 @@ const RULES = [
       if (object.kind !== 'block') return
       switch (object.type) {
         case 'paragraph':
-          return <p>{children}</p>
+          return (
+            <p>
+              {children}
+            </p>
+          )
         case 'align-left':
-          return <p style={{textAlign: 'left'}}>{children}</p>
+          return (
+            <p style={{ textAlign: 'left' }}>
+              {children}
+            </p>
+          )
         case 'align-center':
-          return <p style={{textAlign: 'center'}}>{children}</p>
+          return (
+            <p style={{ textAlign: 'center' }}>
+              {children}
+            </p>
+          )
         case 'align-right':
-          return <p style={{textAlign: 'right'}}>{children}</p>
+          return (
+            <p style={{ textAlign: 'right' }}>
+              {children}
+            </p>
+          )
         case 'image':
-          return <img src={object.data.get('src')} className='importedImage' alt='' align='middle' style={{
-            maxWidth: '75%',
-            maxHeight: '400px',
-            textAlign: 'center',
-            display: 'block',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            marginTop: '20px',
-            marginBottom: '20px'
-          }}
-          />
+          return (
+            <img
+              src={object.data.get('src')}
+              className='importedImage'
+              alt=''
+              align='middle'
+              style={{
+                maxWidth: '75%',
+                maxHeight: '400px',
+                textAlign: 'center',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: '20px',
+                marginBottom: '20px'
+              }}
+            />
+          )
       }
     }
   },
@@ -181,19 +227,31 @@ const RULES = [
       if (object.kind !== 'mark') return
       switch (object.type) {
         case 'bold':
-          return <strong>{children}</strong>
+          return (
+            <strong>
+              {children}
+            </strong>
+          )
         case 'italic':
-          return <em>{children}</em>
+          return (
+            <em>
+              {children}
+            </em>
+          )
         case 'underlined':
-          return <u>{children}</u>
+          return (
+            <u>
+              {children}
+            </u>
+          )
       }
     }
   }
 ]
 
-const serializer = new Html({rules: RULES})
+const serializer = new Html({ rules: RULES })
 
-@connect((store) => {
+@connect(store => {
   return {
     writing: store.writing,
     planning: store.planning,
@@ -211,7 +269,7 @@ export default class Writer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      state: Raw.deserialize(this.props.writing.state, {terse: true}),
+      state: Raw.deserialize(this.props.writing.state, { terse: true }),
       wordCount: 0,
       mobile: false,
       focus: false,
@@ -243,7 +301,7 @@ export default class Writer extends React.Component {
 
   componentDidMount () {
     if (/Android|iPad/i.test(navigator.userAgent)) {
-      this.setState({mobile: true})
+      this.setState({ mobile: true })
       this.refs.writer.style.height = 'calc(100vh - 155px)'
     }
 
@@ -251,11 +309,7 @@ export default class Writer extends React.Component {
       e.stopPropagation()
     })
 
-
-
-    this.refs.writer.addEventListener('click', (function (e) {
-
-    }).bind(this))
+    this.refs.writer.addEventListener('click', function (e) {})
 
     /* this.refs.writer.addEventListener('touchstart', (function (e) {
 
@@ -270,16 +324,13 @@ export default class Writer extends React.Component {
       e.stopPropagation()
 
     }).bind(this)) */
-
   }
 
   setCaretPosition (ctrl, pos) {
-
     if (ctrl.setSelectionRange) {
       ctrl.focus()
       ctrl.setSelectionRange(pos, pos)
-    }
-    else if (ctrl.createTextRange) {
+    } else if (ctrl.createTextRange) {
       var range = ctrl.createTextRange()
       range.collapse(true)
       range.moveEnd('character', pos)
@@ -296,7 +347,7 @@ export default class Writer extends React.Component {
    */
 
   hasMark = type => {
-    const {state} = this.state
+    const { state } = this.state
     return state.marks.some(mark => mark.type === type)
   }
 
@@ -308,7 +359,7 @@ export default class Writer extends React.Component {
    */
 
   hasBlock = type => {
-    const {state} = this.state
+    const { state } = this.state
     return state.blocks.some(node => node.type === type)
   }
 
@@ -319,7 +370,7 @@ export default class Writer extends React.Component {
    */
 
   onChange = state => {
-    this.setState({state: state})
+    this.setState({ state: state })
     this.props.dispatch(textChanged(state))
     this.recordScreenHeight()
   }
@@ -327,7 +378,7 @@ export default class Writer extends React.Component {
   clear = () => {
     this.props.clearPlanning()
     this.props.clearWriting()
-    this.setState({state: Plain.deserialize('')})
+    this.setState({ state: Plain.deserialize('') })
   }
 
   onDocumentChange = (document, state) => {
@@ -335,7 +386,8 @@ export default class Writer extends React.Component {
     var progress = state.progress
     var nbWords = Math.abs(count - this.props.writing.nbWords)
 
-    if (count > this.props.writing.nbWords) { // Addition
+    if (count > this.props.writing.nbWords) {
+      // Addition
       if (count / this.props.writing.constraints.minNbWords * 50 > 50) {
         for (let i = 0; i < nbWords; i++) {
           progress += this.props.writing.constraints.minNbWords / (2 * count)
@@ -343,7 +395,8 @@ export default class Writer extends React.Component {
       } else {
         progress = count / this.props.writing.constraints.minNbWords * 50
       }
-    } else if (count < this.props.writing.nbWords) { // Deletion
+    } else if (count < this.props.writing.nbWords) {
+      // Deletion
       if (count / this.props.writing.constraints.minNbWords * 50 > 50) {
         for (let i = 0; i < nbWords; i++) {
           progress -= this.props.writing.constraints.minNbWords / (2 * count)
@@ -359,12 +412,9 @@ export default class Writer extends React.Component {
   }
 
   focusEditor () {
-    const state = this.state.state
-    .transform()
-    .focus()
-    .apply()
+    const state = this.state.state.transform().focus().apply()
 
-    this.setState({state})
+    this.setState({ state })
   }
 
   save () {
@@ -372,10 +422,6 @@ export default class Writer extends React.Component {
       this.props.dispatch(saveWritingLocalstorage())
     }
   }
-
-
-
-
 
   /**
    * When a mark button is clicked, toggle the current mark.
@@ -385,11 +431,11 @@ export default class Writer extends React.Component {
    */
   onClickMark = (e, type) => {
     e.preventDefault()
-    let {state} = this.state
+    let { state } = this.state
 
     const sizes = ['sizeOne', 'sizeTwo', 'sizeThree']
     if (sizes.indexOf(type) > -1) {
-      sizes.map((size) => {
+      sizes.map(size => {
         if (size !== type) {
           state = state.transform().removeMark(size).apply()
         }
@@ -397,18 +443,18 @@ export default class Writer extends React.Component {
       })
     }
     state = state.transform().toggleMark(type).apply()
-    this.setState({state})
+    this.setState({ state })
   }
 
   insertImage = (state, src) => {
     return state
-    .transform()
-    .insertBlock({
-      type: 'image',
-      isVoid: true,
-      data: {src}
-    })
-    .apply()
+      .transform()
+      .insertBlock({
+        type: 'image',
+        isVoid: true,
+        data: { src }
+      })
+      .apply()
   }
 
   /**
@@ -420,9 +466,9 @@ export default class Writer extends React.Component {
 
   onClickBlock = (e, type) => {
     e.preventDefault()
-    let {state} = this.state
+    let { state } = this.state
     const transform = state.transform()
-    const {document} = state
+    const { document } = state
 
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'image') {
@@ -430,8 +476,8 @@ export default class Writer extends React.Component {
       const isList = this.hasBlock('list-item')
       if (isList) {
         transform
-        .setBlock(isActive ? DEFAULT_NODE : type)
-        .unwrapBlock('bulleted-list')
+          .setBlock(isActive ? DEFAULT_NODE : type)
+          .unwrapBlock('bulleted-list')
       } else {
         transform.setBlock(isActive ? DEFAULT_NODE : type)
       }
@@ -451,20 +497,20 @@ export default class Writer extends React.Component {
     }
 
     state = transform.apply()
-    this.setState({state})
+    this.setState({ state })
   }
 
   displayImagePopover () {
-    this.setState({imagePopoverDisplayed: true})
+    this.setState({ imagePopoverDisplayed: true })
   }
 
   dismissImagePopover () {
-    this.setState({imagePopoverDisplayed: false})
+    this.setState({ imagePopoverDisplayed: false })
   }
 
   imageUploadSucceeded (url) {
     if (!url) return
-    let {state} = this.state
+    let { state } = this.state
     state = this.insertImage(state, url)
     this.onChange(state)
   }
@@ -478,16 +524,24 @@ export default class Writer extends React.Component {
 
   renderImagePopover () {
     return (
-      <div className='popover-background' onClick={(e) => {
-        e.preventDefault()
-        this.dismissImagePopover()
-      }}>
+      <div
+        className='popover-background'
+        onClick={e => {
+          e.preventDefault()
+          this.dismissImagePopover()
+        }}
+      >
         <div className='image-popover'>
-          <Uploader api='http://file.nightzookeeper.com/images/upload'
-                    uploadedImage={this.imageUploadSucceeded.bind(this)}/>
+          <Uploader
+            api='http://file.nightzookeeper.com/images/upload'
+            uploadedImage={this.imageUploadSucceeded.bind(this)}
+          />
         </div>
-        <style jsx>{styles}</style>
-      </div>)
+        <style jsx>
+          {styles}
+        </style>
+      </div>
+    )
   }
 
   /**
@@ -497,7 +551,6 @@ export default class Writer extends React.Component {
    */
 
   render = () => {
-
     const titlebarClassNames = cn({
       titleBar: true,
       dark: this.props.light,
@@ -505,30 +558,41 @@ export default class Writer extends React.Component {
     })
 
     return (
-      <div className='host' style={{
-        boxShadow: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'} 0px 60px 59px 140px`
-      }}>
+      <div
+        className='host'
+        style={{
+          boxShadow: `${this.props.light
+            ? 'rgba(255,255,255,0.8)'
+            : 'rgba(0,0,0,0.8)'} 0px 60px 59px 140px`
+        }}
+      >
         {this.renderToolbar()}
 
         <div className='writer' ref='writer'>
           {this.props.needsTitle
             ? <div>
-
-              <input className={titlebarClassNames} type='text' placeholder={'Enter your title here'} style={{
-                color: this.props.light ? 'black' : 'white',
-                background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
-                borderBottom: `5px solid ${this.props.primaryColor}`
-              }} value={this.props.writing.title} onChange={this.handleTitleChange.bind(this)}/>
-
-
+              <input
+                className={titlebarClassNames}
+                type='text'
+                placeholder={'Enter your title here'}
+                style={{
+                  color: this.props.light ? 'black' : 'white',
+                  background: `${this.props.light
+                      ? 'rgba(255,255,255,0.8)'
+                      : 'rgba(0,0,0,0.8)'}`,
+                  borderBottom: `5px solid ${this.props.primaryColor}`
+                }}
+                value={this.props.writing.title}
+                onChange={this.handleTitleChange.bind(this)}
+                />
             </div>
             : null}
 
           {this.renderEditor()}
-
-
         </div>
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }
@@ -550,45 +614,90 @@ export default class Writer extends React.Component {
           color: this.props.light ? 'black' : 'white'
         }}
       >
-
-        <div className='menu toolbar-menu'
-             style={{
-               backgroundColor: this.props.primaryColor,
-               color: this.props.light ? 'black' : 'white'
-             }}>
-
+        <div
+          className='menu toolbar-menu'
+          style={{
+            backgroundColor: this.props.primaryColor,
+            color: this.props.light ? 'black' : 'white'
+          }}
+        >
           <div className='toolbar-button'>
-            <Button bgColor='white' shadow round onClick={this.props.backCallback ? () => {
-              this.props.displayModal("Are you sure? Have you saved your work?", () => { this.clear(); this.props.backCallback() }, this.props.dismissModal,  'Yes', 'No')
-            } : () => {
-            }}>
-              <Icon name='left' color='black'/>
+            <Button
+              bgColor='white'
+              shadow
+              round
+              onClick={
+                this.props.backCallback
+                  ? () => {
+                    this.props.displayModal(
+                        'Are you sure? Have you saved your work?',
+                        () => {
+                          this.clear()
+                          this.props.backCallback()
+                        },
+                        this.props.dismissModal,
+                        'Yes',
+                        'No'
+                      )
+                  }
+                  : () => {}
+              }
+            >
+              <Icon name='left' color='black' />
             </Button>
           </div>
 
-          {this.props.hideTextStyleButtons ? null : this.renderMarkButton('bold', 'bold')}
-          {this.props.hideTextStyleButtons ? null : this.renderMarkButton('italic', 'italic')}
-          {this.props.hideTextStyleButtons ? null : this.renderMarkButton('underlined', 'underline')}
-          {this.props.hideAlignButtons ? null : this.renderBlockButton('align-left', 'align-left')}
-          {this.props.hideAlignButtons ? null : this.renderBlockButton('align-center', 'align-center')}
-          {this.props.hideAlignButtons ? null : this.renderBlockButton('align-right', 'align-right')}
+          {this.props.hideTextStyleButtons
+            ? null
+            : this.renderMarkButton('bold', 'bold')}
+          {this.props.hideTextStyleButtons
+            ? null
+            : this.renderMarkButton('italic', 'italic')}
+          {this.props.hideTextStyleButtons
+            ? null
+            : this.renderMarkButton('underlined', 'underline')}
+          {this.props.hideAlignButtons
+            ? null
+            : this.renderBlockButton('align-left', 'align-left')}
+          {this.props.hideAlignButtons
+            ? null
+            : this.renderBlockButton('align-center', 'align-center')}
+          {this.props.hideAlignButtons
+            ? null
+            : this.renderBlockButton('align-right', 'align-right')}
 
-          {this.props.hideImageButton ? null : this.renderBlockButton('image', 'picture-o')}
+          {this.props.hideImageButton
+            ? null
+            : this.renderBlockButton('image', 'picture-o')}
 
           <div className='toolbar-button save'>
-            <Button bgColor='white' shadow onClick={this.saveAction.bind(this)}>SAVE</Button>
+            <Button bgColor='white' shadow onClick={this.saveAction.bind(this)}>
+              SAVE
+            </Button>
           </div>
 
-          {this.props.hideClearButton ? null : <div className='toolbar-button save'>
-            <Button bgColor='white' shadow onClick={() => {
-              this.props.displayModal("Are you sure? This will clear everything on the page.", this.clear.bind(this), this.props.dismissModal)
-            }}>
-              Clear
-            </Button>
-          </div> }
+          {this.props.hideClearButton
+            ? null
+            : <div className='toolbar-button save'>
+              <Button
+                bgColor='white'
+                shadow
+                onClick={() => {
+                  this.props.displayModal(
+                      'Are you sure? This will clear everything on the page.',
+                      this.clear.bind(this),
+                      this.props.dismissModal
+                    )
+                }}
+                >
+                  Clear
+                </Button>
+            </div>}
         </div>
 
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }
@@ -619,26 +728,33 @@ export default class Writer extends React.Component {
     }
 
     return (
-      <span className='button' onMouseDown={isDisabled ? () => {
-      } : onMouseDown} data-active={isActive}>
+      <span
+        className='button'
+        onMouseDown={isDisabled ? () => {} : onMouseDown}
+        data-active={isActive}
+      >
         <span
-          style={isDisabled ? disabledStyle : (isActive ? activeStyle : style)}
+          style={isDisabled ? disabledStyle : isActive ? activeStyle : style}
         >
-          <Icon name={icon}/>
+          <Icon name={icon} />
         </span>
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </span>
     )
   }
 
-  resizeEditorAnimation ({target}) {
-    const editor = target.find({name: 'editor'})
-    return new TimelineMax()
-    .to(editor, 1, {height: '40px', maxHeight: '100px'})
+  resizeEditorAnimation ({ target }) {
+    const editor = target.find({ name: 'editor' })
+    return new TimelineMax().to(editor, 1, {
+      height: '40px',
+      maxHeight: '100px'
+    })
   }
 
   onFocus () {
-    this.setState({focus: true, toolbarDisabled: false})
+    this.setState({ focus: true, toolbarDisabled: false })
     if (this.state.mobile) {
       this.props.onMobileFocus()
 
@@ -653,7 +769,6 @@ export default class Writer extends React.Component {
         this.refs.writer.style.minHeight = '565px'
         this.refs.writer.style.height = '565px'
       }
-
     }
   }
 
@@ -662,7 +777,7 @@ export default class Writer extends React.Component {
   }
 
   onBlur () {
-    this.setState({focus: false, toolbarDisabled: true})
+    this.setState({ focus: false, toolbarDisabled: true })
 
     if (this.state.mobile) {
       this.refs.writer.style.minHeight = '300px'
@@ -691,20 +806,24 @@ export default class Writer extends React.Component {
     }
 
     return (
-      <span className='button' onMouseDown={isDisabled ? () => {
-      } : onMouseDown} data-active={isActive}>
+      <span
+        className='button'
+        onMouseDown={isDisabled ? () => {} : onMouseDown}
+        data-active={isActive}
+      >
         <span
-          style={isDisabled ? disabledStyle : (isActive ? activeStyle : style)}
+          style={isDisabled ? disabledStyle : isActive ? activeStyle : style}
         >
-          <Icon name={icon}/>
+          <Icon name={icon} />
         </span>
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </span>
     )
   }
 
   recordScreenHeight () {
-
     /* setTimeout(() => {
      a.scrollTop = a.scrollHeight
      }, 100) */
@@ -714,21 +833,23 @@ export default class Writer extends React.Component {
     this.recordScreenHeight()
   }
 
-  focus () {
-  }
+  focus () {}
 
   print () {
     var html = serializer.serialize(this.state.state)
 
     var printWindow = window.open('', '', 'height=400,width=800')
     printWindow.document.write('<html><head><title>Writing Tool Export</title>')
-    printWindow.document.write('</head><body style="margin: 20px; max-width: calc(100vw - 40px);">')
-    var content = `<div style="width: 100%; word-wrap: break-word;"><h1>${this.props.writing.title}</h1><div>${html}</div></div>`
+    printWindow.document.write(
+      '</head><body style="margin: 20px; max-width: calc(100vw - 40px);">'
+    )
+    var content = `<div style="width: 100%; word-wrap: break-word;"><h1>${this
+      .props.writing.title}</h1><div>${html}</div></div>`
     printWindow.document.write('<div id="print">' + content + '</div>')
     printWindow.document.write('<footer>Created by NightZooKeeper</footer>')
     printWindow.document.write('</body></html>')
-    //printWindow.print()
-    //printWindow.close()
+    // printWindow.print()
+    // printWindow.close()
   }
 
   exportAsPdf () {
@@ -757,11 +878,17 @@ export default class Writer extends React.Component {
 
     var pdf = new JsPDF()
 
-    pdf.fromHTML(content, 15, 15, {
-      'width': 175
-    }, () => {
-      pdf.save('WritingToolExport.pdf')
-    })
+    pdf.fromHTML(
+      content,
+      15,
+      15,
+      {
+        width: 175
+      },
+      () => {
+        pdf.save('WritingToolExport.pdf')
+      }
+    )
   }
 
   /**
@@ -772,15 +899,27 @@ export default class Writer extends React.Component {
 
   renderEditor = () => {
     return (
-      <div className='editor-wrapper' ref='host' style={{
-        boxShadow: `0px 149px 207px 72px ${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`
-      }}>
-
-        <div className='editor' ref='editor' style={{
-          background: `${this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'}`,
-          color: this.props.light ? 'black' : 'white'
-        }} onClick={this.focusEditor.bind(this)} name='editor'>
-
+      <div
+        className='editor-wrapper'
+        ref='host'
+        style={{
+          boxShadow: `0px 149px 207px 72px ${this.props.light
+            ? 'rgba(255,255,255,0.8)'
+            : 'rgba(0,0,0,0.8)'}`
+        }}
+      >
+        <div
+          className='editor'
+          ref='editor'
+          style={{
+            background: `${this.props.light
+              ? 'rgba(255,255,255,0.8)'
+              : 'rgba(0,0,0,0.8)'}`,
+            color: this.props.light ? 'black' : 'white'
+          }}
+          onClick={this.focusEditor.bind(this)}
+          name='editor'
+        >
           <Editor
             spellCheck
             placeholder={'Start writing here...'}
@@ -795,14 +934,13 @@ export default class Writer extends React.Component {
               height: '100%'
             }}
           />
-
-
         </div>
 
         {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
-
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }

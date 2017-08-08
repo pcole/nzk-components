@@ -20,7 +20,7 @@ export default class Uploader extends React.Component {
 
   uploadOver () {
     setTimeout(() => {
-      this.setState({progress: 0})
+      this.setState({ progress: 0 })
     }, 2000)
   }
 
@@ -38,7 +38,7 @@ export default class Uploader extends React.Component {
         var percentCompleted = Math.round(
           progressEvent.loaded * 100 / progressEvent.total
         )
-        this.setState({progress: percentCompleted})
+        this.setState({ progress: percentCompleted })
         if (percentCompleted === 100) {
           this.uploadOver()
         }
@@ -88,18 +88,23 @@ export default class Uploader extends React.Component {
           {this.props.api
             ? <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
               {this.state.progress > 0
-                ? <div className='progress-label'>{this.state.progress}%</div>
-                : <div className='label'>Drag an image in the zone or click</div>}
+                  ? <div className='progress-label'>
+                    {this.state.progress}%
+                    </div>
+                  : <div className='label'>
+                      Drag an image in the zone or click
+                    </div>}
             </Dropzone>
             : <p> Missing API to Component </p>}
         </div>
-        { /*  <ul>
+        {/*  <ul>
          {this.state.images.map((img, i) => {
          return <li key={i}><img src={img} style={{ width: '80%' }} /></li>
          })}
-         </ul> */ }
-        <style jsx>{styles}</style>
-
+         </ul> */}
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }

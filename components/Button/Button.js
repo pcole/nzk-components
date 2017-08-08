@@ -95,10 +95,11 @@ export default class Button extends Component {
       boxShadow: shadow
         ? `0px 4px 0px ${bgColorObj.darken(0.25).string()}`
         : 'none',
-      backgroundImage: gradient || bgColorTo
-        ? `linear-gradient(to right, ${bgColor}, ${bgColorTo ||
-            bgColorObj.lighten(0.2).string()})`
-        : 'none',
+      backgroundImage:
+        gradient || bgColorTo
+          ? `linear-gradient(to right, ${bgColor}, ${bgColorTo ||
+              bgColorObj.lighten(0.2).string()})`
+          : 'none',
       ...props.style
     }
 
@@ -120,25 +121,37 @@ export default class Button extends Component {
       case 'span':
         return (
           <span {...props} className={className}>
-            {children}<style jsx>{styles}</style>
+            {children}
+            <style jsx>
+              {styles}
+            </style>
           </span>
         )
       case 'button':
         return (
           <button {...props} className={className}>
-            {children}<style jsx>{styles}</style>
+            {children}
+            <style jsx>
+              {styles}
+            </style>
           </button>
         )
       case 'a':
         return (
           <a {...props} className={className}>
-            {children}<style jsx>{styles}</style>
+            {children}
+            <style jsx>
+              {styles}
+            </style>
           </a>
         )
       default:
         return (
           <div {...props} className={className}>
-            {children}<style jsx>{styles}</style>
+            {children}
+            <style jsx>
+              {styles}
+            </style>
           </div>
         )
     }

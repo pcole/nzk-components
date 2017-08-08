@@ -98,7 +98,6 @@ export default class Fields extends Component {
           {instruction}
         </h3>
         <ul className={stackingClass}>
-
           {this.props.fields[this.props.index].fields.map((elem, index) => {
             return (
               <Field
@@ -118,7 +117,9 @@ export default class Fields extends Component {
                     : '100%'
                 }
                 light={this.props.light}
-                striked={this.props.fields[this.props.index].fields[index].striked}
+                striked={
+                  this.props.fields[this.props.index].fields[index].striked
+                }
               />
             )
           })}
@@ -142,10 +143,11 @@ export default class Fields extends Component {
               </Field>
             </li>
             : null}
-
         </ul>
 
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }

@@ -1,13 +1,9 @@
-/**
- * Created by benjaminafonso on 20/06/2017.
- */
-
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import styles from './WritingTool.styles'
 import Writer from './components/Writer/Writer'
 import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
 import PropTypes from 'prop-types'
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import store from './store/store'
 import {
   usePreset,
@@ -16,17 +12,15 @@ import {
   useCustomPreset,
   clearPlanning
 } from './store/actions/planningActions'
-import {clearWriting} from './store/actions/writingActions'
+import { clearWriting } from './store/actions/writingActions'
 
-import {IntlProvider} from 'react-intl'
 import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
-import {TimelineMax, Bounce} from 'gsap'
+import { TimelineMax, Bounce } from 'gsap'
 import Icon from '../Icon/Icon'
 import cn from 'classnames'
 import Color from 'color'
-import ProgressBar from './components/ProgressBar/ProgressBar'
-import TypePickerPopover from './components/TypePickerPopover/TypePickerPopover'
+import StatusBar from './components/StatusBar/StatusBar'
 import ConfirmModal from './components/ConfirmModal/ConfirmModal'
 
 @GSAP()
@@ -34,22 +28,36 @@ export default class WritingTool extends Component {
   static propTypes = {
     image: PropTypes.string,
     planning: PropTypes.any,
-    type: PropTypes.oneOf(['story', 'poetry', 'explanation',
-      'instructions', 'opinion', 'news', 'letter', 'diary',
-      'playscript', 'recount', 'biography', 'report, freewrite', 'custom']),
+    type: PropTypes.oneOf([
+      'story',
+      'poetry',
+      'explanation',
+      'instructions',
+      'opinion',
+      'news',
+      'letter',
+      'diary',
+      'playscript',
+      'recount',
+      'biography',
+      'report, freewrite',
+      'custom'
+    ]),
     customType: PropTypes.shape({
       title: PropTypes.string,
       icon: PropTypes.string,
       needsTitle: PropTypes.bool,
-      fields: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string,
-        type: PropTypes.oneOf(['input', 'textarea']),
-        numberOfFields: PropTypes.number,
-        numberPerRow: PropTypes.number,
-        overloadable: PropTypes.bool,
-        removeable: PropTypes.bool,
-        fields: PropTypes.arrayOf(PropTypes.string)
-      }))
+      fields: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string,
+          type: PropTypes.oneOf(['input', 'textarea']),
+          numberOfFields: PropTypes.number,
+          numberPerRow: PropTypes.number,
+          overloadable: PropTypes.bool,
+          removeable: PropTypes.bool,
+          fields: PropTypes.arrayOf(PropTypes.string)
+        })
+      )
     }),
     writingImage: PropTypes.string,
     writingDescription: PropTypes.string,
@@ -61,8 +69,10 @@ export default class WritingTool extends Component {
   }
 
   static defaultProps = {
-    writingImage: 'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-    writingDescription: 'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
+    writingImage:
+      'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
+    writingDescription:
+      'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
     hideClearButton: true
   }
 
@@ -77,8 +87,7 @@ export default class WritingTool extends Component {
   }
 
   componentWillMount () {
-
-    window.usePreset = (preset) => {
+    window.usePreset = preset => {
       usePreset(store.dispatch, preset)
     }
     if (this.props.type === 'custom' || this.props.customType) {
@@ -87,18 +96,17 @@ export default class WritingTool extends Component {
       usePreset(store.dispatch, this.props.type)
     }
 
-    store.dispatch(setInformations(this.props.writingImage,
-      this.props.writingDescription))
-
-
+    store.dispatch(
+      setInformations(this.props.writingImage, this.props.writingDescription)
+    )
 
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
   getColorsFromBackground () {
-
+    let pickedImage
     if (this.props.image) {
-      var pickedImage = this.props.image
+      pickedImage = this.props.image
     } else {
       const images = [
         '/assets/angry-alligator-creek-back.jpg',
@@ -115,12 +123,14 @@ export default class WritingTool extends Component {
         '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
         '/assets/fqutf1jckgysqaivhgpq.jpg'
       ]
-      var pickedImage = images[Math.floor(Math.random() * (images.length - 1))]
+      pickedImage = images[Math.floor(Math.random() * (images.length - 1))]
     }
 
     // CACHED BACKGROUND COLORS
     if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
-      var cached = JSON.parse(window.localStorage.getItem(`nzk-bg-${pickedImage}`))
+      var cached = JSON.parse(
+        window.localStorage.getItem(`nzk-bg-${pickedImage}`)
+      )
 
       var secondaryColor = new Color(cached.primaryColor.color)
       if (cached.light) {
@@ -163,12 +173,15 @@ export default class WritingTool extends Component {
         light: light
       })
 
-      window.localStorage.setItem(`nzk-bg-${pickedImage}`, JSON.stringify({
-        primaryColor: primaryColor,
-        secondaryColor: secondaryColor,
-        image: pickedImage,
-        light: light
-      }))
+      window.localStorage.setItem(
+        `nzk-bg-${pickedImage}`,
+        JSON.stringify({
+          primaryColor: primaryColor,
+          secondaryColor: secondaryColor,
+          image: pickedImage,
+          light: light
+        })
+      )
     })
   }
 
@@ -179,31 +192,34 @@ export default class WritingTool extends Component {
       loadPlanningLocalstorage(store.dispatch)
     }
 
-
     document.addEventListener('touchmove', function (e) {
       e.preventDefault()
-
     })
 
-    document.getElementsByClassName('host')[0].addEventListener('touchmove', function (e) {
-      e.preventDefault()
+    document
+      .getElementsByClassName('host')[0]
+      .addEventListener('touchmove', function (e) {
+        e.preventDefault()
+      })
 
-    })
-
-    document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
-
-      e.preventDefault()
-
-    })
+    document
+      .getElementsByClassName('background')[0]
+      .addEventListener('touchmove', function (e) {
+        e.preventDefault()
+      })
   }
 
   displayModal (message, onConfirm, onCancel, confirmMessage, cancelMessage) {
     this.setState({
-      modal: <ConfirmModal message={message}
-                           onConfirm={onConfirm}
-                           onCancel={onCancel}
-                           confirmText={confirmMessage}
-                           cancelText={cancelMessage} />
+      modal: (
+        <ConfirmModal
+          message={message}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          confirmText={confirmMessage}
+          cancelText={cancelMessage}
+        />
+      )
     })
   }
 
@@ -215,40 +231,67 @@ export default class WritingTool extends Component {
 
   onResize (e) {
     if (e.target.window.innerWidth > 1280) {
-      this.setState({planningExpanded: true})
+      this.setState({ planningExpanded: true })
       this.addAnimation(this.expandDrawerAnimation.bind(this))
     }
   }
 
-  expandDrawerAnimation ({target}) {
-    var left = target.find({name: 'leftCol'})
-    var right = target.find({name: 'rightCol'})
+  expandDrawerAnimation ({ target }) {
+    var left = target.find({ name: 'leftCol' })
+    var right = target.find({ name: 'rightCol' })
 
     if (!this.state.planningExpanded) {
       return new TimelineMax()
-      .to(left, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
-      .to(right, 1, {ease: Bounce.easeOut, className: '-=planningExpanded'}, 0)
+        .to(
+          left,
+          1,
+          { ease: Bounce.easeOut, className: '-=planningExpanded' },
+          0
+        )
+        .to(
+          right,
+          1,
+          { ease: Bounce.easeOut, className: '-=planningExpanded' },
+          0
+        )
     } else {
       return new TimelineMax()
-      .to(left, 0, {position: 'absolute'}, 0)
-      .to(left, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
-      .to(right, 1.5, {ease: Bounce.easeOut, className: '+=planningExpanded'}, 0)
-      .to(left, 0, {position: 'relative'}, 1.5)
+        .to(left, 0, { position: 'absolute' }, 0)
+        .to(
+          left,
+          1.5,
+          { ease: Bounce.easeOut, className: '+=planningExpanded' },
+          0
+        )
+        .to(
+          right,
+          1.5,
+          { ease: Bounce.easeOut, className: '+=planningExpanded' },
+          0
+        )
+        .to(left, 0, { position: 'relative' }, 1.5)
     }
   }
 
   toggleExpand () {
     this.addAnimation(this.expandDrawerAnimation.bind(this))
-    this.setState({planningExpanded: !this.state.planningExpanded})
+    this.setState({ planningExpanded: !this.state.planningExpanded })
   }
 
   closeDrawer () {
     this.addAnimation(this.expandDrawerAnimation.bind(this))
-    this.setState({planningExpanded: false})
+    this.setState({ planningExpanded: false })
   }
 
   pick (type) {
-    const POSSIBLE_TYPES = ['story', 'poetry', 'letter', 'instructions', 'opinion', 'news']
+    const POSSIBLE_TYPES = [
+      'story',
+      'poetry',
+      'letter',
+      'instructions',
+      'opinion',
+      'news'
+    ]
     if (POSSIBLE_TYPES.indexOf(type) < 0) {
       return
     }
@@ -286,18 +329,22 @@ export default class WritingTool extends Component {
 
     return (
       <Provider store={store}>
-
-        <div className='host' ref={w => this.writingtool = w}>
-
-          <TypePickerPopover pick={this.pick}/>
-
+        <div
+          className='host'
+          ref={w => {
+            this.writingtool = w
+          }}
+        >
           {this.state.modal}
 
-          <div className='background' style={{
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundImage: 'url("' + this.state.image + '")'
-          }}/>
+          <div
+            className='background'
+            style={{
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundImage: 'url("' + this.state.image + '")'
+            }}
+          />
 
           <div className='column left planningExpanded' name='leftCol'>
             <Writer
@@ -315,27 +362,24 @@ export default class WritingTool extends Component {
               clearPlanning={this.clearPlanning}
               displayModal={this.displayModal.bind(this)}
               dismissModal={this.dismissModal.bind(this)}
-
             />
           </div>
 
           <div className='column right planningExpanded' name='rightCol'>
-
-            <div className={buttonBackgroundClassNames} style={{
-              backgroundColor: this.state.primaryColor
-            }}/>
+            <div
+              className={buttonBackgroundClassNames}
+              style={{
+                backgroundColor: this.state.primaryColor
+              }}
+            />
 
             <div className={buttonsClassNames}>
-              <div
-                onClick={this.toggleExpand.bind(this)}
-                style={buttonsStyle}
-              >
+              <div onClick={this.toggleExpand.bind(this)} style={buttonsStyle}>
                 <Icon
                   name={this.state.planningExpanded ? 'right' : 'left'}
                   fontSize='25px'
                   color={this.state.light ? 'black' : 'white'}
                 />
-
               </div>
             </div>
 
@@ -344,15 +388,14 @@ export default class WritingTool extends Component {
               secondaryColor={this.state.secondaryColor}
               light={this.state.light}
             />
-
           </div>
 
+          <style jsx>
+            {styles}
+          </style>
 
-          <style jsx global>{`* { box-sizing: border-box; }`}</style>
-          <style jsx>{styles}</style>
-
-          <div className='progressBar'>
-            <ProgressBar
+          <div className='statusBar'>
+            <StatusBar
               minNbWords={store.getState().writing.constraints.minNbWords}
               maxNbWords={store.getState().writing.constraints.maxNbWords}
               progress={store.getState().writing.progress}
@@ -361,7 +404,6 @@ export default class WritingTool extends Component {
               light={this.state.light}
             />
           </div>
-
         </div>
       </Provider>
     )

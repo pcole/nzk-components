@@ -1,12 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './PlanningDrawer.styles'
 import cn from 'classnames'
 import Fields from '../Fields/Fields'
-import {connect} from 'react-redux'
-import {savePlanningLocalStorage} from '../../store/actions/planningActions'
+import { connect } from 'react-redux'
+import { savePlanningLocalStorage } from '../../store/actions/planningActions'
 import throttle from 'lodash/throttle'
-import {FormattedMessage as T} from 'react-intl'
 
 @connect(store => {
   return {
@@ -45,27 +44,31 @@ export default class PlanningDrawer extends Component {
   }
 
   componentDidMount () {
-
     var scrolling = false
-    document.getElementsByClassName('drawer')[0].addEventListener('touchstart', function (e) {
-      // Only execute the below code once at a time
-      if (!scrolling) {
-        scrolling = true
-        if (e.currentTarget.scrollTop === 0) {
-          e.currentTarget.scrollTop = 1
-        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
-          e.currentTarget.scrollTop -= 1
+    document
+      .getElementsByClassName('drawer')[0]
+      .addEventListener('touchstart', function (e) {
+        // Only execute the below code once at a time
+        if (!scrolling) {
+          scrolling = true
+          if (e.currentTarget.scrollTop === 0) {
+            e.currentTarget.scrollTop = 1
+          } else if (
+            e.currentTarget.scrollHeight ===
+            e.currentTarget.scrollTop + e.currentTarget.offsetHeight
+          ) {
+            e.currentTarget.scrollTop -= 1
+          }
+          scrolling = false
         }
-        scrolling = false
-      }
-      e.stopPropagation()
+        e.stopPropagation()
+      })
 
-    })
-
-    document.getElementsByClassName('drawer')[0].addEventListener('touchmove', function(e) {
-      e.stopPropagation()
-    })
-
+    document
+      .getElementsByClassName('drawer')[0]
+      .addEventListener('touchmove', function (e) {
+        e.stopPropagation()
+      })
   }
 
   nextStep () {
@@ -79,7 +82,7 @@ export default class PlanningDrawer extends Component {
         this.props.onStep(nextStep)
       }
 
-      this.setState({step: nextStep})
+      this.setState({ step: nextStep })
     }
   }
 
@@ -93,7 +96,7 @@ export default class PlanningDrawer extends Component {
         this.props.onStep(nextStep)
       }
 
-      this.setState({step: nextStep})
+      this.setState({ step: nextStep })
     }
   }
 
@@ -123,41 +126,45 @@ export default class PlanningDrawer extends Component {
               backgroundSize: 'cover'
             }}
           />
-          <div className='plan-title' style={{
-            color: this.props.light ? 'black' : 'white'
-          }}>
+          <div
+            className='plan-title'
+            style={{
+              color: this.props.light ? 'black' : 'white'
+            }}
+          >
             Plan your {this.props.title}
           </div>
         </div>
 
-        { this.props.image || this.props.description
-
+        {this.props.image || this.props.description
           ? <div className='informations'>
+            {this.props.image
+                ? <div
+                  className='image'
+                  style={{
+                    backgroundPosition: 'center',
+                    backgroundSize: 'contain',
+                    backgroundImage: 'url("' + this.props.image + '")',
+                    backgroundRepeat: 'no-repeat'
+                  }}
+                  />
+                : null}
 
-            { this.props.image
-              ? <div
-                className='image'
-                style={{
-                  backgroundPosition: 'center',
-                  backgroundSize: 'contain',
-                  backgroundImage: 'url("' + this.props.image + '")',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              />
-              : null }
-
-            { this.props.description
-              ? <div className='description' style={{
-                color: this.props.light ? 'black' : 'white'
-              }}>
-                {this.props.description}
-              </div>
-              : null }
-
+            {this.props.description
+                ? <div
+                  className='description'
+                  style={{
+                    color: this.props.light ? 'black' : 'white'
+                  }}
+                  >
+                  {this.props.description}
+                </div>
+                : null}
           </div>
-          : null
-        }
-        <style jsx>{styles}</style>
+          : null}
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }
@@ -169,7 +176,7 @@ export default class PlanningDrawer extends Component {
   }
 
   render () {
-    const {primaryColor} = this.props
+    const { primaryColor } = this.props
 
     const style = {
       backgroundColor: primaryColor
@@ -185,9 +192,7 @@ export default class PlanningDrawer extends Component {
 
     return (
       <div name='host' className={hostClassNames}>
-
         <div name='drawer' className={classNames} style={style}>
-
           {this.renderStoryDesc()}
           {this.props.fields.map((field, index) => {
             return (
@@ -208,16 +213,21 @@ export default class PlanningDrawer extends Component {
             )
           })}
 
-          <div className='bottom-gradient' style={{
-            position: 'fixed',
-            bottom: '40px',
-            left: '0',
-            height: '20px',
-            width: '100%',
-            background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)`
-          }}/>
+          <div
+            className='bottom-gradient'
+            style={{
+              position: 'fixed',
+              bottom: '40px',
+              left: '0',
+              height: '20px',
+              width: '100%',
+              background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)`
+            }}
+          />
         </div>
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }

@@ -1,8 +1,0 @@
-{
-  "name": "nzk-components-writing-tool-progressbar",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./ProgressBar.js",
-  "dependencies": {
-  }
-}

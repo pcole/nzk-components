@@ -8,7 +8,7 @@
     "child_process": "^1.0.2",
     "classnames": "^2.2.5",
     "color": "^2.0.0",
-    "gsap": "^1.19.1",
+    "gsap": "^1.20.2",
     "html2canvas": "^0.5.0-beta4",
     "html2pdf": "^0.0.11",
     "jspdf": "^1.3.3",
@@ -16,54 +16,59 @@
     "node-vibrant": "^3.0.0-alpha.2",
     "prop-types": "^15.5.10",
     "rasterizehtml": "^1.2.4",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-dropzone": "^3.13.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-dropzone": "^4.0.0",
     "react-gsap-enhancer": "^0.3.0",
-    "react-intl": "^2.3.0",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.0",
+    "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "slate": "^0.20.4",
-    "styled-jsx": "^1.0.4"
+    "slate": "^0.21.1",
+    "styled-jsx": "^1.0.10"
   },
   "devDependencies": {
-    "@storybook/addon-knobs": "^3.0.1",
-    "@storybook/addon-storyshots": "^3.0.0",
-    "@storybook/react": "^3.0.1",
+    "@storybook/addon-knobs": "^3.2.0",
+    "@storybook/react": "^3.2.3",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.3.3",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "husky": "^0.13.4",
+    "husky": "^0.14.3",
     "jest": "^20.0.4",
-    "prettier-standard": "^5.0.0",
-    "react-test-renderer": "^15.5.4",
+    "prettier-standard": "^6.0.0",
+    "react-test-renderer": "^15.6.1",
     "redux-thunk": "^2.2.0",
-    "remote-redux-devtools": "^0.5.11",
+    "remote-redux-devtools": "^0.5.12",
     "rimraf": "^2.6.1",
     "snazzy": "^7.0.0",
-    "standard": "^10.0.2"
+    "standard": "^10.0.3"
   },
   "scripts": {
     "precommit": "yarn run test",
     "build": "rimraf dist/ && babel components --ignore 'storyshot**,**stories.js' --out-dir dist/ --copy-files",
     "test": "standard && jest",
     "standard": "standard --verbose | snazzy",
-    "format": "prettier-standard '**/*.js'",
     "standard-fix": "standard --fix | snazzy",
+    "format": "prettier-standard '**/*.js' | standard --fix | snazzy",
     "storybook": "start-storybook -p 6006 -s ./static",
     "build-storybook": "build-storybook"
   },
   "standard": {
     "ignore": [
-      "dist/"
+      "dist/",
+      "static/"
     ],
     "parser": "babel-eslint"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dis/"
+    ]
   },
   "author": "Night Zookeeper",
   "private": true

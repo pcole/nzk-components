@@ -1,7 +1,3 @@
-/**
- * Created by benjaminafonso on 26/06/2017.
- */
-
 import settingsEn from '../../assets/settings_en.json'
 
 export function usePreset (dispatch, preset) {
@@ -10,7 +6,13 @@ export function usePreset (dispatch, preset) {
   dispatch(removeFields())
 
   if (settings[preset]) {
-    dispatch(setWritingType(settings[preset].title, settings[preset].icon, settings[preset].needsTitle))
+    dispatch(
+      setWritingType(
+        settings[preset].title,
+        settings[preset].icon,
+        settings[preset].needsTitle
+      )
+    )
     settings[preset].fields.map(field => {
       return dispatch(
         newField(
@@ -21,7 +23,7 @@ export function usePreset (dispatch, preset) {
           field.overloadable,
           field.removeable,
           [...Array(field.numberOfFields)].map((field, index) => {
-            return {index: index, value: ''}
+            return { index: index, value: '' }
           })
         )
       )
@@ -59,7 +61,7 @@ export function useCustomPreset (dispatch, preset) {
         field.overloadable,
         field.removeable,
         field.fields.map((field, index) => {
-          return {index: index, value: field}
+          return { index: index, value: field }
         })
       )
     )
@@ -130,14 +132,15 @@ export function clearPlanning () {
   }
 }
 
-
-export function newField (title,
-                          type,
-                          nbFields,
-                          nbFieldsPerRow,
-                          overloadable,
-                          removeable,
-                          fields) {
+export function newField (
+  title,
+  type,
+  nbFields,
+  nbFieldsPerRow,
+  overloadable,
+  removeable,
+  fields
+) {
   return {
     type: 'NEW_FIELD',
     payload: {
