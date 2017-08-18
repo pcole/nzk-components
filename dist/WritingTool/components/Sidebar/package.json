@@ -1,0 +1,6 @@
+{
+  "name": "nzk-components-writing-tool-sidebar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Sidebar.js"
+}
