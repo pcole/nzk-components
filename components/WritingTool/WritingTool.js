@@ -1,67 +1,57 @@
 import React, { Component } from 'react'
-import styles from './WritingTool.styles'
-import Writer from './components/Writer/Writer'
-import PlanningDrawer from './components/PlanningDrawer/PlanningDrawer'
-import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
-import store from './store/store'
-import {
-  usePreset,
-  setInformations,
-  loadPlanningLocalstorage,
-  useCustomPreset,
-  clearPlanning
-} from './store/actions/planningActions'
-import { clearWriting } from './store/actions/writingActions'
-
-import * as Vibrant from 'node-vibrant'
 import GSAP from 'react-gsap-enhancer'
 import { TimelineMax, Bounce } from 'gsap'
-import Icon from '../Icon/Icon'
-import cn from 'classnames'
+import PropTypes from 'prop-types'
 import Color from 'color'
+import getColorFromImage from '../../util/getColorFromImage'
+import Writer from './components/Writer/Writer'
+import Sidebar from './components/Sidebar/Sidebar'
+import Icon from '../Icon'
+import Button from '../Button'
 import StatusBar from './components/StatusBar/StatusBar'
 import ConfirmModal from './components/ConfirmModal/ConfirmModal'
+import styles from './WritingTool.styles'
+import Store from './store/store'
+import { init, clear } from './store/actions'
+const store = Store()
 
 @GSAP()
 export default class WritingTool extends Component {
   static propTypes = {
-    image: PropTypes.string,
-    planning: PropTypes.any,
-    type: PropTypes.oneOf([
-      'story',
-      'poetry',
-      'explanation',
-      'instructions',
-      'opinion',
-      'news',
-      'letter',
-      'diary',
-      'playscript',
-      'recount',
-      'biography',
-      'report, freewrite',
-      'custom'
-    ]),
-    customType: PropTypes.shape({
+    lang: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    writingType: PropTypes.string,
+    placeholders: PropTypes.shape({
       title: PropTypes.string,
-      icon: PropTypes.string,
-      needsTitle: PropTypes.bool,
-      fields: PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string,
-          type: PropTypes.oneOf(['input', 'textarea']),
-          numberOfFields: PropTypes.number,
-          numberPerRow: PropTypes.number,
-          overloadable: PropTypes.bool,
-          removeable: PropTypes.bool,
-          fields: PropTypes.arrayOf(PropTypes.string)
-        })
-      )
+      text: PropTypes.string
     }),
-    writingImage: PropTypes.string,
-    writingDescription: PropTypes.string,
-    backCallback: PropTypes.func,
+    writing: PropTypes.shape({
+      title: PropTypes.string,
+      text: PropTypes.string
+    }),
+    constraints: PropTypes.shape({
+      minWords: PropTypes.number,
+      maxWords: PropTypes.number
+    }),
+    prompt: PropTypes.shape({
+      icon: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      image: PropTypes.string
+    }),
+    loadPresetSections: PropTypes.bool,
+    sections: PropTypes.shape({
+      prepend: PropTypes.bool,
+      title: PropTypes.string,
+      component: PropTypes.node,
+      fieldType: PropTypes.oneOf(['input', 'textarea']),
+      numberOfFields: PropTypes.number,
+      userCanAddFields: PropTypes.bool,
+      fieldsAreRemovable: PropTypes.bool
+    }),
+    onBack: PropTypes.func,
+    onSave: PropTypes.func,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
@@ -69,128 +59,58 @@ export default class WritingTool extends Component {
   }
 
   static defaultProps = {
-    writingImage:
-      'https://az801952.vo.msecnd.net/uploads/f1003e55-127d-42de-a49e-82a10d80b5f1.jpg',
-    writingDescription:
-      'Cupcake ipsum dolor sit amet fruitcake gummi bears. Liquorice chocolate dessert toffee.',
-    hideClearButton: true
+    hideClearButton: true,
+    backgroundImage: '/assets/temple.jpg'
   }
 
   state = {
-    step: 1,
-    planningExpanded: true,
+    sidebarOpen: true,
     primaryColor: undefined,
     secondaryColor: undefined,
-    image: undefined,
-    light: false,
+    textColor: undefined,
     modal: undefined
   }
 
   componentWillMount () {
-    window.usePreset = preset => {
-      usePreset(store.dispatch, preset)
-    }
-    if (this.props.type === 'custom' || this.props.customType) {
-      useCustomPreset(store.dispatch, this.props.customType)
-    } else {
-      usePreset(store.dispatch, this.props.type)
-    }
-
     store.dispatch(
-      setInformations(this.props.writingImage, this.props.writingDescription)
+      init(store.dispatch, {
+        lang: this.props.lang,
+        writingType: this.props.writingType,
+        placeholders: this.props.placeholders,
+        writing: this.props.writing,
+        constraints: this.props.constraints,
+        prompt: this.props.prompt,
+        sections: this.props.sections
+      })
     )
 
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
-  getColorsFromBackground () {
-    let pickedImage
-    if (this.props.image) {
-      pickedImage = this.props.image
-    } else {
-      const images = [
-        '/assets/angry-alligator-creek-back.jpg',
-        '/assets/arctic-wanderlust-back.jpg',
-        '/assets/doomed-sea-back.jpg',
-        '/assets/lava-tunnel-back.jpg',
-        '/assets/lesson-hive.jpg',
-        '/assets/temple.jpg',
-        '/assets/welcome-bg.jpg',
-        '/assets/what-why-where-woods-back.jpg',
-        '/assets/ac7ywy8tv3qf3quimykx.jpg',
-        '/assets/aa7ellrkrwfyljjnryne.jpg',
-        '/assets/papbnwocavrkia6fai0n.jpg',
-        '/assets/hhzgyh7bgdbhtbu8rpzs.jpg',
-        '/assets/fqutf1jckgysqaivhgpq.jpg'
-      ]
-      pickedImage = images[Math.floor(Math.random() * (images.length - 1))]
-    }
-
-    // CACHED BACKGROUND COLORS
-    if (window.localStorage.getItem(`nzk-bg-${pickedImage}`)) {
-      var cached = JSON.parse(
-        window.localStorage.getItem(`nzk-bg-${pickedImage}`)
-      )
-
-      var secondaryColor = new Color(cached.primaryColor.color)
-      if (cached.light) {
-        secondaryColor = secondaryColor.darken(0.2)
-      } else {
-        secondaryColor = secondaryColor.lighten(0.2)
-      }
-
-      this.setState({
-        primaryColor: new Color(cached.primaryColor.color),
-        secondaryColor: secondaryColor,
-        image: cached.image,
-        light: cached.light
-      })
-      return
-    }
-
-    // NOT CACHED BACKGROUND COLORS
-    Vibrant.from(pickedImage).getPalette((err, palette) => {
+  setColorsFromBackgroundImage () {
+    getColorFromImage(this.props.backgroundImage, (err, color) => {
       if (err) {
         return
       }
 
-      var primaryColor = new Color(palette.Vibrant.getRgb())
-
-      var light
-      var secondaryColor = new Color(palette.Vibrant.getRgb())
-      if (primaryColor.light()) {
-        light = true
-        secondaryColor = secondaryColor.darken(0.2)
-      } else {
-        light = false
-        secondaryColor = secondaryColor.lighten(0.2)
-      }
+      let primaryColor = new Color(color)
+      let light = primaryColor.light()
+      let secondaryColor = light
+        ? primaryColor.darken(0.3)
+        : primaryColor.lighten(0.3)
 
       this.setState({
-        primaryColor: primaryColor,
-        secondaryColor: secondaryColor,
-        image: pickedImage,
-        light: light
+        primaryColor,
+        primaryFadedColor: primaryColor.fade(0.3),
+        secondaryColor,
+        textColor: light ? 'black' : 'white',
+        light
       })
-
-      window.localStorage.setItem(
-        `nzk-bg-${pickedImage}`,
-        JSON.stringify({
-          primaryColor: primaryColor,
-          secondaryColor: secondaryColor,
-          image: pickedImage,
-          light: light
-        })
-      )
     })
   }
 
   componentDidMount () {
-    this.getColorsFromBackground()
-
-    if (window.localStorage.getItem('nzk-planning')) {
-      loadPlanningLocalstorage(store.dispatch)
-    }
+    this.setColorsFromBackgroundImage()
 
     document.addEventListener('touchmove', function (e) {
       e.preventDefault()
@@ -231,102 +151,43 @@ export default class WritingTool extends Component {
 
   onResize (e) {
     if (e.target.window.innerWidth > 1280) {
-      this.setState({ planningExpanded: true })
-      this.addAnimation(this.expandDrawerAnimation.bind(this))
+      this.setState({ sidebarOpen: true })
+      this.addAnimation(this.toggleSidebarAnimation.bind(this))
     }
   }
 
-  expandDrawerAnimation ({ target }) {
+  onClear () {
+    store.dispatch(clear)
+  }
+
+  toggleSidebarAnimation ({ target }) {
     var left = target.find({ name: 'leftCol' })
     var right = target.find({ name: 'rightCol' })
 
-    if (!this.state.planningExpanded) {
+    if (!this.state.sidebarOpen) {
       return new TimelineMax()
-        .to(
-          left,
-          1,
-          { ease: Bounce.easeOut, className: '-=planningExpanded' },
-          0
-        )
-        .to(
-          right,
-          1,
-          { ease: Bounce.easeOut, className: '-=planningExpanded' },
-          0
-        )
+        .to(left, 1, { ease: Bounce.easeOut, className: '-=sidebarOpen' }, 0)
+        .to(right, 1, { ease: Bounce.easeOut, className: '-=sidebarOpen' }, 0)
     } else {
       return new TimelineMax()
         .to(left, 0, { position: 'absolute' }, 0)
-        .to(
-          left,
-          1.5,
-          { ease: Bounce.easeOut, className: '+=planningExpanded' },
-          0
-        )
-        .to(
-          right,
-          1.5,
-          { ease: Bounce.easeOut, className: '+=planningExpanded' },
-          0
-        )
+        .to(left, 1.5, { ease: Bounce.easeOut, className: '+=sidebarOpen' }, 0)
+        .to(right, 1.5, { ease: Bounce.easeOut, className: '+=sidebarOpen' }, 0)
         .to(left, 0, { position: 'relative' }, 1.5)
     }
   }
 
-  toggleExpand () {
-    this.addAnimation(this.expandDrawerAnimation.bind(this))
-    this.setState({ planningExpanded: !this.state.planningExpanded })
+  toggleSidebar () {
+    this.addAnimation(this.toggleSidebarAnimation.bind(this))
+    this.setState({ sidebarOpen: !this.state.sidebarOpen })
   }
 
-  closeDrawer () {
-    this.addAnimation(this.expandDrawerAnimation.bind(this))
-    this.setState({ planningExpanded: false })
-  }
-
-  pick (type) {
-    const POSSIBLE_TYPES = [
-      'story',
-      'poetry',
-      'letter',
-      'instructions',
-      'opinion',
-      'news'
-    ]
-    if (POSSIBLE_TYPES.indexOf(type) < 0) {
-      return
-    }
-
-    usePreset(store.dispatch, type)
-  }
-
-  clearPlanning () {
-    window.localStorage.removeItem('nzk-planning')
-    store.dispatch(clearPlanning())
-  }
-
-  clearWriting () {
-    window.localStorage.removeItem('nzk-writing')
-    store.dispatch(clearWriting())
+  closeSidebar () {
+    this.addAnimation(this.toggleSidebarAnimation.bind(this))
+    this.setState({ sidebarOpen: false })
   }
 
   render () {
-    var buttonsClassNames = cn({
-      withTitle: store.getState().planning.needsTitle,
-      withoutTitle: !store.getState().planning.needsTitle,
-      buttons: true
-    })
-
-    var buttonBackgroundClassNames = cn({
-      withTitle: store.getState().planning.needsTitle,
-      withoutTitle: !store.getState().planning.needsTitle,
-      buttonBackground: true
-    })
-
-    const buttonsStyle = {
-      backgroundColor: this.state.secondaryColor,
-      borderColor: this.state.secondaryColor
-    }
-
     return (
       <Provider store={store}>
         <div
@@ -340,53 +201,50 @@ export default class WritingTool extends Component {
           <div
             className='background'
             style={{
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-              backgroundImage: 'url("' + this.state.image + '")'
+              backgroundImage: 'url("' + this.props.backgroundImage + '")'
             }}
           />
 
-          <div className='column left planningExpanded' name='leftCol'>
+          <div className='column left sidebarOpen' name='leftCol'>
             <Writer
               primaryColor={this.state.primaryColor}
-              secondaryColor={this.state.secondaryColor}
+              secondaryColor={this.state.primaryFadedColor}
+              textColor={this.state.textColor}
+              backgroundImage={this.props.backgroundImage}
               light={this.state.light}
-              minNbWords={this.props.minNbWords}
-              onMobileFocus={this.closeDrawer.bind(this)}
-              backCallback={this.props.backCallback}
+              onMobileFocus={this.closeSidebar.bind(this)}
+              onBack={this.props.onBack}
               hideTextStyleButtons={this.props.hideTextStyleButtons}
               hideAlignButtons={this.props.hideAlignButtons}
               hideImageButton={this.props.hideImageButton}
               hideClearButton={this.props.hideClearButton}
-              clearWriting={this.clearWriting}
-              clearPlanning={this.clearPlanning}
+              onClear={this.onClear.bind(this)}
               displayModal={this.displayModal.bind(this)}
               dismissModal={this.dismissModal.bind(this)}
             />
           </div>
 
-          <div className='column right planningExpanded' name='rightCol'>
+          <div className='column right sidebarOpen' name='rightCol'>
             <div
-              className={buttonBackgroundClassNames}
+              className='sidebar-toggle-btn-container'
               style={{
                 backgroundColor: this.state.primaryColor
               }}
-            />
-
-            <div className={buttonsClassNames}>
-              <div onClick={this.toggleExpand.bind(this)} style={buttonsStyle}>
-                <Icon
-                  name={this.state.planningExpanded ? 'right' : 'left'}
-                  fontSize='25px'
-                  color={this.state.light ? 'black' : 'white'}
-                />
-              </div>
+            >
+              <Button
+                onClick={this.toggleSidebar.bind(this)}
+                bgColor={this.state.secondaryColor}
+                color={this.state.textColor}
+                round
+                shadow
+              >
+                <Icon name={'menu'} color={this.state.textColor} />
+              </Button>
             </div>
-
-            <PlanningDrawer
+            <Sidebar
               primaryColor={this.state.primaryColor}
               secondaryColor={this.state.secondaryColor}
-              light={this.state.light}
+              textColor={this.state.textColor}
             />
           </div>
 
@@ -394,13 +252,9 @@ export default class WritingTool extends Component {
             {styles}
           </style>
 
-          <div className='statusBar'>
+          <div className='status-bar'>
             <StatusBar
-              minNbWords={store.getState().writing.constraints.minNbWords}
-              maxNbWords={store.getState().writing.constraints.maxNbWords}
-              progress={store.getState().writing.progress}
-              primaryColor={this.state.primaryColor}
-              secondaryColor={this.state.secondaryColor}
+              bgColor={this.state.primaryColor}
               light={this.state.light}
             />
           </div>

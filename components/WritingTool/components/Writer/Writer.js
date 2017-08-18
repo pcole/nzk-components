@@ -1,22 +1,15 @@
-import React from 'react'
-import { Editor, Block, Raw, Html, Plain } from 'slate'
-import styles from './Writer.styles'
+import React, { Component } from 'react'
+import { Editor, Block, Raw, Plain } from 'slate'
 import PropTypes from 'prop-types'
+import GSAP from 'react-gsap-enhancer'
 import { connect } from 'react-redux'
-import {
-  textChanged,
-  saveWritingLocalstorage,
-  updateProgress,
-  updateNbWords
-} from '../../store/actions/writingActions'
+import { TimelineMax } from 'gsap'
+import JsPDF from 'jspdf'
 import Uploader from '../../../Uploader/Uploader'
-import throttle from 'lodash/throttle'
 import Icon from '../../../Icon/Icon'
 import Button from '../../../Button/Button'
-import GSAP from 'react-gsap-enhancer'
-import { TimelineMax } from 'gsap'
-import cn from 'classnames'
-import JsPDF from 'jspdf'
+import styles from './Writer.styles'
+import { setWordCount } from '../../store/actions'
 
 /**
  * Define the default node type.
@@ -136,158 +129,142 @@ const schema = {
   }
 }
 
-const BLOCK_TAGS = {
-  p: 'paragraph',
-  em: 'italic',
-  u: 'underline',
-  s: 'strikethrough'
-}
+// const BLOCK_TAGS = {
+//   p: 'paragraph',
+//   em: 'italic',
+//   u: 'underline',
+//   s: 'strikethrough'
+// }
 
-const MARK_TAGS = {
-  strong: 'bold',
-  em: 'italic',
-  u: 'underline'
-}
+// const MARK_TAGS = {
+//   strong: 'bold',
+//   em: 'italic',
+//   u: 'underline'
+// }
 
-const RULES = [
-  {
-    deserialize (el, next) {
-      const block = BLOCK_TAGS[el.tagName]
-      if (!block) return
-      return {
-        kind: 'block',
-        type: block,
-        nodes: next(el.childNodes)
-      }
-    }
-  },
-  {
-    serialize (object, children) {
-      if (object.kind !== 'block') return
-      switch (object.type) {
-        case 'paragraph':
-          return (
-            <p>
-              {children}
-            </p>
-          )
-        case 'align-left':
-          return (
-            <p style={{ textAlign: 'left' }}>
-              {children}
-            </p>
-          )
-        case 'align-center':
-          return (
-            <p style={{ textAlign: 'center' }}>
-              {children}
-            </p>
-          )
-        case 'align-right':
-          return (
-            <p style={{ textAlign: 'right' }}>
-              {children}
-            </p>
-          )
-        case 'image':
-          return (
-            <img
-              src={object.data.get('src')}
-              className='importedImage'
-              alt=''
-              align='middle'
-              style={{
-                maxWidth: '75%',
-                maxHeight: '400px',
-                textAlign: 'center',
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                marginTop: '20px',
-                marginBottom: '20px'
-              }}
-            />
-          )
-      }
-    }
-  },
-  {
-    deserialize (el, next) {
-      const mark = MARK_TAGS[el.tagName]
-      if (!mark) return
-      return {
-        kind: 'mark',
-        type: mark,
-        nodes: next(el.childNodes)
-      }
-    }
-  },
-  {
-    serialize (object, children) {
-      if (object.kind !== 'mark') return
-      switch (object.type) {
-        case 'bold':
-          return (
-            <strong>
-              {children}
-            </strong>
-          )
-        case 'italic':
-          return (
-            <em>
-              {children}
-            </em>
-          )
-        case 'underlined':
-          return (
-            <u>
-              {children}
-            </u>
-          )
-      }
-    }
-  }
-]
+// const RULES = [
+//   {
+//     deserialize (el, next) {
+//       const block = BLOCK_TAGS[el.tagName]
+//       if (!block) return
+//       return {
+//         kind: 'block',
+//         type: block,
+//         nodes: next(el.childNodes)
+//       }
+//     }
+//   },
+//   {
+//     serialize (object, children) {
+//       if (object.kind !== 'block') return
+//       switch (object.type) {
+//         case 'paragraph':
+//           return (
+//             <p>
+//               {children}
+//             </p>
+//           )
+//         case 'align-left':
+//           return (
+//             <p style={{ textAlign: 'left' }}>
+//               {children}
+//             </p>
+//           )
+//         case 'align-center':
+//           return (
+//             <p style={{ textAlign: 'center' }}>
+//               {children}
+//             </p>
+//           )
+//         case 'align-right':
+//           return (
+//             <p style={{ textAlign: 'right' }}>
+//               {children}
+//             </p>
+//           )
+//         case 'image':
+//           return (
+//             <img
+//               src={object.data.get('src')}
+//               className='importedImage'
+//               alt=''
+//               align='middle'
+//               style={{
+//                 maxWidth: '75%',
+//                 maxHeight: '400px',
+//                 textAlign: 'center',
+//                 display: 'block',
+//                 marginLeft: 'auto',
+//                 marginRight: 'auto',
+//                 marginTop: '20px',
+//                 marginBottom: '20px'
+//               }}
+//             />
+//           )
+//       }
+//     }
+//   },
+//   {
+//     deserialize (el, next) {
+//       const mark = MARK_TAGS[el.tagName]
+//       if (!mark) return
+//       return {
+//         kind: 'mark',
+//         type: mark,
+//         nodes: next(el.childNodes)
+//       }
+//     }
+//   },
+//   {
+//     serialize (object, children) {
+//       if (object.kind !== 'mark') return
+//       switch (object.type) {
+//         case 'bold':
+//           return (
+//             <strong>
+//               {children}
+//             </strong>
+//           )
+//         case 'italic':
+//           return (
+//             <em>
+//               {children}
+//             </em>
+//           )
+//         case 'underlined':
+//           return (
+//             <u>
+//               {children}
+//             </u>
+//           )
+//       }
+//     }
+//   }
+// ]
 
-const serializer = new Html({ rules: RULES })
+// const serializer = new Html({ rules: RULES })
 
 @connect(store => {
   return {
+    placeholders: store.placeholders,
     writing: store.writing,
-    planning: store.planning,
-    needsTitle: store.planning.needsTitle
+    constraints: store.constraints
   }
 })
 @GSAP()
-export default class Writer extends React.Component {
-  /**
-   * Deserialize the initial editor state.
-   *
-   * @type {Object}
-   */
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      state: Raw.deserialize(this.props.writing.state, { terse: true }),
-      wordCount: 0,
-      mobile: false,
-      focus: false,
-      imagePopoverDisplayed: false,
-      toolbarDisabled: true,
-      modal: null
-    }
-    this.throttledSave = throttle(this.save, 3000)
-  }
-
+export default class Writer extends Component {
   static propTypes = {
-    nbWords: PropTypes.number,
-    minNbWords: PropTypes.number,
-    primaryColor: PropTypes.object,
-    secondaryColor: PropTypes.object,
+    placeholders: PropTypes.object,
+    writing: PropTypes.object,
+    constraints: PropTypes.object,
+    primaryColor: PropTypes.string,
+    secondaryColor: PropTypes.string,
+    textColor: PropTypes.string,
     light: PropTypes.bool,
     onMobileFocus: PropTypes.func,
-    backCallback: PropTypes.func,
+    onBack: PropTypes.func,
+    onClear: PropTypes.func,
+    onSave: PropTypes.func,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
@@ -295,48 +272,60 @@ export default class Writer extends React.Component {
   }
 
   static defaultProps = {
-    progress: 0,
-    light: false
+    hideImageButton: false,
+    hideTextStyleButtons: false,
+    hideAlignButtons: false,
+    hideClearButton: true,
+    onBack: () => {},
+    onClear: () => {},
+    onSave: () => {}
+  }
+
+  constructor (props) {
+    super(props)
+
+    let writingState = {
+      nodes: [
+        {
+          kind: 'block',
+          type: 'paragraph',
+          nodes: []
+        }
+      ]
+    }
+
+    this.state = {
+      writingTitle: this.props.writing.title,
+      writingState: Raw.deserialize(writingState, { terse: true }),
+      mobile: false,
+      focusSlateEditor: false,
+      imagePopoverDisplayed: false,
+      toolbarDisabled: true,
+      modal: null
+    }
+
+    this.onStateChange = this.onStateChange.bind(this)
+    this.onDocumentChange = this.onDocumentChange.bind(this)
+    this.onTitleChange = this.onTitleChange.bind(this)
+    this.resizeTitle = this.resizeTitle.bind(this)
+    this.titleRef = this.titleRef.bind(this)
+    this.editorRef = this.editorRef.bind(this)
+    this.writerRef = this.writerRef.bind(this)
+    this.slateEditorRef = this.slateEditorRef.bind(this)
+    this.onTitleKeyDown = this.onTitleKeyDown.bind(this)
   }
 
   componentDidMount () {
     if (/Android|iPad/i.test(navigator.userAgent)) {
       this.setState({ mobile: true })
-      this.refs.writer.style.height = 'calc(100vh - 155px)'
+      this.writer.style.height = 'calc(100vh - 155px)'
     }
 
-    this.refs.editor.addEventListener('touchmove', function (e) {
+    this.editor.addEventListener('touchmove', function (e) {
       e.stopPropagation()
     })
 
-    this.refs.writer.addEventListener('click', function (e) {})
-
-    /* this.refs.writer.addEventListener('touchstart', (function (e) {
-
-      if (!this.state.focus) {
-        setTimeout((() => {
-          if (e.target.offsetTop > 120) {
-            this.refs.writer.scrollTop = e.target.offsetTop
-          }
-        }).bind(this), 200)
-      }
-
-      e.stopPropagation()
-
-    }).bind(this)) */
-  }
-
-  setCaretPosition (ctrl, pos) {
-    if (ctrl.setSelectionRange) {
-      ctrl.focus()
-      ctrl.setSelectionRange(pos, pos)
-    } else if (ctrl.createTextRange) {
-      var range = ctrl.createTextRange()
-      range.collapse(true)
-      range.moveEnd('character', pos)
-      range.moveStart('character', pos)
-      range.select()
-    }
+    this.writer.addEventListener('click', function (e) {})
   }
 
   /**
@@ -347,8 +336,8 @@ export default class Writer extends React.Component {
    */
 
   hasMark = type => {
-    const { state } = this.state
-    return state.marks.some(mark => mark.type === type)
+    const { writingState } = this.state
+    return writingState.marks.some(mark => mark.type === type)
   }
 
   /**
@@ -359,69 +348,37 @@ export default class Writer extends React.Component {
    */
 
   hasBlock = type => {
-    const { state } = this.state
-    return state.blocks.some(node => node.type === type)
+    const { writingState } = this.state
+    return writingState.blocks.some(node => node.type === type)
   }
 
-  /**
-   * On change, save the new state.
-   *
-   * @param {State} state
-   */
-
-  onChange = state => {
-    this.setState({ state: state })
-    this.props.dispatch(textChanged(state))
-    this.recordScreenHeight()
+  onTitleChange (event) {
+    this.setState({
+      writingTitle: event.target.value
+    })
+    this.addAnimation(this.resizeTitle)
   }
 
-  clear = () => {
-    this.props.clearPlanning()
-    this.props.clearWriting()
-    this.setState({ state: Plain.deserialize('') })
+  onStateChange = state => {
+    this.setState({
+      writingState: state
+    })
   }
 
   onDocumentChange = (document, state) => {
-    var count = document.text.split(' ').filter(w => w.length > 0).length
-    var progress = state.progress
-    var nbWords = Math.abs(count - this.props.writing.nbWords)
+    this.props.dispatch(setWordCount(this.getWordCountForState(state)))
+  }
 
-    if (count > this.props.writing.nbWords) {
-      // Addition
-      if (count / this.props.writing.constraints.minNbWords * 50 > 50) {
-        for (let i = 0; i < nbWords; i++) {
-          progress += this.props.writing.constraints.minNbWords / (2 * count)
-        }
-      } else {
-        progress = count / this.props.writing.constraints.minNbWords * 50
-      }
-    } else if (count < this.props.writing.nbWords) {
-      // Deletion
-      if (count / this.props.writing.constraints.minNbWords * 50 > 50) {
-        for (let i = 0; i < nbWords; i++) {
-          progress -= this.props.writing.constraints.minNbWords / (2 * count)
-        }
-      } else {
-        progress = count / this.props.writing.constraints.minNbWords * 50
-      }
-    }
-
-    this.props.dispatch(updateNbWords(count))
-    this.props.dispatch(updateProgress(progress))
-    this.throttledSave()
+  getWordCountForState = state => {
+    return state.document.text.split(' ').filter(w => w.length > 0).length
   }
 
   focusEditor () {
-    const state = this.state.state.transform().focus().apply()
-
-    this.setState({ state })
+    const writingState = this.state.writingState.transform().focus().apply()
+    this.setState({ writingState })
   }
 
-  save () {
-    if (this.props.writing.lastSave > 3) {
-      this.props.dispatch(saveWritingLocalstorage())
-    }
-  }
+  save () {}
 
   /**
    * When a mark button is clicked, toggle the current mark.
@@ -431,19 +388,9 @@ export default class Writer extends React.Component {
    */
   onClickMark = (e, type) => {
     e.preventDefault()
-    let { state } = this.state
-
-    const sizes = ['sizeOne', 'sizeTwo', 'sizeThree']
-    if (sizes.indexOf(type) > -1) {
-      sizes.map(size => {
-        if (size !== type) {
-          state = state.transform().removeMark(size).apply()
-        }
-        return null
-      })
-    }
-    state = state.transform().toggleMark(type).apply()
-    this.setState({ state })
+    let { writingState } = this.state
+    writingState = writingState.transform().toggleMark(type).apply()
+    this.setState({ writingState })
   }
 
   insertImage = (state, src) => {
@@ -466,38 +413,18 @@ export default class Writer extends React.Component {
 
   onClickBlock = (e, type) => {
     e.preventDefault()
-    let { state } = this.state
-    const transform = state.transform()
-    const { document } = state
+    let { writingState } = this.state
+    const transform = writingState.transform()
 
-    // Handle everything but list buttons.
-    if (type !== 'bulleted-list' && type !== 'image') {
-      const isActive = this.hasBlock(type)
-      const isList = this.hasBlock('list-item')
-      if (isList) {
-        transform
-          .setBlock(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock('bulleted-list')
-      } else {
-        transform.setBlock(isActive ? DEFAULT_NODE : type)
-      }
-    } else if (type === 'image') {
+    if (type === 'image') {
       this.displayImagePopover()
     } else {
-      const isList = this.hasBlock('list-item')
-      const isType = state.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type === type)
-      })
-
-      if (isList && isType) {
-        transform.setBlock(DEFAULT_NODE).unwrapBlock('bulleted-list')
-      } else {
-        transform.setBlock('list-item').wrapBlock(type)
-      }
+      const isActive = this.hasBlock(type)
+      transform.setBlock(isActive ? DEFAULT_NODE : type)
     }
 
-    state = transform.apply()
-    this.setState({ state })
+    writingState = transform.apply()
+    this.setState({ writingState })
   }
 
   displayImagePopover () {
@@ -513,13 +440,6 @@ export default class Writer extends React.Component {
     let { state } = this.state
     state = this.insertImage(state, url)
     this.onChange(state)
-  }
-
-  handleTitleChange (e) {
-    this.props.dispatch({
-      type: 'SET_TITLE',
-      payload: e.target.value
-    })
   }
 
   renderImagePopover () {
@@ -544,50 +464,46 @@ export default class Writer extends React.Component {
     )
   }
 
-  /**
-   * Render.
-   *
-   * @return {Element}
-   */
-
   render = () => {
-    const titlebarClassNames = cn({
-      titleBar: true,
-      dark: this.props.light,
-      light: !this.props.light
-    })
+    const hostStyle = {
+      boxShadow: `${this.props.light
+        ? 'rgba(255,255,255,0.8)'
+        : 'rgba(0,0,0,0.8)'} 0px 60px 59px 140px`
+    }
+
+    const colorStyle = {
+      color: this.props.textColor
+    }
+
+    const bgColorStyle = {
+      background: `${this.props.light
+        ? 'rgba(255,255,255,0.8)'
+        : 'rgba(0,0,0,0.8)'}`
+    }
 
     return (
-      <div
-        className='host'
-        style={{
-          boxShadow: `${this.props.light
-            ? 'rgba(255,255,255,0.8)'
-            : 'rgba(0,0,0,0.8)'} 0px 60px 59px 140px`
-        }}
-      >
+      <div className='host' style={hostStyle}>
         {this.renderToolbar()}
 
-        <div className='writer' ref='writer'>
-          {this.props.needsTitle
-            ? <div>
-              <input
-                className={titlebarClassNames}
-                type='text'
-                placeholder={'Enter your title here'}
-                style={{
-                  color: this.props.light ? 'black' : 'white',
-                  background: `${this.props.light
-                      ? 'rgba(255,255,255,0.8)'
-                      : 'rgba(0,0,0,0.8)'}`,
-                  borderBottom: `5px solid ${this.props.primaryColor}`
-                }}
-                value={this.props.writing.title}
-                onChange={this.handleTitleChange.bind(this)}
-                />
-            </div>
-            : null}
-
+        <div className='writer' ref={this.writerRef}>
+          <div
+            className={`title-container ${this.props.light ? 'light' : 'dark'}`}
+            style={{ ...bgColorStyle }}
+          >
+            <textarea
+              className='title'
+              tabIndex='1'
+              placeholder={this.props.placeholders.title}
+              ref={this.titleRef}
+              onKeyDown={this.onTitleKeyDown}
+              style={{
+                ...colorStyle,
+                borderBottom: `2px solid ${this.props.primaryColor}`
+              }}
+              onChange={this.onTitleChange}
+              value={this.state.writingTitle}
+            />
+          </div>
           {this.renderEditor()}
         </div>
         <style jsx>
@@ -601,6 +517,38 @@ export default class Writer extends React.Component {
     this.exportAsPdf()
   }
 
+  titleRef (el) {
+    this.title = el
+  }
+
+  writerRef (el) {
+    this.writer = el
+  }
+
+  editorRef (el) {
+    this.editor = el
+  }
+
+  slateEditorRef (el) {
+    this.slateEditor = el
+  }
+
+  resizeTitle () {
+    return new TimelineMax()
+      .to(this.title, 0, { height: '1px' })
+      .to(this.title, 0, { height: `${10 + this.title.scrollHeight}px` })
+  }
+
+  onTitleKeyDown (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+    }
+    if (event.key === 'Tab') {
+      event.preventDefault()
+      this.focusEditor()
+    }
+  }
+
   /**
    * Render the toolbar.
    *
@@ -608,32 +556,30 @@ export default class Writer extends React.Component {
    */
 
   renderToolbar = () => {
+    const bgStyle = {
+      color: this.props.textColor,
+      backgroundColor: this.props.secondaryColor
+    }
     return (
       <div
         style={{
-          color: this.props.light ? 'black' : 'white'
+          color: this.props.textColor
         }}
       >
-        <div
-          className='menu toolbar-menu'
-          style={{
-            backgroundColor: this.props.primaryColor,
-            color: this.props.light ? 'black' : 'white'
-          }}
-        >
+        <div className='menu toolbar-menu' style={bgStyle}>
           <div className='toolbar-button'>
             <Button
               bgColor='white'
               shadow
               round
               onClick={
-                this.props.backCallback
+                this.props.onBack
                   ? () => {
                     this.props.displayModal(
                         'Are you sure? Have you saved your work?',
                         () => {
-                          this.clear()
-                          this.props.backCallback()
+                          this.props.onClear()
+                          this.props.onBack()
                         },
                         this.props.dismissModal,
                         'Yes',
@@ -647,28 +593,20 @@ export default class Writer extends React.Component {
             </Button>
           </div>
 
-          {this.props.hideTextStyleButtons
-            ? null
-            : this.renderMarkButton('bold', 'bold')}
-          {this.props.hideTextStyleButtons
-            ? null
-            : this.renderMarkButton('italic', 'italic')}
-          {this.props.hideTextStyleButtons
-            ? null
-            : this.renderMarkButton('underlined', 'underline')}
-          {this.props.hideAlignButtons
-            ? null
-            : this.renderBlockButton('align-left', 'align-left')}
-          {this.props.hideAlignButtons
-            ? null
-            : this.renderBlockButton('align-center', 'align-center')}
-          {this.props.hideAlignButtons
-            ? null
-            : this.renderBlockButton('align-right', 'align-right')}
-
-          {this.props.hideImageButton
-            ? null
-            : this.renderBlockButton('image', 'picture-o')}
+          {!this.props.hideTextStyleButtons &&
+            this.renderMarkButton('bold', 'bold')}
+          {!this.props.hideTextStyleButtons &&
+            this.renderMarkButton('italic', 'italic')}
+          {!this.props.hideTextStyleButtons &&
+            this.renderMarkButton('underlined', 'underline')}
+          {!this.props.hideAlignButtons &&
+            this.renderBlockButton('align-left', 'align-left')}
+          {!this.props.hideAlignButtons &&
+            this.renderBlockButton('align-center', 'align-center')}
+          {!this.props.hideAlignButtons &&
+            this.renderBlockButton('align-right', 'align-right')}
+          {!this.props.hideImageButton &&
+            this.renderBlockButton('image', 'picture-o')}
 
           <div className='toolbar-button save'>
             <Button bgColor='white' shadow onClick={this.saveAction.bind(this)}>
@@ -676,22 +614,21 @@ export default class Writer extends React.Component {
             </Button>
           </div>
 
-          {this.props.hideClearButton
-            ? null
-            : <div className='toolbar-button save'>
+          {!this.props.hideClearButton &&
+            <div className='toolbar-button save'>
               <Button
                 bgColor='white'
                 shadow
                 onClick={() => {
                   this.props.displayModal(
-                      'Are you sure? This will clear everything on the page.',
-                      this.clear.bind(this),
-                      this.props.dismissModal
-                    )
+                    'Are you sure? This will clear everything on the page.',
+                    this.props.onclear,
+                    this.props.dismissModal
+                  )
                 }}
-                >
-                  Clear
-                </Button>
+              >
+                Clear
+              </Button>
             </div>}
         </div>
 
@@ -720,7 +657,7 @@ export default class Writer extends React.Component {
 
     const activeStyle = {
       ...style,
-      color: this.props.light ? 'white' : 'black'
+      color: this.props.light ? 'rgba(255,255,255,.8)' : 'rgba(0,0,0,.8)'
     }
 
     const disabledStyle = {
@@ -753,8 +690,9 @@ export default class Writer extends React.Component {
     })
   }
 
-  onFocus () {
-    this.setState({ focus: true, toolbarDisabled: false })
+  onSlateEditorFocus () {
+    this.setState({ toolbarDisabled: false })
+
     if (this.state.mobile) {
       this.props.onMobileFocus()
 
@@ -763,27 +701,21 @@ export default class Writer extends React.Component {
       document.body.scrollTop = 0
 
       if (window.innerHeight < window.innerWidth) {
-        this.refs.writer.style.minHeight = '255px'
-        this.refs.writer.style.height = '255px'
+        this.writer.style.minHeight = '255px'
+        this.writer.style.height = '255px'
       } else {
-        this.refs.writer.style.minHeight = '565px'
-        this.refs.writer.style.height = '565px'
+        this.writer.style.minHeight = '565px'
+        this.writer.style.height = '565px'
       }
     }
   }
 
-  virtualKeyboardHeight () {
-    return 700
-  }
-
   onBlur () {
-    this.setState({ focus: false, toolbarDisabled: true })
+    this.setState({ toolbarDisabled: true })
 
     if (this.state.mobile) {
-      this.refs.writer.style.minHeight = '300px'
-      this.refs.writer.style.height = 'calc(100vh - 155px)'
-      //  var a = this.refs.writer
-      //  a.style.height = 'calc(100vh - 95px)'
+      this.writer.style.minHeight = '300px'
+      this.writer.style.height = 'calc(100vh - 155px)'
     }
   }
 
@@ -823,37 +755,8 @@ export default class Writer extends React.Component {
     )
   }
 
-  recordScreenHeight () {
-    /* setTimeout(() => {
-     a.scrollTop = a.scrollHeight
-     }, 100) */
-  }
-
-  onKeyDown () {
-    this.recordScreenHeight()
-  }
-
-  focus () {}
-
-  print () {
-    var html = serializer.serialize(this.state.state)
-
-    var printWindow = window.open('', '', 'height=400,width=800')
-    printWindow.document.write('<html><head><title>Writing Tool Export</title>')
-    printWindow.document.write(
-      '</head><body style="margin: 20px; max-width: calc(100vw - 40px);">'
-    )
-    var content = `<div style="width: 100%; word-wrap: break-word;"><h1>${this
-      .props.writing.title}</h1><div>${html}</div></div>`
-    printWindow.document.write('<div id="print">' + content + '</div>')
-    printWindow.document.write('<footer>Created by NightZooKeeper</footer>')
-    printWindow.document.write('</body></html>')
-    // printWindow.print()
-    // printWindow.close()
-  }
-
   exportAsPdf () {
-    var plain = Plain.serialize(this.state.state)
+    var plain = Plain.serialize(this.state.writingState)
     plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
     plain += '</p>'
     var content = `
@@ -901,7 +804,6 @@ export default class Writer extends React.Component {
     return (
       <div
         className='editor-wrapper'
-        ref='host'
         style={{
           boxShadow: `0px 149px 207px 72px ${this.props.light
             ? 'rgba(255,255,255,0.8)'
@@ -910,25 +812,32 @@ export default class Writer extends React.Component {
       >
         <div
           className='editor'
-          ref='editor'
           style={{
             background: `${this.props.light
               ? 'rgba(255,255,255,0.8)'
               : 'rgba(0,0,0,0.8)'}`,
             color: this.props.light ? 'black' : 'white'
           }}
+          ref={this.editorRef}
           onClick={this.focusEditor.bind(this)}
           name='editor'
         >
           <Editor
+            key='editor'
             spellCheck
-            placeholder={'Start writing here...'}
+            placeholder={this.props.placeholders.text}
+            placeholderStyle={{
+              color: this.props.light
+                ? 'rgba(0,0,0, .7)'
+                : 'rgba(255,255,255, .7)'
+            }}
             schema={schema}
-            ref='slate'
-            state={this.state.state}
-            onFocus={this.onFocus.bind(this)}
+            tabIndex='2'
+            ref={this.slateEditorRef}
+            state={this.state.writingState}
+            onFocus={this.onSlateEditorFocus.bind(this)}
             onBlur={this.onBlur.bind(this)}
-            onChange={this.onChange}
+            onChange={this.onStateChange}
             onDocumentChange={this.onDocumentChange}
             style={{
               height: '100%'

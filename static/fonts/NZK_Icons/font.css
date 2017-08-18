@@ -167,3 +167,8 @@
   position: relative;
   left: -0.06em;
 }
+
+.icon-cross:before {
+  position: relative;
+  left: 0.04em;
+}

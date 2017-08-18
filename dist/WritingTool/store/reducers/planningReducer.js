@@ -40,16 +40,16 @@ function reducer () {
     arguments.length > 0 && arguments[0] !== undefined
       ? arguments[0]
       : {
-          title: '',
-          needsTitle: true,
-          icon: '',
-          informations: {
-            image: '',
-            description: ''
-          },
-          fields: [],
-          lastSave: 0
-        }
+        title: '',
+        needsTitle: true,
+        icon: '',
+        informations: {
+          image: '',
+          description: ''
+        },
+        fields: [],
+        lastSave: 0
+      }
   var action = arguments[1]
 
   var newFields

@@ -136,10 +136,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 /**
@@ -571,9 +572,9 @@ var Writer = (
                   _this.props.needsTitle
                     ? _react2.default.createElement(
                         'div',
-                        {
-                          'data-jsx-ext': _Writer2.default.__scopedHash
-                        },
+                      {
+                        'data-jsx-ext': _Writer2.default.__scopedHash
+                      },
                         _react2.default.createElement('input', {
                           className: titlebarClassNames,
                           type: 'text',
@@ -636,7 +637,7 @@ var Writer = (
                         round: true,
                         onClick: _this.props.backCallback
                           ? function () {
-                              _this.props.displayModal(
+                            _this.props.displayModal(
                                 'Are you sure? Have you saved your work?',
                                 function () {
                                   _this.clear()
@@ -646,7 +647,7 @@ var Writer = (
                                 'Yes',
                                 'No'
                               )
-                            }
+                          }
                           : function () {}
                       },
                       _react2.default.createElement(_Icon2.default, {
@@ -696,10 +697,10 @@ var Writer = (
                     ? null
                     : _react2.default.createElement(
                         'div',
-                        {
-                          className: 'toolbar-button save',
-                          'data-jsx-ext': _Writer2.default.__scopedHash
-                        },
+                      {
+                        className: 'toolbar-button save',
+                        'data-jsx-ext': _Writer2.default.__scopedHash
+                      },
                         _react2.default.createElement(
                           _Button2.default,
                           {
@@ -899,7 +900,7 @@ var Writer = (
 
                 this.refs.writer.addEventListener(
                   'click',
-                  function (e) {}.bind(this)
+                  function (e) {}
 
                   /* this.refs.writer.addEventListener('touchstart', (function (e) {
          if (!this.state.focus) {
@@ -1169,8 +1170,8 @@ var Writer = (
                 )
                 printWindow.document.write(
                   '</body></html>'
-                  //printWindow.print()
-                  //printWindow.close()
+                  // printWindow.print()
+                  // printWindow.close()
                 )
               }
             },

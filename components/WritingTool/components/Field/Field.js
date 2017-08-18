@@ -1,258 +1,174 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styles from './Field.styles'
-import cn from 'classnames'
-import Icon from '../../../Icon/Icon'
+import AutosizeInput from '../../../AutosizeInput'
 import GSAP from 'react-gsap-enhancer'
 import { TimelineMax } from 'gsap'
-import Color from 'color'
-import throttle from 'lodash/throttle'
+import Button from '../../../Button'
+import Icon from '../../../Icon'
+import styles from './Field.styles'
 
-const RemoveButton = ({ className, onClick }) => {
-  return (
-    <div className={className} onClick={onClick}>
-      <div className='icon'>
-        <Icon name='cross' fontSize='12px' />
-      </div>
-      <style jsx>
-        {styles}
-      </style>
-    </div>
-  )
+const fontStyle = {
+  fontFamily:
+    "'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif",
+  fontFeatureSettings:
+    '"kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0',
+  WebkitFontSmoothing: 'antialiased',
+  MozOsxFontSmoothing: 'grayscale'
 }
 
 @GSAP()
 export default class Field extends Component {
   static propTypes = {
-    bgColor: PropTypes.object,
     index: PropTypes.number,
-    height: PropTypes.string,
-    width: PropTypes.string,
-    content: PropTypes.string,
+    type: PropTypes.string,
     value: PropTypes.string,
-    block: PropTypes.bool,
-    borders: PropTypes.bool,
-    element: PropTypes.string,
-    children: PropTypes.any,
-    onClick: PropTypes.func,
-    color: PropTypes.string,
-    removeable: PropTypes.bool,
-    light: PropTypes.bool,
-    removeAction: PropTypes.func,
-    stacking: PropTypes.bool,
-    margin: PropTypes.string,
+    bgColor: PropTypes.object,
+    textColor: PropTypes.object,
+    removable: PropTypes.bool,
+    onRemove: PropTypes.func,
     onChange: PropTypes.func,
-    striked: PropTypes.bool
+    maxWidth: PropTypes.number
   }
 
   static defaultProps = {
-    height: '35px',
-    width: '50%',
-    content: '',
-    block: false,
-    borders: false,
-    element: 'input',
-    color: 'white',
-    removeable: true,
-    light: true,
-    stacking: true,
-    margin: '4px',
-    striked: false
+    type: 'input',
+    bgColor: '#6CD4FF',
+    textColor: 'white',
+    value: '',
+    parentClientWidth: 385,
+    onChange: () => {},
+    onRemove: () => {}
   }
 
   constructor (props) {
     super(props)
+
+    this.textareaRef = this.textareaRef.bind(this)
+    this.resizeTextarea = this.resizeTextarea.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onRemove = this.onRemove.bind(this)
+    this.animateRemove = this.animateRemove.bind(this)
+
     this.state = {
-      value: props.content,
-      visible: true
+      value: this.props.value
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.throttledTypingAnimation = throttle(() => {
-      this.addAnimation(this.animateTyping)
-    }, 200)
   }
 
   componentDidMount () {
-    if (this.props.element === 'textarea') {
+    if (this.props.type === 'textarea') {
       this.addAnimation(this.resizeTextarea)
     }
-    this.addAnimation(this.animateAppear.bind(this))
-  }
-
-  animateAppear (utils) {
-    return new TimelineMax().from(utils.target, 0.3, { scale: 3, opacity: 0 })
   }
 
   animateRemove (utils) {
     return new TimelineMax({
       onComplete: () => {
-        this.props.removeAction(this.props.index)
+        this.props.onRemove(this.props.index)
       }
     })
       .to(utils.target, 1, { rotation: 360, opacity: 0 })
       .to(utils.target, 0, { opacity: 1 })
   }
 
-  animateTyping (utils) {
-    var random = Math.random() * 2
-    return new TimelineMax()
-      .to(utils.target, 0.1, { rotation: random })
-      .to(utils.target, 0.1, { rotation: -random }, 0.1)
-  }
-
   shouldComponentUpdate (nextProps, nextState) {
     return (
+      this.state.state !== nextState.value ||
       this.props.value !== nextProps.value ||
       this.props.bgColor !== nextProps.bgColor
     )
   }
 
-  resizeTextarea ({ target }) {
-    const textarea = target.find({ name: 'textarea' })
+  resizeTextarea () {
     return new TimelineMax()
-      .to(textarea, 0, { height: '1px' })
-      .to(textarea, 0, { height: `${10 + textarea[0].scrollHeight}px` })
+      .to(this.textarea, 0, { height: '1px' })
+      .to(this.textarea, 0, { height: `${10 + this.textarea.scrollHeight}px` })
   }
 
-  handleChange (event) {
-    // this.throttledTypingAnimation()
+  onChange (event) {
+    this.setState({
+      value: event.target.value
+    })
 
-    if (this.props.element === 'textarea') {
-      this.textAreaAdjust(event)
+    if (this.props.type === 'textarea') {
+      this.addAnimation(this.resizeTextarea)
     }
-    this.props.onChange(this.props.index, event.target.value)
-    this.setState({ value: event.target.value })
+
+    this.props.onChange(this.props.index, this.state.value)
   }
 
-  removeAction () {
-    this.addAnimation(this.animateRemove.bind(this))
-    // this.props.removeAction(this.props.index)
-    // this.setState({ visible: false })
+  onRemove () {
+    this.addAnimation(this.animateRemove)
   }
 
-  textAreaAdjust (o) {
-    // o.target.style.height = '1px'
-    // o.target.style.height = `${10 + o.target.scrollHeight}px`
+  textareaAdjust (o) {
     this.addAnimation(this.resizeTextarea)
   }
 
+  textareaRef (el) {
+    this.textarea = el
+  }
+
   render () {
-    const {
-      bgColor,
-      height,
-      color,
-      block,
-      borders,
-      element,
-      children,
-      onClick,
-      removeable,
-      light,
-      removeAction,
-      striked
-    } = this.props
-
-    const style = {
-      backgroundColor: bgColor,
-      color: this.props.light ? 'black' : 'white',
-      height: height,
-      fontSize: '16px',
-      overflow: 'hidden'
+    const hostStyle = {
+      width: this.props.type === 'textarea' ? '100%' : 'auto'
+    }
+    const colorStyle = {
+      color: this.props.textColor,
+      backgroundColor: this.props.bgColor
     }
 
-    const className = cn({
-      input: true,
-      block: block,
-      borders: borders,
-      button: element === 'button',
-      striked: striked
-    })
-
-    const removeButtonClass = cn({
-      removeButton: true,
-      light: light,
-      dark: !light
-    })
-
-    switch (element) {
-      case 'button':
-        var buttonColor = new Color(bgColor).fade(0.5)
-
-        const buttonStyle = {
-          backgroundColor: buttonColor,
-          color: color,
-          height: height,
-          fontSize: '16px',
-          cursor: 'pointer',
-          lineHeight: '38px'
-        }
-        return (
-          <div className={className} style={buttonStyle} onClick={onClick}>
-            {children}
-            <style jsx>
-              {styles}
-            </style>
-          </div>
-        )
-      case 'input': {
-        return this.state.visible
-          ? <li style={{ width: this.props.width, margin: this.props.margin }}>
-            <div className='input' name='field'>
-              <input
-                className={className}
-                type='text'
-                style={style}
-                value={this.props.value}
-                onChange={this.handleChange}
-                />
-              {removeable
-                  ? <RemoveButton
-                    className={removeButtonClass}
-                    onClick={this.removeAction.bind(this)}
-                    />
-                  : null}
-              <style jsx>
-                {styles}
-              </style>
-            </div>
-          </li>
-          : null
-      }
-      case 'textarea':
-        return this.state.visible
-          ? <li style={{ width: '100%', margin: this.props.margin }}>
-            <div className='input'>
-              <textarea
-                className={className}
-                style={style}
-                value={this.props.value}
-                onChange={this.handleChange}
-                name='textarea'
-                />
-              {removeable
-                  ? <RemoveButton onClick={this.removeAction.bind(this)} />
-                  : null}
-              <style jsx>
-                {styles}
-              </style>
-            </div>
-          </li>
-          : null
-
-      case 'div':
-        return (
-          <div className={className} type='text' style={style}>
-            {children}
-            {removeable
-              ? <div className={removeButtonClass} onClick={removeAction} />
-              : null}
-            <style jsx>
-              {styles}
-            </style>
-          </div>
-        )
-      default:
-        return null
+    const inputStyle = {
+      ...colorStyle,
+      ...fontStyle,
+      padding: '5px 10px 5px 10px',
+      textAlign: 'center',
+      border: 'none',
+      borderRadius: '5px',
+      fontSize: '18px',
+      outline: 'none',
+      lineHeight: '1.5',
+      minWidth: '162px',
+      maxWidth: `${this.props.parentClientWidth - 30}px`,
+      flex: '1'
     }
+
+    const textareaStyle = {
+      ...colorStyle,
+      ...fontStyle
+    }
+
+    return (
+      <li className='host' style={hostStyle}>
+        {this.props.type === 'input' &&
+          <AutosizeInput
+            inputStyle={inputStyle}
+            value={this.state.value}
+            onChange={this.onChange}
+          />}
+        {this.props.type === 'textarea' &&
+          <textarea
+            style={textareaStyle}
+            value={this.state.value}
+            onChange={this.onChange}
+            ref={this.textareaRef}
+          />}
+        {this.props.removable &&
+          <div className='remove-button'>
+            <Button
+              round
+              height='20px'
+              width='20px'
+              color={this.props.bgColor}
+              bgColor={this.props.textColor}
+              onClick={this.onRemove}
+            >
+              <Icon name='cross' fontSize='13px' />
+            </Button>
+          </div>}
+        <style jsx>
+          {styles}
+        </style>
+      </li>
+    )
   }
 }

@@ -82,10 +82,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var ProgressBar = (
@@ -161,22 +162,22 @@ var ProgressBar = (
                 ),
                 this.props.maxNbWords
                   ? _react2.default.createElement('div', {
-                      className: maxBarClassNames,
-                      'data-jsx-ext': _ProgressBar2.default.__scopedHash
-                    })
+                    className: maxBarClassNames,
+                    'data-jsx-ext': _ProgressBar2.default.__scopedHash
+                  })
                   : null,
                 this.props.maxNbWords
                   ? _react2.default.createElement('div', {
-                      className: maxBarClassNames,
-                      'data-jsx-ext': _ProgressBar2.default.__scopedHash
-                    })
+                    className: maxBarClassNames,
+                    'data-jsx-ext': _ProgressBar2.default.__scopedHash
+                  })
                   : null,
                 this.props.minNbWords
                   ? _react2.default.createElement(
                       'div',
-                      {
-                        'data-jsx-ext': _ProgressBar2.default.__scopedHash
-                      },
+                    {
+                      'data-jsx-ext': _ProgressBar2.default.__scopedHash
+                    },
                       _react2.default.createElement('div', {
                         className: minBarClassNames,
                         'data-jsx-ext': _ProgressBar2.default.__scopedHash
@@ -195,14 +196,14 @@ var ProgressBar = (
                 this.props.lastSaveTime
                   ? _react2.default.createElement(
                       'div',
-                      {
-                        style: {
-                          float: 'right',
-                          marginRight: '20px',
-                          lineHeight: '40px'
-                        },
-                        'data-jsx-ext': _ProgressBar2.default.__scopedHash
+                    {
+                      style: {
+                        float: 'right',
+                        marginRight: '20px',
+                        lineHeight: '40px'
                       },
+                      'data-jsx-ext': _ProgressBar2.default.__scopedHash
+                    },
                       'Last save: ',
                       new Date(this.props.lastSaveTime).getHours(),
                       ':',

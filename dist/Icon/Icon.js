@@ -108,10 +108,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var Icon = (function (_Component) {

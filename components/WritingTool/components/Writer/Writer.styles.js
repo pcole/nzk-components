@@ -1,32 +1,4 @@
 export default `
-  @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
- 
-  .titleArea {
-    display: block;
-    width: 100%;
-    height: 100px;
-    background: red;
-  }
-  
-  .exitButton {
-    display: inline-block;
-    height: 35px;
-    width: 35px;
-    transform: translateY(2.5px);
-    margin-left: 40px;
-    border-radius: 50%;
-    margin-right: 24px;
-    text-align: center;
-    line-height: 40px;
-    background-color: white;
-    color: black;
-  }
-  
-  .exitButton .icon {
-    display: inline-flex;
-    vertical-align: middle;  
-  }
-  
   .writer {
     position: absolute;
     top: 0;
@@ -54,11 +26,6 @@ export default `
     width: 100%;
   }
   
-  .menu.toolbar-menu .material-icons:nth-child(n) {
-    display: inline-flex;
-    vertical-align: middle;
-  }
-  
   .toolbar-button {
     display: inline-block;
     transform: translateY(5px);
@@ -67,7 +34,6 @@ export default `
   .toolbar-button.save {
     margin-left: 30px;
   }
-
   
   .menu.toolbar-menu .button {
     margin-left: 28px;
@@ -117,18 +83,23 @@ export default `
     left: calc(50% - 150px);
     z-index: 21;
   }
-  
-  .titleBar {
-    opacity: 1;
-    height: 60px;
-    width: 100%;
-    padding-right: 0px;
+
+  .title-container{
     padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 30px;
+  }
+
+  .title {
+    opacity: 1;
+    width: 100%;
     outline: none;
     font-size: 24px;
     width: auto !import;
     background: transparent;
     border: none;
+    resize: none;
+    height: 46px;
     font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
     -webkit-font-smoothing: antialiased;
@@ -136,16 +107,15 @@ export default `
     line-height: 1.5;
   }
   
-  .titleBar.dark::placeholder {
-    color: black
+  .dark .title::placeholder {
+    color: rgba(255,255,255,0.7)
   }
   
-  .titleBar.light::placeholder {
-    color: white
+  .light .title::placeholder {
+    color: rgba(0,0,0,0.7)
   }
  
-  
-  .title-bar:focus {
+  .title:focus {
     opacity: 1;
   }
 `

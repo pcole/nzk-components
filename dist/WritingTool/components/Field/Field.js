@@ -98,10 +98,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var RemoveButton = function RemoveButton (_ref) {
@@ -223,7 +224,7 @@ var Field = (
         {
           key: 'handleChange',
           value: function handleChange (event) {
-            //this.throttledTypingAnimation()
+            // this.throttledTypingAnimation()
 
             if (this.props.element === 'textarea') {
               this.textAreaAdjust(event)
@@ -319,12 +320,12 @@ var Field = (
                 return this.state.visible
                   ? _react2.default.createElement(
                       'li',
-                      {
-                        style: {
-                          width: this.props.width,
-                          margin: this.props.margin
-                        }
-                      },
+                    {
+                      style: {
+                        width: this.props.width,
+                        margin: this.props.margin
+                      }
+                    },
                       _react2.default.createElement(
                         'div',
                         {
@@ -342,9 +343,9 @@ var Field = (
                         }),
                         removeable
                           ? _react2.default.createElement(RemoveButton, {
-                              className: removeButtonClass,
-                              onClick: this.removeAction.bind(this)
-                            })
+                            className: removeButtonClass,
+                            onClick: this.removeAction.bind(this)
+                          })
                           : null,
                         _react2.default.createElement(_style2.default, {
                           styleId: _Field2.default.__scopedHash,
@@ -358,9 +359,9 @@ var Field = (
                 return this.state.visible
                   ? _react2.default.createElement(
                       'li',
-                      {
-                        style: { width: '100%', margin: this.props.margin }
-                      },
+                    {
+                      style: { width: '100%', margin: this.props.margin }
+                    },
                       _react2.default.createElement(
                         'div',
                         {
@@ -377,8 +378,8 @@ var Field = (
                         }),
                         removeable
                           ? _react2.default.createElement(RemoveButton, {
-                              onClick: this.removeAction.bind(this)
-                            })
+                            onClick: this.removeAction.bind(this)
+                          })
                           : null,
                         _react2.default.createElement(_style2.default, {
                           styleId: _Field2.default.__scopedHash,
@@ -400,10 +401,10 @@ var Field = (
                   children,
                   removeable
                     ? _react2.default.createElement('div', {
-                        className: removeButtonClass,
-                        onClick: removeAction,
-                        'data-jsx-ext': _Field2.default.__scopedHash
-                      })
+                      className: removeButtonClass,
+                      onClick: removeAction,
+                      'data-jsx-ext': _Field2.default.__scopedHash
+                    })
                     : null,
                   _react2.default.createElement(_style2.default, {
                     styleId: _Field2.default.__scopedHash,

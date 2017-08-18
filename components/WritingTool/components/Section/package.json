@@ -1,0 +1,6 @@
+{
+  "name": "nzk-components-writing-tool-sections",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Sections.js"
+}

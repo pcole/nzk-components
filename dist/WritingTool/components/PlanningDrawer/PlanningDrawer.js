@@ -94,10 +94,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var PlanningDrawer = (
@@ -256,33 +257,33 @@ var PlanningDrawer = (
               this.props.image || this.props.description
                 ? _react2.default.createElement(
                     'div',
-                    {
-                      className: 'informations',
-                      'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
-                    },
+                  {
+                    className: 'informations',
+                    'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
+                  },
                     this.props.image
                       ? _react2.default.createElement('div', {
-                          className: 'image',
-                          style: {
-                            backgroundPosition: 'center',
-                            backgroundSize: 'contain',
-                            backgroundImage: 'url("' + this.props.image + '")',
-                            backgroundRepeat: 'no-repeat'
-                          },
-                          'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
-                        })
+                        className: 'image',
+                        style: {
+                          backgroundPosition: 'center',
+                          backgroundSize: 'contain',
+                          backgroundImage: 'url("' + this.props.image + '")',
+                          backgroundRepeat: 'no-repeat'
+                        },
+                        'data-jsx-ext': _PlanningDrawer2.default.__scopedHash
+                      })
                       : null,
                     this.props.description
                       ? _react2.default.createElement(
                           'div',
-                          {
-                            className: 'description',
-                            style: {
-                              color: this.props.light ? 'black' : 'white'
-                            },
-                            'data-jsx-ext':
-                              _PlanningDrawer2.default.__scopedHash
+                        {
+                          className: 'description',
+                          style: {
+                            color: this.props.light ? 'black' : 'white'
                           },
+                          'data-jsx-ext':
+                              _PlanningDrawer2.default.__scopedHash
+                        },
                           this.props.description
                         )
                       : null

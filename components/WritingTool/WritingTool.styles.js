@@ -16,65 +16,32 @@ export default `
     float: right;
   }
   
-    .buttons {
-      position: absolute;
-      left: -50px;
-      z-index: 2;
-      height: 50px;
-      width: 50px;
-      border-radius: 9px 0px 0px 9px;
-      cursor: pointer;
-    }
-    
-    .buttonBackground {
-      position: absolute;
-      height: 50px;
-      width: 50px;
-      left: -50px;
-      border-radius: 9px 0px 0px 9px;
-    }
-    
-    .withTitle {
-      top: 140px;
-    }
-    
-    .withoutTitle {
-      top: 70px;
-    }
-    
-    .statusBar {
-      position: fixed;
-      bottom: 0;
-      z-index: 10;
-      width: 100%;
-    }
-    
-    .buttons div:nth-child(n) {
-      display: block;
-      width: 40px;
-      height: 40px;
-      line-height: 50px;
-      margin-left: 6px;
-      text-align: center;
-      margin-top: 4px;
-      border-radius: 50%;
-      background: yellow;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.2);
-    }
-    
-    .buttons div:nth-child(n):active {
-      box-shadow: 0 0px 0 rgba(0,0,0,0.2);
-      transform: translateY(3px);
-    }
-    
-    
-    
-    .buttons div.disabled {
-      line-height: 42px;
-      background: rgba(0,0,0,0) !important;
-      border-width: 3px;
-      border-style: solid;
-    }
+  .sidebar-toggle-btn {
+    position: absolute;
+    left: -50px;
+    z-index: 2;
+    height: 50px;
+    width: 50px;
+    border-radius: 9px 0px 0px 9px;
+    cursor: pointer;
+  }
+  
+  .sidebar-toggle-btn-container {
+    position: absolute;
+    height: 55px;
+    width: 50px;
+    left: -50px;
+    padding-top: 7px;
+    padding-left: 7px;
+    border-radius: 9px 0px 0px 9px;
+  }
+  
+  .status-bar {
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+  }
 
   .background {
     position: fixed;
@@ -84,9 +51,9 @@ export default `
     width: 100vw;
     opacity: 1;
     z-index: -5;
+    background-size: cover;
+    background-position: center;
   }
-  
-
   
   .left-margin {
     position: absolute;
@@ -104,8 +71,6 @@ export default `
     min-width: 677px;
   }
   
-
- 
   @media screen and (max-width: 1280px) {
      .left {
        width: calc(100vw - 30px);
@@ -119,14 +84,13 @@ export default `
        transform: translateX(0px);
      }
  
-     .right.planningExpanded {
+     .right.sidebarOpen {
        width: 415px;
      }
      
-     .left.planningExpanded {
+     .left.sidebarOpen {
        width: calc(100vw - 415px);
      }
-
   }
   
   @media screen and (min-width: 1281px) {
@@ -138,43 +102,25 @@ export default `
        width: 30px;
        transform: translateX(0px);
      }
+
+     .sidebar-toggle-btn-container{
+       display: none;
+     }
      
-     .right.planningExpanded {
+     .right.sidebarOpen {
        width: 40%;
      }
      
-     .left.planningExpanded {
+     .left.sidebarOpen {
        width: 60%;
      }
-     
-         
-    .buttons div:nth-child(n) {
-      display: none;
-    }
-    
-    .buttonBackground {
-      display: none;
-    }
   }
   
-    @media screen and (max-width: 925px) {
-      .right {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      
-      .left {
-      
-      }
-      
-      .right.planningExpanded {
-      
-      }
-
-      .left.planningExpanded {
-        
-      }
-
+  @media screen and (max-width: 925px) {
+    .right {
+      position: absolute;
+      right: 0;
+      top: 0;
     }
+  }
 `

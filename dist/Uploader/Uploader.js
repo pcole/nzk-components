@@ -82,10 +82,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var Uploader = (function (_React$Component) {
@@ -200,27 +201,27 @@ var Uploader = (function (_React$Component) {
                   this.state.progress > 0
                     ? _react2.default.createElement(
                         'div',
-                        {
-                          className: 'progress-label',
-                          'data-jsx-ext': _Uploader2.default.__scopedHash
-                        },
+                      {
+                        className: 'progress-label',
+                        'data-jsx-ext': _Uploader2.default.__scopedHash
+                      },
                         this.state.progress,
                         '%'
                       )
                     : _react2.default.createElement(
                         'div',
-                        {
-                          className: 'label',
-                          'data-jsx-ext': _Uploader2.default.__scopedHash
-                        },
+                      {
+                        className: 'label',
+                        'data-jsx-ext': _Uploader2.default.__scopedHash
+                      },
                         'Drag an image in the zone or click'
                       )
                 )
               : _react2.default.createElement(
                   'p',
-                  {
-                    'data-jsx-ext': _Uploader2.default.__scopedHash
-                  },
+                {
+                  'data-jsx-ext': _Uploader2.default.__scopedHash
+                },
                   ' Missing API to Component '
                 )
           ),

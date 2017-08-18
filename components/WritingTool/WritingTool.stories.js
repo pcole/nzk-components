@@ -4,39 +4,39 @@ import WritingTool from './WritingTool'
 import { withKnobs, select, text, boolean } from '@storybook/addon-knobs'
 
 const types = {
-  story: 'story',
-  poetry: 'poetry',
+  'adventure-story': 'adventure-story',
+  poem: 'poem',
   explanation: 'explanation',
   instructions: 'instructions',
-  opinion: 'opinion',
-  news: 'news',
-  letter: 'letter',
-  diary: 'diary',
+  'persuasive-writing': 'persuasive-writing',
+  'newspaper-article': 'newspaper-article',
+  'letter-writing': 'letter-writing',
+  'diary-entry': 'diary-entry',
   playscript: 'playscript',
-  recount: 'recount',
+  recounts: 'recounts',
   biography: 'biography',
   report: 'report',
-  freewrite: 'feewrite'
+  'free-write': 'fere-write'
 }
 
 storiesOf('WritingTool', module)
   .addDecorator(withKnobs)
   .add('WritingTool', () =>
     <WritingTool
-      image={text(
-        'BackgroundImage',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvJnQ4RQr3UV2VvHC59P01kszpnQdTogkiZNdLweBlSqNtJfrCMA'
-      )}
-      type={select('type', types, 'story')}
-      writingImage={text('Image', 'azeaze')}
-      writingDescription={text(
-        'Description',
-        'Make your planning notes below and use them to help inspire your creative writing.'
-      )}
-      hideImageButton={boolean('hideImageButton', true)}
-      hideTextStyleButtons={boolean('hideTextStyleButtons', true)}
-      hideAlignButtons={boolean('hideAlignButtons', true)}
-      backCallback={() => {
+      image={text('BackgroundImage', '/assets/temple.jpg')}
+      // prompt={{
+      //   image: text('Image', '/assets/temple.jpg'),
+      //   description: text(
+      //     'Description',
+      //     'Make your planning notes below and use them to help inspire your creative writing.'
+      //   )
+      // }}
+      writingType={select('type', types, 'poem')}
+      lang='en'
+      hideImageButton={boolean('hideImageButton', false)}
+      hideTextStyleButtons={boolean('hideTextStyleButtons', false)}
+      hideAlignButtons={boolean('hideAlignButtons', false)}
+      onBack={() => {
         console.log('BACK ACTION')
       }}
     />

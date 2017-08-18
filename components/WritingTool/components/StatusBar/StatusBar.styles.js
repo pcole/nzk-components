@@ -10,12 +10,5 @@ export default `
     line-height: 40px;
     font-size: 24px;
     left: 40px;
-    color: white;
-  }
-
-  .last-save {
-    float: 'right';
-    marginRight: '20px';
-    lineHeight: '40px';
   }
 `

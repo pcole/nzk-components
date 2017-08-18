@@ -104,8 +104,9 @@ function _interopRequireWildcard (obj) {
     var newObj = {}
     if (obj != null) {
       for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key))
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
           newObj[key] = obj[key]
+        }
       }
     }
     newObj.default = obj
@@ -149,10 +150,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var WritingTool = (
@@ -397,19 +399,19 @@ var WritingTool = (
                 .to(
                   left,
                   1,
-                  {
-                    ease: _gsap.Bounce.easeOut,
-                    className: '-=planningExpanded'
-                  },
+                {
+                  ease: _gsap.Bounce.easeOut,
+                  className: '-=planningExpanded'
+                },
                   0
                 )
                 .to(
                   right,
                   1,
-                  {
-                    ease: _gsap.Bounce.easeOut,
-                    className: '-=planningExpanded'
-                  },
+                {
+                  ease: _gsap.Bounce.easeOut,
+                  className: '-=planningExpanded'
+                },
                   0
                 )
             } else {
@@ -418,19 +420,19 @@ var WritingTool = (
                 .to(
                   left,
                   1.5,
-                  {
-                    ease: _gsap.Bounce.easeOut,
-                    className: '+=planningExpanded'
-                  },
+                {
+                  ease: _gsap.Bounce.easeOut,
+                  className: '+=planningExpanded'
+                },
                   0
                 )
                 .to(
                   right,
                   1.5,
-                  {
-                    ease: _gsap.Bounce.easeOut,
-                    className: '+=planningExpanded'
-                  },
+                {
+                  ease: _gsap.Bounce.easeOut,
+                  className: '+=planningExpanded'
+                },
                   0
                 )
                 .to(left, 0, { position: 'relative' }, 1.5)

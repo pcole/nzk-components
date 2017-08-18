@@ -92,10 +92,11 @@ function _inherits (subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
 var Fields = (
@@ -237,15 +238,15 @@ var Fields = (
                 overloadable
                   ? _react2.default.createElement(
                       'li',
-                      {
-                        className: stackingClass,
-                        style: {
-                          width: stacking
+                    {
+                      className: stackingClass,
+                      style: {
+                        width: stacking
                             ? 'calc(' + 100 / nbPerRow + '% - 8px)'
                             : '100%'
-                        },
-                        'data-jsx-ext': _Fields2.default.__scopedHash
                       },
+                      'data-jsx-ext': _Fields2.default.__scopedHash
+                    },
                       _react2.default.createElement(
                         _Field2.default,
                         {

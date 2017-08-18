@@ -5,24 +5,14 @@ import styles from './StatusBar.styles'
 
 @connect(store => {
   return {
-    nbWords: store.writing.nbWords,
-    lastSaveTime: store.writing.lastSaveTime
+    wordCount: store.wordCount,
+    constraints: store.constraints
   }
 })
 export default class StatusBar extends Component {
   static propTypes = {
-    nbWords: PropTypes.number,
-    minNbWords: PropTypes.number,
-    maxNbWords: PropTypes.number,
-    primaryColor: PropTypes.object,
-    secondaryColor: PropTypes.object,
+    bgColor: PropTypes.string,
     light: PropTypes.bool
-  }
-
-  static defaultProps = {
-    nbWords: 0,
-    minNbWords: 0,
-    light: false
   }
 
   render () {
@@ -30,12 +20,14 @@ export default class StatusBar extends Component {
       <div
         className='host'
         style={{
-          color: this.props.light ? 'black' : 'white',
-          backgroundColor: this.props.primaryColor
+          color: this.props.light
+            ? 'rgba(0, 0, 0, .8)'
+            : 'rgba(255, 255, 255, .8)',
+          backgroundColor: this.props.bgColor
         }}
       >
         <div className='counter'>
-          {this.props.nbWords}
+          Words: {this.props.wordCount}
         </div>
         <style jsx>
           {styles}

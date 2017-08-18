@@ -31,14 +31,14 @@ var initialState = {
   state: window.localStorage.getItem('nzk-writing')
     ? JSON.parse(window.localStorage.getItem('nzk-writing')).state
     : {
-        nodes: [
-          {
-            kind: 'block',
-            type: 'paragraph',
-            nodes: []
-          }
-        ]
-      },
+      nodes: [
+        {
+          kind: 'block',
+          type: 'paragraph',
+          nodes: []
+        }
+      ]
+    },
   lastSave: 0,
   lastSaveTime: undefined,
   constraints: {
