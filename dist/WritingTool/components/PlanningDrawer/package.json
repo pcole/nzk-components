@@ -1,6 +1,0 @@
-{
-  "name": "nzk-components-writing-tool-planning-drawer",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./PlanningDrawer.js"
-}
