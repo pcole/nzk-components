@@ -11,7 +11,23 @@ const initStore = () => {
   store.dispatch(
     init(store.dispatch, {
       lang: 'en',
-      writingType: 'poem'
+      writingType: 'report',
+      prompt: {
+        image: '/assets/temple.jpg',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.'
+      },
+      sections: [
+        {
+          title: 'This is a custom part',
+          prepend: true,
+          numberOfFields: 2,
+          fieldType: 'input',
+          userCanAddFields: false,
+          fieldsAreRemovable: false,
+          fields: [{ value: 'BOB' }, { value: 'PHIL' }]
+        }
+      ]
     })
   )
 

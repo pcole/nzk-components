@@ -75,9 +75,7 @@ export default function reducer (state, action) {
       let section = sections[action.payload.sectionIndex]
 
       section.fields.push({
-        value: '',
-        index: section.fields.length,
-        removable: section.fieldsAreRemovable
+        value: ''
       })
 
       section.fields = section.fields.slice()

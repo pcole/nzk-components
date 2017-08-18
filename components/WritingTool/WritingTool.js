@@ -80,7 +80,8 @@ export default class WritingTool extends Component {
         writing: this.props.writing,
         constraints: this.props.constraints,
         prompt: this.props.prompt,
-        sections: this.props.sections
+        sections: this.props.sections,
+        loadPresetSections: this.props.loadPresetSections
       })
     )
 

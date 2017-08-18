@@ -88,14 +88,11 @@ export function addSection (section) {
       fieldType: section.fieldType,
       userCanAddFields: section.userCanAddFields,
       fieldsAreRemovable: section.fieldsAreRemovable,
-      fields: [...Array(section.numberOfFields)].map((field, index) => {
-        return {
-          index: index,
-          value: '',
-          type: section.fieldType,
-          removable: section.fieldsAreRemovable
-        }
-      })
+      fields:
+        section.fields ||
+        [...Array(section.numberOfFields)].map((field, index) => {
+          return { value: '' }
+        })
     }
   }
 }

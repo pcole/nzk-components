@@ -18,6 +18,7 @@ export default class Section extends Component {
     title: PropTypes.string,
     fields: PropTypes.array,
     userCanAddFields: PropTypes.bool,
+    fieldsAreRemovable: PropTypes.bool,
     bgColor: PropTypes.object,
     textColor: PropTypes.string
   }
@@ -64,9 +65,9 @@ export default class Section extends Component {
               <Field
                 key={index}
                 index={index}
-                type={elem.type}
+                type={this.props.fieldType}
                 value={elem.value}
-                removable={elem.removable}
+                removable={this.props.fieldsAreRemovable}
                 bgColor={this.props.bgColor}
                 textColor={this.props.textColor}
                 onChange={this.onChange.bind(this)}
