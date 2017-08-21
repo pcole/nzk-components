@@ -33,6 +33,10 @@ var _reactRedux = require('react-redux');
 
 var _gsap = require('gsap');
 
+var _debounce = require('lodash/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
 var _jspdf = require('jspdf');
 
 var _jspdf2 = _interopRequireDefault(_jspdf);
@@ -179,123 +183,133 @@ var defaultBlock = {
       fontSize: '22px'
     }
   }
+};
 
-  // const BLOCK_TAGS = {
-  //   p: 'paragraph',
-  //   em: 'italic',
-  //   u: 'underline',
-  //   s: 'strikethrough'
-  // }
+var BLOCK_TAGS = {
+  p: 'paragraph',
+  em: 'italic',
+  u: 'underline',
+  s: 'strikethrough'
+};
 
-  // const MARK_TAGS = {
-  //   strong: 'bold',
-  //   em: 'italic',
-  //   u: 'underline'
-  // }
+var MARK_TAGS = {
+  strong: 'bold',
+  em: 'italic',
+  u: 'underline'
+};
 
-  // const RULES = [
-  //   {
-  //     deserialize (el, next) {
-  //       const block = BLOCK_TAGS[el.tagName]
-  //       if (!block) return
-  //       return {
-  //         kind: 'block',
-  //         type: block,
-  //         nodes: next(el.childNodes)
-  //       }
-  //     }
-  //   },
-  //   {
-  //     serialize (object, children) {
-  //       if (object.kind !== 'block') return
-  //       switch (object.type) {
-  //         case 'paragraph':
-  //           return (
-  //             <p>
-  //               {children}
-  //             </p>
-  //           )
-  //         case 'align-left':
-  //           return (
-  //             <p style={{ textAlign: 'left' }}>
-  //               {children}
-  //             </p>
-  //           )
-  //         case 'align-center':
-  //           return (
-  //             <p style={{ textAlign: 'center' }}>
-  //               {children}
-  //             </p>
-  //           )
-  //         case 'align-right':
-  //           return (
-  //             <p style={{ textAlign: 'right' }}>
-  //               {children}
-  //             </p>
-  //           )
-  //         case 'image':
-  //           return (
-  //             <img
-  //               src={object.data.get('src')}
-  //               className='importedImage'
-  //               alt=''
-  //               align='middle'
-  //               style={{
-  //                 maxWidth: '75%',
-  //                 maxHeight: '400px',
-  //                 textAlign: 'center',
-  //                 display: 'block',
-  //                 marginLeft: 'auto',
-  //                 marginRight: 'auto',
-  //                 marginTop: '20px',
-  //                 marginBottom: '20px'
-  //               }}
-  //             />
-  //           )
-  //       }
-  //     }
-  //   },
-  //   {
-  //     deserialize (el, next) {
-  //       const mark = MARK_TAGS[el.tagName]
-  //       if (!mark) return
-  //       return {
-  //         kind: 'mark',
-  //         type: mark,
-  //         nodes: next(el.childNodes)
-  //       }
-  //     }
-  //   },
-  //   {
-  //     serialize (object, children) {
-  //       if (object.kind !== 'mark') return
-  //       switch (object.type) {
-  //         case 'bold':
-  //           return (
-  //             <strong>
-  //               {children}
-  //             </strong>
-  //           )
-  //         case 'italic':
-  //           return (
-  //             <em>
-  //               {children}
-  //             </em>
-  //           )
-  //         case 'underlined':
-  //           return (
-  //             <u>
-  //               {children}
-  //             </u>
-  //           )
-  //       }
-  //     }
-  //   }
-  // ]
+var rules = [{
+  deserialize: function deserialize(el, next) {
+    var block = BLOCK_TAGS[el.tagName.toLowerCase()];
+    if (!block) return;
 
-  // const serializer = new Html({ rules: RULES })
+    var type = block;
 
-};var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
+    if (block === 'paragraph' && el.style['text-align']) {
+      switch (el.style['text-align']) {
+        case 'left':
+          type = 'align-left';
+          break;
+        case 'center':
+          type = 'align-center';
+          break;
+        case 'right':
+          type = 'align-right';
+          break;
+      }
+    }
+
+    return {
+      kind: 'block',
+      type: type,
+      nodes: next(el.childNodes)
+    };
+  }
+}, {
+  serialize: function serialize(object, children) {
+    if (object.kind !== 'block') return;
+    switch (object.type) {
+      case 'paragraph':
+        return _react2.default.createElement(
+          'p',
+          null,
+          children
+        );
+      case 'align-left':
+        return _react2.default.createElement(
+          'p',
+          { style: { textAlign: 'left' } },
+          children
+        );
+      case 'align-center':
+        return _react2.default.createElement(
+          'p',
+          { style: { textAlign: 'center' } },
+          children
+        );
+      case 'align-right':
+        return _react2.default.createElement(
+          'p',
+          { style: { textAlign: 'right' } },
+          children
+        );
+      case 'image':
+        return _react2.default.createElement('img', {
+          src: object.data.get('src'),
+          className: 'importedImage',
+          alt: '',
+          align: 'middle',
+          style: {
+            maxWidth: '75%',
+            maxHeight: '400px',
+            textAlign: 'center',
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '20px',
+            marginBottom: '20px'
+          }
+        });
+    }
+  }
+}, {
+  deserialize: function deserialize(el, next) {
+    var mark = MARK_TAGS[el.tagName];
+    if (!mark) return;
+    return {
+      kind: 'mark',
+      type: mark,
+      nodes: next(el.childNodes)
+    };
+  }
+}, {
+  serialize: function serialize(object, children) {
+    if (object.kind !== 'mark') return;
+    switch (object.type) {
+      case 'bold':
+        return _react2.default.createElement(
+          'strong',
+          null,
+          children
+        );
+      case 'italic':
+        return _react2.default.createElement(
+          'em',
+          null,
+          children
+        );
+      case 'underlined':
+        return _react2.default.createElement(
+          'u',
+          null,
+          children
+        );
+    }
+  }
+}];
+var html = new _slate.Html({ rules: rules });
+
+var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   return {
     placeholders: store.placeholders,
     writing: store.writing,
@@ -309,19 +323,347 @@ var defaultBlock = {
 
     var _this = _possibleConstructorReturn(this, (Writer.__proto__ || Object.getPrototypeOf(Writer)).call(this, props));
 
-    _initialiseProps.call(_this);
+    _this.hasMark = function (type) {
+      var writingState = _this.state.writingState;
 
-    var writingState = {
-      nodes: [{
-        kind: 'block',
-        type: 'paragraph',
-        nodes: []
-      }]
+      return writingState.marks.some(function (mark) {
+        return mark.type === type;
+      });
+    };
+
+    _this.hasBlock = function (type) {
+      var writingState = _this.state.writingState;
+
+      return writingState.blocks.some(function (node) {
+        return node.type === type;
+      });
+    };
+
+    _this.onStateChange = function (state) {
+      _this.setState({
+        writingState: state
+      });
+    };
+
+    _this.onDebouncedDocumentChange = function (document, state) {
+      _this.props.dispatch((0, _actions.setWriting)({
+        text: html.serialize(state)
+      }));
+    };
+
+    _this.onDocumentChange = function (document, state) {
+      _this.onDebouncedDocumentChange(document, state);
+      _this.props.dispatch((0, _actions.setWordCount)(_this.getWordCountForState(state)));
+    };
+
+    _this.getWordCountForState = function (state) {
+      return state.document.text.split(' ').filter(function (w) {
+        return w.length > 0;
+      }).length;
+    };
+
+    _this.onClickMark = function (e, type) {
+      e.preventDefault();
+      var writingState = _this.state.writingState;
+
+      writingState = writingState.transform().toggleMark(type).apply();
+      _this.setState({ writingState: writingState });
+    };
+
+    _this.insertImage = function (state, src) {
+      return state.transform().insertBlock({
+        type: 'image',
+        isVoid: true,
+        data: { src: src }
+      }).apply();
+    };
+
+    _this.onClickBlock = function (e, type) {
+      e.preventDefault();
+      var writingState = _this.state.writingState;
+
+      var transform = writingState.transform();
+
+      if (type === 'image') {
+        _this.props.displayImageUploader();
+      } else {
+        var isActive = _this.hasBlock(type);
+        transform.setBlock(isActive ? DEFAULT_NODE : type);
+      }
+
+      writingState = transform.apply();
+      _this.setState({ writingState: writingState });
+    };
+
+    _this.render = function () {
+      var hostStyle = {
+        boxShadow: (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0px 60px 59px 140px'
+      };
+
+      var colorStyle = {
+        color: _this.props.textColor
+      };
+
+      var bgColorStyle = {
+        background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+      };
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'host', style: hostStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
+        },
+        _this.renderToolbar(),
+        _react2.default.createElement(
+          'div',
+          { className: 'writer', ref: _this.writerRef, 'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(
+            'div',
+            {
+              className: 'title-container ' + (_this.props.light ? 'light' : 'dark'),
+              style: _extends({}, bgColorStyle),
+              'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement('textarea', {
+              className: 'title',
+              tabIndex: 1,
+              placeholder: _this.props.placeholders.title,
+              ref: _this.titleRef,
+              onKeyDown: _this.onTitleKeyDown,
+              style: _extends({}, colorStyle, {
+                borderBottom: '2px solid ' + _this.props.primaryColor
+              }),
+              onChange: _this.onTitleChange,
+              value: _this.state.writingTitle,
+              'data-jsx-ext': _Writer2.default.__scopedHash
+            })
+          ),
+          _this.renderEditor()
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
+      );
+    };
+
+    _this.renderToolbar = function () {
+      var bgStyle = {
+        color: _this.props.textColor,
+        backgroundColor: _this.props.secondaryColor
+      };
+      return _react2.default.createElement(
+        'div',
+        {
+          style: {
+            color: _this.props.textColor
+          },
+          'data-jsx-ext': _Writer2.default.__scopedHash
+        },
+        _react2.default.createElement(
+          'div',
+          { className: 'menu toolbar-menu', style: bgStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(
+            'div',
+            { className: 'toolbar-button', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              {
+                bgColor: 'white',
+                shadow: true,
+                round: true,
+                onClick: _this.props.onBack ? function () {
+                  _this.props.displayModal('Are you sure? Have you saved your work?', function () {
+                    _this.props.onClear();
+                    _this.props.onBack();
+                  }, _this.props.dismissModal, 'Yes', 'No');
+                } : function () {}
+              },
+              _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
+            )
+          ),
+          !_this.props.hideTextStyleButtons && _this.renderMarkButton('bold', 'bold'),
+          !_this.props.hideTextStyleButtons && _this.renderMarkButton('italic', 'italic'),
+          !_this.props.hideTextStyleButtons && _this.renderMarkButton('underlined', 'underline'),
+          !_this.props.hideAlignButtons && _this.renderBlockButton('align-left', 'align-left'),
+          !_this.props.hideAlignButtons && _this.renderBlockButton('align-center', 'align-center'),
+          !_this.props.hideAlignButtons && _this.renderBlockButton('align-right', 'align-right'),
+          !_this.props.hideImageButton && _this.renderBlockButton('image', 'picture-o'),
+          _react2.default.createElement(
+            'div',
+            { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              { bgColor: 'white', shadow: true, onClick: _this.saveAction.bind(_this) },
+              'SAVE'
+            )
+          ),
+          !_this.props.hideClearButton && _react2.default.createElement(
+            'div',
+            { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              {
+                bgColor: 'white',
+                shadow: true,
+                onClick: function onClick() {
+                  _this.props.displayModal('Are you sure? This will clear everything on the page.', _this.props.onclear, _this.props.dismissModal);
+                }
+              },
+              'Clear'
+            )
+          )
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
+      );
+    };
+
+    _this.renderMarkButton = function (type, icon) {
+      var isActive = _this.hasMark(type);
+      var isDisabled = _this.state.toolbarDisabled;
+      var onMouseDown = function onMouseDown(e) {
+        return _this.onClickMark(e, type);
+      };
+
+      var style = {
+        cursor: 'pointer'
+      };
+
+      var activeStyle = _extends({}, style, {
+        color: _this.props.light ? 'rgba(255,255,255,.8)' : 'rgba(0,0,0,.8)'
+      });
+
+      var disabledStyle = {
+        opacity: 0.3
+      };
+
+      return _react2.default.createElement(
+        'span',
+        {
+          className: 'button',
+          onMouseDown: isDisabled ? function () {} : onMouseDown,
+          'data-active': isActive,
+          'data-jsx-ext': _Writer2.default.__scopedHash
+        },
+        _react2.default.createElement(
+          'span',
+          {
+            style: isDisabled ? disabledStyle : isActive ? activeStyle : style,
+            'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(_Icon2.default, { name: icon })
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
+      );
+    };
+
+    _this.renderBlockButton = function (type, icon) {
+      var isActive = _this.hasBlock(type);
+      var onMouseDown = function onMouseDown(e) {
+        return _this.onClickBlock(e, type);
+      };
+      var isDisabled = _this.state.toolbarDisabled;
+
+      var style = {
+        cursor: 'pointer'
+      };
+
+      var activeStyle = _extends({}, style, {
+        color: _this.props.light ? 'white' : 'black'
+      });
+
+      var disabledStyle = {
+        opacity: 0.3
+      };
+
+      return _react2.default.createElement(
+        'span',
+        {
+          className: 'button',
+          onMouseDown: isDisabled ? function () {} : onMouseDown,
+          'data-active': isActive,
+          'data-jsx-ext': _Writer2.default.__scopedHash
+        },
+        _react2.default.createElement(
+          'span',
+          {
+            style: isDisabled ? disabledStyle : isActive ? activeStyle : style,
+            'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(_Icon2.default, { name: icon })
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
+      );
+    };
+
+    _this.renderEditor = function () {
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'editor-wrapper',
+          style: {
+            boxShadow: '0px 149px 207px 72px ' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+          },
+          'data-jsx-ext': _Writer2.default.__scopedHash
+        },
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'editor',
+            style: {
+              background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
+              color: _this.props.light ? 'black' : 'white'
+            },
+            ref: _this.editorRef,
+            onClick: _this.focusEditor.bind(_this),
+            name: 'editor',
+            'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(_slate.Editor, {
+            key: 'editor',
+            spellCheck: true,
+            placeholder: _this.props.placeholders.text,
+            placeholderStyle: {
+              color: _this.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
+            },
+            schema: schema,
+            tabIndex: 2,
+            ref: _this.slateEditorRef,
+            state: _this.state.writingState,
+            onFocus: _this.onSlateEditorFocus.bind(_this),
+            onBlur: _this.onBlur.bind(_this),
+            onChange: _this.onStateChange,
+            onDocumentChange: _this.onDocumentChange,
+            style: {
+              height: '100%'
+            }
+          })
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
+      );
     };
 
     _this.state = {
       writingTitle: _this.props.writing.title,
-      writingState: _slate.Raw.deserialize(writingState, { terse: true }),
+      writingState: html.deserialize(_this.props.writing.text || '<p></p>', {
+        terse: true
+      }),
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
@@ -339,6 +681,8 @@ var defaultBlock = {
     _this.onTitleKeyDown = _this.onTitleKeyDown.bind(_this);
     _this.imageUploadSucceeded = _this.imageUploadSucceeded.bind(_this);
     _this.insertImage = _this.insertImage.bind(_this);
+
+    _this.onDebouncedDocumentChange = (0, _debounce2.default)(_this.onDebouncedDocumentChange, 1000);
     return _this;
   }
 
@@ -377,6 +721,9 @@ var defaultBlock = {
       this.setState({
         writingTitle: event.target.value
       });
+      this.props.dispatch((0, _actions.setWriting)({
+        title: event.target.value
+      }));
       this.addAnimation(this.resizeTitle);
     }
   }, {
@@ -566,338 +913,4 @@ Writer.defaultProps = {
   onClear: function onClear() {},
   onSave: function onSave() {}
 };
-
-var _initialiseProps = function _initialiseProps() {
-  var _this2 = this;
-
-  this.hasMark = function (type) {
-    var writingState = _this2.state.writingState;
-
-    return writingState.marks.some(function (mark) {
-      return mark.type === type;
-    });
-  };
-
-  this.hasBlock = function (type) {
-    var writingState = _this2.state.writingState;
-
-    return writingState.blocks.some(function (node) {
-      return node.type === type;
-    });
-  };
-
-  this.onStateChange = function (state) {
-    _this2.setState({
-      writingState: state
-    });
-  };
-
-  this.onDocumentChange = function (document, state) {
-    _this2.props.dispatch((0, _actions.setWordCount)(_this2.getWordCountForState(state)));
-  };
-
-  this.getWordCountForState = function (state) {
-    return state.document.text.split(' ').filter(function (w) {
-      return w.length > 0;
-    }).length;
-  };
-
-  this.onClickMark = function (e, type) {
-    e.preventDefault();
-    var writingState = _this2.state.writingState;
-
-    writingState = writingState.transform().toggleMark(type).apply();
-    _this2.setState({ writingState: writingState });
-  };
-
-  this.insertImage = function (state, src) {
-    return state.transform().insertBlock({
-      type: 'image',
-      isVoid: true,
-      data: { src: src }
-    }).apply();
-  };
-
-  this.onClickBlock = function (e, type) {
-    e.preventDefault();
-    var writingState = _this2.state.writingState;
-
-    var transform = writingState.transform();
-
-    if (type === 'image') {
-      _this2.props.displayImageUploader();
-    } else {
-      var isActive = _this2.hasBlock(type);
-      transform.setBlock(isActive ? DEFAULT_NODE : type);
-    }
-
-    writingState = transform.apply();
-    _this2.setState({ writingState: writingState });
-  };
-
-  this.render = function () {
-    var hostStyle = {
-      boxShadow: (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0px 60px 59px 140px'
-    };
-
-    var colorStyle = {
-      color: _this2.props.textColor
-    };
-
-    var bgColorStyle = {
-      background: '' + (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
-    };
-
-    return _react2.default.createElement(
-      'div',
-      { className: 'host', style: hostStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
-      },
-      _this2.renderToolbar(),
-      _react2.default.createElement(
-        'div',
-        { className: 'writer', ref: _this2.writerRef, 'data-jsx-ext': _Writer2.default.__scopedHash
-        },
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'title-container ' + (_this2.props.light ? 'light' : 'dark'),
-            style: _extends({}, bgColorStyle),
-            'data-jsx-ext': _Writer2.default.__scopedHash
-          },
-          _react2.default.createElement('textarea', {
-            className: 'title',
-            tabIndex: 1,
-            placeholder: _this2.props.placeholders.title,
-            ref: _this2.titleRef,
-            onKeyDown: _this2.onTitleKeyDown,
-            style: _extends({}, colorStyle, {
-              borderBottom: '2px solid ' + _this2.props.primaryColor
-            }),
-            onChange: _this2.onTitleChange,
-            value: _this2.state.writingTitle,
-            'data-jsx-ext': _Writer2.default.__scopedHash
-          })
-        ),
-        _this2.renderEditor()
-      ),
-      _react2.default.createElement(_style2.default, {
-        styleId: _Writer2.default.__scopedHash,
-        css: _Writer2.default.__scoped
-      })
-    );
-  };
-
-  this.renderToolbar = function () {
-    var bgStyle = {
-      color: _this2.props.textColor,
-      backgroundColor: _this2.props.secondaryColor
-    };
-    return _react2.default.createElement(
-      'div',
-      {
-        style: {
-          color: _this2.props.textColor
-        },
-        'data-jsx-ext': _Writer2.default.__scopedHash
-      },
-      _react2.default.createElement(
-        'div',
-        { className: 'menu toolbar-menu', style: bgStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
-        },
-        _react2.default.createElement(
-          'div',
-          { className: 'toolbar-button', 'data-jsx-ext': _Writer2.default.__scopedHash
-          },
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              bgColor: 'white',
-              shadow: true,
-              round: true,
-              onClick: _this2.props.onBack ? function () {
-                _this2.props.displayModal('Are you sure? Have you saved your work?', function () {
-                  _this2.props.onClear();
-                  _this2.props.onBack();
-                }, _this2.props.dismissModal, 'Yes', 'No');
-              } : function () {}
-            },
-            _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
-          )
-        ),
-        !_this2.props.hideTextStyleButtons && _this2.renderMarkButton('bold', 'bold'),
-        !_this2.props.hideTextStyleButtons && _this2.renderMarkButton('italic', 'italic'),
-        !_this2.props.hideTextStyleButtons && _this2.renderMarkButton('underlined', 'underline'),
-        !_this2.props.hideAlignButtons && _this2.renderBlockButton('align-left', 'align-left'),
-        !_this2.props.hideAlignButtons && _this2.renderBlockButton('align-center', 'align-center'),
-        !_this2.props.hideAlignButtons && _this2.renderBlockButton('align-right', 'align-right'),
-        !_this2.props.hideImageButton && _this2.renderBlockButton('image', 'picture-o'),
-        _react2.default.createElement(
-          'div',
-          { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
-          },
-          _react2.default.createElement(
-            _Button2.default,
-            { bgColor: 'white', shadow: true, onClick: _this2.saveAction.bind(_this2) },
-            'SAVE'
-          )
-        ),
-        !_this2.props.hideClearButton && _react2.default.createElement(
-          'div',
-          { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
-          },
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              bgColor: 'white',
-              shadow: true,
-              onClick: function onClick() {
-                _this2.props.displayModal('Are you sure? This will clear everything on the page.', _this2.props.onclear, _this2.props.dismissModal);
-              }
-            },
-            'Clear'
-          )
-        )
-      ),
-      _react2.default.createElement(_style2.default, {
-        styleId: _Writer2.default.__scopedHash,
-        css: _Writer2.default.__scoped
-      })
-    );
-  };
-
-  this.renderMarkButton = function (type, icon) {
-    var isActive = _this2.hasMark(type);
-    var isDisabled = _this2.state.toolbarDisabled;
-    var onMouseDown = function onMouseDown(e) {
-      return _this2.onClickMark(e, type);
-    };
-
-    var style = {
-      cursor: 'pointer'
-    };
-
-    var activeStyle = _extends({}, style, {
-      color: _this2.props.light ? 'rgba(255,255,255,.8)' : 'rgba(0,0,0,.8)'
-    });
-
-    var disabledStyle = {
-      opacity: 0.3
-    };
-
-    return _react2.default.createElement(
-      'span',
-      {
-        className: 'button',
-        onMouseDown: isDisabled ? function () {} : onMouseDown,
-        'data-active': isActive,
-        'data-jsx-ext': _Writer2.default.__scopedHash
-      },
-      _react2.default.createElement(
-        'span',
-        {
-          style: isDisabled ? disabledStyle : isActive ? activeStyle : style,
-          'data-jsx-ext': _Writer2.default.__scopedHash
-        },
-        _react2.default.createElement(_Icon2.default, { name: icon })
-      ),
-      _react2.default.createElement(_style2.default, {
-        styleId: _Writer2.default.__scopedHash,
-        css: _Writer2.default.__scoped
-      })
-    );
-  };
-
-  this.renderBlockButton = function (type, icon) {
-    var isActive = _this2.hasBlock(type);
-    var onMouseDown = function onMouseDown(e) {
-      return _this2.onClickBlock(e, type);
-    };
-    var isDisabled = _this2.state.toolbarDisabled;
-
-    var style = {
-      cursor: 'pointer'
-    };
-
-    var activeStyle = _extends({}, style, {
-      color: _this2.props.light ? 'white' : 'black'
-    });
-
-    var disabledStyle = {
-      opacity: 0.3
-    };
-
-    return _react2.default.createElement(
-      'span',
-      {
-        className: 'button',
-        onMouseDown: isDisabled ? function () {} : onMouseDown,
-        'data-active': isActive,
-        'data-jsx-ext': _Writer2.default.__scopedHash
-      },
-      _react2.default.createElement(
-        'span',
-        {
-          style: isDisabled ? disabledStyle : isActive ? activeStyle : style,
-          'data-jsx-ext': _Writer2.default.__scopedHash
-        },
-        _react2.default.createElement(_Icon2.default, { name: icon })
-      ),
-      _react2.default.createElement(_style2.default, {
-        styleId: _Writer2.default.__scopedHash,
-        css: _Writer2.default.__scoped
-      })
-    );
-  };
-
-  this.renderEditor = function () {
-    return _react2.default.createElement(
-      'div',
-      {
-        className: 'editor-wrapper',
-        style: {
-          boxShadow: '0px 149px 207px 72px ' + (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
-        },
-        'data-jsx-ext': _Writer2.default.__scopedHash
-      },
-      _react2.default.createElement(
-        'div',
-        {
-          className: 'editor',
-          style: {
-            background: '' + (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
-            color: _this2.props.light ? 'black' : 'white'
-          },
-          ref: _this2.editorRef,
-          onClick: _this2.focusEditor.bind(_this2),
-          name: 'editor',
-          'data-jsx-ext': _Writer2.default.__scopedHash
-        },
-        _react2.default.createElement(_slate.Editor, {
-          key: 'editor',
-          spellCheck: true,
-          placeholder: _this2.props.placeholders.text,
-          placeholderStyle: {
-            color: _this2.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
-          },
-          schema: schema,
-          tabIndex: 2,
-          ref: _this2.slateEditorRef,
-          state: _this2.state.writingState,
-          onFocus: _this2.onSlateEditorFocus.bind(_this2),
-          onBlur: _this2.onBlur.bind(_this2),
-          onChange: _this2.onStateChange,
-          onDocumentChange: _this2.onDocumentChange,
-          style: {
-            height: '100%'
-          }
-        })
-      ),
-      _react2.default.createElement(_style2.default, {
-        styleId: _Writer2.default.__scopedHash,
-        css: _Writer2.default.__scoped
-      })
-    );
-  };
-};
-
 exports.default = Writer;

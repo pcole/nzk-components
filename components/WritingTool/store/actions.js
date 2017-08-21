@@ -30,6 +30,10 @@ export function initPlaceholders (dispatch, preset, { placeholders = {} } = {}) 
 }
 
 export function initWriting (dispatch, preset, { writing = {} } = {}) {
+  return setWriting(writing)
+}
+
+export function setWriting (writing = {}) {
   return {
     type: 'SET_WRITING',
     payload: writing
@@ -72,7 +76,7 @@ export function initSections (dispatch, preset, settings) {
   }
 
   sections.map(section => {
-    dispatch(addSection(section))
+    dispatch(mergeSection(section))
   })
 
   return {
@@ -80,9 +84,9 @@ export function initSections (dispatch, preset, settings) {
   }
 }
 
-export function addSection (section) {
+export function mergeSection (section) {
   return {
-    type: 'ADD_SECTION',
+    type: 'MERGE_SECTION',
     payload: {
       title: section.title,
       fieldType: section.fieldType,

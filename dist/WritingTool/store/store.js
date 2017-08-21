@@ -10,6 +10,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _redux = require('redux');
 
+var _debounce = require('lodash/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
 var _reduxThunk = require('redux-thunk');
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
@@ -54,5 +58,14 @@ var initialState = _extends({
 }, persistedState);
 
 exports.default = function () {
-  return (0, _redux.createStore)(_reducer2.default, initialState, enhancer);
+  var store = (0, _redux.createStore)(_reducer2.default, initialState, enhancer);
+
+  store.subscribe((0, _debounce2.default)(function () {
+    window && window.localStorage.setItem('nzk-writing-tool-state', JSON.stringify({
+      writing: store.getState().writing,
+      sections: store.getState().sections
+    }));
+  }, 1000));
+
+  return store;
 };

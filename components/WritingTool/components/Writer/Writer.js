@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { Editor, Block, Raw, Plain } from 'slate'
+import { Editor, Block, Html, Plain } from 'slate'
 import PropTypes from 'prop-types'
 import GSAP from 'react-gsap-enhancer'
 import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
+import debounce from 'lodash/debounce'
 import JsPDF from 'jspdf'
 import Icon from '../../../Icon/Icon'
 import Button from '../../../Button/Button'
 import styles from './Writer.styles'
-import { setWordCount } from '../../store/actions'
+import { setWordCount, setWriting } from '../../store/actions'
 
 /**
  * Define the default node type.
@@ -127,128 +128,149 @@ const schema = {
   }
 }
 
-// const BLOCK_TAGS = {
-//   p: 'paragraph',
-//   em: 'italic',
-//   u: 'underline',
-//   s: 'strikethrough'
-// }
+const BLOCK_TAGS = {
+  p: 'paragraph',
+  em: 'italic',
+  u: 'underline',
+  s: 'strikethrough'
+}
 
-// const MARK_TAGS = {
-//   strong: 'bold',
-//   em: 'italic',
-//   u: 'underline'
-// }
+const MARK_TAGS = {
+  strong: 'bold',
+  em: 'italic',
+  u: 'underline'
+}
 
-// const RULES = [
-//   {
-//     deserialize (el, next) {
-//       const block = BLOCK_TAGS[el.tagName]
-//       if (!block) return
-//       return {
-//         kind: 'block',
-//         type: block,
-//         nodes: next(el.childNodes)
-//       }
-//     }
-//   },
-//   {
-//     serialize (object, children) {
-//       if (object.kind !== 'block') return
-//       switch (object.type) {
-//         case 'paragraph':
-//           return (
-//             <p>
-//               {children}
-//             </p>
-//           )
-//         case 'align-left':
-//           return (
-//             <p style={{ textAlign: 'left' }}>
-//               {children}
-//             </p>
-//           )
-//         case 'align-center':
-//           return (
-//             <p style={{ textAlign: 'center' }}>
-//               {children}
-//             </p>
-//           )
-//         case 'align-right':
-//           return (
-//             <p style={{ textAlign: 'right' }}>
-//               {children}
-//             </p>
-//           )
-//         case 'image':
-//           return (
-//             <img
-//               src={object.data.get('src')}
-//               className='importedImage'
-//               alt=''
-//               align='middle'
-//               style={{
-//                 maxWidth: '75%',
-//                 maxHeight: '400px',
-//                 textAlign: 'center',
-//                 display: 'block',
-//                 marginLeft: 'auto',
-//                 marginRight: 'auto',
-//                 marginTop: '20px',
-//                 marginBottom: '20px'
-//               }}
-//             />
-//           )
-//       }
-//     }
-//   },
-//   {
-//     deserialize (el, next) {
-//       const mark = MARK_TAGS[el.tagName]
-//       if (!mark) return
-//       return {
-//         kind: 'mark',
-//         type: mark,
-//         nodes: next(el.childNodes)
-//       }
-//     }
-//   },
-//   {
-//     serialize (object, children) {
-//       if (object.kind !== 'mark') return
-//       switch (object.type) {
-//         case 'bold':
-//           return (
-//             <strong>
-//               {children}
-//             </strong>
-//           )
-//         case 'italic':
-//           return (
-//             <em>
-//               {children}
-//             </em>
-//           )
-//         case 'underlined':
-//           return (
-//             <u>
-//               {children}
-//             </u>
-//           )
-//       }
-//     }
-//   }
-// ]
+const rules = [
+  {
+    deserialize (el, next) {
+      const block = BLOCK_TAGS[el.tagName.toLowerCase()]
+      if (!block) return
 
-// const serializer = new Html({ rules: RULES })
+      let type = block
 
-@connect(store => {
-  return {
-    placeholders: store.placeholders,
-    writing: store.writing,
-    constraints: store.constraints
+      if (block === 'paragraph' && el.style['text-align']) {
+        switch (el.style['text-align']) {
+          case 'left':
+            type = 'align-left'
+            break
+          case 'center':
+            type = 'align-center'
+            break
+          case 'right':
+            type = 'align-right'
+            break
+        }
+      }
+
+      return {
+        kind: 'block',
+        type: type,
+        nodes: next(el.childNodes)
+      }
+    }
+  },
+  {
+    serialize (object, children) {
+      if (object.kind !== 'block') return
+      switch (object.type) {
+        case 'paragraph':
+          return (
+            <p>
+              {children}
+            </p>
+          )
+        case 'align-left':
+          return (
+            <p style={{ textAlign: 'left' }}>
+              {children}
+            </p>
+          )
+        case 'align-center':
+          return (
+            <p style={{ textAlign: 'center' }}>
+              {children}
+            </p>
+          )
+        case 'align-right':
+          return (
+            <p style={{ textAlign: 'right' }}>
+              {children}
+            </p>
+          )
+        case 'image':
+          return (
+            <img
+              src={object.data.get('src')}
+              className='importedImage'
+              alt=''
+              align='middle'
+              style={{
+                maxWidth: '75%',
+                maxHeight: '400px',
+                textAlign: 'center',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: '20px',
+                marginBottom: '20px'
+              }}
+            />
+          )
+      }
+    }
+  },
+  {
+    deserialize (el, next) {
+      const mark = MARK_TAGS[el.tagName]
+      if (!mark) return
+      return {
+        kind: 'mark',
+        type: mark,
+        nodes: next(el.childNodes)
+      }
+    }
+  },
+  {
+    serialize (object, children) {
+      if (object.kind !== 'mark') return
+      switch (object.type) {
+        case 'bold':
+          return (
+            <strong>
+              {children}
+            </strong>
+          )
+        case 'italic':
+          return (
+            <em>
+              {children}
+            </em>
+          )
+        case 'underlined':
+          return (
+            <u>
+              {children}
+            </u>
+          )
+      }
+    }
   }
-}, null, null, {withRef: true})
+]
+const html = new Html({ rules })
+
+@connect(
+  store => {
+    return {
+      placeholders: store.placeholders,
+      writing: store.writing,
+      constraints: store.constraints
+    }
+  },
+  null,
+  null,
+  { withRef: true }
+)
 @GSAP()
 export default class Writer extends Component {
   static propTypes = {
@@ -284,19 +306,11 @@ export default class Writer extends Component {
   constructor (props) {
     super(props)
 
-    let writingState = {
-      nodes: [
-        {
-          kind: 'block',
-          type: 'paragraph',
-          nodes: []
-        }
-      ]
-    }
-
     this.state = {
       writingTitle: this.props.writing.title,
-      writingState: Raw.deserialize(writingState, { terse: true }),
+      writingState: html.deserialize(this.props.writing.text || '<p></p>', {
+        terse: true
+      }),
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
@@ -314,6 +328,11 @@ export default class Writer extends Component {
     this.onTitleKeyDown = this.onTitleKeyDown.bind(this)
     this.imageUploadSucceeded = this.imageUploadSucceeded.bind(this)
     this.insertImage = this.insertImage.bind(this)
+
+    this.onDebouncedDocumentChange = debounce(
+      this.onDebouncedDocumentChange,
+      1000
+    )
   }
 
   componentDidMount () {
@@ -357,6 +376,11 @@ export default class Writer extends Component {
     this.setState({
       writingTitle: event.target.value
     })
+    this.props.dispatch(
+      setWriting({
+        title: event.target.value
+      })
+    )
     this.addAnimation(this.resizeTitle)
   }
 
@@ -366,7 +390,16 @@ export default class Writer extends Component {
     })
   }
 
+  onDebouncedDocumentChange = (document, state) => {
+    this.props.dispatch(
+      setWriting({
+        text: html.serialize(state)
+      })
+    )
+  }
+
   onDocumentChange = (document, state) => {
+    this.onDebouncedDocumentChange(document, state)
     this.props.dispatch(setWordCount(this.getWordCountForState(state)))
   }
 
@@ -781,7 +814,6 @@ export default class Writer extends Component {
             : 'rgba(0,0,0,0.8)'}`
         }}
       >
-
         <div
           className='editor'
           style={{

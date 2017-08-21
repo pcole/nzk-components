@@ -415,6 +415,7 @@ WritingTool.propTypes = {
   hideClearButton: _propTypes2.default.bool
 };
 WritingTool.defaultProps = {
+  lang: 'en',
   hideClearButton: true,
   backgroundImage: '/assets/temple.jpg'
 };

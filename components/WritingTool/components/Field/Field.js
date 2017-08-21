@@ -93,7 +93,7 @@ export default class Field extends Component {
       this.addAnimation(this.resizeTextarea)
     }
 
-    this.props.onChange(this.props.index, this.state.value)
+    this.props.onChange(this.props.index, event.target.value)
   }
 
   onRemove () {

@@ -9,10 +9,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 exports.init = init;
 exports.initPlaceholders = initPlaceholders;
 exports.initWriting = initWriting;
+exports.setWriting = setWriting;
 exports.initConstraints = initConstraints;
 exports.initPrompt = initPrompt;
 exports.initSections = initSections;
-exports.addSection = addSection;
+exports.mergeSection = mergeSection;
 exports.setWordCount = setWordCount;
 exports.removeField = removeField;
 exports.addField = addField;
@@ -64,6 +65,12 @@ function initWriting(dispatch, preset) {
       _ref2$writing = _ref2.writing,
       writing = _ref2$writing === undefined ? {} : _ref2$writing;
 
+  return setWriting(writing);
+}
+
+function setWriting() {
+  var writing = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   return {
     type: 'SET_WRITING',
     payload: writing
@@ -113,7 +120,7 @@ function initSections(dispatch, preset, settings) {
   }
 
   sections.map(function (section) {
-    dispatch(addSection(section));
+    dispatch(mergeSection(section));
   });
 
   return {
@@ -121,9 +128,9 @@ function initSections(dispatch, preset, settings) {
   };
 }
 
-function addSection(section) {
+function mergeSection(section) {
   return {
-    type: 'ADD_SECTION',
+    type: 'MERGE_SECTION',
     payload: {
       title: section.title,
       fieldType: section.fieldType,

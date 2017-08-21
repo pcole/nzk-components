@@ -60,6 +60,7 @@ export default class WritingTool extends Component {
   }
 
   static defaultProps = {
+    lang: 'en',
     hideClearButton: true,
     backgroundImage: '/assets/temple.jpg'
   }

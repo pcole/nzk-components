@@ -119,7 +119,7 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
         this.addAnimation(this.resizeTextarea);
       }
 
-      this.props.onChange(this.props.index, this.state.value);
+      this.props.onChange(this.props.index, event.target.value);
     }
   }, {
     key: 'onRemove',

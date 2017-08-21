@@ -4,7 +4,6 @@ export default function reducer (state, action) {
       return {
         ...state,
         placeholders: {
-          ...state.placeholders,
           ...action.payload
         }
       }
@@ -36,10 +35,38 @@ export default function reducer (state, action) {
         }
       }
     }
-    case 'ADD_SECTION': {
+    case 'MERGE_SECTION': {
+      const sections = [...state.sections]
+      let hasMerged = false
+
+      for (let i = 0, lenS = sections.length; i < lenS; i++) {
+        const section = sections[i]
+
+        if (
+          section.title === action.payload.title &&
+          section.fieldType === action.payload.fieldType
+        ) {
+          for (let y = 0, lenF = section.fields.length; y < lenF; y++) {
+            const field = section.fields[y]
+            const payloadField = action.payload.fields[y]
+
+            if (payloadField) {
+              if (field.value !== payloadField.value) {
+                field.value = field.value || payloadField.value
+              }
+            }
+          }
+          hasMerged = true
+        }
+      }
+
+      if (!hasMerged) {
+        sections.push(action.payload)
+      }
+
       return {
         ...state,
-        sections: [...(state.sections || []), action.payload]
+        sections
       }
     }
     case 'SET_WORD_COUNT': {

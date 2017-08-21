@@ -15,7 +15,7 @@ function reducer(state, action) {
     case 'SET_PLACEHOLDERS':
       {
         return _extends({}, state, {
-          placeholders: _extends({}, state.placeholders, action.payload)
+          placeholders: _extends({}, action.payload)
         });
       }
     case 'SET_WRITING':
@@ -36,10 +36,35 @@ function reducer(state, action) {
           prompt: _extends({}, state.prompt, action.payload)
         });
       }
-    case 'ADD_SECTION':
+    case 'MERGE_SECTION':
       {
+        var sections = [].concat(_toConsumableArray(state.sections));
+        var hasMerged = false;
+
+        for (var i = 0, lenS = sections.length; i < lenS; i++) {
+          var section = sections[i];
+
+          if (section.title === action.payload.title && section.fieldType === action.payload.fieldType) {
+            for (var y = 0, lenF = section.fields.length; y < lenF; y++) {
+              var field = section.fields[y];
+              var payloadField = action.payload.fields[y];
+
+              if (payloadField) {
+                if (field.value !== payloadField.value) {
+                  field.value = field.value || payloadField.value;
+                }
+              }
+            }
+            hasMerged = true;
+          }
+        }
+
+        if (!hasMerged) {
+          sections.push(action.payload);
+        }
+
         return _extends({}, state, {
-          sections: [].concat(_toConsumableArray(state.sections || []), [action.payload])
+          sections: sections
         });
       }
     case 'SET_WORD_COUNT':
@@ -50,52 +75,52 @@ function reducer(state, action) {
       }
     case 'REMOVE_FIELD':
       {
-        var sections = state.sections.slice();
+        var _sections = state.sections.slice();
 
-        sections[action.payload.sectionIndex].fields.splice(action.payload.fieldIndex, 1);
+        _sections[action.payload.sectionIndex].fields.splice(action.payload.fieldIndex, 1);
 
         /* eslint-disable */
-        sections[action.payload.sectionIndex].fields = sections[action.payload.sectionIndex].fields.map(function (field, index) {
+        _sections[action.payload.sectionIndex].fields = _sections[action.payload.sectionIndex].fields.map(function (field, index) {
           field.index = index;
           return field;
         });
         /* eslint-enable */
 
         return _extends({}, state, {
-          sections: sections
+          sections: _sections
         });
       }
     case 'ADD_FIELD':
       {
-        var _sections = state.sections.slice();
-        var section = _sections[action.payload.sectionIndex];
+        var _sections2 = state.sections.slice();
+        var _section = _sections2[action.payload.sectionIndex];
 
-        section.fields.push({
+        _section.fields.push({
           value: ''
         });
 
-        section.fields = section.fields.slice();
-
-        return _extends({}, state, {
-          sections: _sections
-        });
-      }
-    case 'SET_FIELD_VALUE':
-      {
-        var _sections2 = state.sections.slice();
-
-        /* eslint-disable */
-        _sections2[action.payload.sectionIndex].fields[action.payload.fieldIndex].value = action.payload.value;
-        /* eslint-enable */
+        _section.fields = _section.fields.slice();
 
         return _extends({}, state, {
           sections: _sections2
         });
       }
-    case 'CLEAR':
+    case 'SET_FIELD_VALUE':
       {
         var _sections3 = state.sections.slice();
-        _sections3.map(function (section, i) {
+
+        /* eslint-disable */
+        _sections3[action.payload.sectionIndex].fields[action.payload.fieldIndex].value = action.payload.value;
+        /* eslint-enable */
+
+        return _extends({}, state, {
+          sections: _sections3
+        });
+      }
+    case 'CLEAR':
+      {
+        var _sections4 = state.sections.slice();
+        _sections4.map(function (section, i) {
           section.fields.map(function (input) {
             input.value = '';
           });
@@ -105,7 +130,7 @@ function reducer(state, action) {
             title: '',
             text: ''
           },
-          sections: _sections3
+          sections: _sections4
         });
       }
     default:
