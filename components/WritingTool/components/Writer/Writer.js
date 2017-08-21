@@ -5,7 +5,6 @@ import GSAP from 'react-gsap-enhancer'
 import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
 import JsPDF from 'jspdf'
-import Uploader from '../../../Uploader/Uploader'
 import Icon from '../../../Icon/Icon'
 import Button from '../../../Button/Button'
 import styles from './Writer.styles'
@@ -37,7 +36,6 @@ const schema = {
           src={src}
           className='importedImage'
           alt=''
-          align='middle'
           style={{
             maxWidth: '75%',
             maxHeight: '400px',
@@ -250,7 +248,7 @@ const schema = {
     writing: store.writing,
     constraints: store.constraints
   }
-})
+}, null, null, {withRef: true})
 @GSAP()
 export default class Writer extends Component {
   static propTypes = {
@@ -262,6 +260,8 @@ export default class Writer extends Component {
     textColor: PropTypes.string,
     light: PropTypes.bool,
     onMobileFocus: PropTypes.func,
+    displayImageUploader: PropTypes.func,
+    dismissImageUploader: PropTypes.func,
     onBack: PropTypes.func,
     onClear: PropTypes.func,
     onSave: PropTypes.func,
@@ -299,7 +299,6 @@ export default class Writer extends Component {
       writingState: Raw.deserialize(writingState, { terse: true }),
       mobile: false,
       focusSlateEditor: false,
-      imagePopoverDisplayed: false,
       toolbarDisabled: true,
       modal: null
     }
@@ -313,6 +312,8 @@ export default class Writer extends Component {
     this.writerRef = this.writerRef.bind(this)
     this.slateEditorRef = this.slateEditorRef.bind(this)
     this.onTitleKeyDown = this.onTitleKeyDown.bind(this)
+    this.imageUploadSucceeded = this.imageUploadSucceeded.bind(this)
+    this.insertImage = this.insertImage.bind(this)
   }
 
   componentDidMount () {
@@ -417,7 +418,7 @@ export default class Writer extends Component {
     const transform = writingState.transform()
 
     if (type === 'image') {
-      this.displayImagePopover()
+      this.props.displayImageUploader()
     } else {
       const isActive = this.hasBlock(type)
       transform.setBlock(isActive ? DEFAULT_NODE : type)
@@ -427,41 +428,11 @@ export default class Writer extends Component {
     this.setState({ writingState })
   }
 
-  displayImagePopover () {
-    this.setState({ imagePopoverDisplayed: true })
-  }
-
-  dismissImagePopover () {
-    this.setState({ imagePopoverDisplayed: false })
-  }
-
   imageUploadSucceeded (url) {
     if (!url) return
-    let { state } = this.state
-    state = this.insertImage(state, url)
-    this.onChange(state)
-  }
-
-  renderImagePopover () {
-    return (
-      <div
-        className='popover-background'
-        onClick={e => {
-          e.preventDefault()
-          this.dismissImagePopover()
-        }}
-      >
-        <div className='image-popover'>
-          <Uploader
-            api='http://file.nightzookeeper.com/images/upload'
-            uploadedImage={this.imageUploadSucceeded.bind(this)}
-          />
-        </div>
-        <style jsx>
-          {styles}
-        </style>
-      </div>
-    )
+    let { writingState } = this.state
+    writingState = this.insertImage(writingState, url)
+    this.onStateChange(writingState)
   }
 
   render = () => {
@@ -514,7 +485,7 @@ export default class Writer extends Component {
   }
 
   saveAction () {
-    this.exportAsPdf()
+    this.props.onSave()
   }
 
   titleRef (el) {
@@ -810,6 +781,7 @@ export default class Writer extends Component {
             : 'rgba(0,0,0,0.8)'}`
         }}
       >
+
         <div
           className='editor'
           style={{
@@ -845,7 +817,6 @@ export default class Writer extends Component {
           />
         </div>
 
-        {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
 
         <style jsx>
           {styles}

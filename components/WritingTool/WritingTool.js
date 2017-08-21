@@ -14,6 +14,7 @@ import ConfirmModal from './components/ConfirmModal/ConfirmModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
 import { init, clear } from './store/actions'
+import Uploader from '../Uploader/Uploader'
 const store = Store()
 
 @GSAP()
@@ -68,7 +69,8 @@ export default class WritingTool extends Component {
     primaryColor: undefined,
     secondaryColor: undefined,
     textColor: undefined,
-    modal: undefined
+    modal: undefined,
+    imagePopoverDisplayed: true
   }
 
   componentWillMount () {
@@ -188,6 +190,41 @@ export default class WritingTool extends Component {
     this.setState({ sidebarOpen: false })
   }
 
+  displayImagePopover () {
+    this.setState({ imagePopoverDisplayed: true })
+  }
+
+  dismissImagePopover () {
+    this.setState({ imagePopoverDisplayed: false })
+  }
+
+  renderImagePopover () {
+    return (
+      <div
+        className='popover-background'
+        onClick={e => {
+          e.preventDefault()
+          this.dismissImagePopover()
+        }}
+      >
+        <div className='image-popover'>
+          <Uploader
+            api='http://file.nightzookeeper.com/images/upload'
+            uploadedImage={(url) => { if (this.writer) {
+              if (this.writer.getWrappedInstance().imageUploadSucceeded) {
+                this.writer.getWrappedInstance().imageUploadSucceeded(url)
+              }
+              this.dismissImagePopover()
+            }}}
+          />
+        </div>
+        <style jsx>
+          {styles}
+        </style>
+      </div>
+    )
+  }
+
   render () {
     return (
       <Provider store={store}>
@@ -206,8 +243,13 @@ export default class WritingTool extends Component {
             }}
           />
 
+          {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
+
           <div className='column left sidebarOpen' name='leftCol'>
             <Writer
+              ref={w => {
+                this.writer = w
+              }}
               primaryColor={this.state.primaryColor}
               secondaryColor={this.state.primaryFadedColor}
               textColor={this.state.textColor}
@@ -215,6 +257,9 @@ export default class WritingTool extends Component {
               light={this.state.light}
               onMobileFocus={this.closeSidebar.bind(this)}
               onBack={this.props.onBack}
+              displayImageUploader={this.displayImagePopover.bind(this)}
+              dismissImageUploader={this.dismissImagePopover.bind(this)}
+              onSave={this.props.onSave}
               hideTextStyleButtons={this.props.hideTextStyleButtons}
               hideAlignButtons={this.props.hideAlignButtons}
               hideImageButton={this.props.hideImageButton}

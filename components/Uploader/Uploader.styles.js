@@ -20,7 +20,7 @@ export default `
    .label {
       color: white;
       font-size: 23px;
-      opacity: 0.3;
+      opacity: 0.8;
       padding: 10px;
       text-align: center;
       justify-content: center;
