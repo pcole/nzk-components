@@ -11,7 +11,7 @@ import styles from './StatusBar.styles'
 })
 export default class StatusBar extends Component {
   static propTypes = {
-    bgColor: PropTypes.string,
+    bgColor: PropTypes.any,
     light: PropTypes.bool
   }
 

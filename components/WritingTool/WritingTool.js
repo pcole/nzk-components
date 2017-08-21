@@ -70,7 +70,7 @@ export default class WritingTool extends Component {
     secondaryColor: undefined,
     textColor: undefined,
     modal: undefined,
-    imagePopoverDisplayed: true
+    imagePopoverDisplayed: false
   }
 
   componentWillMount () {
@@ -210,12 +210,14 @@ export default class WritingTool extends Component {
         <div className='image-popover'>
           <Uploader
             api='http://file.nightzookeeper.com/images/upload'
-            uploadedImage={(url) => { if (this.writer) {
-              if (this.writer.getWrappedInstance().imageUploadSucceeded) {
-                this.writer.getWrappedInstance().imageUploadSucceeded(url)
+            uploadedImage={(url) => {
+              if (this.writer) {
+                if (this.writer.getWrappedInstance().imageUploadSucceeded) {
+                  this.writer.getWrappedInstance().imageUploadSucceeded(url)
+                }
+                this.dismissImagePopover()
               }
-              this.dismissImagePopover()
-            }}}
+            }}
           />
         </div>
         <style jsx>

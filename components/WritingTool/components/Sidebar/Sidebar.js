@@ -13,9 +13,9 @@ import styles from './Sidebar.styles'
 export default class Sidebar extends Component {
   static propTypes = {
     children: PropTypes.any,
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
-    textColor: PropTypes.string,
+    primaryColor: PropTypes.any,
+    secondaryColor: PropTypes.any,
+    textColor: PropTypes.any,
     prompt: PropTypes.object,
     sections: PropTypes.array
   }

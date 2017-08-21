@@ -80,7 +80,7 @@ var StatusBar = (_dec = (0, _reactRedux.connect)(function (store) {
   return StatusBar;
 }(_react.Component)) || _class);
 StatusBar.propTypes = {
-  bgColor: _propTypes2.default.string,
+  bgColor: _propTypes2.default.any,
   light: _propTypes2.default.bool
 };
 exports.default = StatusBar;

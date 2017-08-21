@@ -37,10 +37,6 @@ var _jspdf = require('jspdf');
 
 var _jspdf2 = _interopRequireDefault(_jspdf);
 
-var _Uploader = require('../../../Uploader/Uploader');
-
-var _Uploader2 = _interopRequireDefault(_Uploader);
-
 var _Icon = require('../../../Icon/Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
@@ -88,7 +84,6 @@ var defaultBlock = {
         src: src,
         className: 'importedImage',
         alt: '',
-        align: 'middle',
         style: {
           maxWidth: '75%',
           maxHeight: '400px',
@@ -306,7 +301,7 @@ var defaultBlock = {
     writing: store.writing,
     constraints: store.constraints
   };
-}), _dec2 = (0, _reactGsapEnhancer2.default)(), _dec(_class = _dec2(_class = function (_Component) {
+}, null, null, { withRef: true }), _dec2 = (0, _reactGsapEnhancer2.default)(), _dec(_class = _dec2(_class = function (_Component) {
   _inherits(Writer, _Component);
 
   function Writer(props) {
@@ -329,7 +324,6 @@ var defaultBlock = {
       writingState: _slate.Raw.deserialize(writingState, { terse: true }),
       mobile: false,
       focusSlateEditor: false,
-      imagePopoverDisplayed: false,
       toolbarDisabled: true,
       modal: null
     };
@@ -343,6 +337,8 @@ var defaultBlock = {
     _this.writerRef = _this.writerRef.bind(_this);
     _this.slateEditorRef = _this.slateEditorRef.bind(_this);
     _this.onTitleKeyDown = _this.onTitleKeyDown.bind(_this);
+    _this.imageUploadSucceeded = _this.imageUploadSucceeded.bind(_this);
+    _this.insertImage = _this.insertImage.bind(_this);
     return _this;
   }
 
@@ -409,58 +405,18 @@ var defaultBlock = {
      */
 
   }, {
-    key: 'displayImagePopover',
-    value: function displayImagePopover() {
-      this.setState({ imagePopoverDisplayed: true });
-    }
-  }, {
-    key: 'dismissImagePopover',
-    value: function dismissImagePopover() {
-      this.setState({ imagePopoverDisplayed: false });
-    }
-  }, {
     key: 'imageUploadSucceeded',
     value: function imageUploadSucceeded(url) {
       if (!url) return;
-      var state = this.state.state;
+      var writingState = this.state.writingState;
 
-      state = this.insertImage(state, url);
-      this.onChange(state);
-    }
-  }, {
-    key: 'renderImagePopover',
-    value: function renderImagePopover() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        'div',
-        {
-          className: 'popover-background',
-          onClick: function onClick(e) {
-            e.preventDefault();
-            _this2.dismissImagePopover();
-          },
-          'data-jsx-ext': _Writer2.default.__scopedHash
-        },
-        _react2.default.createElement(
-          'div',
-          { className: 'image-popover', 'data-jsx-ext': _Writer2.default.__scopedHash
-          },
-          _react2.default.createElement(_Uploader2.default, {
-            api: 'http://file.nightzookeeper.com/images/upload',
-            uploadedImage: this.imageUploadSucceeded.bind(this)
-          })
-        ),
-        _react2.default.createElement(_style2.default, {
-          styleId: _Writer2.default.__scopedHash,
-          css: _Writer2.default.__scoped
-        })
-      );
+      writingState = this.insertImage(writingState, url);
+      this.onStateChange(writingState);
     }
   }, {
     key: 'saveAction',
     value: function saveAction() {
-      this.exportAsPdf();
+      this.props.onSave();
     }
   }, {
     key: 'titleRef',
@@ -586,11 +542,13 @@ Writer.propTypes = {
   placeholders: _propTypes2.default.object,
   writing: _propTypes2.default.object,
   constraints: _propTypes2.default.object,
-  primaryColor: _propTypes2.default.string,
-  secondaryColor: _propTypes2.default.string,
-  textColor: _propTypes2.default.string,
+  primaryColor: _propTypes2.default.any,
+  secondaryColor: _propTypes2.default.any,
+  textColor: _propTypes2.default.any,
   light: _propTypes2.default.bool,
   onMobileFocus: _propTypes2.default.func,
+  displayImageUploader: _propTypes2.default.func,
+  dismissImageUploader: _propTypes2.default.func,
   onBack: _propTypes2.default.func,
   onClear: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
@@ -610,10 +568,10 @@ Writer.defaultProps = {
 };
 
 var _initialiseProps = function _initialiseProps() {
-  var _this3 = this;
+  var _this2 = this;
 
   this.hasMark = function (type) {
-    var writingState = _this3.state.writingState;
+    var writingState = _this2.state.writingState;
 
     return writingState.marks.some(function (mark) {
       return mark.type === type;
@@ -621,7 +579,7 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.hasBlock = function (type) {
-    var writingState = _this3.state.writingState;
+    var writingState = _this2.state.writingState;
 
     return writingState.blocks.some(function (node) {
       return node.type === type;
@@ -629,13 +587,13 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.onStateChange = function (state) {
-    _this3.setState({
+    _this2.setState({
       writingState: state
     });
   };
 
   this.onDocumentChange = function (document, state) {
-    _this3.props.dispatch((0, _actions.setWordCount)(_this3.getWordCountForState(state)));
+    _this2.props.dispatch((0, _actions.setWordCount)(_this2.getWordCountForState(state)));
   };
 
   this.getWordCountForState = function (state) {
@@ -646,10 +604,10 @@ var _initialiseProps = function _initialiseProps() {
 
   this.onClickMark = function (e, type) {
     e.preventDefault();
-    var writingState = _this3.state.writingState;
+    var writingState = _this2.state.writingState;
 
     writingState = writingState.transform().toggleMark(type).apply();
-    _this3.setState({ writingState: writingState });
+    _this2.setState({ writingState: writingState });
   };
 
   this.insertImage = function (state, src) {
@@ -662,65 +620,65 @@ var _initialiseProps = function _initialiseProps() {
 
   this.onClickBlock = function (e, type) {
     e.preventDefault();
-    var writingState = _this3.state.writingState;
+    var writingState = _this2.state.writingState;
 
     var transform = writingState.transform();
 
     if (type === 'image') {
-      _this3.displayImagePopover();
+      _this2.props.displayImageUploader();
     } else {
-      var isActive = _this3.hasBlock(type);
+      var isActive = _this2.hasBlock(type);
       transform.setBlock(isActive ? DEFAULT_NODE : type);
     }
 
     writingState = transform.apply();
-    _this3.setState({ writingState: writingState });
+    _this2.setState({ writingState: writingState });
   };
 
   this.render = function () {
     var hostStyle = {
-      boxShadow: (_this3.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0px 60px 59px 140px'
+      boxShadow: (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0px 60px 59px 140px'
     };
 
     var colorStyle = {
-      color: _this3.props.textColor
+      color: _this2.props.textColor
     };
 
     var bgColorStyle = {
-      background: '' + (_this3.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+      background: '' + (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
     };
 
     return _react2.default.createElement(
       'div',
       { className: 'host', style: hostStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
       },
-      _this3.renderToolbar(),
+      _this2.renderToolbar(),
       _react2.default.createElement(
         'div',
-        { className: 'writer', ref: _this3.writerRef, 'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'writer', ref: _this2.writerRef, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
           'div',
           {
-            className: 'title-container ' + (_this3.props.light ? 'light' : 'dark'),
+            className: 'title-container ' + (_this2.props.light ? 'light' : 'dark'),
             style: _extends({}, bgColorStyle),
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
           _react2.default.createElement('textarea', {
             className: 'title',
-            tabIndex: '1',
-            placeholder: _this3.props.placeholders.title,
-            ref: _this3.titleRef,
-            onKeyDown: _this3.onTitleKeyDown,
+            tabIndex: 1,
+            placeholder: _this2.props.placeholders.title,
+            ref: _this2.titleRef,
+            onKeyDown: _this2.onTitleKeyDown,
             style: _extends({}, colorStyle, {
-              borderBottom: '2px solid ' + _this3.props.primaryColor
+              borderBottom: '2px solid ' + _this2.props.primaryColor
             }),
-            onChange: _this3.onTitleChange,
-            value: _this3.state.writingTitle,
+            onChange: _this2.onTitleChange,
+            value: _this2.state.writingTitle,
             'data-jsx-ext': _Writer2.default.__scopedHash
           })
         ),
-        _this3.renderEditor()
+        _this2.renderEditor()
       ),
       _react2.default.createElement(_style2.default, {
         styleId: _Writer2.default.__scopedHash,
@@ -731,14 +689,14 @@ var _initialiseProps = function _initialiseProps() {
 
   this.renderToolbar = function () {
     var bgStyle = {
-      color: _this3.props.textColor,
-      backgroundColor: _this3.props.secondaryColor
+      color: _this2.props.textColor,
+      backgroundColor: _this2.props.secondaryColor
     };
     return _react2.default.createElement(
       'div',
       {
         style: {
-          color: _this3.props.textColor
+          color: _this2.props.textColor
         },
         'data-jsx-ext': _Writer2.default.__scopedHash
       },
@@ -756,34 +714,34 @@ var _initialiseProps = function _initialiseProps() {
               bgColor: 'white',
               shadow: true,
               round: true,
-              onClick: _this3.props.onBack ? function () {
-                _this3.props.displayModal('Are you sure? Have you saved your work?', function () {
-                  _this3.props.onClear();
-                  _this3.props.onBack();
-                }, _this3.props.dismissModal, 'Yes', 'No');
+              onClick: _this2.props.onBack ? function () {
+                _this2.props.displayModal('Are you sure? Have you saved your work?', function () {
+                  _this2.props.onClear();
+                  _this2.props.onBack();
+                }, _this2.props.dismissModal, 'Yes', 'No');
               } : function () {}
             },
             _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
           )
         ),
-        !_this3.props.hideTextStyleButtons && _this3.renderMarkButton('bold', 'bold'),
-        !_this3.props.hideTextStyleButtons && _this3.renderMarkButton('italic', 'italic'),
-        !_this3.props.hideTextStyleButtons && _this3.renderMarkButton('underlined', 'underline'),
-        !_this3.props.hideAlignButtons && _this3.renderBlockButton('align-left', 'align-left'),
-        !_this3.props.hideAlignButtons && _this3.renderBlockButton('align-center', 'align-center'),
-        !_this3.props.hideAlignButtons && _this3.renderBlockButton('align-right', 'align-right'),
-        !_this3.props.hideImageButton && _this3.renderBlockButton('image', 'picture-o'),
+        !_this2.props.hideTextStyleButtons && _this2.renderMarkButton('bold', 'bold'),
+        !_this2.props.hideTextStyleButtons && _this2.renderMarkButton('italic', 'italic'),
+        !_this2.props.hideTextStyleButtons && _this2.renderMarkButton('underlined', 'underline'),
+        !_this2.props.hideAlignButtons && _this2.renderBlockButton('align-left', 'align-left'),
+        !_this2.props.hideAlignButtons && _this2.renderBlockButton('align-center', 'align-center'),
+        !_this2.props.hideAlignButtons && _this2.renderBlockButton('align-right', 'align-right'),
+        !_this2.props.hideImageButton && _this2.renderBlockButton('image', 'picture-o'),
         _react2.default.createElement(
           'div',
           { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
           _react2.default.createElement(
             _Button2.default,
-            { bgColor: 'white', shadow: true, onClick: _this3.saveAction.bind(_this3) },
+            { bgColor: 'white', shadow: true, onClick: _this2.saveAction.bind(_this2) },
             'SAVE'
           )
         ),
-        !_this3.props.hideClearButton && _react2.default.createElement(
+        !_this2.props.hideClearButton && _react2.default.createElement(
           'div',
           { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
           },
@@ -793,7 +751,7 @@ var _initialiseProps = function _initialiseProps() {
               bgColor: 'white',
               shadow: true,
               onClick: function onClick() {
-                _this3.props.displayModal('Are you sure? This will clear everything on the page.', _this3.props.onclear, _this3.props.dismissModal);
+                _this2.props.displayModal('Are you sure? This will clear everything on the page.', _this2.props.onclear, _this2.props.dismissModal);
               }
             },
             'Clear'
@@ -808,10 +766,10 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.renderMarkButton = function (type, icon) {
-    var isActive = _this3.hasMark(type);
-    var isDisabled = _this3.state.toolbarDisabled;
+    var isActive = _this2.hasMark(type);
+    var isDisabled = _this2.state.toolbarDisabled;
     var onMouseDown = function onMouseDown(e) {
-      return _this3.onClickMark(e, type);
+      return _this2.onClickMark(e, type);
     };
 
     var style = {
@@ -819,7 +777,7 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     var activeStyle = _extends({}, style, {
-      color: _this3.props.light ? 'rgba(255,255,255,.8)' : 'rgba(0,0,0,.8)'
+      color: _this2.props.light ? 'rgba(255,255,255,.8)' : 'rgba(0,0,0,.8)'
     });
 
     var disabledStyle = {
@@ -850,18 +808,18 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.renderBlockButton = function (type, icon) {
-    var isActive = _this3.hasBlock(type);
+    var isActive = _this2.hasBlock(type);
     var onMouseDown = function onMouseDown(e) {
-      return _this3.onClickBlock(e, type);
+      return _this2.onClickBlock(e, type);
     };
-    var isDisabled = _this3.state.toolbarDisabled;
+    var isDisabled = _this2.state.toolbarDisabled;
 
     var style = {
       cursor: 'pointer'
     };
 
     var activeStyle = _extends({}, style, {
-      color: _this3.props.light ? 'white' : 'black'
+      color: _this2.props.light ? 'white' : 'black'
     });
 
     var disabledStyle = {
@@ -897,7 +855,7 @@ var _initialiseProps = function _initialiseProps() {
       {
         className: 'editor-wrapper',
         style: {
-          boxShadow: '0px 149px 207px 72px ' + (_this3.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+          boxShadow: '0px 149px 207px 72px ' + (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
         },
         'data-jsx-ext': _Writer2.default.__scopedHash
       },
@@ -906,35 +864,34 @@ var _initialiseProps = function _initialiseProps() {
         {
           className: 'editor',
           style: {
-            background: '' + (_this3.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
-            color: _this3.props.light ? 'black' : 'white'
+            background: '' + (_this2.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
+            color: _this2.props.light ? 'black' : 'white'
           },
-          ref: _this3.editorRef,
-          onClick: _this3.focusEditor.bind(_this3),
+          ref: _this2.editorRef,
+          onClick: _this2.focusEditor.bind(_this2),
           name: 'editor',
           'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(_slate.Editor, {
           key: 'editor',
           spellCheck: true,
-          placeholder: _this3.props.placeholders.text,
+          placeholder: _this2.props.placeholders.text,
           placeholderStyle: {
-            color: _this3.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
+            color: _this2.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
           },
           schema: schema,
-          tabIndex: '2',
-          ref: _this3.slateEditorRef,
-          state: _this3.state.writingState,
-          onFocus: _this3.onSlateEditorFocus.bind(_this3),
-          onBlur: _this3.onBlur.bind(_this3),
-          onChange: _this3.onStateChange,
-          onDocumentChange: _this3.onDocumentChange,
+          tabIndex: 2,
+          ref: _this2.slateEditorRef,
+          state: _this2.state.writingState,
+          onFocus: _this2.onSlateEditorFocus.bind(_this2),
+          onBlur: _this2.onBlur.bind(_this2),
+          onChange: _this2.onStateChange,
+          onDocumentChange: _this2.onDocumentChange,
           style: {
             height: '100%'
           }
         })
       ),
-      _this3.state.imagePopoverDisplayed ? _this3.renderImagePopover() : null,
       _react2.default.createElement(_style2.default, {
         styleId: _Writer2.default.__scopedHash,
         css: _Writer2.default.__scoped

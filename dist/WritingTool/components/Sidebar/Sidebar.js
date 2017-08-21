@@ -176,9 +176,9 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
 }(_react.Component)) || _class);
 Sidebar.propTypes = {
   children: _propTypes2.default.any,
-  primaryColor: _propTypes2.default.string,
-  secondaryColor: _propTypes2.default.string,
-  textColor: _propTypes2.default.string,
+  primaryColor: _propTypes2.default.any,
+  secondaryColor: _propTypes2.default.any,
+  textColor: _propTypes2.default.any,
   prompt: _propTypes2.default.object,
   sections: _propTypes2.default.array
 };

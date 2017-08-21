@@ -255,9 +255,9 @@ export default class Writer extends Component {
     placeholders: PropTypes.object,
     writing: PropTypes.object,
     constraints: PropTypes.object,
-    primaryColor: PropTypes.string,
-    secondaryColor: PropTypes.string,
-    textColor: PropTypes.string,
+    primaryColor: PropTypes.any,
+    secondaryColor: PropTypes.any,
+    textColor: PropTypes.any,
     light: PropTypes.bool,
     onMobileFocus: PropTypes.func,
     displayImageUploader: PropTypes.func,
@@ -463,7 +463,7 @@ export default class Writer extends Component {
           >
             <textarea
               className='title'
-              tabIndex='1'
+              tabIndex={1}
               placeholder={this.props.placeholders.title}
               ref={this.titleRef}
               onKeyDown={this.onTitleKeyDown}
@@ -804,7 +804,7 @@ export default class Writer extends Component {
                 : 'rgba(255,255,255, .7)'
             }}
             schema={schema}
-            tabIndex='2'
+            tabIndex={2}
             ref={this.slateEditorRef}
             state={this.state.writingState}
             onFocus={this.onSlateEditorFocus.bind(this)}
@@ -816,7 +816,6 @@ export default class Writer extends Component {
             }}
           />
         </div>
-
 
         <style jsx>
           {styles}

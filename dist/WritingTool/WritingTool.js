@@ -71,6 +71,10 @@ var _store2 = _interopRequireDefault(_store);
 
 var _actions = require('./store/actions');
 
+var _Uploader = require('../Uploader/Uploader');
+
+var _Uploader2 = _interopRequireDefault(_Uploader);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -100,7 +104,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       primaryColor: undefined,
       secondaryColor: undefined,
       textColor: undefined,
-      modal: undefined
+      modal: undefined,
+      imagePopoverDisplayed: false
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -220,9 +225,56 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       this.setState({ sidebarOpen: false });
     }
   }, {
+    key: 'displayImagePopover',
+    value: function displayImagePopover() {
+      this.setState({ imagePopoverDisplayed: true });
+    }
+  }, {
+    key: 'dismissImagePopover',
+    value: function dismissImagePopover() {
+      this.setState({ imagePopoverDisplayed: false });
+    }
+  }, {
+    key: 'renderImagePopover',
+    value: function renderImagePopover() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'popover-background',
+          onClick: function onClick(e) {
+            e.preventDefault();
+            _this3.dismissImagePopover();
+          },
+          'data-jsx-ext': _WritingTool2.default.__scopedHash
+        },
+        _react2.default.createElement(
+          'div',
+          { className: 'image-popover', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+          },
+          _react2.default.createElement(_Uploader2.default, {
+            api: 'http://file.nightzookeeper.com/images/upload',
+            uploadedImage: function uploadedImage(url) {
+              if (_this3.writer) {
+                if (_this3.writer.getWrappedInstance().imageUploadSucceeded) {
+                  _this3.writer.getWrappedInstance().imageUploadSucceeded(url);
+                }
+                _this3.dismissImagePopover();
+              }
+            }
+          })
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _WritingTool2.default.__scopedHash,
+          css: _WritingTool2.default.__scoped
+        })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         _reactRedux.Provider,
@@ -232,7 +284,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
           {
             className: 'host',
             ref: function ref(w) {
-              _this3.writingtool = w;
+              _this4.writingtool = w;
             },
             'data-jsx-ext': _WritingTool2.default.__scopedHash
           },
@@ -244,11 +296,15 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             },
             'data-jsx-ext': _WritingTool2.default.__scopedHash
           }),
+          this.state.imagePopoverDisplayed ? this.renderImagePopover() : null,
           _react2.default.createElement(
             'div',
             { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
             _react2.default.createElement(_Writer2.default, {
+              ref: function ref(w) {
+                _this4.writer = w;
+              },
               primaryColor: this.state.primaryColor,
               secondaryColor: this.state.primaryFadedColor,
               textColor: this.state.textColor,
@@ -256,6 +312,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               light: this.state.light,
               onMobileFocus: this.closeSidebar.bind(this),
               onBack: this.props.onBack,
+              displayImageUploader: this.displayImagePopover.bind(this),
+              dismissImageUploader: this.dismissImagePopover.bind(this),
+              onSave: this.props.onSave,
               hideTextStyleButtons: this.props.hideTextStyleButtons,
               hideAlignButtons: this.props.hideAlignButtons,
               hideImageButton: this.props.hideImageButton,
