@@ -13,7 +13,7 @@ import StatusBar from './components/StatusBar/StatusBar'
 import ConfirmModal from '../Modal/ConfirmModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
-import { init, clear } from './store/actions'
+import { init, clear, reset } from './store/actions'
 const store = Store()
 
 @GSAP()
@@ -254,6 +254,7 @@ export default class WritingTool extends Component {
 
   onBackConfirm () {
     this.closeBackConfirmModal()
+    store.dispatch(reset())
     this.props.onBack()
   }
 
@@ -264,10 +265,7 @@ export default class WritingTool extends Component {
   // CLEAR
 
   onClear () {
-    if (!this.onClearPreventDefault) {
-      this.openClearConfirmModal()
-    }
-    this.props.onClear()
+    this.openClearConfirmModal()
   }
 
   openClearConfirmModal () {
@@ -298,8 +296,6 @@ export default class WritingTool extends Component {
   onClearConfirm () {
     store.dispatch(clear())
     this.closeClearConfirmModal()
-    // TODO: fix hack, figure out why the tool doesn't
-    // rerender after clear
   }
 
   onClearCancel () {

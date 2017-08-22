@@ -22,7 +22,7 @@ const persistedState =
     ? JSON.parse(window.localStorage.getItem('nzk-writing-tool-state'))
     : {}
 
-const initialState = {
+export const defaultState = {
   placeholders: {
     title: 'Write your title here...',
     text: 'Start writing here....'
@@ -42,7 +42,11 @@ const initialState = {
     description: ''
   },
   wordCount: 0,
-  sections: [],
+  sections: []
+}
+
+const initialState = {
+  ...defaultState,
   ...persistedState
 }
 

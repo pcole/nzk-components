@@ -134,3 +134,9 @@ export function clear () {
     type: 'CLEAR'
   }
 }
+
+export function reset () {
+  return {
+    type: 'RESET'
+  }
+}

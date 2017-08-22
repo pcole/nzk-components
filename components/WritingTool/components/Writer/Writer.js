@@ -344,6 +344,16 @@ export default class Writer extends Component {
     this.updateWordCount(this.state.writingState)
   }
 
+  componentWillReceiveProps (nextProps) {
+    // Just support case where we are clearing the writing
+    if (nextProps.writing.title === '' && nextProps.writing.text === '') {
+      this.setState({
+        writingTitle: '',
+        writingState: html.deserialize('<p></p>')
+      })
+    }
+  }
+
   /**
    * Check if the current selection has a mark with `type` in it.
    *

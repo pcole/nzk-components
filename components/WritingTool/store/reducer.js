@@ -1,3 +1,5 @@
+import { defaultState } from './store'
+
 export default function reducer (state, action) {
   switch (action.type) {
     case 'SET_PLACEHOLDERS': {
@@ -129,10 +131,12 @@ export default function reducer (state, action) {
     }
     case 'CLEAR': {
       let sections = state.sections.slice()
-      sections.map((section, i) => {
-        section.fields.map(input => {
-          input.value = ''
-        })
+      sections.forEach(section => {
+        let fields = []
+        for (let i = 0, len = section.fields.length; i < len; i++) {
+          fields.push({ value: '' })
+        }
+        section.fields = fields
       })
       return {
         ...state,
@@ -141,6 +145,11 @@ export default function reducer (state, action) {
           text: ''
         },
         sections
+      }
+    }
+    case 'RESET': {
+      return {
+        ...defaultState
       }
     }
     default:

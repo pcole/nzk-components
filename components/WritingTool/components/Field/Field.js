@@ -50,7 +50,7 @@ export default class Field extends Component {
     this.animateRemove = this.animateRemove.bind(this)
 
     this.state = {
-      value: this.props.value
+      value: ''
     }
   }
 
@@ -72,10 +72,17 @@ export default class Field extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return (
-      this.state.state !== nextState.value ||
-      this.props.value !== nextProps.value ||
+      this.state.value !== nextState.value ||
       this.props.bgColor !== nextProps.bgColor
     )
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({
+        value: nextProps.value
+      })
+    }
   }
 
   resizeTextarea () {
@@ -85,13 +92,13 @@ export default class Field extends Component {
   }
 
   onChange (event) {
-    this.setState({
-      value: event.target.value
-    })
-
     if (this.props.type === 'textarea') {
       this.addAnimation(this.resizeTextarea)
     }
+
+    this.setState({
+      value: event.target.value
+    })
 
     this.props.onChange(this.props.index, event.target.value)
   }
