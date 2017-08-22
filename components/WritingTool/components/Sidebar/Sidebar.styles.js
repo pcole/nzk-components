@@ -71,7 +71,8 @@ export default `
     float: left;
     max-width: 300px;
     margin-right: 20px;
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
   }
 
