@@ -297,16 +297,16 @@ export default class WritingTool extends Component {
             />
           </div>
 
-          <style jsx>
-            {styles}
-          </style>
-
           <div className='status-bar'>
             <StatusBar
               bgColor={this.state.primaryColor}
               light={this.state.light}
             />
           </div>
+
+          <style jsx>
+            {styles}
+          </style>
         </div>
       </Provider>
     )

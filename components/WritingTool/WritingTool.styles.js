@@ -64,9 +64,7 @@ export default `
   }
 
   .left {
-    position: absolute;
-    top: 0px;
-    left: 0;
+    position: relative;
     max-width: calc(100vw - 30px);
     min-width: 677px;
   }
