@@ -74,7 +74,6 @@ export default `
   .prompt-image.full {
     float: none;
     margin: 0px auto 0px auto;
-    min-width: 60%;
     display: block;
   }
 
