@@ -1,4 +1,7 @@
 export default `
+
+
+  
   .host {
     padding: 0;
     margin: 0;
@@ -93,14 +96,14 @@ export default `
   
   @media screen and (max-width: 1280px) {
      .left {
-       width: calc(100vw - 30px);
+       width: calc(100vw - 20px);
      }
      
      .right {
        position: absolute;
        right: 0;
        top: 0;
-       width: 30px;
+       width: 20px;
        transform: translateX(0px);
      }
  
@@ -115,11 +118,11 @@ export default `
   
   @media screen and (min-width: 1281px) {
      .left {
-       width: calc(100vw - 30px);
+       width: calc(100vw - 20px);
      }
      
      .right {
-       width: 30px;
+       width: 20px;
        transform: translateX(0px);
      }
 

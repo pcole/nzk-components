@@ -200,12 +200,13 @@ var MARK_TAGS = {
 
 var rules = [{
   deserialize: function deserialize(el, next) {
+    if (!el.tagName) return;
     var block = BLOCK_TAGS[el.tagName.toLowerCase()];
     if (!block) return;
 
     var type = block;
 
-    if (block === 'paragraph' && el.style['text-align']) {
+    if (block === 'paragraph' && el.style && el.style['text-align']) {
       switch (el.style['text-align']) {
         case 'left':
           type = 'align-left';
@@ -840,8 +841,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         document.body.scrollTop = 0;
 
         if (window.innerHeight < window.innerWidth) {
-          this.writer.style.minHeight = '255px';
-          this.writer.style.height = '255px';
+          this.writer.style.minHeight = '218px';
+          this.writer.style.height = '218px';
         } else {
           this.writer.style.minHeight = '565px';
           this.writer.style.height = '565px';
