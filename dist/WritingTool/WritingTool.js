@@ -355,10 +355,6 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               textColor: this.state.textColor
             })
           ),
-          _react2.default.createElement(_style2.default, {
-            styleId: _WritingTool2.default.__scopedHash,
-            css: _WritingTool2.default.__scoped
-          }),
           _react2.default.createElement(
             'div',
             { className: 'status-bar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
@@ -367,7 +363,11 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               bgColor: this.state.primaryColor,
               light: this.state.light
             })
-          )
+          ),
+          _react2.default.createElement(_style2.default, {
+            styleId: _WritingTool2.default.__scopedHash,
+            css: _WritingTool2.default.__scoped
+          })
         )
       );
     }
