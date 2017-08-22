@@ -2,14 +2,14 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Store from '../../store/store'
 import Provider from '../../store/storyProvider'
-import { addSection } from '../../store/actions'
+import { mergeSection } from '../../store/actions'
 import Section from './Section'
 
 const initStore = () => {
   const store = Store()
 
   store.dispatch(
-    addSection({
+    mergeSection({
       title: 'This is a section',
       fieldType: 'input',
       numberOfFields: 4,
@@ -19,7 +19,7 @@ const initStore = () => {
   )
 
   store.dispatch(
-    addSection({
+    mergeSection({
       title: 'Here is another one',
       fieldType: 'textarea',
       numberOfFields: 1,

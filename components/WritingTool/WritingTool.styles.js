@@ -7,6 +7,7 @@ export default `
     overflow-y: hidden;
     overflow-x: hidden;
     top: 0;
+    height: 100vh;
   }
   
   .right {
@@ -64,7 +65,9 @@ export default `
   }
 
   .left {
-    position: relative;
+    position: absolute;
+    top: 0px;
+    left: 0;
     max-width: calc(100vw - 30px);
     min-width: 677px;
   }
