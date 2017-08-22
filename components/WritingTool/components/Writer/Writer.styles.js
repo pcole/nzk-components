@@ -30,9 +30,10 @@ export default `
     display: inline-block;
     transform: translateY(5px);
   }
-  
-  .toolbar-button.save {
-    margin-left: 30px;
+
+
+  .toolbar-button.clear, .toolbar-button.save {
+    margin-left: 20px;
   }
   
   .menu.toolbar-menu .button {

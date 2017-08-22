@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import cn from 'classnames'
 import Section from '../Section/Section'
 import styles from './Sidebar.styles'
 
@@ -18,7 +19,9 @@ export class PromptContainer extends React.Component {
 
   constructor (props) {
     super(props)
+
     this.maxLength = props.image ? 80 : 280
+
     let content = props.description
 
     if (content.length > this.maxLength) {
@@ -34,6 +37,14 @@ export class PromptContainer extends React.Component {
 
     this.state = {
       content: content
+    }
+
+    if (this.props.image) {
+      const image = new window.Image()
+      image.onload = () => {
+        this.setState({ image })
+      }
+      image.src = this.props.image
     }
   }
 
@@ -53,13 +64,21 @@ export class PromptContainer extends React.Component {
   }
 
   render () {
+    if (!this.state.image) return <div />
+
+    const imageClassName = cn({
+      'prompt-image': true,
+      full: !this.props.description,
+      portrait: this.state.image.width < this.state.image.height
+    })
+
     return (
       <div className='prompt-content'>
         <p className='prompt-description'>
           {this.props.image &&
             <img
               src={this.props.image}
-              className={`prompt-image ${this.props.description ? '' : 'full'}`}
+              className={imageClassName}
               onClick={this.props.onImageClick}
             />}
 

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
 import debounce from 'lodash/debounce'
 import JsPDF from 'jspdf'
+import words from 'lodash/words'
 import { setWordCount, setWriting } from '../../store/actions'
 import Modal from '../../../Modal'
 import Uploader from '../../../Uploader'
@@ -205,7 +206,6 @@ const rules = [
               src={object.data.get('src')}
               className='importedImage'
               alt=''
-              align='middle'
               style={{
                 maxWidth: '75%',
                 maxHeight: '400px',
@@ -340,6 +340,8 @@ export default class Writer extends Component {
     })
 
     this.writer.addEventListener('click', function (e) {})
+
+    this.updateWordCount(this.state.writingState)
   }
 
   /**
@@ -392,13 +394,17 @@ export default class Writer extends Component {
     )
   }
 
-  onDocumentChange = (document, state) => {
-    this.onDebouncedDocumentChange(document, state)
+  updateWordCount (state) {
     this.props.dispatch(setWordCount(this.getWordCountForState(state)))
   }
 
+  onDocumentChange = (document, state) => {
+    this.onDebouncedDocumentChange(document, state)
+    this.updateWordCount(state)
+  }
+
   getWordCountForState = state => {
-    return state.document.text.split(' ').filter(w => w.length > 0).length
+    return words(Plain.serialize(state)).length
   }
 
   focusEditor () {
@@ -568,6 +574,19 @@ export default class Writer extends Component {
             </Button>
           </div>
 
+          <div className='toolbar-button save'>
+            <Button bgColor='white' shadow onClick={this.onSave}>
+              SAVE
+            </Button>
+          </div>
+
+          {!this.props.hideClearButton &&
+            <div className='toolbar-button clear'>
+              <Button bgColor='white' shadow onClick={this.props.onClear}>
+                Clear
+              </Button>
+            </div>}
+
           {!this.props.hideTextStyleButtons &&
             this.renderMarkButton('bold', 'bold')}
           {!this.props.hideTextStyleButtons &&
@@ -582,19 +601,6 @@ export default class Writer extends Component {
             this.renderBlockButton('align-right', 'align-right')}
           {!this.props.hideImageButton &&
             this.renderBlockButton('image', 'picture-o')}
-
-          <div className='toolbar-button save'>
-            <Button bgColor='white' shadow onClick={this.onSave}>
-              SAVE
-            </Button>
-          </div>
-
-          {!this.props.hideClearButton &&
-            <div className='toolbar-button save'>
-              <Button bgColor='white' shadow onClick={this.props.onClear}>
-                Clear
-              </Button>
-            </div>}
         </div>
 
         <style jsx>

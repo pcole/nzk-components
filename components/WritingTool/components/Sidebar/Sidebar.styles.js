@@ -16,7 +16,7 @@ export default `
   .host-inner {
     position: absolute;
     top: 0;
-    padding: 30px 15px 100px 15px;
+    padding: 13px 15px 100px 15px;
     min-width: 415px;
     height: 100%;
     width: 100%;
@@ -53,7 +53,7 @@ export default `
 
   .prompt-content {
     display: flex;
-    margin-top: 15px;
+    margin-top: 12px;
     margin-left: 5px;
   }
 
@@ -75,6 +75,10 @@ export default `
     float: none;
     margin: 0px auto 0px auto;
     display: block;
+  }
+
+  .prompt-image.portrait {
+    width: 25%;
   }
 
   .prompt-description {

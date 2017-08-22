@@ -69,12 +69,12 @@ export default class Uploader extends React.Component {
           {this.props.api
             ? <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
               {this.state.progress > 0
-                  ? <div className='progress-label'>
-                    {this.state.progress}%
-                    </div>
-                  : <div className='label'>
-                      Drag an image in the zone or click
-                    </div>}
+                ? <div className='progress-label'>
+                  {this.state.progress}%
+                  </div>
+                : <div className='label'>
+                    Drag an image in the zone or click
+                  </div>}
             </Dropzone>
             : <p> Missing API to Component </p>}
         </div>
