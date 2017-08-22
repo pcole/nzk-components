@@ -54,26 +54,29 @@ export default `
   .prompt-content {
     display: flex;
     min-height: 150px;
-    height: 150px;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-left: 5px;
   }
 
-  prompt-image {
+  .read-more {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  .prompt-image {
     position: relative;
     display: inline-block;
-    width: 40%;
-    height: 100%;
+    min-width: 40%;
+    height: 150px;
+    float: left;
     max-width: 300px;
+    margin-right: 20px;
     background-size: cover;
     background-repeat: no-repeat;
   }
 
   .prompt-description {
-    display: flex;
-    width: 60%;
-    align-self: center;
-    margin-left: 20px;
+    display: inline;
   }
 
   .bottom-gradient {

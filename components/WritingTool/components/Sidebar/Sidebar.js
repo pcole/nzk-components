@@ -4,6 +4,81 @@ import PropTypes from 'prop-types'
 import Section from '../Section/Section'
 import styles from './Sidebar.styles'
 
+export class PromptContainer extends React.Component {
+  static propTypes = {
+    description: PropTypes.string,
+    image: PropTypes.string,
+    content: PropTypes.string,
+    onImageClick: PropTypes.func
+  }
+
+  static defaultProps = {
+    onImageClick: () => {}
+  }
+
+  constructor (props) {
+    super(props)
+    this.maxLength = props.image ? 190 : 400
+
+    if (props.description.length > this.maxLength) {
+      var content = props.description.substring(0, this.maxLength).split(' ').filter((word) => {
+        return word !== ''
+      }).join(' ')
+      content += '... '
+    }
+    this.state = {
+      content: content
+    }
+  }
+
+  readMore () {
+    this.setState({
+      content: this.state.content.length > this.props.description.length - 3
+        ? this.props.description.substring(0, this.maxLength).split(' ').filter((word) => {
+          return word !== ''
+        }).join(' ') + '... '
+        : this.props.description + ' '
+    })
+  }
+
+  render () {
+    return (
+      <div className='prompt-content'>
+        {this.props.description &&
+        <p className='prompt-description'>
+
+          {this.props.image &&
+          <span
+            ref={(image) => {
+              this.image = image
+            }} className='prompt-image'
+            style={{backgroundImage: `url("${this.props.image}")`}}
+            onClick={this.props.onImageClick}
+          />}
+
+          <span ref={(desc) => {
+            this.description = desc
+          }}>
+            {this.state.content}
+
+            {this.props.description.length > this.maxLength
+              ? <a className='read-more' onClick={this.readMore.bind(this)}>
+                {this.state.content.length < this.props.description.length
+                  ? 'Read more'
+                  : 'Read less'
+                }</a>
+              : null
+            }
+          </span>
+
+        </p>}
+
+        <style jsx>{styles}</style>
+      </div>
+    )
+  }
+}
+
 @connect(store => {
   return {
     prompt: store.prompt,
@@ -77,6 +152,13 @@ export default class Sidebar extends Component {
     )
   }
 
+  /**
+   * FOR PHIL, PromptContainer callback!
+   */
+  onPromptImageClicked () {
+    console.log('Image clicked!')
+  }
+
   renderPrompt () {
     const { icon, title, image, description } = this.props.prompt
     const colorStyle = {
@@ -96,18 +178,9 @@ export default class Sidebar extends Component {
         </div>
 
         {(image || description) &&
-          <div className='prompt-content'>
-            {this.props.prompt.image &&
-              <div
-                className='prompt-image'
-                style={{ backgroundImage: `url("${image}")` }}
-              />}
+          <PromptContainer {...this.props.prompt} onImageClick={this.onPromptImageClicked} />
+        }
 
-            {this.props.prompt.description &&
-              <div className='prompt-description'>
-                {this.props.prompt.description}
-              </div>}
-          </div>}
         <style jsx>
           {styles}
         </style>
