@@ -41,19 +41,27 @@ var _jspdf = require('jspdf');
 
 var _jspdf2 = _interopRequireDefault(_jspdf);
 
-var _Icon = require('../../../Icon/Icon');
+var _actions = require('../../store/actions');
+
+var _Modal = require('../../../Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _Uploader = require('../../../Uploader');
+
+var _Uploader2 = _interopRequireDefault(_Uploader);
+
+var _Icon = require('../../../Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _Button = require('../../../Button/Button');
+var _Button = require('../../../Button');
 
 var _Button2 = _interopRequireDefault(_Button);
 
 var _Writer = require('./Writer.styles');
 
 var _Writer2 = _interopRequireDefault(_Writer);
-
-var _actions = require('../../store/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -91,7 +99,6 @@ var defaultBlock = {
         style: {
           maxWidth: '75%',
           maxHeight: '400px',
-          textAlign: 'center',
           display: 'block',
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -172,15 +179,6 @@ var defaultBlock = {
     },
     underlined: {
       textDecoration: 'underline'
-    },
-    sizeOne: {
-      fontSize: '12px'
-    },
-    sizeTwo: {
-      fontSize: '17px'
-    },
-    sizeThree: {
-      fontSize: '22px'
     }
   }
 };
@@ -189,7 +187,7 @@ var BLOCK_TAGS = {
   p: 'paragraph',
   em: 'italic',
   u: 'underline',
-  s: 'strikethrough'
+  img: 'image'
 };
 
 var MARK_TAGS = {
@@ -202,6 +200,7 @@ var rules = [{
   deserialize: function deserialize(el, next) {
     if (!el.tagName) return;
     var block = BLOCK_TAGS[el.tagName.toLowerCase()];
+
     if (!block) return;
 
     var type = block;
@@ -220,10 +219,17 @@ var rules = [{
       }
     }
 
+    var data = {};
+
+    if (type === 'image') {
+      data.src = el.src;
+    }
+
     return {
       kind: 'block',
       type: type,
-      nodes: next(el.childNodes)
+      nodes: next(el.childNodes),
+      data: data
     };
   }
 }, {
@@ -263,7 +269,6 @@ var rules = [{
           style: {
             maxWidth: '75%',
             maxHeight: '400px',
-            textAlign: 'center',
             display: 'block',
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -316,7 +321,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     writing: store.writing,
     constraints: store.constraints
   };
-}, null, null, { withRef: true }), _dec2 = (0, _reactGsapEnhancer2.default)(), _dec(_class = _dec2(_class = function (_Component) {
+}), _dec2 = (0, _reactGsapEnhancer2.default)(), _dec(_class = _dec2(_class = function (_Component) {
   _inherits(Writer, _Component);
 
   function Writer(props) {
@@ -386,7 +391,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       var transform = writingState.transform();
 
       if (type === 'image') {
-        _this.props.displayImageUploader();
+        _this.openImageUploaderModal();
       } else {
         var isActive = _this.hasBlock(type);
         transform.setBlock(isActive ? DEFAULT_NODE : type);
@@ -414,6 +419,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         { className: 'host', style: hostStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _this.renderToolbar(),
+        _this.renderImageUploaderModal(),
         _react2.default.createElement(
           'div',
           { className: 'writer', ref: _this.writerRef, 'data-jsx-ext': _Writer2.default.__scopedHash
@@ -471,17 +477,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             _react2.default.createElement(
               _Button2.default,
-              {
-                bgColor: 'white',
-                shadow: true,
-                round: true,
-                onClick: _this.props.onBack ? function () {
-                  _this.props.displayModal('Are you sure? Have you saved your work?', function () {
-                    _this.props.onClear();
-                    _this.props.onBack();
-                  }, _this.props.dismissModal, 'Yes', 'No');
-                } : function () {}
-              },
+              { bgColor: 'white', shadow: true, round: true, onClick: _this.props.onBack },
               _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
             )
           ),
@@ -498,7 +494,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             _react2.default.createElement(
               _Button2.default,
-              { bgColor: 'white', shadow: true, onClick: _this.saveAction.bind(_this) },
+              { bgColor: 'white', shadow: true, onClick: _this.onSave },
               'SAVE'
             )
           ),
@@ -508,13 +504,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             },
             _react2.default.createElement(
               _Button2.default,
-              {
-                bgColor: 'white',
-                shadow: true,
-                onClick: function onClick() {
-                  _this.props.displayModal('Are you sure? This will clear everything on the page.', _this.props.onclear, _this.props.dismissModal);
-                }
-              },
+              { bgColor: 'white', shadow: true, onClick: _this.props.onClear },
               'Clear'
             )
           )
@@ -610,6 +600,51 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       );
     };
 
+    _this.renderImageUploaderModal = function () {
+      return _react2.default.createElement(
+        _Modal2.default,
+        { isOpen: _this.state.imageUploaderModalIsOpen },
+        _react2.default.createElement(
+          'div',
+          {
+            onClick: _this.closeImageUploaderModal,
+            className: 'image-uploader-container',
+            'data-jsx-ext': _Writer2.default.__scopedHash
+          },
+          _react2.default.createElement(
+            'div',
+            { className: 'image-uploader', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(_Uploader2.default, {
+              api: 'http://file.nightzookeeper.com/images/upload',
+              uploadedImage: function uploadedImage(url) {
+                if (!url) return;
+                var writingState = _this.state.writingState;
+
+                writingState = _this.insertImage(writingState, url);
+                _this.onStateChange(writingState);
+                _this.closeImageUploaderModal();
+              }
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'image-uploader-close-button', 'data-jsx-ext': _Writer2.default.__scopedHash
+            },
+            _react2.default.createElement(
+              _Button2.default,
+              { round: true, shadow: true, bgColor: 'grey' },
+              _react2.default.createElement(_Icon2.default, { name: 'cross' })
+            )
+          )
+        ),
+        _react2.default.createElement(_style2.default, {
+          styleId: _Writer2.default.__scopedHash,
+          css: _Writer2.default.__scoped
+        })
+      );
+    };
+
     _this.renderEditor = function () {
       return _react2.default.createElement(
         'div',
@@ -668,7 +703,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
-      modal: null
+      imageUploaderModalIsOpen: false
     };
 
     _this.onStateChange = _this.onStateChange.bind(_this);
@@ -680,8 +715,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.writerRef = _this.writerRef.bind(_this);
     _this.slateEditorRef = _this.slateEditorRef.bind(_this);
     _this.onTitleKeyDown = _this.onTitleKeyDown.bind(_this);
-    _this.imageUploadSucceeded = _this.imageUploadSucceeded.bind(_this);
+    _this.closeImageUploaderModal = _this.closeImageUploaderModal.bind(_this);
     _this.insertImage = _this.insertImage.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
 
     _this.onDebouncedDocumentChange = (0, _debounce2.default)(_this.onDebouncedDocumentChange, 1000);
     return _this;
@@ -733,9 +769,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       var writingState = this.state.writingState.transform().focus().apply();
       this.setState({ writingState: writingState });
     }
-  }, {
-    key: 'save',
-    value: function save() {}
 
     /**
      * When a mark button is clicked, toggle the current mark.
@@ -753,17 +786,11 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
      */
 
   }, {
-    key: 'imageUploadSucceeded',
-    value: function imageUploadSucceeded(url) {
-      if (!url) return;
-      var writingState = this.state.writingState;
-
-      writingState = this.insertImage(writingState, url);
-      this.onStateChange(writingState);
-    }
-  }, {
-    key: 'saveAction',
-    value: function saveAction() {
+    key: 'onSave',
+    value: function onSave() {
+      this.props.dispatch((0, _actions.setWriting)({
+        text: html.serialize(this.state.writingState)
+      }));
       this.props.onSave();
     }
   }, {
@@ -875,6 +902,20 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         pdf.save('WritingToolExport.pdf');
       });
     }
+  }, {
+    key: 'openImageUploaderModal',
+    value: function openImageUploaderModal() {
+      this.setState({
+        imageUploaderModalIsOpen: true
+      });
+    }
+  }, {
+    key: 'closeImageUploaderModal',
+    value: function closeImageUploaderModal() {
+      this.setState({
+        imageUploaderModalIsOpen: false
+      });
+    }
 
     /**
      * Render the Slate editor.
@@ -895,8 +936,6 @@ Writer.propTypes = {
   textColor: _propTypes2.default.any,
   light: _propTypes2.default.bool,
   onMobileFocus: _propTypes2.default.func,
-  displayImageUploader: _propTypes2.default.func,
-  dismissImageUploader: _propTypes2.default.func,
   onBack: _propTypes2.default.func,
   onClear: _propTypes2.default.func,
   onSave: _propTypes2.default.func,

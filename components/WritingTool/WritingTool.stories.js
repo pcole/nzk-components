@@ -36,8 +36,12 @@ storiesOf('WritingTool', module)
       hideImageButton={boolean('hideImageButton', false)}
       hideTextStyleButtons={boolean('hideTextStyleButtons', false)}
       hideAlignButtons={boolean('hideAlignButtons', false)}
+      hideClearButton={boolean('hideClearButton', false)}
       onBack={() => {
-        console.log('BACK ACTION')
+        window.alert('on back callback')
+      }}
+      onSave={() => {
+        window.alert('on save callback')
       }}
     />
   )

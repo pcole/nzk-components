@@ -8,20 +8,13 @@ export default class Uploader extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      progress: 0,
-      images: []
+      progress: 0
     }
     this.onDrop = this.onDrop.bind(this)
   }
 
   static propTypes = {
     uploadedImage: PropTypes.func
-  }
-
-  uploadOver () {
-    setTimeout(() => {
-      this.setState({ progress: 0 })
-    }, 2000)
   }
 
   onDrop (file) {
@@ -39,26 +32,14 @@ export default class Uploader extends React.Component {
           progressEvent.loaded * 100 / progressEvent.total
         )
         this.setState({ progress: percentCompleted })
-        if (percentCompleted === 100) {
-          this.uploadOver()
-        }
       }
     }
-    const _ = this
     axios
       .post(this.props.api, data, config)
       .then(res => {
         this.props.uploadedImage(res.data.url)
-        var images = this.state.images.slice()
-        images.push(res.data.url)
-        _.setState(() => {
-          return {
-            images: images
-          }
-        })
       })
       .catch(err => {
-        window.alert('Erroooor')
         console.log(err)
       })
   }
@@ -87,21 +68,16 @@ export default class Uploader extends React.Component {
 
           {this.props.api
             ? <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
-              {this.state.progress > 0
+                {this.state.progress > 0
                   ? <div className='progress-label'>
-                    {this.state.progress}%
+                      {this.state.progress}%
                     </div>
                   : <div className='label'>
                       Drag an image in the zone or click
                     </div>}
-            </Dropzone>
+              </Dropzone>
             : <p> Missing API to Component </p>}
         </div>
-        {/*  <ul>
-         {this.state.images.map((img, i) => {
-         return <li key={i}><img src={img} style={{ width: '80%' }} /></li>
-         })}
-         </ul> */}
         <style jsx>
           {styles}
         </style>

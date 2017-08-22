@@ -7,8 +7,6 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _class;
-
 var _style = require('styled-jsx/style');
 
 var _style2 = _interopRequireDefault(_style);
@@ -21,17 +19,17 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _Button = require('../Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Modal = require('./Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
 var _ConfirmModal = require('./ConfirmModal.styles');
 
 var _ConfirmModal2 = _interopRequireDefault(_ConfirmModal);
-
-var _reactGsapEnhancer = require('react-gsap-enhancer');
-
-var _reactGsapEnhancer2 = _interopRequireDefault(_reactGsapEnhancer);
-
-var _Button = require('../../../Button/Button');
-
-var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,7 +39,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ConfirmModal = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (_Component) {
+var ConfirmModal = function (_Component) {
   _inherits(ConfirmModal, _Component);
 
   function ConfirmModal() {
@@ -54,32 +52,36 @@ var ConfirmModal = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = fun
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        { className: 'host', onClick: this.props.onCancel, 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
-        },
+        _Modal2.default,
+        this.props,
         _react2.default.createElement(
           'div',
-          { className: 'modal', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
+          { className: 'host', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
           },
           _react2.default.createElement(
             'div',
-            { className: 'message', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
-            },
-            this.props.message
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'buttons', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
+            { className: 'modal', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
             },
             _react2.default.createElement(
-              _Button2.default,
-              { bgColor: 'green', shadow: true, onClick: this.props.onConfirm },
-              this.props.confirmText
+              'div',
+              { className: 'message', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
+              },
+              this.props.message
             ),
             _react2.default.createElement(
-              _Button2.default,
-              { bgColor: 'red', shadow: true, onClick: this.props.onCancel },
-              this.props.cancelText
+              'div',
+              { className: 'buttons', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
+              },
+              _react2.default.createElement(
+                _Button2.default,
+                { bgColor: 'green', shadow: true, onClick: this.props.onConfirm },
+                this.props.confirmText
+              ),
+              _react2.default.createElement(
+                _Button2.default,
+                { bgColor: 'red', shadow: true, onClick: this.props.onCancel },
+                this.props.cancelText
+              )
             )
           )
         ),
@@ -92,11 +94,11 @@ var ConfirmModal = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = fun
   }]);
 
   return ConfirmModal;
-}(_react.Component)) || _class);
+}(_react.Component);
+
 ConfirmModal.propTypes = {
   onConfirm: _propTypes2.default.func,
   onCancel: _propTypes2.default.func,
-  onDismiss: _propTypes2.default.func,
   message: _propTypes2.default.string,
   confirmText: _propTypes2.default.string,
   cancelText: _propTypes2.default.string

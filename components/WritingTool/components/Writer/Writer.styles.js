@@ -63,26 +63,28 @@ export default `
     font-size: 18px;
     margin: auto auto;
   }
-  
-  .popover-background {
+
+  .image-uploader-container {
     position: absolute;
     top: 0;
     left: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0,0,0,0.9);
-    z-index: 20;
   }
   
-  .image-popover {
+  .image-uploader {
     position: absolute;
-    top: calc(50% - 150px);
+    top: calc(50% - 100px);
     height: 300px;
     width: 300px;
-    left: calc(50% - 150px);
-    z-index: 21;
+    left: calc(50% - 100px);
   }
-
+  
+  .image-uploader-close-button{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
   .title-container{
     padding-left: 40px;
     padding-right: 40px;

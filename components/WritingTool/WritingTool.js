@@ -10,11 +10,10 @@ import Sidebar from './components/Sidebar/Sidebar'
 import Icon from '../Icon'
 import Button from '../Button'
 import StatusBar from './components/StatusBar/StatusBar'
-import ConfirmModal from './components/ConfirmModal/ConfirmModal'
+import ConfirmModal from '../Modal/ConfirmModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
 import { init, clear } from './store/actions'
-import Uploader from '../Uploader/Uploader'
 const store = Store()
 
 @GSAP()
@@ -53,6 +52,8 @@ export default class WritingTool extends Component {
     }),
     onBack: PropTypes.func,
     onSave: PropTypes.func,
+    onBackPreventDefault: PropTypes.bool,
+    onSavePreventDefault: PropTypes.bool,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
@@ -62,7 +63,17 @@ export default class WritingTool extends Component {
   static defaultProps = {
     lang: 'en',
     hideClearButton: true,
-    backgroundImage: '/assets/temple.jpg'
+    backgroundImage: '/assets/temple.jpg',
+    onSave: () => {},
+    onBack: () => {},
+    onSavePreventDefault: false,
+    onBackPreventDefault: false,
+    backConfirmMessage: 'Are you sure? Have you saved your work?',
+    backConfirmButtonText: 'Yes',
+    backCancelButtonText: 'No',
+    clearConfirmMessage: 'Are you sure? You will loose your work.',
+    clearConfirmButtonText: 'Yes',
+    clearCancelButtonText: 'No'
   }
 
   state = {
@@ -70,8 +81,24 @@ export default class WritingTool extends Component {
     primaryColor: undefined,
     secondaryColor: undefined,
     textColor: undefined,
-    modal: undefined,
-    imagePopoverDisplayed: false
+    backConfirmModalIsOpen: false,
+    clearConfirmModalIsOpen: false
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.onSave = this.onSave.bind(this)
+    this.onBack = this.onBack.bind(this)
+    this.onBackConfirm = this.onBackConfirm.bind(this)
+    this.onBackCancel = this.onBackCancel.bind(this)
+    this.onClear = this.onClear.bind(this)
+    this.onClearConfirm = this.onClearConfirm.bind(this)
+    this.onClearCancel = this.onClearCancel.bind(this)
+    this.toggleSidebarAnimation = this.toggleSidebarAnimation.bind(this)
+    this.toggleSidebar = this.toggleSidebar.bind(this)
+    this.closeSidebar = this.closeSidebar.bind(this)
+    this.onResize = this.onResize.bind(this)
   }
 
   componentWillMount () {
@@ -88,7 +115,7 @@ export default class WritingTool extends Component {
       })
     )
 
-    window.addEventListener('resize', this.onResize.bind(this))
+    window.addEventListener('resize', this.onResize)
   }
 
   setColorsFromBackgroundImage () {
@@ -133,35 +160,11 @@ export default class WritingTool extends Component {
       })
   }
 
-  displayModal (message, onConfirm, onCancel, confirmMessage, cancelMessage) {
-    this.setState({
-      modal: (
-        <ConfirmModal
-          message={message}
-          onConfirm={onConfirm}
-          onCancel={onCancel}
-          confirmText={confirmMessage}
-          cancelText={cancelMessage}
-        />
-      )
-    })
-  }
-
-  dismissModal () {
-    this.setState({
-      modal: null
-    })
-  }
-
   onResize (e) {
     if (e.target.window.innerWidth > 1280) {
       this.setState({ sidebarOpen: true })
-      this.addAnimation(this.toggleSidebarAnimation.bind(this))
+      this.addAnimation(this.toggleSidebarAnimation)
     }
-  }
-
-  onClear () {
-    store.dispatch(clear)
   }
 
   toggleSidebarAnimation ({ target }) {
@@ -185,63 +188,121 @@ export default class WritingTool extends Component {
   }
 
   toggleSidebar () {
-    this.addAnimation(this.toggleSidebarAnimation.bind(this))
+    this.addAnimation(this.toggleSidebarAnimation)
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
   }
 
   closeSidebar () {
-    this.addAnimation(this.toggleSidebarAnimation.bind(this))
+    this.addAnimation(this.toggleSidebarAnimation)
     this.setState({ sidebarOpen: false })
   }
 
-  displayImagePopover () {
-    this.setState({ imagePopoverDisplayed: true })
+  // SAVE
+
+  onSave () {
+    if (!this.onSavePreventDefault) {
+      // TODO, modal warning about min words and saving as draft
+    }
+    this.props.onSave()
   }
 
-  dismissImagePopover () {
-    this.setState({ imagePopoverDisplayed: false })
+  // BACK
+
+  onBack () {
+    if (!this.onBackPreventDefault) {
+      this.openBackConfirmModal()
+    } else {
+      this.props.onBack()
+    }
   }
 
-  renderImagePopover () {
+  openBackConfirmModal () {
+    this.setState({
+      backConfirmModalIsOpen: true
+    })
+  }
+
+  closeBackConfirmModal () {
+    this.setState({
+      backConfirmModalIsOpen: false
+    })
+  }
+
+  renderBackConfirmModal () {
     return (
-      <div
-        className='popover-background'
-        onClick={e => {
-          e.preventDefault()
-          this.dismissImagePopover()
-        }}
-      >
-        <div className='image-popover'>
-          <Uploader
-            api='http://file.nightzookeeper.com/images/upload'
-            uploadedImage={(url) => {
-              if (this.writer) {
-                if (this.writer.getWrappedInstance().imageUploadSucceeded) {
-                  this.writer.getWrappedInstance().imageUploadSucceeded(url)
-                }
-                this.dismissImagePopover()
-              }
-            }}
-          />
-        </div>
-        <style jsx>
-          {styles}
-        </style>
-      </div>
+      <ConfirmModal
+        isOpen={this.state.backConfirmModalIsOpen}
+        message={this.props.backConfirmMessage}
+        onConfirm={this.onBackConfirm}
+        onCancel={this.onBackCancel}
+        confirmText={this.props.backConfirmButtonText}
+        cancelText={this.props.backCancelButtonText}
+      />
     )
   }
+
+  onBackConfirm () {
+    this.closeBackConfirmModal()
+    this.props.onBack()
+  }
+
+  onBackCancel () {
+    this.closeBackConfirmModal()
+  }
+
+  // CLEAR
+
+  onClear () {
+    if (!this.onClearPreventDefault) {
+      this.openClearConfirmModal()
+    }
+    this.props.onClear()
+  }
+
+  openClearConfirmModal () {
+    this.setState({
+      clearConfirmModalIsOpen: true
+    })
+  }
+
+  closeClearConfirmModal () {
+    this.setState({
+      clearConfirmModalIsOpen: false
+    })
+  }
+
+  renderClearConfirmModal () {
+    return (
+      <ConfirmModal
+        isOpen={this.state.clearConfirmModalIsOpen}
+        message={this.props.clearConfirmMessage}
+        onConfirm={this.onClearConfirm}
+        onCancel={this.onClearCancel}
+        confirmText={this.props.clearConfirmButtonText}
+        cancelText={this.props.clearCancelButtonText}
+      />
+    )
+  }
+
+  onClearConfirm () {
+    store.dispatch(clear())
+    this.closeClearConfirmModal()
+    // TODO: fix hack, figure out why the tool doesn't
+    // rerender after clear
+  }
+
+  onClearCancel () {
+    this.closeClearConfirmModal()
+  }
+
+  // Render
 
   render () {
     return (
       <Provider store={store}>
-        <div
-          className='host'
-          ref={w => {
-            this.writingtool = w
-          }}
-        >
-          {this.state.modal}
-
+        <div className='host'>
+          {this.renderBackConfirmModal()}
+          {this.renderClearConfirmModal()}
           <div
             className='background'
             style={{
@@ -249,30 +310,21 @@ export default class WritingTool extends Component {
             }}
           />
 
-          {this.state.imagePopoverDisplayed ? this.renderImagePopover() : null}
-
           <div className='column left sidebarOpen' name='leftCol'>
             <Writer
-              ref={w => {
-                this.writer = w
-              }}
               primaryColor={this.state.primaryColor}
               secondaryColor={this.state.primaryFadedColor}
               textColor={this.state.textColor}
               backgroundImage={this.props.backgroundImage}
               light={this.state.light}
-              onMobileFocus={this.closeSidebar.bind(this)}
-              onBack={this.props.onBack}
-              displayImageUploader={this.displayImagePopover.bind(this)}
-              dismissImageUploader={this.dismissImagePopover.bind(this)}
-              onSave={this.props.onSave}
+              onMobileFocus={this.closeSidebar}
               hideTextStyleButtons={this.props.hideTextStyleButtons}
               hideAlignButtons={this.props.hideAlignButtons}
               hideImageButton={this.props.hideImageButton}
               hideClearButton={this.props.hideClearButton}
-              onClear={this.onClear.bind(this)}
-              displayModal={this.displayModal.bind(this)}
-              dismissModal={this.dismissModal.bind(this)}
+              onBack={this.onBack}
+              onSave={this.onSave}
+              onClear={this.onClear}
             />
           </div>
 
@@ -284,7 +336,7 @@ export default class WritingTool extends Component {
               }}
             >
               <Button
-                onClick={this.toggleSidebar.bind(this)}
+                onClick={this.toggleSidebar}
                 bgColor={this.state.secondaryColor}
                 color={this.state.textColor}
                 round

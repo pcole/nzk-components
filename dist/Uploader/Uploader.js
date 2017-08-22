@@ -48,26 +48,16 @@ var Uploader = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Uploader.__proto__ || Object.getPrototypeOf(Uploader)).call(this, props));
 
     _this.state = {
-      progress: 0,
-      images: []
+      progress: 0
     };
     _this.onDrop = _this.onDrop.bind(_this);
     return _this;
   }
 
   _createClass(Uploader, [{
-    key: 'uploadOver',
-    value: function uploadOver() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        _this2.setState({ progress: 0 });
-      }, 2000);
-    }
-  }, {
     key: 'onDrop',
     value: function onDrop(file) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.setState(function () {
         return {
@@ -80,24 +70,12 @@ var Uploader = function (_React$Component) {
       var config = {
         onUploadProgress: function onUploadProgress(progressEvent) {
           var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-          _this3.setState({ progress: percentCompleted });
-          if (percentCompleted === 100) {
-            _this3.uploadOver();
-          }
+          _this2.setState({ progress: percentCompleted });
         }
       };
-      var _ = this;
       _axios2.default.post(this.props.api, data, config).then(function (res) {
-        _this3.props.uploadedImage(res.data.url);
-        var images = _this3.state.images.slice();
-        images.push(res.data.url);
-        _.setState(function () {
-          return {
-            images: images
-          };
-        });
+        _this2.props.uploadedImage(res.data.url);
       }).catch(function (err) {
-        window.alert('Erroooor');
         console.log(err);
       });
     }

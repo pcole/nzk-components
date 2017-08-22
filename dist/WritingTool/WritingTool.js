@@ -57,7 +57,7 @@ var _StatusBar = require('./components/StatusBar/StatusBar');
 
 var _StatusBar2 = _interopRequireDefault(_StatusBar);
 
-var _ConfirmModal = require('./components/ConfirmModal/ConfirmModal');
+var _ConfirmModal = require('../Modal/ConfirmModal');
 
 var _ConfirmModal2 = _interopRequireDefault(_ConfirmModal);
 
@@ -70,10 +70,6 @@ var _store = require('./store/store');
 var _store2 = _interopRequireDefault(_store);
 
 var _actions = require('./store/actions');
-
-var _Uploader = require('../Uploader/Uploader');
-
-var _Uploader2 = _interopRequireDefault(_Uploader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -88,25 +84,33 @@ var store = (0, _store2.default)();
 var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (_Component) {
   _inherits(WritingTool, _Component);
 
-  function WritingTool() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function WritingTool(props) {
     _classCallCheck(this, WritingTool);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, (WritingTool.__proto__ || Object.getPrototypeOf(WritingTool)).call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = WritingTool.__proto__ || Object.getPrototypeOf(WritingTool)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+    _this.state = {
       sidebarOpen: true,
       primaryColor: undefined,
       secondaryColor: undefined,
       textColor: undefined,
-      modal: undefined,
-      imagePopoverDisplayed: false
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+      backConfirmModalIsOpen: false,
+      clearConfirmModalIsOpen: false
+    };
+
+
+    _this.onSave = _this.onSave.bind(_this);
+    _this.onBack = _this.onBack.bind(_this);
+    _this.onBackConfirm = _this.onBackConfirm.bind(_this);
+    _this.onBackCancel = _this.onBackCancel.bind(_this);
+    _this.onClear = _this.onClear.bind(_this);
+    _this.onClearConfirm = _this.onClearConfirm.bind(_this);
+    _this.onClearCancel = _this.onClearCancel.bind(_this);
+    _this.toggleSidebarAnimation = _this.toggleSidebarAnimation.bind(_this);
+    _this.toggleSidebar = _this.toggleSidebar.bind(_this);
+    _this.closeSidebar = _this.closeSidebar.bind(_this);
+    _this.onResize = _this.onResize.bind(_this);
+    return _this;
   }
 
   _createClass(WritingTool, [{
@@ -123,7 +127,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         loadPresetSections: this.props.loadPresetSections
       }));
 
-      window.addEventListener('resize', this.onResize.bind(this));
+      window.addEventListener('resize', this.onResize);
     }
   }, {
     key: 'setColorsFromBackgroundImage',
@@ -166,42 +170,17 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       });
     }
   }, {
-    key: 'displayModal',
-    value: function displayModal(message, onConfirm, onCancel, confirmMessage, cancelMessage) {
-      this.setState({
-        modal: _react2.default.createElement(_ConfirmModal2.default, {
-          message: message,
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          confirmText: confirmMessage,
-          cancelText: cancelMessage
-        })
-      });
-    }
-  }, {
-    key: 'dismissModal',
-    value: function dismissModal() {
-      this.setState({
-        modal: null
-      });
-    }
-  }, {
     key: 'onResize',
     value: function onResize(e) {
       if (e.target.window.innerWidth > 1280) {
         this.setState({ sidebarOpen: true });
-        this.addAnimation(this.toggleSidebarAnimation.bind(this));
+        this.addAnimation(this.toggleSidebarAnimation);
       }
     }
   }, {
-    key: 'onClear',
-    value: function onClear() {
-      store.dispatch(_actions.clear);
-    }
-  }, {
     key: 'toggleSidebarAnimation',
-    value: function toggleSidebarAnimation(_ref2) {
-      var target = _ref2.target;
+    value: function toggleSidebarAnimation(_ref) {
+      var target = _ref.target;
 
       var left = target.find({ name: 'leftCol' });
       var right = target.find({ name: 'rightCol' });
@@ -220,80 +199,140 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'toggleSidebar',
     value: function toggleSidebar() {
-      this.addAnimation(this.toggleSidebarAnimation.bind(this));
+      this.addAnimation(this.toggleSidebarAnimation);
       this.setState({ sidebarOpen: !this.state.sidebarOpen });
     }
   }, {
     key: 'closeSidebar',
     value: function closeSidebar() {
-      this.addAnimation(this.toggleSidebarAnimation.bind(this));
+      this.addAnimation(this.toggleSidebarAnimation);
       this.setState({ sidebarOpen: false });
     }
-  }, {
-    key: 'displayImagePopover',
-    value: function displayImagePopover() {
-      this.setState({ imagePopoverDisplayed: true });
-    }
-  }, {
-    key: 'dismissImagePopover',
-    value: function dismissImagePopover() {
-      this.setState({ imagePopoverDisplayed: false });
-    }
-  }, {
-    key: 'renderImagePopover',
-    value: function renderImagePopover() {
-      var _this3 = this;
 
-      return _react2.default.createElement(
-        'div',
-        {
-          className: 'popover-background',
-          onClick: function onClick(e) {
-            e.preventDefault();
-            _this3.dismissImagePopover();
-          },
-          'data-jsx-ext': _WritingTool2.default.__scopedHash
-        },
-        _react2.default.createElement(
-          'div',
-          { className: 'image-popover', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-          },
-          _react2.default.createElement(_Uploader2.default, {
-            api: 'http://file.nightzookeeper.com/images/upload',
-            uploadedImage: function uploadedImage(url) {
-              if (_this3.writer) {
-                if (_this3.writer.getWrappedInstance().imageUploadSucceeded) {
-                  _this3.writer.getWrappedInstance().imageUploadSucceeded(url);
-                }
-                _this3.dismissImagePopover();
-              }
-            }
-          })
-        ),
-        _react2.default.createElement(_style2.default, {
-          styleId: _WritingTool2.default.__scopedHash,
-          css: _WritingTool2.default.__scoped
-        })
-      );
+    // SAVE
+
+  }, {
+    key: 'onSave',
+    value: function onSave() {
+      if (!this.onSavePreventDefault) {
+        // TODO, modal warning about min words and saving as draft
+      }
+      this.props.onSave();
     }
+
+    // BACK
+
+  }, {
+    key: 'onBack',
+    value: function onBack() {
+      if (!this.onBackPreventDefault) {
+        this.openBackConfirmModal();
+      } else {
+        this.props.onBack();
+      }
+    }
+  }, {
+    key: 'openBackConfirmModal',
+    value: function openBackConfirmModal() {
+      this.setState({
+        backConfirmModalIsOpen: true
+      });
+    }
+  }, {
+    key: 'closeBackConfirmModal',
+    value: function closeBackConfirmModal() {
+      this.setState({
+        backConfirmModalIsOpen: false
+      });
+    }
+  }, {
+    key: 'renderBackConfirmModal',
+    value: function renderBackConfirmModal() {
+      return _react2.default.createElement(_ConfirmModal2.default, {
+        isOpen: this.state.backConfirmModalIsOpen,
+        message: this.props.backConfirmMessage,
+        onConfirm: this.onBackConfirm,
+        onCancel: this.onBackCancel,
+        confirmText: this.props.backConfirmButtonText,
+        cancelText: this.props.backCancelButtonText
+      });
+    }
+  }, {
+    key: 'onBackConfirm',
+    value: function onBackConfirm() {
+      this.closeBackConfirmModal();
+      this.props.onBack();
+    }
+  }, {
+    key: 'onBackCancel',
+    value: function onBackCancel() {
+      this.closeBackConfirmModal();
+    }
+
+    // CLEAR
+
+  }, {
+    key: 'onClear',
+    value: function onClear() {
+      if (!this.onClearPreventDefault) {
+        this.openClearConfirmModal();
+      }
+      this.props.onClear();
+    }
+  }, {
+    key: 'openClearConfirmModal',
+    value: function openClearConfirmModal() {
+      this.setState({
+        clearConfirmModalIsOpen: true
+      });
+    }
+  }, {
+    key: 'closeClearConfirmModal',
+    value: function closeClearConfirmModal() {
+      this.setState({
+        clearConfirmModalIsOpen: false
+      });
+    }
+  }, {
+    key: 'renderClearConfirmModal',
+    value: function renderClearConfirmModal() {
+      return _react2.default.createElement(_ConfirmModal2.default, {
+        isOpen: this.state.clearConfirmModalIsOpen,
+        message: this.props.clearConfirmMessage,
+        onConfirm: this.onClearConfirm,
+        onCancel: this.onClearCancel,
+        confirmText: this.props.clearConfirmButtonText,
+        cancelText: this.props.clearCancelButtonText
+      });
+    }
+  }, {
+    key: 'onClearConfirm',
+    value: function onClearConfirm() {
+      store.dispatch((0, _actions.clear)());
+      this.closeClearConfirmModal();
+      // TODO: fix hack, figure out why the tool doesn't
+      // rerender after clear
+    }
+  }, {
+    key: 'onClearCancel',
+    value: function onClearCancel() {
+      this.closeClearConfirmModal();
+    }
+
+    // Render
+
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
       return _react2.default.createElement(
         _reactRedux.Provider,
         { store: store },
         _react2.default.createElement(
           'div',
-          {
-            className: 'host',
-            ref: function ref(w) {
-              _this4.writingtool = w;
-            },
-            'data-jsx-ext': _WritingTool2.default.__scopedHash
+          { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
           },
-          this.state.modal,
+          this.renderBackConfirmModal(),
+          this.renderClearConfirmModal(),
           _react2.default.createElement('div', {
             className: 'background',
             style: {
@@ -301,32 +340,24 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             },
             'data-jsx-ext': _WritingTool2.default.__scopedHash
           }),
-          this.state.imagePopoverDisplayed ? this.renderImagePopover() : null,
           _react2.default.createElement(
             'div',
             { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
             _react2.default.createElement(_Writer2.default, {
-              ref: function ref(w) {
-                _this4.writer = w;
-              },
               primaryColor: this.state.primaryColor,
               secondaryColor: this.state.primaryFadedColor,
               textColor: this.state.textColor,
               backgroundImage: this.props.backgroundImage,
               light: this.state.light,
-              onMobileFocus: this.closeSidebar.bind(this),
-              onBack: this.props.onBack,
-              displayImageUploader: this.displayImagePopover.bind(this),
-              dismissImageUploader: this.dismissImagePopover.bind(this),
-              onSave: this.props.onSave,
+              onMobileFocus: this.closeSidebar,
               hideTextStyleButtons: this.props.hideTextStyleButtons,
               hideAlignButtons: this.props.hideAlignButtons,
               hideImageButton: this.props.hideImageButton,
               hideClearButton: this.props.hideClearButton,
-              onClear: this.onClear.bind(this),
-              displayModal: this.displayModal.bind(this),
-              dismissModal: this.dismissModal.bind(this)
+              onBack: this.onBack,
+              onSave: this.onSave,
+              onClear: this.onClear
             })
           ),
           _react2.default.createElement(
@@ -345,7 +376,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               _react2.default.createElement(
                 _Button2.default,
                 {
-                  onClick: this.toggleSidebar.bind(this),
+                  onClick: this.toggleSidebar,
                   bgColor: this.state.secondaryColor,
                   color: this.state.textColor,
                   round: true,
@@ -414,6 +445,8 @@ WritingTool.propTypes = {
   }),
   onBack: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
+  onBackPreventDefault: _propTypes2.default.bool,
+  onSavePreventDefault: _propTypes2.default.bool,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
   hideAlignButtons: _propTypes2.default.bool,
@@ -422,6 +455,16 @@ WritingTool.propTypes = {
 WritingTool.defaultProps = {
   lang: 'en',
   hideClearButton: true,
-  backgroundImage: '/assets/temple.jpg'
+  backgroundImage: '/assets/temple.jpg',
+  onSave: function onSave() {},
+  onBack: function onBack() {},
+  onSavePreventDefault: false,
+  onBackPreventDefault: false,
+  backConfirmMessage: 'Are you sure? Have you saved your work?',
+  backConfirmButtonText: 'Yes',
+  backCancelButtonText: 'No',
+  clearConfirmMessage: 'Are you sure? You will loose your work.',
+  clearConfirmButtonText: 'Yes',
+  clearCancelButtonText: 'No'
 };
 exports.default = WritingTool;

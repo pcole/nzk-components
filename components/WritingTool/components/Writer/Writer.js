@@ -6,10 +6,12 @@ import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
 import debounce from 'lodash/debounce'
 import JsPDF from 'jspdf'
-import Icon from '../../../Icon/Icon'
-import Button from '../../../Button/Button'
-import styles from './Writer.styles'
 import { setWordCount, setWriting } from '../../store/actions'
+import Modal from '../../../Modal'
+import Uploader from '../../../Uploader'
+import Icon from '../../../Icon'
+import Button from '../../../Button'
+import styles from './Writer.styles'
 
 /**
  * Define the default node type.
@@ -40,7 +42,6 @@ const schema = {
           style={{
             maxWidth: '75%',
             maxHeight: '400px',
-            textAlign: 'center',
             display: 'block',
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -115,15 +116,6 @@ const schema = {
     },
     underlined: {
       textDecoration: 'underline'
-    },
-    sizeOne: {
-      fontSize: '12px'
-    },
-    sizeTwo: {
-      fontSize: '17px'
-    },
-    sizeThree: {
-      fontSize: '22px'
     }
   }
 }
@@ -132,7 +124,7 @@ const BLOCK_TAGS = {
   p: 'paragraph',
   em: 'italic',
   u: 'underline',
-  s: 'strikethrough'
+  img: 'image'
 }
 
 const MARK_TAGS = {
@@ -146,6 +138,7 @@ const rules = [
     deserialize (el, next) {
       if (!el.tagName) return
       const block = BLOCK_TAGS[el.tagName.toLowerCase()]
+
       if (!block) return
 
       let type = block
@@ -164,10 +157,17 @@ const rules = [
         }
       }
 
+      const data = {}
+
+      if (type === 'image') {
+        data.src = el.src
+      }
+
       return {
         kind: 'block',
         type: type,
-        nodes: next(el.childNodes)
+        nodes: next(el.childNodes),
+        data: data
       }
     }
   },
@@ -209,7 +209,6 @@ const rules = [
               style={{
                 maxWidth: '75%',
                 maxHeight: '400px',
-                textAlign: 'center',
                 display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -260,18 +259,13 @@ const rules = [
 ]
 const html = new Html({ rules })
 
-@connect(
-  store => {
-    return {
-      placeholders: store.placeholders,
-      writing: store.writing,
-      constraints: store.constraints
-    }
-  },
-  null,
-  null,
-  { withRef: true }
-)
+@connect(store => {
+  return {
+    placeholders: store.placeholders,
+    writing: store.writing,
+    constraints: store.constraints
+  }
+})
 @GSAP()
 export default class Writer extends Component {
   static propTypes = {
@@ -283,8 +277,6 @@ export default class Writer extends Component {
     textColor: PropTypes.any,
     light: PropTypes.bool,
     onMobileFocus: PropTypes.func,
-    displayImageUploader: PropTypes.func,
-    dismissImageUploader: PropTypes.func,
     onBack: PropTypes.func,
     onClear: PropTypes.func,
     onSave: PropTypes.func,
@@ -315,7 +307,7 @@ export default class Writer extends Component {
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
-      modal: null
+      imageUploaderModalIsOpen: false
     }
 
     this.onStateChange = this.onStateChange.bind(this)
@@ -327,8 +319,9 @@ export default class Writer extends Component {
     this.writerRef = this.writerRef.bind(this)
     this.slateEditorRef = this.slateEditorRef.bind(this)
     this.onTitleKeyDown = this.onTitleKeyDown.bind(this)
-    this.imageUploadSucceeded = this.imageUploadSucceeded.bind(this)
+    this.closeImageUploaderModal = this.closeImageUploaderModal.bind(this)
     this.insertImage = this.insertImage.bind(this)
+    this.onSave = this.onSave.bind(this)
 
     this.onDebouncedDocumentChange = debounce(
       this.onDebouncedDocumentChange,
@@ -413,8 +406,6 @@ export default class Writer extends Component {
     this.setState({ writingState })
   }
 
-  save () {}
-
   /**
    * When a mark button is clicked, toggle the current mark.
    *
@@ -452,7 +443,7 @@ export default class Writer extends Component {
     const transform = writingState.transform()
 
     if (type === 'image') {
-      this.props.displayImageUploader()
+      this.openImageUploaderModal()
     } else {
       const isActive = this.hasBlock(type)
       transform.setBlock(isActive ? DEFAULT_NODE : type)
@@ -460,13 +451,6 @@ export default class Writer extends Component {
 
     writingState = transform.apply()
     this.setState({ writingState })
-  }
-
-  imageUploadSucceeded (url) {
-    if (!url) return
-    let { writingState } = this.state
-    writingState = this.insertImage(writingState, url)
-    this.onStateChange(writingState)
   }
 
   render = () => {
@@ -489,6 +473,7 @@ export default class Writer extends Component {
     return (
       <div className='host' style={hostStyle}>
         {this.renderToolbar()}
+        {this.renderImageUploaderModal()}
 
         <div className='writer' ref={this.writerRef}>
           <div
@@ -518,7 +503,12 @@ export default class Writer extends Component {
     )
   }
 
-  saveAction () {
+  onSave () {
+    this.props.dispatch(
+      setWriting({
+        text: html.serialize(this.state.writingState)
+      })
+    )
     this.props.onSave()
   }
 
@@ -573,27 +563,7 @@ export default class Writer extends Component {
       >
         <div className='menu toolbar-menu' style={bgStyle}>
           <div className='toolbar-button'>
-            <Button
-              bgColor='white'
-              shadow
-              round
-              onClick={
-                this.props.onBack
-                  ? () => {
-                    this.props.displayModal(
-                        'Are you sure? Have you saved your work?',
-                        () => {
-                          this.props.onClear()
-                          this.props.onBack()
-                        },
-                        this.props.dismissModal,
-                        'Yes',
-                        'No'
-                      )
-                  }
-                  : () => {}
-              }
-            >
+            <Button bgColor='white' shadow round onClick={this.props.onBack}>
               <Icon name='left' color='black' />
             </Button>
           </div>
@@ -614,24 +584,14 @@ export default class Writer extends Component {
             this.renderBlockButton('image', 'picture-o')}
 
           <div className='toolbar-button save'>
-            <Button bgColor='white' shadow onClick={this.saveAction.bind(this)}>
+            <Button bgColor='white' shadow onClick={this.onSave}>
               SAVE
             </Button>
           </div>
 
           {!this.props.hideClearButton &&
             <div className='toolbar-button save'>
-              <Button
-                bgColor='white'
-                shadow
-                onClick={() => {
-                  this.props.displayModal(
-                    'Are you sure? This will clear everything on the page.',
-                    this.props.onclear,
-                    this.props.dismissModal
-                  )
-                }}
-              >
+              <Button bgColor='white' shadow onClick={this.props.onClear}>
                 Clear
               </Button>
             </div>}
@@ -796,6 +756,50 @@ export default class Writer extends Component {
       () => {
         pdf.save('WritingToolExport.pdf')
       }
+    )
+  }
+
+  openImageUploaderModal () {
+    this.setState({
+      imageUploaderModalIsOpen: true
+    })
+  }
+
+  closeImageUploaderModal () {
+    this.setState({
+      imageUploaderModalIsOpen: false
+    })
+  }
+
+  renderImageUploaderModal = () => {
+    return (
+      <Modal isOpen={this.state.imageUploaderModalIsOpen}>
+        <div
+          onClick={this.closeImageUploaderModal}
+          className='image-uploader-container'
+        >
+          <div className='image-uploader'>
+            <Uploader
+              api='http://file.nightzookeeper.com/images/upload'
+              uploadedImage={url => {
+                if (!url) return
+                let { writingState } = this.state
+                writingState = this.insertImage(writingState, url)
+                this.onStateChange(writingState)
+                this.closeImageUploaderModal()
+              }}
+            />
+          </div>
+          <div className='image-uploader-close-button'>
+            <Button round shadow bgColor='grey'>
+              <Icon name='cross' />
+            </Button>
+          </div>
+        </div>
+        <style jsx>
+          {styles}
+        </style>
+      </Modal>
     )
   }
 
