@@ -18,7 +18,7 @@ export class PromptContainer extends React.Component {
 
   constructor (props) {
     super(props)
-    this.maxLength = props.image ? 130 : 280
+    this.maxLength = props.image ? 80 : 280
     let content = props.description
 
     if (content.length > this.maxLength) {
@@ -57,9 +57,9 @@ export class PromptContainer extends React.Component {
       <div className='prompt-content'>
         <p className='prompt-description'>
           {this.props.image &&
-            <span
+            <img
+              src={this.props.image}
               className={`prompt-image ${this.props.description ? '' : 'full'}`}
-              style={{ backgroundImage: `url("${this.props.image}")` }}
               onClick={this.props.onImageClick}
             />}
 

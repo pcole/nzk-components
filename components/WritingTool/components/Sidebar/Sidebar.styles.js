@@ -53,8 +53,7 @@ export default `
 
   .prompt-content {
     display: flex;
-    min-height: 150px;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-left: 5px;
   }
 
@@ -66,20 +65,16 @@ export default `
   .prompt-image {
     position: relative;
     display: inline-block;
-    min-width: 40%;
-    height: 150px;
+    width: 40%;
+    height: auto;
     float: left;
-    max-width: 300px;
     margin-right: 20px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   .prompt-image.full {
     float: none;
     margin: 0px auto 0px auto;
-    min-width: 80%;
+    min-width: 60%;
     display: block;
   }
 

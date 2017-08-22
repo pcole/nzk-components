@@ -49,7 +49,7 @@ var PromptContainer = exports.PromptContainer = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (PromptContainer.__proto__ || Object.getPrototypeOf(PromptContainer)).call(this, props));
 
-    _this.maxLength = props.image ? 130 : 280;
+    _this.maxLength = props.image ? 80 : 280;
     var content = props.description;
 
     if (content.length > _this.maxLength) {
@@ -85,9 +85,9 @@ var PromptContainer = exports.PromptContainer = function (_React$Component) {
           'p',
           { className: 'prompt-description', 'data-jsx-ext': _Sidebar2.default.__scopedHash
           },
-          this.props.image && _react2.default.createElement('span', {
+          this.props.image && _react2.default.createElement('img', {
+            src: this.props.image,
             className: 'prompt-image ' + (this.props.description ? '' : 'full'),
-            style: { backgroundImage: 'url("' + this.props.image + '")' },
             onClick: this.props.onImageClick,
             'data-jsx-ext': _Sidebar2.default.__scopedHash
           }),
