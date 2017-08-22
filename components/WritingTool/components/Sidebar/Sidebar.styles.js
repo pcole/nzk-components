@@ -54,7 +54,7 @@ export default `
   .prompt-content {
     display: flex;
     min-height: 150px;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 5px;
   }
 
@@ -75,8 +75,22 @@ export default `
     background-repeat: no-repeat;
   }
 
+  .prompt-image.full {
+    float: none;
+    margin: 0px auto 0px auto;
+    min-width: 80%;
+    display: block;
+  }
+
   .prompt-description {
-    display: inline;
+    display: block;
+    min-width: 100%;
+    font-size: 1.2em;
+    line-height: 1.2em;
+  }
+
+  .read-more, .read-less {
+    cursor: pointer;
   }
 
   .bottom-gradient {

@@ -186,11 +186,12 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       var right = target.find({ name: 'rightCol' });
 
       if (!this.state.sidebarOpen) {
-        return new _gsap.TimelineMax().to(left, 1, { ease: _gsap.Bounce.easeOut,
+        return new _gsap.TimelineMax().to(left, 1, {
+          ease: _gsap.Bounce.easeOut,
           width: 'calc(100vw - 20px)'
-        }, 0).to(right, 1, { ease: _gsap.Bounce.easeOut,
+        }, 0).to(right, 1, {
+          ease: _gsap.Bounce.easeOut,
           width: '20px'
-
         }, 0);
       } else {
         return new _gsap.TimelineMax().to(left, 1, { ease: _gsap.Bounce.easeOut, width: 'calc(100vw - 415px)' }, 0).to(right, 1, { ease: _gsap.Bounce.easeOut, width: '415px' }, 0);

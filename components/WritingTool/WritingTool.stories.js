@@ -24,13 +24,13 @@ storiesOf('WritingTool', module)
   .add('WritingTool', () =>
     <WritingTool
       image={text('BackgroundImage', '/assets/temple.jpg')}
-      // prompt={{
-      //   image: text('Image', '/assets/temple.jpg'),
-      //   description: text(
-      //     'Description',
-      //     'Make your planning notes below and use them to help inspire your creative writing.'
-      //   )
-      // }}
+      prompt={{
+        image: text('Image', '/assets/temple.jpg'),
+        description: text(
+          'Description',
+          'Make your planning notes below and use them to help inspire your creative writing. Make your planning notes below and use them to help inspire your creative writing. Make your planning notes below and use them to help inspire your creative writing. Make your planning notes below and use them to help inspire your creative writing.'
+        )
+      }}
       writingType={select('type', types, 'poem')}
       lang='en'
       hideImageButton={boolean('hideImageButton', false)}

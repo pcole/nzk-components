@@ -18,14 +18,20 @@ export class PromptContainer extends React.Component {
 
   constructor (props) {
     super(props)
-    this.maxLength = props.image ? 190 : 400
+    this.maxLength = props.image ? 130 : 280
+    let content = props.description
 
-    if (props.description.length > this.maxLength) {
-      var content = props.description.substring(0, this.maxLength).split(' ').filter((word) => {
-        return word !== ''
-      }).join(' ')
+    if (content.length > this.maxLength) {
+      content = content
+        .substring(0, this.maxLength)
+        .split(' ')
+        .filter(word => {
+          return word !== ''
+        })
+        .join(' ')
       content += '... '
     }
+
     this.state = {
       content: content
     }
@@ -33,47 +39,45 @@ export class PromptContainer extends React.Component {
 
   readMore () {
     this.setState({
-      content: this.state.content.length > this.props.description.length - 3
-        ? this.props.description.substring(0, this.maxLength).split(' ').filter((word) => {
-          return word !== ''
-        }).join(' ') + '... '
-        : this.props.description + ' '
+      content:
+        this.state.content.length > this.props.description.length - 3
+          ? this.props.description
+              .substring(0, this.maxLength)
+              .split(' ')
+              .filter(word => {
+                return word !== ''
+              })
+              .join(' ') + '... '
+          : this.props.description + ' '
     })
   }
 
   render () {
     return (
       <div className='prompt-content'>
-        {this.props.description &&
         <p className='prompt-description'>
-
           {this.props.image &&
-          <span
-            ref={(image) => {
-              this.image = image
-            }} className='prompt-image'
-            style={{backgroundImage: `url("${this.props.image}")`}}
-            onClick={this.props.onImageClick}
-          />}
+            <span
+              className={`prompt-image ${this.props.description ? '' : 'full'}`}
+              style={{ backgroundImage: `url("${this.props.image}")` }}
+              onClick={this.props.onImageClick}
+            />}
 
-          <span ref={(desc) => {
-            this.description = desc
-          }}>
+          <span>
             {this.state.content}
 
-            {this.props.description.length > this.maxLength
-              ? <a className='read-more' onClick={this.readMore.bind(this)}>
+            {this.props.description.length > this.maxLength &&
+              <a className='read-more' onClick={this.readMore.bind(this)}>
                 {this.state.content.length < this.props.description.length
-                  ? 'Read more'
-                  : 'Read less'
-                }</a>
-              : null
-            }
+                  ? <span className='read-more'>Read&nbsp;more</span>
+                  : <span className='read-less'>Read&nbsp;less</span>}
+              </a>}
           </span>
+        </p>
 
-        </p>}
-
-        <style jsx>{styles}</style>
+        <style jsx>
+          {styles}
+        </style>
       </div>
     )
   }
@@ -178,8 +182,10 @@ export default class Sidebar extends Component {
         </div>
 
         {(image || description) &&
-          <PromptContainer {...this.props.prompt} onImageClick={this.onPromptImageClicked} />
-        }
+          <PromptContainer
+            {...this.props.prompt}
+            onImageClick={this.onPromptImageClicked}
+          />}
 
         <style jsx>
           {styles}

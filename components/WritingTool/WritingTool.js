@@ -173,13 +173,24 @@ export default class WritingTool extends Component {
 
     if (!this.state.sidebarOpen) {
       return new TimelineMax()
-        .to(left, 1, { ease: Bounce.easeOut,
+        .to(
+          left,
+          1,
+        {
+          ease: Bounce.easeOut,
           width: 'calc(100vw - 20px)'
-        }, 0)
-        .to(right, 1, { ease: Bounce.easeOut,
+        },
+          0
+        )
+        .to(
+          right,
+          1,
+        {
+          ease: Bounce.easeOut,
           width: '20px'
-
-        }, 0)
+        },
+          0
+        )
     } else {
       return new TimelineMax()
         .to(left, 1, { ease: Bounce.easeOut, width: 'calc(100vw - 415px)' }, 0)

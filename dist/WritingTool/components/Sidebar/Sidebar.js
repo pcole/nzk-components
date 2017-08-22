@@ -49,14 +49,16 @@ var PromptContainer = exports.PromptContainer = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (PromptContainer.__proto__ || Object.getPrototypeOf(PromptContainer)).call(this, props));
 
-    _this.maxLength = props.image ? 190 : 400;
+    _this.maxLength = props.image ? 130 : 280;
+    var content = props.description;
 
-    if (props.description.length > _this.maxLength) {
-      var content = props.description.substring(0, _this.maxLength).split(' ').filter(function (word) {
+    if (content.length > _this.maxLength) {
+      content = content.substring(0, _this.maxLength).split(' ').filter(function (word) {
         return word !== '';
       }).join(' ');
       content += '... ';
     }
+
     _this.state = {
       content: content
     };
@@ -75,37 +77,42 @@ var PromptContainer = exports.PromptContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         'div',
         { className: 'prompt-content', 'data-jsx-ext': _Sidebar2.default.__scopedHash
         },
-        this.props.description && _react2.default.createElement(
+        _react2.default.createElement(
           'p',
           { className: 'prompt-description', 'data-jsx-ext': _Sidebar2.default.__scopedHash
           },
           this.props.image && _react2.default.createElement('span', {
-            ref: function ref(image) {
-              _this2.image = image;
-            }, className: 'prompt-image',
+            className: 'prompt-image ' + (this.props.description ? '' : 'full'),
             style: { backgroundImage: 'url("' + this.props.image + '")' },
             onClick: this.props.onImageClick,
             'data-jsx-ext': _Sidebar2.default.__scopedHash
           }),
           _react2.default.createElement(
             'span',
-            { ref: function ref(desc) {
-                _this2.description = desc;
-              }, 'data-jsx-ext': _Sidebar2.default.__scopedHash
+            {
+              'data-jsx-ext': _Sidebar2.default.__scopedHash
             },
             this.state.content,
-            this.props.description.length > this.maxLength ? _react2.default.createElement(
+            this.props.description.length > this.maxLength && _react2.default.createElement(
               'a',
               { className: 'read-more', onClick: this.readMore.bind(this), 'data-jsx-ext': _Sidebar2.default.__scopedHash
               },
-              this.state.content.length < this.props.description.length ? 'Read more' : 'Read less'
-            ) : null
+              this.state.content.length < this.props.description.length ? _react2.default.createElement(
+                'span',
+                { className: 'read-more', 'data-jsx-ext': _Sidebar2.default.__scopedHash
+                },
+                'Read\xA0more'
+              ) : _react2.default.createElement(
+                'span',
+                { className: 'read-less', 'data-jsx-ext': _Sidebar2.default.__scopedHash
+                },
+                'Read\xA0less'
+              )
+            )
           )
         ),
         _react2.default.createElement(_style2.default, {
@@ -172,7 +179,7 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var hostStyle = {
         backgroundColor: this.props.primaryColor
@@ -191,8 +198,8 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
             return _react2.default.createElement(_Section2.default, {
               key: index,
               index: index,
-              bgColor: _this4.props.secondaryColor,
-              textColor: _this4.props.textColor
+              bgColor: _this3.props.secondaryColor,
+              textColor: _this3.props.textColor
             });
           }),
           _react2.default.createElement('div', { className: 'bottom-gradient', 'data-jsx-ext': _Sidebar2.default.__scopedHash
@@ -247,7 +254,9 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
             title
           )
         ),
-        (image || description) && _react2.default.createElement(PromptContainer, _extends({}, this.props.prompt, { onImageClick: this.onPromptImageClicked })),
+        (image || description) && _react2.default.createElement(PromptContainer, _extends({}, this.props.prompt, {
+          onImageClick: this.onPromptImageClicked
+        })),
         _react2.default.createElement(_style2.default, {
           styleId: _Sidebar2.default.__scopedHash,
           css: _Sidebar2.default.__scoped
