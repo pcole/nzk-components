@@ -37,6 +37,7 @@ storiesOf('WritingTool', module)
       hideTextStyleButtons={boolean('hideTextStyleButtons', false)}
       hideAlignButtons={boolean('hideAlignButtons', false)}
       hideClearButton={boolean('hideClearButton', false)}
+      hideSaveButton={boolean('hideSaveButton', false)}
       onBack={() => {
         window.alert('on back callback')
       }}

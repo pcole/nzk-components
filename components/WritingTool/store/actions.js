@@ -7,6 +7,10 @@ export function init (dispatch, settings) {
 
   const preset = writingTypePresets[settings.lang][settings.writingType]
 
+  if (settings.reset) {
+    dispatch(reset())
+  }
+
   dispatch(initPlaceholders(dispatch, preset, settings))
   dispatch(initWriting(dispatch, preset, settings))
   dispatch(initConstraints(dispatch, preset, settings))

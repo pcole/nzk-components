@@ -13,7 +13,7 @@ import StatusBar from './components/StatusBar/StatusBar'
 import ConfirmModal from '../Modal/ConfirmModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
-import { init, clear, reset } from './store/actions'
+import { init, clear } from './store/actions'
 const store = Store()
 
 @GSAP()
@@ -52,28 +52,28 @@ export default class WritingTool extends Component {
     }),
     onBack: PropTypes.func,
     onSave: PropTypes.func,
-    onBackPreventDefault: PropTypes.bool,
-    onSavePreventDefault: PropTypes.bool,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
-    hideClearButton: PropTypes.bool
+    hideClearButton: PropTypes.bool,
+    hideSaveButton: PropTypes.bool,
+    reset: PropTypes.bool // Ignore anything in localstorage if true
   }
 
   static defaultProps = {
     lang: 'en',
-    hideClearButton: true,
     backgroundImage: '/assets/temple.jpg',
     onSave: () => {},
     onBack: () => {},
-    onSavePreventDefault: false,
-    onBackPreventDefault: false,
     backConfirmMessage: 'Are you sure? Have you saved your work?',
     backConfirmButtonText: 'Yes',
     backCancelButtonText: 'No',
     clearConfirmMessage: 'Are you sure? You will loose your work.',
     clearConfirmButtonText: 'Yes',
-    clearCancelButtonText: 'No'
+    clearCancelButtonText: 'No',
+    hideClearButton: true,
+    hideSaveButton: false,
+    reset: false
   }
 
   state = {
@@ -111,7 +111,8 @@ export default class WritingTool extends Component {
         constraints: this.props.constraints,
         prompt: this.props.prompt,
         sections: this.props.sections,
-        loadPresetSections: this.props.loadPresetSections
+        loadPresetSections: this.props.loadPresetSections,
+        reset: this.props.reset
       })
     )
 
@@ -211,20 +212,21 @@ export default class WritingTool extends Component {
   // SAVE
 
   onSave () {
-    if (!this.onSavePreventDefault) {
-      // TODO, modal warning about min words and saving as draft
-    }
-    this.props.onSave()
+    // TODO: show modal to warn about constraints not met
+    // saving as draft...
+    this.save()
+  }
+
+  save () {
+    this.props.onSave(
+      store.getState().writing,
+      store.getState().sections
+    )
   }
 
   // BACK
-
   onBack () {
-    if (!this.onBackPreventDefault) {
-      this.openBackConfirmModal()
-    } else {
-      this.props.onBack()
-    }
+    this.openBackConfirmModal()
   }
 
   openBackConfirmModal () {
@@ -254,7 +256,6 @@ export default class WritingTool extends Component {
 
   onBackConfirm () {
     this.closeBackConfirmModal()
-    store.dispatch(reset())
     this.props.onBack()
   }
 
@@ -329,6 +330,7 @@ export default class WritingTool extends Component {
               hideAlignButtons={this.props.hideAlignButtons}
               hideImageButton={this.props.hideImageButton}
               hideClearButton={this.props.hideClearButton}
+              hideSaveButton={this.props.hideSaveButton}
               onBack={this.onBack}
               onSave={this.onSave}
               onClear={this.onClear}

@@ -584,11 +584,12 @@ export default class Writer extends Component {
             </Button>
           </div>
 
-          <div className='toolbar-button save'>
-            <Button bgColor='white' shadow onClick={this.onSave}>
-              SAVE
-            </Button>
-          </div>
+          {!this.props.hideSaveButton &&
+            <div className='toolbar-button save'>
+              <Button bgColor='white' shadow onClick={this.onSave}>
+                SAVE
+              </Button>
+            </div>}
 
           {!this.props.hideClearButton &&
             <div className='toolbar-button clear'>
