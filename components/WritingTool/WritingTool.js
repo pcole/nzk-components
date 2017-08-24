@@ -218,10 +218,7 @@ export default class WritingTool extends Component {
   }
 
   save () {
-    this.props.onSave(
-      store.getState().writing,
-      store.getState().sections
-    )
+    this.props.onSave(store.getState().writing, store.getState().sections)
   }
 
   // BACK

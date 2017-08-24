@@ -150,15 +150,14 @@
 .icon-underline:before {
   content: "\4b";
 }
-.icon-picture-o:before {
+.icon-picture:before {
   content: "\4a";
 }
-
-/* Position adjustments */
-.icon-up:before {
-  position: relative;
-  top: -0.06em;
+.icon-time-travel:before {
+  content: "\72";
 }
+
+/* Position Adjustments */
 .icon-right:before {
   position: relative;
   left: 0.06em;
@@ -167,8 +166,11 @@
   position: relative;
   left: -0.06em;
 }
-
 .icon-cross:before {
   position: relative;
   left: 0.04em;
+}
+.icon-time-travel:before {
+  position: relative;
+  top: -0.03em;
 }

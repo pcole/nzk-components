@@ -36,6 +36,10 @@ function init(dispatch, settings) {
 
   var preset = _writingTypePresets2.default[settings.lang][settings.writingType];
 
+  if (settings.reset) {
+    dispatch(reset());
+  }
+
   dispatch(initPlaceholders(dispatch, preset, settings));
   dispatch(initWriting(dispatch, preset, settings));
   dispatch(initConstraints(dispatch, preset, settings));

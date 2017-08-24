@@ -54,7 +54,8 @@ var Icon = function (_Component) {
       var style = {
         color: color,
         fontSize: fontSize,
-        verticalAlign: 'middle'
+        verticalAlign: 'bottom',
+        textAlign: 'center'
       };
 
       var className = (0, _classnames2.default)(_defineProperty({}, 'icon-' + name, true));

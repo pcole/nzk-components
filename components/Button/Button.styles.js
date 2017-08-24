@@ -22,7 +22,7 @@ export default `
 
   .button > :global(i) {
     position: relative;
-    top: 2px;
+    top: 3px;
   }
 
   .button + .button {

@@ -42,21 +42,65 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ConfirmModal = function (_Component) {
   _inherits(ConfirmModal, _Component);
 
-  function ConfirmModal() {
+  function ConfirmModal(props) {
     _classCallCheck(this, ConfirmModal);
 
-    return _possibleConstructorReturn(this, (ConfirmModal.__proto__ || Object.getPrototypeOf(ConfirmModal)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (ConfirmModal.__proto__ || Object.getPrototypeOf(ConfirmModal)).call(this, props));
+
+    _this.state = {
+      open: _this.props.isOpen,
+      confirm: false
+    };
+    return _this;
   }
 
   _createClass(ConfirmModal, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      if (newProps.isOpen !== this.props.isOpen) {
+        this.setState({
+          open: newProps.isOpen
+        });
+      }
+    }
+  }, {
+    key: 'onConfirm',
+    value: function onConfirm() {
+      this.setState({
+        confirm: true,
+        open: false
+      });
+    }
+  }, {
+    key: 'onCancel',
+    value: function onCancel() {
+      this.setState({
+        confirm: false,
+        open: false
+      });
+    }
+  }, {
+    key: 'onAfterClose',
+    value: function onAfterClose() {
+      this.props.onAfterClose && this.props.onAfterClose(this.state.confirm);
+      this.state.confirm && this.props.onConfirm && this.props.onConfirm();
+      !this.state.confirm && this.props.onCancel && this.props.onCancel();
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         _Modal2.default,
-        this.props,
+        {
+          isOpen: this.state.open,
+          delayCloseTimeoutMS: this.props.delayCloseTimeoutMS,
+          overlayColor: 'transparent',
+          onAfterClose: this.onAfterClose.bind(this),
+          contentLabel: this.props.contentLabel
+        },
         _react2.default.createElement(
           'div',
-          { className: 'host', 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
+          { className: 'host' + (this.state.open ? ' fadeIn' : ''), 'data-jsx-ext': _ConfirmModal2.default.__scopedHash
           },
           _react2.default.createElement(
             'div',
@@ -74,12 +118,16 @@ var ConfirmModal = function (_Component) {
               },
               _react2.default.createElement(
                 _Button2.default,
-                { bgColor: 'green', shadow: true, onClick: this.props.onConfirm },
+                {
+                  bgColor: 'green',
+                  shadow: true,
+                  onClick: this.onConfirm.bind(this)
+                },
                 this.props.confirmText
               ),
               _react2.default.createElement(
                 _Button2.default,
-                { bgColor: 'red', shadow: true, onClick: this.props.onCancel },
+                { bgColor: 'red', shadow: true, onClick: this.onCancel.bind(this) },
                 this.props.cancelText
               )
             )
@@ -97,14 +145,19 @@ var ConfirmModal = function (_Component) {
 }(_react.Component);
 
 ConfirmModal.propTypes = {
+  isOpen: _propTypes2.default.bool.isRequired,
   onConfirm: _propTypes2.default.func,
   onCancel: _propTypes2.default.func,
   message: _propTypes2.default.string,
   confirmText: _propTypes2.default.string,
-  cancelText: _propTypes2.default.string
+  cancelText: _propTypes2.default.string,
+  contentLabel: _propTypes2.default.string,
+  delayCloseTimeoutMS: _propTypes2.default.number
 };
 ConfirmModal.defaultProps = {
   confirmText: 'OK',
-  cancelText: 'Cancel'
+  cancelText: 'Cancel',
+  contentLabel: 'confirm',
+  delayCloseTimeoutMS: 500
 };
 exports.default = ConfirmModal;

@@ -482,7 +482,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               _react2.default.createElement(_Icon2.default, { name: 'left', color: 'black' })
             )
           ),
-          _react2.default.createElement(
+          !_this.props.hideSaveButton && _react2.default.createElement(
             'div',
             { className: 'toolbar-button save', 'data-jsx-ext': _Writer2.default.__scopedHash
             },

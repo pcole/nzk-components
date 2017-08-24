@@ -124,7 +124,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         constraints: this.props.constraints,
         prompt: this.props.prompt,
         sections: this.props.sections,
-        loadPresetSections: this.props.loadPresetSections
+        loadPresetSections: this.props.loadPresetSections,
+        reset: this.props.reset
       }));
 
       window.addEventListener('resize', this.onResize);
@@ -215,10 +216,14 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'onSave',
     value: function onSave() {
-      if (!this.onSavePreventDefault) {
-        // TODO, modal warning about min words and saving as draft
-      }
-      this.props.onSave();
+      // TODO: show modal to warn about constraints not met
+      // saving as draft...
+      this.save();
+    }
+  }, {
+    key: 'save',
+    value: function save() {
+      this.props.onSave(store.getState().writing, store.getState().sections);
     }
 
     // BACK
@@ -226,11 +231,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'onBack',
     value: function onBack() {
-      if (!this.onBackPreventDefault) {
-        this.openBackConfirmModal();
-      } else {
-        this.props.onBack();
-      }
+      this.openBackConfirmModal();
     }
   }, {
     key: 'openBackConfirmModal',
@@ -262,7 +263,6 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     key: 'onBackConfirm',
     value: function onBackConfirm() {
       this.closeBackConfirmModal();
-      store.dispatch((0, _actions.reset)());
       this.props.onBack();
     }
   }, {
@@ -352,6 +352,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               hideAlignButtons: this.props.hideAlignButtons,
               hideImageButton: this.props.hideImageButton,
               hideClearButton: this.props.hideClearButton,
+              hideSaveButton: this.props.hideSaveButton,
               onBack: this.onBack,
               onSave: this.onSave,
               onClear: this.onClear
@@ -442,26 +443,26 @@ WritingTool.propTypes = {
   }),
   onBack: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
-  onBackPreventDefault: _propTypes2.default.bool,
-  onSavePreventDefault: _propTypes2.default.bool,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
   hideAlignButtons: _propTypes2.default.bool,
-  hideClearButton: _propTypes2.default.bool
+  hideClearButton: _propTypes2.default.bool,
+  hideSaveButton: _propTypes2.default.bool,
+  reset: _propTypes2.default.bool // Ignore anything in localstorage if true
 };
 WritingTool.defaultProps = {
   lang: 'en',
-  hideClearButton: true,
   backgroundImage: '/assets/temple.jpg',
   onSave: function onSave() {},
   onBack: function onBack() {},
-  onSavePreventDefault: false,
-  onBackPreventDefault: false,
   backConfirmMessage: 'Are you sure? Have you saved your work?',
   backConfirmButtonText: 'Yes',
   backCancelButtonText: 'No',
   clearConfirmMessage: 'Are you sure? You will loose your work.',
   clearConfirmButtonText: 'Yes',
-  clearCancelButtonText: 'No'
+  clearCancelButtonText: 'No',
+  hideClearButton: true,
+  hideSaveButton: false,
+  reset: false
 };
 exports.default = WritingTool;

@@ -20,7 +20,8 @@ export default class Icon extends Component {
     const style = {
       color: color,
       fontSize: fontSize,
-      verticalAlign: 'middle'
+      verticalAlign: 'bottom',
+      textAlign: 'center'
     }
 
     const className = classNames({

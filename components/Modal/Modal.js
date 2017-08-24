@@ -5,28 +5,54 @@ import PropTypes from 'prop-types'
 export default class Modal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    portalClassName: PropTypes.string,
-    bodyOpenClassName: PropTypes.string,
-    className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    overlayClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    appElement: PropTypes.node,
     onAfterOpen: PropTypes.func,
-    onRequestClose: PropTypes.func,
-    closeTimeoutMS: PropTypes.number,
-    ariaHideApp: PropTypes.bool,
-    shouldCloseOnOverlayClick: PropTypes.bool,
-    parentSelector: PropTypes.func,
+    onBeforeClose: PropTypes.func,
+    onAfterClose: PropTypes.func,
+    delayCloseTimeoutMS: PropTypes.number,
     aria: PropTypes.object,
     role: PropTypes.string,
-    contentLabel: PropTypes.string
+    contentLabel: PropTypes.string.isRequired,
+    overlayColor: PropTypes.string
   }
 
   static defaultProps = {
-    contentLabel: 'Modal'
+    overlayColor: 'rgba(0,0,0,0.8)'
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      hasOpened: false,
+      isClosing: false
+    }
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (newProps.isOpen === this.props.isOpen) return
+
+    if (newProps.isOpen) {
+      this.setState({
+        hasOpened: true
+      })
+    } else if (this.state.hasOpened) {
+      this.props.onBeforeClose && this.props.onBeforeClose()
+      this.setState({
+        isClosing: true
+      })
+
+      this.delayCloseTimeout = window.setTimeout(() => {
+        this.setState({
+          hasOpened: false,
+          isClosing: false
+        })
+        this.props.onAfterClose && this.props.onAfterClose()
+      }, this.props.delayCloseTimeoutMS)
+    }
   }
 
   render () {
-    const { style = {}, ...props } = this.props
+    const { style = {}, isOpen, ...props } = this.props
 
     style.overlay = style.overlay || {
       zIndex: 9999,
@@ -35,7 +61,7 @@ export default class Modal extends Component {
       left: 0,
       height: '100vh',
       width: '100vw',
-      backgroundColor: 'rgba(0,0,0,0.8)'
+      backgroundColor: this.props.overlayColor
     }
 
     style.content = style.content || {
@@ -48,6 +74,16 @@ export default class Modal extends Component {
       backgroundColor: 'transparent'
     }
 
-    return <ReactModal style={style} {...props} />
+    return (
+      <ReactModal
+        isOpen={isOpen || (!isOpen && this.state.isClosing)}
+        style={style}
+        {...props}
+      />
+    )
+  }
+
+  componentWillUnmount () {
+    window.clearTimeout(this.delayCloseTimeout)
   }
 }

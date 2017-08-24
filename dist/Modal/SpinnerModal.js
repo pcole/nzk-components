@@ -9,13 +9,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _style = require('styled-jsx/style');
+
+var _style2 = _interopRequireDefault(_style);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactModal = require('react-modal');
+var _Icon = require('../Icon');
 
-var _reactModal2 = _interopRequireDefault(_reactModal);
+var _Icon2 = _interopRequireDefault(_Icon);
+
+var _Modal = require('./Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _SpinnerModal = require('./SpinnerModal.styles');
+
+var _SpinnerModal2 = _interopRequireDefault(_SpinnerModal);
 
 var _propTypes = require('prop-types');
 
@@ -31,103 +43,89 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Modal = function (_Component) {
-  _inherits(Modal, _Component);
+var SpinnerModal = function (_Component) {
+  _inherits(SpinnerModal, _Component);
 
-  function Modal(props) {
-    _classCallCheck(this, Modal);
+  function SpinnerModal(props) {
+    _classCallCheck(this, SpinnerModal);
 
-    var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (SpinnerModal.__proto__ || Object.getPrototypeOf(SpinnerModal)).call(this, props));
 
     _this.state = {
-      hasOpened: false,
-      isClosing: false
+      fadeIn: false
     };
     return _this;
   }
 
-  _createClass(Modal, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
+  _createClass(SpinnerModal, [{
+    key: 'onAfterOpen',
+    value: function onAfterOpen() {
       var _this2 = this;
 
-      if (newProps.isOpen === this.props.isOpen) return;
-
-      if (newProps.isOpen) {
-        this.setState({
-          hasOpened: true
+      this.delayFadeInTimeout = window.setTimeout(function () {
+        _this2.setState({
+          fadeIn: true
         });
-      } else if (this.state.hasOpened) {
-        this.props.onBeforeClose && this.props.onBeforeClose();
-        this.setState({
-          isClosing: true
-        });
-
-        this.delayCloseTimeout = window.setTimeout(function () {
-          _this2.setState({
-            hasOpened: false,
-            isClosing: false
-          });
-          _this2.props.onAfterClose && _this2.props.onAfterClose();
-        }, this.props.delayCloseTimeoutMS);
-      }
+      }, this.props.delayFadeInTimeoutMS0);
+    }
+  }, {
+    key: 'onBeforeClose',
+    value: function onBeforeClose() {
+      this.setState({
+        fadeIn: false
+      });
     }
   }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          _props$style = _props.style,
-          style = _props$style === undefined ? {} : _props$style,
-          isOpen = _props.isOpen,
-          props = _objectWithoutProperties(_props, ['style', 'isOpen']);
+          onAfterOpen = _props.onAfterOpen,
+          onRequestClose = _props.onRequestClose,
+          _props$delayCloseTime = _props.delayCloseTimeoutMS,
+          delayCloseTimeoutMS = _props$delayCloseTime === undefined ? 1000 : _props$delayCloseTime,
+          props = _objectWithoutProperties(_props, ['onAfterOpen', 'onRequestClose', 'delayCloseTimeoutMS']);
 
-      style.overlay = style.overlay || {
-        zIndex: 9999,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        width: '100vw',
-        backgroundColor: this.props.overlayColor
-      };
-
-      style.content = style.content || {
-        border: 'none',
-        padding: '0',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundColor: 'transparent'
-      };
-
-      return _react2.default.createElement(_reactModal2.default, _extends({
-        isOpen: isOpen || !isOpen && this.state.isClosing,
-        style: style
-      }, props));
+      return _react2.default.createElement(
+        _Modal2.default,
+        _extends({
+          delayCloseTimeoutMS: delayCloseTimeoutMS,
+          overlayColor: 'transparent',
+          onAfterOpen: this.onAfterOpen.bind(this),
+          onBeforeClose: this.onBeforeClose.bind(this),
+          contentLabel: 'spinner'
+        }, props),
+        _react2.default.createElement(
+          'div',
+          { className: 'host' + (this.state.fadeIn ? ' fadeIn' : ''), 'data-jsx-ext': _SpinnerModal2.default.__scopedHash
+          },
+          _react2.default.createElement(
+            'div',
+            { className: 'spinner', 'data-jsx-ext': _SpinnerModal2.default.__scopedHash
+            },
+            _react2.default.createElement(_Icon2.default, { color: 'white', fontSize: '70px', name: 'time-travel' })
+          ),
+          _react2.default.createElement(_style2.default, {
+            styleId: _SpinnerModal2.default.__scopedHash,
+            css: _SpinnerModal2.default.__scoped
+          })
+        )
+      );
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.clearTimeout(this.delayCloseTimeout);
+      window.clearTimeout(this.openTimeout);
     }
   }]);
 
-  return Modal;
+  return SpinnerModal;
 }(_react.Component);
 
-Modal.propTypes = {
+SpinnerModal.propTypes = {
   isOpen: _propTypes2.default.bool.isRequired,
-  onAfterOpen: _propTypes2.default.func,
-  onBeforeClose: _propTypes2.default.func,
-  onAfterClose: _propTypes2.default.func,
-  delayCloseTimeoutMS: _propTypes2.default.number,
-  aria: _propTypes2.default.object,
-  role: _propTypes2.default.string,
-  contentLabel: _propTypes2.default.string.isRequired,
-  overlayColor: _propTypes2.default.string
+  delayFadeInTimeoutMS: _propTypes2.default.number
 };
-Modal.defaultProps = {
-  overlayColor: 'rgba(0,0,0,0.8)'
+SpinnerModal.defaultProps = {
+  delayFadeInTimeoutMS: 500
 };
-exports.default = Modal;
+exports.default = SpinnerModal;

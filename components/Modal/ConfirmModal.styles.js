@@ -5,7 +5,13 @@ export default `
     width: 100vw;
     top: 0;
     left: 0;
-    background-color: transparent;
+    background-color: rgba(0,0,0,0.7);
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+  }
+
+  .host.fadeIn {
+    opacity: 1;
   }
 
   .modal {
@@ -17,9 +23,7 @@ export default `
     padding: 20px;
     font-size: 22px;
     color: white;
-    text-transform: uppercase;
     font-family: 'Open Sans';
-    font-weight: bold;
     text-align: center;
   }
     

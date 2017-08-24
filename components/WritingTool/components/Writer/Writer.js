@@ -611,7 +611,7 @@ export default class Writer extends Component {
           {!this.props.hideAlignButtons &&
             this.renderBlockButton('align-right', 'align-right')}
           {!this.props.hideImageButton &&
-            this.renderBlockButton('image', 'picture-o')}
+            this.renderBlockButton('image', 'picture')}
         </div>
 
         <style jsx>
