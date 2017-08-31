@@ -23,6 +23,10 @@ var _Button = require('../Button');
 
 var _Button2 = _interopRequireDefault(_Button);
 
+var _Icon = require('../Icon');
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
 var _Modal = require('./Modal');
 
 var _Modal2 = _interopRequireDefault(_Modal);
@@ -121,14 +125,22 @@ var ConfirmModal = function (_Component) {
                 {
                   bgColor: 'green',
                   shadow: true,
+                  round: !this.props.confirmText,
+                  size: 'large',
                   onClick: this.onConfirm.bind(this)
                 },
-                this.props.confirmText
+                this.props.confirmText || _react2.default.createElement(_Icon2.default, { name: 'check', color: 'white' })
               ),
               _react2.default.createElement(
                 _Button2.default,
-                { bgColor: 'red', shadow: true, onClick: this.onCancel.bind(this) },
-                this.props.cancelText
+                {
+                  bgColor: 'red',
+                  shadow: true,
+                  round: !this.props.cancelText,
+                  size: 'large',
+                  onClick: this.onCancel.bind(this)
+                },
+                this.props.cancelText || _react2.default.createElement(_Icon2.default, { name: 'cross', color: 'white' })
               )
             )
           )
@@ -155,8 +167,6 @@ ConfirmModal.propTypes = {
   delayCloseTimeoutMS: _propTypes2.default.number
 };
 ConfirmModal.defaultProps = {
-  confirmText: 'OK',
-  cancelText: 'Cancel',
   contentLabel: 'confirm',
   delayCloseTimeoutMS: 500
 };

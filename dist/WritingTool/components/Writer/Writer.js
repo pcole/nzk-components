@@ -33,6 +33,8 @@ var _reactRedux = require('react-redux');
 
 var _gsap = require('gsap');
 
+var _reactIntl = require('react-intl');
+
 var _debounce = require('lodash/debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
@@ -489,7 +491,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: _this.onSave },
-              'SAVE'
+              _react2.default.createElement(_reactIntl.FormattedMessage, {
+                id: 'save',
+                defaultMessage: 'Save' })
             )
           ),
           !_this.props.hideClearButton && _react2.default.createElement(
@@ -499,7 +503,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: _this.props.onClear },
-              'Clear'
+              _react2.default.createElement(_reactIntl.FormattedMessage, {
+                id: 'clear',
+                defaultMessage: 'Clear' })
             )
           ),
           !_this.props.hideTextStyleButtons && _this.renderMarkButton('bold', 'bold'),
@@ -508,7 +514,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           !_this.props.hideAlignButtons && _this.renderBlockButton('align-left', 'align-left'),
           !_this.props.hideAlignButtons && _this.renderBlockButton('align-center', 'align-center'),
           !_this.props.hideAlignButtons && _this.renderBlockButton('align-right', 'align-right'),
-          !_this.props.hideImageButton && _this.renderBlockButton('image', 'picture-o')
+          !_this.props.hideImageButton && _this.renderBlockButton('image', 'picture')
         ),
         _react2.default.createElement(_style2.default, {
           styleId: _Writer2.default.__scopedHash,

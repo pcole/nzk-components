@@ -15,6 +15,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactIntl = require('react-intl');
+
 var _Uploader = require('./Uploader.styles');
 
 var _Uploader2 = _interopRequireDefault(_Uploader);
@@ -111,7 +113,7 @@ var Uploader = function (_React$Component) {
             },
             ' '
           ),
-          this.props.api ? _react2.default.createElement(
+          this.props.api && _react2.default.createElement(
             _reactDropzone2.default,
             { accept: 'image/jpeg, image/png', onDrop: this.onDrop },
             this.state.progress > 0 ? _react2.default.createElement(
@@ -124,14 +126,10 @@ var Uploader = function (_React$Component) {
               'div',
               { className: 'label', 'data-jsx-ext': _Uploader2.default.__scopedHash
               },
-              'Drag an image in the zone or click'
+              _react2.default.createElement(_reactIntl.FormattedMessage, {
+                id: 'uploaderDragOrClick',
+                defaultMessage: 'Drag your image here or click to upload' })
             )
-          ) : _react2.default.createElement(
-            'p',
-            {
-              'data-jsx-ext': _Uploader2.default.__scopedHash
-            },
-            ' Missing API to Component '
           )
         ),
         _react2.default.createElement(_style2.default, {

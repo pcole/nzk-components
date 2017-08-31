@@ -1,5 +1,4 @@
 import { applyMiddleware, createStore, compose } from 'redux'
-import debounce from 'lodash/debounce'
 import thunk from 'redux-thunk'
 import reducer from './reducer'
 
@@ -16,11 +15,6 @@ const enhancer = composeEnhancers(
   applyMiddleware(thunk)
   // other store enhancers if any
 )
-
-const persistedState =
-  window && window.localStorage.getItem('nzk-writing-tool-state')
-    ? JSON.parse(window.localStorage.getItem('nzk-writing-tool-state'))
-    : {}
 
 export const defaultState = {
   placeholders: {
@@ -45,26 +39,6 @@ export const defaultState = {
   sections: []
 }
 
-const initialState = {
-  ...defaultState,
-  ...persistedState
-}
-
 export default () => {
-  const store = createStore(reducer, initialState, enhancer)
-
-  store.subscribe(
-    debounce(() => {
-      window &&
-        window.localStorage.setItem(
-          'nzk-writing-tool-state',
-          JSON.stringify({
-            writing: store.getState().writing,
-            sections: store.getState().sections
-          })
-        )
-    }, 1000)
-  )
-
-  return store
+  return createStore(reducer, {...defaultState}, enhancer)
 }

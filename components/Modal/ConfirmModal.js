@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../Button'
+import Icon from '../Icon'
 import Modal from './Modal'
 import styles from './ConfirmModal.styles'
 
@@ -17,8 +18,6 @@ export default class ConfirmModal extends Component {
   }
 
   static defaultProps = {
-    confirmText: 'OK',
-    cancelText: 'Cancel',
     contentLabel: 'confirm',
     delayCloseTimeoutMS: 500
   }
@@ -78,12 +77,20 @@ export default class ConfirmModal extends Component {
               <Button
                 bgColor='green'
                 shadow
+                round={!this.props.confirmText}
+                size='large'
                 onClick={this.onConfirm.bind(this)}
               >
-                {this.props.confirmText}
+                { this.props.confirmText || <Icon name='check' color='white' /> }
               </Button>
-              <Button bgColor='red' shadow onClick={this.onCancel.bind(this)}>
-                {this.props.cancelText}
+              <Button
+                bgColor='red'
+                shadow
+                round={!this.props.cancelText}
+                size='large'
+                onClick={this.onCancel.bind(this)}
+              >
+                { this.props.cancelText || <Icon name='cross' color='white' /> }
               </Button>
             </div>
           </div>

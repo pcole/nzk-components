@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import GSAP from 'react-gsap-enhancer'
 import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
+import { FormattedMessage } from 'react-intl'
 import debounce from 'lodash/debounce'
 import JsPDF from 'jspdf'
 import words from 'lodash/words'
@@ -587,14 +588,18 @@ export default class Writer extends Component {
           {!this.props.hideSaveButton &&
             <div className='toolbar-button save'>
               <Button bgColor='white' shadow onClick={this.onSave}>
-                SAVE
+                <FormattedMessage
+                  id='save'
+                  defaultMessage='Save' />
               </Button>
             </div>}
 
           {!this.props.hideClearButton &&
             <div className='toolbar-button clear'>
               <Button bgColor='white' shadow onClick={this.props.onClear}>
-                Clear
+                <FormattedMessage
+                  id='clear'
+                  defaultMessage='Clear' />
               </Button>
             </div>}
 

@@ -156,6 +156,9 @@
 .icon-time-travel:before {
   content: "\72";
 }
+.icon-check:before {
+  content: "\73";
+}
 
 /* Position Adjustments */
 .icon-right:before {

@@ -38,11 +38,14 @@ storiesOf('WritingTool', module)
       hideAlignButtons={boolean('hideAlignButtons', false)}
       hideClearButton={boolean('hideClearButton', false)}
       hideSaveButton={boolean('hideSaveButton', false)}
+      askToSaveOnBack
+      clearOnBack
       onBack={() => {
-        window.alert('on back callback')
+        window.location.reload()
       }}
-      onSave={() => {
-        window.alert('on save callback')
+      onSave={(writing, section, callback) => {
+        callback()
+        window.location.reload()
       }}
     />
   )

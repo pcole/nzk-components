@@ -4,6 +4,8 @@ import GSAP from 'react-gsap-enhancer'
 import { TimelineMax, Bounce } from 'gsap'
 import PropTypes from 'prop-types'
 import Color from 'color'
+import debounce from 'lodash/debounce'
+import {IntlProvider, FormattedMessage} from 'react-intl'
 import getColorFromImage from '../../util/getColorFromImage'
 import Writer from './components/Writer/Writer'
 import Sidebar from './components/Sidebar/Sidebar'
@@ -13,7 +15,7 @@ import StatusBar from './components/StatusBar/StatusBar'
 import ConfirmModal from '../Modal/ConfirmModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
-import { init, clear } from './store/actions'
+import { init, clear, clearCachedState, cacheState } from './store/actions'
 const store = Store()
 
 @GSAP()
@@ -52,12 +54,13 @@ export default class WritingTool extends Component {
     }),
     onBack: PropTypes.func,
     onSave: PropTypes.func,
+    askToSaveOnBack: PropTypes.bool,
+    clearCacheOnBack: PropTypes.bool,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
     hideClearButton: PropTypes.bool,
-    hideSaveButton: PropTypes.bool,
-    reset: PropTypes.bool // Ignore anything in localstorage if true
+    hideSaveButton: PropTypes.bool
   }
 
   static defaultProps = {
@@ -65,15 +68,10 @@ export default class WritingTool extends Component {
     backgroundImage: '/assets/temple.jpg',
     onSave: () => {},
     onBack: () => {},
-    backConfirmMessage: 'Are you sure? Have you saved your work?',
-    backConfirmButtonText: 'Yes',
-    backCancelButtonText: 'No',
-    clearConfirmMessage: 'Are you sure? You will loose your work.',
-    clearConfirmButtonText: 'Yes',
-    clearCancelButtonText: 'No',
     hideClearButton: true,
     hideSaveButton: false,
-    reset: false
+    clearCacheOnBack: false,
+    askToSaveOnBack: false
   }
 
   state = {
@@ -81,20 +79,20 @@ export default class WritingTool extends Component {
     primaryColor: undefined,
     secondaryColor: undefined,
     textColor: undefined,
-    backConfirmModalIsOpen: false,
-    clearConfirmModalIsOpen: false
+    confirmModal: {
+      isOpen: false
+    },
+    wordLimit: false
   }
 
   constructor (props) {
     super(props)
 
+    this.onBackConfirm = this.onBackConfirm.bind(this)
+    this.closeConfirmModal = this.closeConfirmModal.bind(this)
     this.onSave = this.onSave.bind(this)
     this.onBack = this.onBack.bind(this)
-    this.onBackConfirm = this.onBackConfirm.bind(this)
-    this.onBackCancel = this.onBackCancel.bind(this)
     this.onClear = this.onClear.bind(this)
-    this.onClearConfirm = this.onClearConfirm.bind(this)
-    this.onClearCancel = this.onClearCancel.bind(this)
     this.toggleSidebarAnimation = this.toggleSidebarAnimation.bind(this)
     this.toggleSidebar = this.toggleSidebar.bind(this)
     this.closeSidebar = this.closeSidebar.bind(this)
@@ -102,19 +100,17 @@ export default class WritingTool extends Component {
   }
 
   componentWillMount () {
-    store.dispatch(
-      init(store.dispatch, {
-        lang: this.props.lang,
-        writingType: this.props.writingType,
-        placeholders: this.props.placeholders,
-        writing: this.props.writing,
-        constraints: this.props.constraints,
-        prompt: this.props.prompt,
-        sections: this.props.sections,
-        loadPresetSections: this.props.loadPresetSections,
-        reset: this.props.reset
-      })
-    )
+    init(store.dispatch, {
+      lang: this.props.lang,
+      writingType: this.props.writingType,
+      placeholders: this.props.placeholders,
+      writing: this.props.writing,
+      constraints: this.props.constraints,
+      prompt: this.props.prompt,
+      sections: this.props.sections,
+      loadPresetSections: this.props.loadPresetSections,
+      reset: this.props.reset
+    })
 
     window.addEventListener('resize', this.onResize)
   }
@@ -159,6 +155,19 @@ export default class WritingTool extends Component {
       .addEventListener('touchmove', function (e) {
         e.preventDefault()
       })
+
+    this.startAutoCache()
+  }
+
+  startAutoCache () {
+    this.unsubscribe = store.subscribe(
+      debounce(() => {
+        cacheState(store.dispatch, {
+          writing: store.getState().writing,
+          sections: store.getState().sections
+        })
+      }, 1000)
+    )
   }
 
   onResize (e) {
@@ -209,58 +218,77 @@ export default class WritingTool extends Component {
     this.setState({ sidebarOpen: false })
   }
 
-  // SAVE
-
-  onSave () {
-    // TODO: show modal to warn about constraints not met
-    // saving as draft...
-    this.save()
-  }
-
-  save () {
-    this.props.onSave(store.getState().writing, store.getState().sections)
-  }
-
-  // BACK
-  onBack () {
-    this.openBackConfirmModal()
-  }
-
-  openBackConfirmModal () {
-    this.setState({
-      backConfirmModalIsOpen: true
-    })
-  }
-
-  closeBackConfirmModal () {
-    this.setState({
-      backConfirmModalIsOpen: false
-    })
-  }
-
-  renderBackConfirmModal () {
+  renderConfirmModal () {
     return (
       <ConfirmModal
-        isOpen={this.state.backConfirmModalIsOpen}
-        message={this.props.backConfirmMessage}
-        onConfirm={this.onBackConfirm}
-        onCancel={this.onBackCancel}
-        confirmText={this.props.backConfirmButtonText}
-        cancelText={this.props.backCancelButtonText}
+        isOpen={this.state.confirmModalIsOpen}
+        {...this.state.confirmModal}
       />
     )
   }
 
+  closeConfirmModal () {
+    this.setState({
+      confirmModalIsOpen: false
+    })
+  }
+
+  onSave () {
+    this.save()
+  }
+
+  save () {
+    this.props.onSave(store.getState().writing, store.getState().sections, (err) => {
+      if (!err) {
+        clearCachedState(store.dispatch)
+      }
+    })
+  }
+
+  onBack () {
+    if (this.props.askToSaveOnBack) {
+      this.openSaveOnBackModal()
+    } else {
+      this.openBackConfirmModal()
+    }
+  }
+
+  openSaveOnBackModal () {
+    this.setState({
+      confirmModalIsOpen: true,
+      confirmModal: {
+        message: <FormattedMessage
+          id='writingToolSaveOnBack'
+          defaultMessage='Would you like to save your work?' />,
+        onConfirm: () => {
+          this.closeConfirmModal()
+          this.onSave()
+        },
+        onCancel: this.onBackConfirm
+      }
+    })
+  }
+
+  openBackConfirmModal () {
+    this.setState({
+      confirmModalIsOpen: true,
+      confirmModal: {
+        message: <FormattedMessage
+          id='writingBackConfirm'
+          defaultMessage="Are you sure? You will lose your work if you don't save it." />,
+        onConfirm: this.onBackConfirm,
+        onCancel: this.closeConfirmModal
+      }
+    })
+  }
+
   onBackConfirm () {
-    this.closeBackConfirmModal()
+    this.closeConfirmModal()
+    if (this.props.clearCacheOnBack) {
+      clearCachedState(store.dispatch)
+    }
     this.props.onBack()
   }
-
-  onBackCancel () {
-    this.closeBackConfirmModal()
-  }
-
-  // CLEAR
 
   onClear () {
     this.openClearConfirmModal()
@@ -268,108 +296,94 @@ export default class WritingTool extends Component {
 
   openClearConfirmModal () {
     this.setState({
-      clearConfirmModalIsOpen: true
+      confirmModalIsOpen: true,
+      confirmModal: {
+        message: <FormattedMessage
+          id='writingToolClearConfirm'
+          defaultMessage='Are you sure? Your work will be lost.' />,
+        onConfirm: () => {
+          this.closeConfirmModal()
+          store.dispatch(clear())
+          clearCachedState(store.dispatch)
+        },
+        onCancel: this.closeConfirmModal
+      }
     })
   }
-
-  closeClearConfirmModal () {
-    this.setState({
-      clearConfirmModalIsOpen: false
-    })
-  }
-
-  renderClearConfirmModal () {
-    return (
-      <ConfirmModal
-        isOpen={this.state.clearConfirmModalIsOpen}
-        message={this.props.clearConfirmMessage}
-        onConfirm={this.onClearConfirm}
-        onCancel={this.onClearCancel}
-        confirmText={this.props.clearConfirmButtonText}
-        cancelText={this.props.clearCancelButtonText}
-      />
-    )
-  }
-
-  onClearConfirm () {
-    store.dispatch(clear())
-    this.closeClearConfirmModal()
-  }
-
-  onClearCancel () {
-    this.closeClearConfirmModal()
-  }
-
-  // Render
 
   render () {
     return (
       <Provider store={store}>
-        <div className='host'>
-          {this.renderBackConfirmModal()}
-          {this.renderClearConfirmModal()}
-          <div
-            className='background'
-            style={{
-              backgroundImage: 'url("' + this.props.backgroundImage + '")'
-            }}
-          />
-
-          <div className='column left sidebarOpen' name='leftCol'>
-            <Writer
-              primaryColor={this.state.primaryColor}
-              secondaryColor={this.state.primaryFadedColor}
-              textColor={this.state.textColor}
-              backgroundImage={this.props.backgroundImage}
-              light={this.state.light}
-              onMobileFocus={this.closeSidebar}
-              hideTextStyleButtons={this.props.hideTextStyleButtons}
-              hideAlignButtons={this.props.hideAlignButtons}
-              hideImageButton={this.props.hideImageButton}
-              hideClearButton={this.props.hideClearButton}
-              hideSaveButton={this.props.hideSaveButton}
-              onBack={this.onBack}
-              onSave={this.onSave}
-              onClear={this.onClear}
-            />
-          </div>
-
-          <div className='column right sidebarOpen' name='rightCol'>
+        <IntlProvider locale={this.props.lang}>
+          <div className='host'>
+            {this.renderConfirmModal()}
             <div
-              className='sidebar-toggle-btn-container'
+              className='background'
               style={{
-                backgroundColor: this.state.primaryColor
+                backgroundImage: 'url("' + this.props.backgroundImage + '")'
               }}
-            >
-              <Button
-                onClick={this.toggleSidebar}
-                bgColor={this.state.secondaryColor}
-                color={this.state.textColor}
-                round
-                shadow
-              >
-                <Icon name={'menu'} color={this.state.textColor} />
-              </Button>
+            />
+
+            <div className='column left sidebarOpen' name='leftCol'>
+              <Writer
+                primaryColor={this.state.primaryColor}
+                secondaryColor={this.state.primaryFadedColor}
+                textColor={this.state.textColor}
+                backgroundImage={this.props.backgroundImage}
+                light={this.state.light}
+                onMobileFocus={this.closeSidebar}
+                hideTextStyleButtons={this.props.hideTextStyleButtons}
+                hideAlignButtons={this.props.hideAlignButtons}
+                hideImageButton={this.props.hideImageButton}
+                hideClearButton={this.props.hideClearButton}
+                hideSaveButton={this.props.hideSaveButton}
+                onBack={this.onBack}
+                onSave={this.onSave}
+                onClear={this.onClear}
+              />
             </div>
-            <Sidebar
-              primaryColor={this.state.primaryColor}
-              secondaryColor={this.state.secondaryColor}
-              textColor={this.state.textColor}
-            />
-          </div>
 
-          <div className='status-bar'>
-            <StatusBar
-              bgColor={this.state.primaryColor}
-              light={this.state.light}
-            />
-          </div>
+            <div className='column right sidebarOpen' name='rightCol'>
+              <div
+                className='sidebar-toggle-btn-container'
+                style={{
+                  backgroundColor: this.state.primaryColor
+                }}
+              >
+                <Button
+                  onClick={this.toggleSidebar}
+                  bgColor={this.state.secondaryColor}
+                  color={this.state.textColor}
+                  round
+                  shadow
+                >
+                  <Icon name={'menu'} color={this.state.textColor} />
+                </Button>
+              </div>
+              <Sidebar
+                primaryColor={this.state.primaryColor}
+                secondaryColor={this.state.secondaryColor}
+                textColor={this.state.textColor}
+              />
+            </div>
 
-          <style jsx>
-            {styles}
-          </style>
-        </div>
+            <div className='status-bar'>
+              <StatusBar
+                bgColor={this.state.primaryColor}
+                light={this.state.light}
+              />
+            </div>
+
+            <style jsx>
+              {styles}
+            </style>
+          </div>
+        </IntlProvider>
       </Provider>
     )
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe()
   }
 }

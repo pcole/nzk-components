@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import styles from './StatusBar.styles'
 
 @connect(store => {
@@ -27,7 +28,9 @@ export default class StatusBar extends Component {
         }}
       >
         <div className='counter'>
-          Words: {this.props.wordCount}
+          <FormattedMessage
+            id='writingToolStatusBarWords'
+            defaultMessage='Words' />: {this.props.wordCount}
         </div>
         <style jsx>
           {styles}

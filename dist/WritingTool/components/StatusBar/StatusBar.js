@@ -23,6 +23,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = require('react-redux');
 
+var _reactIntl = require('react-intl');
+
 var _StatusBar = require('./StatusBar.styles');
 
 var _StatusBar2 = _interopRequireDefault(_StatusBar);
@@ -66,7 +68,10 @@ var StatusBar = (_dec = (0, _reactRedux.connect)(function (store) {
           'div',
           { className: 'counter', 'data-jsx-ext': _StatusBar2.default.__scopedHash
           },
-          'Words: ',
+          _react2.default.createElement(_reactIntl.FormattedMessage, {
+            id: 'writingToolStatusBarWords',
+            defaultMessage: 'Words' }),
+          ': ',
           this.props.wordCount
         ),
         _react2.default.createElement(_style2.default, {

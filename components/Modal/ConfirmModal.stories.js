@@ -66,8 +66,6 @@ export default class StoryContainer extends Component {
         <ConfirmModal
           isOpen={this.state.modalBIsOpen}
           message='Back to Modal A?'
-          confirmText='Yes'
-          cancelText='No'
           onConfirm={this.openA.bind(this)}
           onCancel={this.openC.bind(this)}
           delayCloseTimeoutMS={0}

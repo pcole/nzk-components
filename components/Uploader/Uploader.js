@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styles from './Uploader.styles'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
@@ -66,17 +67,19 @@ export default class Uploader extends React.Component {
             {' '}
           </div>
 
-          {this.props.api
-            ? <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
-              {this.state.progress > 0
-                ? <div className='progress-label'>
-                  {this.state.progress}%
-                  </div>
-                : <div className='label'>
-                    Drag an image in the zone or click
-                  </div>}
+          { this.props.api && <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
+            { this.state.progress > 0
+              ? <div className='progress-label'>
+                {this.state.progress}%
+                </div>
+              : <div className='label'>
+                <FormattedMessage
+                  id='uploaderDragOrClick'
+                  defaultMessage='Drag your image here or click to upload' />
+              </div>
+            }
             </Dropzone>
-            : <p> Missing API to Component </p>}
+          }
         </div>
         <style jsx>
           {styles}

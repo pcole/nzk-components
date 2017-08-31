@@ -8,7 +8,10 @@
     "transform-object-rest-spread",
     "styled-jsx/babel",
     "babel-plugin-transform-decorators-legacy",
-    "babel-plugin-transform-decorators"
+    "babel-plugin-transform-decorators",
+    ["react-intl", {
+      "messagesDir": "./translations/messages/"
+    }]
   ],
   "env": {
     "test": {

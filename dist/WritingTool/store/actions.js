@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.init = init;
+exports.clearCachedState = clearCachedState;
+exports.cacheState = cacheState;
 exports.initPlaceholders = initPlaceholders;
 exports.initWriting = initWriting;
 exports.setWriting = setWriting;
@@ -19,11 +21,14 @@ exports.removeField = removeField;
 exports.addField = addField;
 exports.setFieldValue = setFieldValue;
 exports.clear = clear;
-exports.reset = reset;
 
 var _writingTypePresets = require('../assets/writing-type-presets.json');
 
 var _writingTypePresets2 = _interopRequireDefault(_writingTypePresets);
+
+var _writingTypeIcons = require('../assets/writing-type-icons.json');
+
+var _writingTypeIcons2 = _interopRequireDefault(_writingTypeIcons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35,9 +40,14 @@ function init(dispatch, settings) {
   }
 
   var preset = _writingTypePresets2.default[settings.lang][settings.writingType];
+  preset.icon = _writingTypeIcons2.default[settings.writingType];
 
-  if (settings.reset) {
-    dispatch(reset());
+  var cachedState = window && window.localStorage.getItem('nzk-writing-tool-state') ? JSON.parse(window.localStorage.getItem('nzk-writing-tool-state')) : null;
+
+  if (cachedState) {
+    settings.writing = cachedState.writing;
+    settings.sections = cachedState.sections;
+    settings.loadPresetSections = false;
   }
 
   dispatch(initPlaceholders(dispatch, preset, settings));
@@ -45,10 +55,21 @@ function init(dispatch, settings) {
   dispatch(initConstraints(dispatch, preset, settings));
   dispatch(initPrompt(dispatch, preset, settings));
   dispatch(initSections(dispatch, preset, settings));
+}
 
-  return {
-    type: 'INIT'
-  };
+function clearCachedState(dispatch) {
+  window.localStorage.removeItem('nzk-writing-tool-state');
+  dispatch({
+    type: 'CLEAR_CACHED_STATE'
+  });
+}
+
+function cacheState(dispatch, state) {
+  window.localStorage.setItem('nzk-writing-tool-state', JSON.stringify(state));
+
+  dispatch({
+    type: 'CACHE_STATE'
+  });
 }
 
 function initPlaceholders(dispatch, preset) {
@@ -179,11 +200,5 @@ function setFieldValue(sectionIndex, fieldIndex, value) {
 function clear() {
   return {
     type: 'CLEAR'
-  };
-}
-
-function reset() {
-  return {
-    type: 'RESET'
   };
 }

@@ -8,6 +8,9 @@ export default `
     background-color: rgba(0,0,0,0.7);
     opacity: 0;
     transition: opacity 500ms ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .host.fadeIn {
@@ -16,9 +19,8 @@ export default `
 
   .modal {
     position: absolute;
-    width: 400px;
-    top: calc(50% - 100px);
-    left: calc(50% - 200px);
+    max-width: 500px;
+    width: 100%;
     border-radius: 10px;
     padding: 20px;
     font-size: 22px;

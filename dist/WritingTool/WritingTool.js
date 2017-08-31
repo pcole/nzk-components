@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
@@ -32,6 +34,12 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _color = require('color');
 
 var _color2 = _interopRequireDefault(_color);
+
+var _debounce = require('lodash/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+var _reactIntl = require('react-intl');
 
 var _getColorFromImage = require('../../util/getColorFromImage');
 
@@ -94,18 +102,18 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       primaryColor: undefined,
       secondaryColor: undefined,
       textColor: undefined,
-      backConfirmModalIsOpen: false,
-      clearConfirmModalIsOpen: false
+      confirmModal: {
+        isOpen: false
+      },
+      wordLimit: false
     };
 
 
+    _this.onBackConfirm = _this.onBackConfirm.bind(_this);
+    _this.closeConfirmModal = _this.closeConfirmModal.bind(_this);
     _this.onSave = _this.onSave.bind(_this);
     _this.onBack = _this.onBack.bind(_this);
-    _this.onBackConfirm = _this.onBackConfirm.bind(_this);
-    _this.onBackCancel = _this.onBackCancel.bind(_this);
     _this.onClear = _this.onClear.bind(_this);
-    _this.onClearConfirm = _this.onClearConfirm.bind(_this);
-    _this.onClearCancel = _this.onClearCancel.bind(_this);
     _this.toggleSidebarAnimation = _this.toggleSidebarAnimation.bind(_this);
     _this.toggleSidebar = _this.toggleSidebar.bind(_this);
     _this.closeSidebar = _this.closeSidebar.bind(_this);
@@ -116,7 +124,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   _createClass(WritingTool, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      store.dispatch((0, _actions.init)(store.dispatch, {
+      (0, _actions.init)(store.dispatch, {
         lang: this.props.lang,
         writingType: this.props.writingType,
         placeholders: this.props.placeholders,
@@ -126,7 +134,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         sections: this.props.sections,
         loadPresetSections: this.props.loadPresetSections,
         reset: this.props.reset
-      }));
+      });
 
       window.addEventListener('resize', this.onResize);
     }
@@ -169,6 +177,18 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
         e.preventDefault();
       });
+
+      this.startAutoCache();
+    }
+  }, {
+    key: 'startAutoCache',
+    value: function startAutoCache() {
+      this.unsubscribe = store.subscribe((0, _debounce2.default)(function () {
+        (0, _actions.cacheState)(store.dispatch, {
+          writing: store.getState().writing,
+          sections: store.getState().sections
+        });
+      }, 1000));
     }
   }, {
     key: 'onResize',
@@ -210,69 +230,85 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       this.addAnimation(this.toggleSidebarAnimation);
       this.setState({ sidebarOpen: false });
     }
-
-    // SAVE
-
+  }, {
+    key: 'renderConfirmModal',
+    value: function renderConfirmModal() {
+      return _react2.default.createElement(_ConfirmModal2.default, _extends({
+        isOpen: this.state.confirmModalIsOpen
+      }, this.state.confirmModal));
+    }
+  }, {
+    key: 'closeConfirmModal',
+    value: function closeConfirmModal() {
+      this.setState({
+        confirmModalIsOpen: false
+      });
+    }
   }, {
     key: 'onSave',
     value: function onSave() {
-      // TODO: show modal to warn about constraints not met
-      // saving as draft...
       this.save();
     }
   }, {
     key: 'save',
     value: function save() {
-      this.props.onSave(store.getState().writing, store.getState().sections);
+      this.props.onSave(store.getState().writing, store.getState().sections, function (err) {
+        if (!err) {
+          (0, _actions.clearCachedState)(store.dispatch);
+        }
+      });
     }
-
-    // BACK
-
   }, {
     key: 'onBack',
     value: function onBack() {
-      this.openBackConfirmModal();
+      if (this.props.askToSaveOnBack) {
+        this.openSaveOnBackModal();
+      } else {
+        this.openBackConfirmModal();
+      }
+    }
+  }, {
+    key: 'openSaveOnBackModal',
+    value: function openSaveOnBackModal() {
+      var _this3 = this;
+
+      this.setState({
+        confirmModalIsOpen: true,
+        confirmModal: {
+          message: _react2.default.createElement(_reactIntl.FormattedMessage, {
+            id: 'writingToolSaveOnBack',
+            defaultMessage: 'Would you like to save your work?' }),
+          onConfirm: function onConfirm() {
+            _this3.closeConfirmModal();
+            _this3.onSave();
+          },
+          onCancel: this.onBackConfirm
+        }
+      });
     }
   }, {
     key: 'openBackConfirmModal',
     value: function openBackConfirmModal() {
       this.setState({
-        backConfirmModalIsOpen: true
-      });
-    }
-  }, {
-    key: 'closeBackConfirmModal',
-    value: function closeBackConfirmModal() {
-      this.setState({
-        backConfirmModalIsOpen: false
-      });
-    }
-  }, {
-    key: 'renderBackConfirmModal',
-    value: function renderBackConfirmModal() {
-      return _react2.default.createElement(_ConfirmModal2.default, {
-        isOpen: this.state.backConfirmModalIsOpen,
-        message: this.props.backConfirmMessage,
-        onConfirm: this.onBackConfirm,
-        onCancel: this.onBackCancel,
-        confirmText: this.props.backConfirmButtonText,
-        cancelText: this.props.backCancelButtonText
+        confirmModalIsOpen: true,
+        confirmModal: {
+          message: _react2.default.createElement(_reactIntl.FormattedMessage, {
+            id: 'writingBackConfirm',
+            defaultMessage: 'Are you sure? You will lose your work if you don\'t save it.' }),
+          onConfirm: this.onBackConfirm,
+          onCancel: this.closeConfirmModal
+        }
       });
     }
   }, {
     key: 'onBackConfirm',
     value: function onBackConfirm() {
-      this.closeBackConfirmModal();
+      this.closeConfirmModal();
+      if (this.props.clearCacheOnBack) {
+        (0, _actions.clearCachedState)(store.dispatch);
+      }
       this.props.onBack();
     }
-  }, {
-    key: 'onBackCancel',
-    value: function onBackCancel() {
-      this.closeBackConfirmModal();
-    }
-
-    // CLEAR
-
   }, {
     key: 'onClear',
     value: function onClear() {
@@ -281,43 +317,23 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'openClearConfirmModal',
     value: function openClearConfirmModal() {
-      this.setState({
-        clearConfirmModalIsOpen: true
-      });
-    }
-  }, {
-    key: 'closeClearConfirmModal',
-    value: function closeClearConfirmModal() {
-      this.setState({
-        clearConfirmModalIsOpen: false
-      });
-    }
-  }, {
-    key: 'renderClearConfirmModal',
-    value: function renderClearConfirmModal() {
-      return _react2.default.createElement(_ConfirmModal2.default, {
-        isOpen: this.state.clearConfirmModalIsOpen,
-        message: this.props.clearConfirmMessage,
-        onConfirm: this.onClearConfirm,
-        onCancel: this.onClearCancel,
-        confirmText: this.props.clearConfirmButtonText,
-        cancelText: this.props.clearCancelButtonText
-      });
-    }
-  }, {
-    key: 'onClearConfirm',
-    value: function onClearConfirm() {
-      store.dispatch((0, _actions.clear)());
-      this.closeClearConfirmModal();
-    }
-  }, {
-    key: 'onClearCancel',
-    value: function onClearCancel() {
-      this.closeClearConfirmModal();
-    }
+      var _this4 = this;
 
-    // Render
-
+      this.setState({
+        confirmModalIsOpen: true,
+        confirmModal: {
+          message: _react2.default.createElement(_reactIntl.FormattedMessage, {
+            id: 'writingToolClearConfirm',
+            defaultMessage: 'Are you sure? Your work will be lost.' }),
+          onConfirm: function onConfirm() {
+            _this4.closeConfirmModal();
+            store.dispatch((0, _actions.clear)());
+            (0, _actions.clearCachedState)(store.dispatch);
+          },
+          onCancel: this.closeConfirmModal
+        }
+      });
+    }
   }, {
     key: 'render',
     value: function render() {
@@ -325,85 +341,93 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         _reactRedux.Provider,
         { store: store },
         _react2.default.createElement(
-          'div',
-          { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-          },
-          this.renderBackConfirmModal(),
-          this.renderClearConfirmModal(),
-          _react2.default.createElement('div', {
-            className: 'background',
-            style: {
-              backgroundImage: 'url("' + this.props.backgroundImage + '")'
-            },
-            'data-jsx-ext': _WritingTool2.default.__scopedHash
-          }),
+          _reactIntl.IntlProvider,
+          { locale: this.props.lang },
           _react2.default.createElement(
             'div',
-            { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+            { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
-            _react2.default.createElement(_Writer2.default, {
-              primaryColor: this.state.primaryColor,
-              secondaryColor: this.state.primaryFadedColor,
-              textColor: this.state.textColor,
-              backgroundImage: this.props.backgroundImage,
-              light: this.state.light,
-              onMobileFocus: this.closeSidebar,
-              hideTextStyleButtons: this.props.hideTextStyleButtons,
-              hideAlignButtons: this.props.hideAlignButtons,
-              hideImageButton: this.props.hideImageButton,
-              hideClearButton: this.props.hideClearButton,
-              hideSaveButton: this.props.hideSaveButton,
-              onBack: this.onBack,
-              onSave: this.onSave,
-              onClear: this.onClear
-            })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'column right sidebarOpen', name: 'rightCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-            },
+            this.renderConfirmModal(),
+            _react2.default.createElement('div', {
+              className: 'background',
+              style: {
+                backgroundImage: 'url("' + this.props.backgroundImage + '")'
+              },
+              'data-jsx-ext': _WritingTool2.default.__scopedHash
+            }),
             _react2.default.createElement(
               'div',
-              {
-                className: 'sidebar-toggle-btn-container',
-                style: {
-                  backgroundColor: this.state.primaryColor
-                },
-                'data-jsx-ext': _WritingTool2.default.__scopedHash
+              { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              },
+              _react2.default.createElement(_Writer2.default, {
+                primaryColor: this.state.primaryColor,
+                secondaryColor: this.state.primaryFadedColor,
+                textColor: this.state.textColor,
+                backgroundImage: this.props.backgroundImage,
+                light: this.state.light,
+                onMobileFocus: this.closeSidebar,
+                hideTextStyleButtons: this.props.hideTextStyleButtons,
+                hideAlignButtons: this.props.hideAlignButtons,
+                hideImageButton: this.props.hideImageButton,
+                hideClearButton: this.props.hideClearButton,
+                hideSaveButton: this.props.hideSaveButton,
+                onBack: this.onBack,
+                onSave: this.onSave,
+                onClear: this.onClear
+              })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'column right sidebarOpen', name: 'rightCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
               },
               _react2.default.createElement(
-                _Button2.default,
+                'div',
                 {
-                  onClick: this.toggleSidebar,
-                  bgColor: this.state.secondaryColor,
-                  color: this.state.textColor,
-                  round: true,
-                  shadow: true
+                  className: 'sidebar-toggle-btn-container',
+                  style: {
+                    backgroundColor: this.state.primaryColor
+                  },
+                  'data-jsx-ext': _WritingTool2.default.__scopedHash
                 },
-                _react2.default.createElement(_Icon2.default, { name: 'menu', color: this.state.textColor })
-              )
+                _react2.default.createElement(
+                  _Button2.default,
+                  {
+                    onClick: this.toggleSidebar,
+                    bgColor: this.state.secondaryColor,
+                    color: this.state.textColor,
+                    round: true,
+                    shadow: true
+                  },
+                  _react2.default.createElement(_Icon2.default, { name: 'menu', color: this.state.textColor })
+                )
+              ),
+              _react2.default.createElement(_Sidebar2.default, {
+                primaryColor: this.state.primaryColor,
+                secondaryColor: this.state.secondaryColor,
+                textColor: this.state.textColor
+              })
             ),
-            _react2.default.createElement(_Sidebar2.default, {
-              primaryColor: this.state.primaryColor,
-              secondaryColor: this.state.secondaryColor,
-              textColor: this.state.textColor
+            _react2.default.createElement(
+              'div',
+              { className: 'status-bar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              },
+              _react2.default.createElement(_StatusBar2.default, {
+                bgColor: this.state.primaryColor,
+                light: this.state.light
+              })
+            ),
+            _react2.default.createElement(_style2.default, {
+              styleId: _WritingTool2.default.__scopedHash,
+              css: _WritingTool2.default.__scoped
             })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'status-bar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-            },
-            _react2.default.createElement(_StatusBar2.default, {
-              bgColor: this.state.primaryColor,
-              light: this.state.light
-            })
-          ),
-          _react2.default.createElement(_style2.default, {
-            styleId: _WritingTool2.default.__scopedHash,
-            css: _WritingTool2.default.__scoped
-          })
+          )
         )
       );
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.unsubscribe();
     }
   }]);
 
@@ -443,26 +467,22 @@ WritingTool.propTypes = {
   }),
   onBack: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
+  askToSaveOnBack: _propTypes2.default.bool,
+  clearCacheOnBack: _propTypes2.default.bool,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
   hideAlignButtons: _propTypes2.default.bool,
   hideClearButton: _propTypes2.default.bool,
-  hideSaveButton: _propTypes2.default.bool,
-  reset: _propTypes2.default.bool // Ignore anything in localstorage if true
+  hideSaveButton: _propTypes2.default.bool
 };
 WritingTool.defaultProps = {
   lang: 'en',
   backgroundImage: '/assets/temple.jpg',
   onSave: function onSave() {},
   onBack: function onBack() {},
-  backConfirmMessage: 'Are you sure? Have you saved your work?',
-  backConfirmButtonText: 'Yes',
-  backCancelButtonText: 'No',
-  clearConfirmMessage: 'Are you sure? You will loose your work.',
-  clearConfirmButtonText: 'Yes',
-  clearCancelButtonText: 'No',
   hideClearButton: true,
   hideSaveButton: false,
-  reset: false
+  clearCacheOnBack: false,
+  askToSaveOnBack: false
 };
 exports.default = WritingTool;

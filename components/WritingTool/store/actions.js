@@ -1,4 +1,5 @@
 import writingTypePresets from '../assets/writing-type-presets.json'
+import writingTypeIcons from '../assets/writing-type-icons.json'
 
 export function init (dispatch, settings) {
   if (settings.loadPresetSections === undefined) {
@@ -6,9 +7,16 @@ export function init (dispatch, settings) {
   }
 
   const preset = writingTypePresets[settings.lang][settings.writingType]
+  preset.icon = writingTypeIcons[settings.writingType]
 
-  if (settings.reset) {
-    dispatch(reset())
+  const cachedState = window && window.localStorage.getItem('nzk-writing-tool-state')
+    ? JSON.parse(window.localStorage.getItem('nzk-writing-tool-state'))
+    : null
+
+  if (cachedState) {
+    settings.writing = cachedState.writing
+    settings.sections = cachedState.sections
+    settings.loadPresetSections = false
   }
 
   dispatch(initPlaceholders(dispatch, preset, settings))
@@ -16,10 +24,24 @@ export function init (dispatch, settings) {
   dispatch(initConstraints(dispatch, preset, settings))
   dispatch(initPrompt(dispatch, preset, settings))
   dispatch(initSections(dispatch, preset, settings))
+}
 
-  return {
-    type: 'INIT'
-  }
+export function clearCachedState (dispatch) {
+  window.localStorage.removeItem('nzk-writing-tool-state')
+  dispatch({
+    type: 'CLEAR_CACHED_STATE'
+  })
+}
+
+export function cacheState (dispatch, state) {
+  window.localStorage.setItem(
+    'nzk-writing-tool-state',
+    JSON.stringify(state)
+  )
+
+  dispatch({
+    type: 'CACHE_STATE'
+  })
 }
 
 export function initPlaceholders (dispatch, preset, { placeholders = {} } = {}) {
@@ -136,11 +158,5 @@ export function setFieldValue (sectionIndex, fieldIndex, value) {
 export function clear () {
   return {
     type: 'CLEAR'
-  }
-}
-
-export function reset () {
-  return {
-    type: 'RESET'
   }
 }
