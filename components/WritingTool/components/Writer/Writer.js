@@ -313,7 +313,7 @@ export default class Writer extends Component {
 
     this.editor.addEventListener('touchmove', function (e) {
       e.stopPropagation()
-    })
+    }, {passive: true})
 
     this.writer.addEventListener('click', function (e) {})
 
@@ -825,12 +825,11 @@ export default class Writer extends Component {
           <Editor
             key='editor'
             spellCheck
-            placeholder={this.props.placeholders.text}
-            placeholderStyle={{
+            placeholder={<span style={{
               color: this.props.light
                 ? 'rgba(0,0,0, .7)'
                 : 'rgba(255,255,255, .7)'
-            }}
+            }}>{this.props.placeholders.text}</span>}
             schema={schema}
             tabIndex={2}
             ref={this.slateEditorRef}

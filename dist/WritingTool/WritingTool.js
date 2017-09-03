@@ -191,10 +191,10 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'getStateToCache',
     value: function getStateToCache() {
-      return {
+      return (0, _lodash.cloneDeep)({
         writing: store.getState().writing,
         sections: store.getState().sections
-      };
+      });
     }
   }, {
     key: 'startAutoCache',

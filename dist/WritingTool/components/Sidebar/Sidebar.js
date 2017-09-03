@@ -186,11 +186,11 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
           scrolling = false;
         }
         e.stopPropagation();
-      });
+      }, { passive: true });
 
       this.host.addEventListener('touchmove', function (e) {
         e.stopPropagation();
-      });
+      }, { passive: true });
     }
   }, {
     key: 'hostRef',
@@ -232,16 +232,9 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
         })
       );
     }
-
-    /**
-     * FOR PHIL, PromptContainer callback!
-     */
-
   }, {
     key: 'onPromptImageClicked',
-    value: function onPromptImageClicked() {
-      console.log('Image clicked!');
-    }
+    value: function onPromptImageClicked() {}
   }, {
     key: 'renderPrompt',
     value: function renderPrompt() {

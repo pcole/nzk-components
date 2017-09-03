@@ -672,10 +672,14 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           _react2.default.createElement(_slate.Editor, {
             key: 'editor',
             spellCheck: true,
-            placeholder: _this.props.placeholders.text,
-            placeholderStyle: {
-              color: _this.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
-            },
+            placeholder: _react2.default.createElement(
+              'span',
+              { style: {
+                  color: _this.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
+                }, 'data-jsx-ext': _Writer2.default.__scopedHash
+              },
+              _this.props.placeholders.text
+            ),
             schema: schema,
             tabIndex: 2,
             ref: _this.slateEditorRef,
@@ -734,7 +738,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
 
       this.editor.addEventListener('touchmove', function (e) {
         e.stopPropagation();
-      });
+      }, { passive: true });
 
       this.writer.addEventListener('click', function (e) {});
 

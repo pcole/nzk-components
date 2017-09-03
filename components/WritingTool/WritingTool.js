@@ -4,7 +4,7 @@ import GSAP from 'react-gsap-enhancer'
 import { TimelineMax, Bounce } from 'gsap'
 import PropTypes from 'prop-types'
 import Color from 'color'
-import { throttle, isEqual } from 'lodash'
+import { throttle, isEqual, cloneDeep} from 'lodash'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 import getColorFromImage from '../../util/getColorFromImage'
 import Writer from './components/Writer/Writer'
@@ -169,10 +169,10 @@ export default class WritingTool extends Component {
   }
 
   getStateToCache () {
-    return {
+    return cloneDeep({
       writing: store.getState().writing,
       sections: store.getState().sections
-    }
+    })
   }
 
   startAutoCache () {

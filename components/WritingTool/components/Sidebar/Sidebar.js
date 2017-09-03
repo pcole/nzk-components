@@ -137,11 +137,11 @@ export default class Sidebar extends Component {
         scrolling = false
       }
       e.stopPropagation()
-    })
+    }, {passive: true})
 
     this.host.addEventListener('touchmove', function (e) {
       e.stopPropagation()
-    })
+    }, {passive: true})
   }
 
   hostRef (el) {
@@ -175,11 +175,7 @@ export default class Sidebar extends Component {
     )
   }
 
-  /**
-   * FOR PHIL, PromptContainer callback!
-   */
   onPromptImageClicked () {
-    console.log('Image clicked!')
   }
 
   renderPrompt () {
