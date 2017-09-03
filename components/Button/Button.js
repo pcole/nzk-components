@@ -122,36 +122,28 @@ export default class Button extends Component {
         return (
           <span {...props} className={className}>
             {children}
-            <style jsx>
-              {styles}
-            </style>
+            <style jsx>{styles}</style>
           </span>
         )
       case 'button':
         return (
           <button {...props} className={className}>
             {children}
-            <style jsx>
-              {styles}
-            </style>
+            <style jsx>{styles}</style>
           </button>
         )
       case 'a':
         return (
           <a {...props} className={className}>
             {children}
-            <style jsx>
-              {styles}
-            </style>
+            <style jsx>{styles}</style>
           </a>
         )
       default:
         return (
           <div {...props} className={className}>
             {children}
-            <style jsx>
-              {styles}
-            </style>
+            <style jsx>{styles}</style>
           </div>
         )
     }

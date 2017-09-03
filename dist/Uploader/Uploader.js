@@ -128,7 +128,8 @@ var Uploader = function (_React$Component) {
               },
               _react2.default.createElement(_reactIntl.FormattedMessage, {
                 id: 'uploaderDragOrClick',
-                defaultMessage: 'Drag your image here or click to upload' })
+                defaultMessage: 'Drag your image here or click to upload'
+              })
             )
           )
         ),

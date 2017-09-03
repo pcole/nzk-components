@@ -14,7 +14,7 @@ const buttonSizes = {
 
 storiesOf('Button', module)
   .addDecorator(withKnobs)
-  .add('Plain button', () =>
+  .add('Plain button', () => (
     <Button
       bgColor={color('bgColor', '#55acf1')}
       color={color('color', '#fff')}
@@ -22,8 +22,8 @@ storiesOf('Button', module)
     >
       {text('Label', 'A simple button')}
     </Button>
-  )
-  .add('With shadow and gradient', () =>
+  ))
+  .add('With shadow and gradient', () => (
     <Button
       bgColor={color('bgColor', '#55acf1')}
       color={color('color', '#fff')}
@@ -33,8 +33,8 @@ storiesOf('Button', module)
     >
       {text('Label', 'With shadow & gradient')}
     </Button>
-  )
-  .add('Custom gradient', () =>
+  ))
+  .add('Custom gradient', () => (
     <Button
       bgColor={color('bgColor', '#81247A')}
       bgColorTo={color('bgColorTo', '#303993')}
@@ -44,8 +44,8 @@ storiesOf('Button', module)
     >
       {text('Label', 'Custom gradient')}
     </Button>
-  )
-  .add('Round with icon', () =>
+  ))
+  .add('Round with icon', () => (
     <Button
       round
       bgColor={color('bgColor', '#81247A')}
@@ -55,12 +55,12 @@ storiesOf('Button', module)
     >
       <Icon name={text('Icon name', 'pencil')} />
     </Button>
-  )
-  .add('Dispay block', () =>
+  ))
+  .add('Dispay block', () => (
     <Button block={boolean('block', true)}>I display block</Button>
-  )
-  .add('Custom dimensions', () =>
+  ))
+  .add('Custom dimensions', () => (
     <Button width={text('Width', '300px')} height={text('height', '300px')}>
       I can be any size and the text is centered and multiline
     </Button>
-  )
+  ))

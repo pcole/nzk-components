@@ -36,7 +36,7 @@ const initStore = () => {
 
 storiesOf('WritingTool', module)
   .addDecorator(story => <Provider store={initStore()} story={story()} />)
-  .add('Sidebar', () =>
+  .add('Sidebar', () => (
     <div className='host'>
       <Sidebar
         textColor='white'
@@ -51,4 +51,4 @@ storiesOf('WritingTool', module)
         }
       `}</style>
     </div>
-  )
+  ))

@@ -21,7 +21,7 @@ const types = {
 
 storiesOf('WritingTool', module)
   .addDecorator(withKnobs)
-  .add('WritingTool', () =>
+  .add('WritingTool', () => (
     <WritingTool
       image={text('BackgroundImage', '/assets/temple.jpg')}
       prompt={{
@@ -48,4 +48,4 @@ storiesOf('WritingTool', module)
         window.location.reload()
       }}
     />
-  )
+  ))

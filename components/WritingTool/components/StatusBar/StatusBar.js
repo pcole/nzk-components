@@ -30,11 +30,10 @@ export default class StatusBar extends Component {
         <div className='counter'>
           <FormattedMessage
             id='writingToolStatusBarWords'
-            defaultMessage='Words' />: {this.props.wordCount}
+            defaultMessage='Words'
+          />: {this.props.wordCount}
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

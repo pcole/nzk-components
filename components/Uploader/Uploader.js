@@ -67,23 +67,22 @@ export default class Uploader extends React.Component {
             {' '}
           </div>
 
-          { this.props.api && <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
-            { this.state.progress > 0
-              ? <div className='progress-label'>
-                {this.state.progress}%
+          {this.props.api && (
+            <Dropzone accept='image/jpeg, image/png' onDrop={this.onDrop}>
+              {this.state.progress > 0 ? (
+                <div className='progress-label'>{this.state.progress}%</div>
+              ) : (
+                <div className='label'>
+                  <FormattedMessage
+                    id='uploaderDragOrClick'
+                    defaultMessage='Drag your image here or click to upload'
+                  />
                 </div>
-              : <div className='label'>
-                <FormattedMessage
-                  id='uploaderDragOrClick'
-                  defaultMessage='Drag your image here or click to upload' />
-              </div>
-            }
+              )}
             </Dropzone>
-          }
+          )}
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

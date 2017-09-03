@@ -146,20 +146,22 @@ export default class Field extends Component {
 
     return (
       <li className='host' style={hostStyle}>
-        {this.props.type === 'input' &&
+        {this.props.type === 'input' && (
           <AutosizeInput
             inputStyle={inputStyle}
             value={this.state.value}
             onChange={this.onChange}
-          />}
-        {this.props.type === 'textarea' &&
+          />
+        )}
+        {this.props.type === 'textarea' && (
           <textarea
             style={textareaStyle}
             value={this.state.value}
             onChange={this.onChange}
             ref={this.textareaRef}
-          />}
-        {this.props.removable &&
+          />
+        )}
+        {this.props.removable && (
           <div className='remove-button'>
             <Button
               round
@@ -171,10 +173,9 @@ export default class Field extends Component {
             >
               <Icon name='cross' fontSize='13px' />
             </Button>
-          </div>}
-        <style jsx>
-          {styles}
-        </style>
+          </div>
+        )}
+        <style jsx>{styles}</style>
       </li>
     )
   }

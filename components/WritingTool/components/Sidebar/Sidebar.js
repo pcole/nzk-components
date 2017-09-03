@@ -75,28 +75,30 @@ export class PromptContainer extends React.Component {
     return (
       <div className='prompt-content'>
         <p className='prompt-description'>
-          {this.props.image &&
+          {this.props.image && (
             <img
               src={this.props.image}
               className={imageClassName}
               onClick={this.props.onImageClick}
-            />}
+            />
+          )}
 
           <span>
             {this.state.content}
 
-            {this.props.description.length > this.maxLength &&
+            {this.props.description.length > this.maxLength && (
               <a className='read-more' onClick={this.readMore.bind(this)}>
-                {this.state.content.length < this.props.description.length
-                  ? <span className='read-more'>Read&nbsp;more</span>
-                  : <span className='read-less'>Read&nbsp;less</span>}
-              </a>}
+                {this.state.content.length < this.props.description.length ? (
+                  <span className='read-more'>Read&nbsp;more</span>
+                ) : (
+                  <span className='read-less'>Read&nbsp;less</span>
+                )}
+              </a>
+            )}
           </span>
         </p>
 
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }
@@ -168,9 +170,7 @@ export default class Sidebar extends Component {
 
           <div className='bottom-gradient' />
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }
@@ -195,20 +195,17 @@ export default class Sidebar extends Component {
             className='prompt-icon'
             style={{ backgroundImage: `url("${icon}")` }}
           />
-          <div className='prompt-title'>
-            {title}
-          </div>
+          <div className='prompt-title'>{title}</div>
         </div>
 
-        {(image || description) &&
+        {(image || description) && (
           <PromptContainer
             {...this.props.prompt}
             onImageClick={this.onPromptImageClicked}
-          />}
+          />
+        )}
 
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

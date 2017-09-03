@@ -92,9 +92,7 @@ export default class ShareDropdown extends Component {
           </div>
         </div>
 
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

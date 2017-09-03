@@ -70,9 +70,7 @@ export default class Footer extends React.Component {
             <div>Registered Company No. 07706300</div>
           </div>
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

@@ -11,11 +11,11 @@ const positions = {
 
 storiesOf('ShareDropDown', module)
   .addDecorator(withKnobs)
-  .add('Dropdown', () =>
+  .add('Dropdown', () => (
     <ShareDropdown
       shareLink='https://www.nightzookeeper.com'
       position={select('position', positions, 'right')}
       bgColor={color('bgColor', '#eee')}
       color={color('color', '#555')}
     />
-  )
+  ))

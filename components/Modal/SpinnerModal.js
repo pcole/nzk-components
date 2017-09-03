@@ -57,9 +57,7 @@ export default class SpinnerModal extends Component {
           <div className='spinner'>
             <Icon color='white' fontSize='70px' name='time-travel' />
           </div>
-          <style jsx>
-            {styles}
-          </style>
+          <style jsx>{styles}</style>
         </div>
       </Modal>
     )

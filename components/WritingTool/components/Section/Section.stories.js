@@ -33,7 +33,7 @@ const initStore = () => {
 
 storiesOf('WritingTool', module)
   .addDecorator(story => <Provider store={initStore()} story={story()} />)
-  .add('Section', () =>
+  .add('Section', () => (
     <ul className='host'>
       <Section index={0} bgColor='#6CD4FF' textColor='white' />
       <Section index={1} bgColor='#6CD4FF' textColor='white' />
@@ -49,4 +49,4 @@ storiesOf('WritingTool', module)
         `}
       </style>
     </ul>
-  )
+  ))

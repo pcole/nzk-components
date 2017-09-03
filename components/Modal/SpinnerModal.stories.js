@@ -49,9 +49,7 @@ export default class StoryContainer extends Component {
           height: '100vh'
         }}
       >
-        <div>
-          {this.state.message}
-        </div>
+        <div>{this.state.message}</div>
         <SpinnerModal
           isOpen={this.state.isOpen}
           onAfterClose={this.onAfterClose.bind(this)}

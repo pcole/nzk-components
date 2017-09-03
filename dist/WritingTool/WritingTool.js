@@ -191,6 +191,13 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       }, 1000));
     }
   }, {
+    key: 'stopAutoCache',
+    value: function stopAutoCache() {
+      if (this.unsubscribe) {
+        this.unsubscribe();
+      }
+    }
+  }, {
     key: 'onResize',
     value: function onResize(e) {
       if (e.target.window.innerWidth > 1280) {
@@ -252,8 +259,11 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'save',
     value: function save() {
+      var _this3 = this;
+
       this.props.onSave(store.getState().writing, store.getState().sections, function (err) {
         if (!err) {
+          _this3.stopAutoCache();
           (0, _actions.clearCachedState)(store.dispatch);
         }
       });
@@ -270,17 +280,18 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'openSaveOnBackModal',
     value: function openSaveOnBackModal() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.setState({
         confirmModalIsOpen: true,
         confirmModal: {
           message: _react2.default.createElement(_reactIntl.FormattedMessage, {
             id: 'writingToolSaveOnBack',
-            defaultMessage: 'Would you like to save your work?' }),
+            defaultMessage: 'Would you like to save your work?'
+          }),
           onConfirm: function onConfirm() {
-            _this3.closeConfirmModal();
-            _this3.onSave();
+            _this4.closeConfirmModal();
+            _this4.onSave();
           },
           onCancel: this.onBackConfirm
         }
@@ -294,7 +305,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         confirmModal: {
           message: _react2.default.createElement(_reactIntl.FormattedMessage, {
             id: 'writingBackConfirm',
-            defaultMessage: 'Are you sure? You will lose your work if you don\'t save it.' }),
+            defaultMessage: 'Are you sure? You will lose your work if you don\'t save it.'
+          }),
           onConfirm: this.onBackConfirm,
           onCancel: this.closeConfirmModal
         }
@@ -305,6 +317,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function onBackConfirm() {
       this.closeConfirmModal();
       if (this.props.clearCacheOnBack) {
+        this.stopAutoCache();
         (0, _actions.clearCachedState)(store.dispatch);
       }
       this.props.onBack();
@@ -317,16 +330,17 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'openClearConfirmModal',
     value: function openClearConfirmModal() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.setState({
         confirmModalIsOpen: true,
         confirmModal: {
           message: _react2.default.createElement(_reactIntl.FormattedMessage, {
             id: 'writingToolClearConfirm',
-            defaultMessage: 'Are you sure? Your work will be lost.' }),
+            defaultMessage: 'Are you sure? Your work will be lost.'
+          }),
           onConfirm: function onConfirm() {
-            _this4.closeConfirmModal();
+            _this5.closeConfirmModal();
             store.dispatch((0, _actions.clear)());
             (0, _actions.clearCachedState)(store.dispatch);
           },
@@ -427,7 +441,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.unsubscribe();
+      this.stopAutoCache();
     }
   }]);
 

@@ -70,9 +70,7 @@ export default class ConfirmModal extends Component {
       >
         <div className={`host${this.state.open ? ' fadeIn' : ''}`}>
           <div className='modal'>
-            <div className='message'>
-              {this.props.message}
-            </div>
+            <div className='message'>{this.props.message}</div>
             <div className='buttons'>
               <Button
                 bgColor='green'
@@ -81,7 +79,7 @@ export default class ConfirmModal extends Component {
                 size='large'
                 onClick={this.onConfirm.bind(this)}
               >
-                { this.props.confirmText || <Icon name='check' color='white' /> }
+                {this.props.confirmText || <Icon name='check' color='white' />}
               </Button>
               <Button
                 bgColor='red'
@@ -90,14 +88,12 @@ export default class ConfirmModal extends Component {
                 size='large'
                 onClick={this.onCancel.bind(this)}
               >
-                { this.props.cancelText || <Icon name='cross' color='white' /> }
+                {this.props.cancelText || <Icon name='cross' color='white' />}
               </Button>
             </div>
           </div>
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </Modal>
     )
   }

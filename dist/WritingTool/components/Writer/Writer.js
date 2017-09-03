@@ -491,9 +491,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: _this.onSave },
-              _react2.default.createElement(_reactIntl.FormattedMessage, {
-                id: 'save',
-                defaultMessage: 'Save' })
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'save', defaultMessage: 'Save' })
             )
           ),
           !_this.props.hideClearButton && _react2.default.createElement(
@@ -503,9 +501,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             _react2.default.createElement(
               _Button2.default,
               { bgColor: 'white', shadow: true, onClick: _this.props.onClear },
-              _react2.default.createElement(_reactIntl.FormattedMessage, {
-                id: 'clear',
-                defaultMessage: 'Clear' })
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'clear', defaultMessage: 'Clear' })
             )
           ),
           !_this.props.hideTextStyleButtons && _this.renderMarkButton('bold', 'bold'),

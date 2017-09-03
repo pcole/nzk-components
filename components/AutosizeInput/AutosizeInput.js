@@ -185,10 +185,11 @@ export default class AutosizeInput extends Component {
           {sizerValue}
         </div>
 
-        {this.props.placeholder &&
+        {this.props.placeholder && (
           <div ref={this.placeHolderSizerRef} style={sizerStyle}>
             {this.props.placeholder}
-          </div>}
+          </div>
+        )}
       </div>
     )
   }

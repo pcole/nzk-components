@@ -56,9 +56,7 @@ export default class Section extends Component {
 
     return (
       <div className='host' ref={this.hostRef.bind(this)} style={hostStyle}>
-        <h3>
-          {this.props.title}
-        </h3>
+        <h3>{this.props.title}</h3>
         <ul className='fields'>
           {this.props.fields.map((elem, index) => {
             return (
@@ -77,7 +75,7 @@ export default class Section extends Component {
             )
           })}
 
-          {this.props.userCanAddFields &&
+          {this.props.userCanAddFields && (
             <li className='add-container'>
               <Button
                 onClick={this.onAdd.bind(this)}
@@ -89,12 +87,11 @@ export default class Section extends Component {
               >
                 <Icon name='plus' />
               </Button>
-            </li>}
+            </li>
+          )}
         </ul>
 
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

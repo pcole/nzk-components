@@ -40,5 +40,5 @@ export const defaultState = {
 }
 
 export default () => {
-  return createStore(reducer, {...defaultState}, enhancer)
+  return createStore(reducer, { ...defaultState }, enhancer)
 }

@@ -5,7 +5,7 @@ import { TimelineMax, Bounce } from 'gsap'
 import PropTypes from 'prop-types'
 import Color from 'color'
 import debounce from 'lodash/debounce'
-import {IntlProvider, FormattedMessage} from 'react-intl'
+import { IntlProvider, FormattedMessage } from 'react-intl'
 import getColorFromImage from '../../util/getColorFromImage'
 import Writer from './components/Writer/Writer'
 import Sidebar from './components/Sidebar/Sidebar'
@@ -170,6 +170,12 @@ export default class WritingTool extends Component {
     )
   }
 
+  stopAutoCache () {
+    if (this.unsubscribe) {
+      this.unsubscribe()
+    }
+  }
+
   onResize (e) {
     if (e.target.window.innerWidth > 1280) {
       this.setState({ sidebarOpen: true })
@@ -238,11 +244,16 @@ export default class WritingTool extends Component {
   }
 
   save () {
-    this.props.onSave(store.getState().writing, store.getState().sections, (err) => {
-      if (!err) {
-        clearCachedState(store.dispatch)
+    this.props.onSave(
+      store.getState().writing,
+      store.getState().sections,
+      err => {
+        if (!err) {
+          this.stopAutoCache()
+          clearCachedState(store.dispatch)
+        }
       }
-    })
+    )
   }
 
   onBack () {
@@ -257,9 +268,12 @@ export default class WritingTool extends Component {
     this.setState({
       confirmModalIsOpen: true,
       confirmModal: {
-        message: <FormattedMessage
-          id='writingToolSaveOnBack'
-          defaultMessage='Would you like to save your work?' />,
+        message: (
+          <FormattedMessage
+            id='writingToolSaveOnBack'
+            defaultMessage='Would you like to save your work?'
+          />
+        ),
         onConfirm: () => {
           this.closeConfirmModal()
           this.onSave()
@@ -273,9 +287,12 @@ export default class WritingTool extends Component {
     this.setState({
       confirmModalIsOpen: true,
       confirmModal: {
-        message: <FormattedMessage
-          id='writingBackConfirm'
-          defaultMessage="Are you sure? You will lose your work if you don't save it." />,
+        message: (
+          <FormattedMessage
+            id='writingBackConfirm'
+            defaultMessage="Are you sure? You will lose your work if you don't save it."
+          />
+        ),
         onConfirm: this.onBackConfirm,
         onCancel: this.closeConfirmModal
       }
@@ -285,6 +302,7 @@ export default class WritingTool extends Component {
   onBackConfirm () {
     this.closeConfirmModal()
     if (this.props.clearCacheOnBack) {
+      this.stopAutoCache()
       clearCachedState(store.dispatch)
     }
     this.props.onBack()
@@ -298,9 +316,12 @@ export default class WritingTool extends Component {
     this.setState({
       confirmModalIsOpen: true,
       confirmModal: {
-        message: <FormattedMessage
-          id='writingToolClearConfirm'
-          defaultMessage='Are you sure? Your work will be lost.' />,
+        message: (
+          <FormattedMessage
+            id='writingToolClearConfirm'
+            defaultMessage='Are you sure? Your work will be lost.'
+          />
+        ),
         onConfirm: () => {
           this.closeConfirmModal()
           store.dispatch(clear())
@@ -374,9 +395,7 @@ export default class WritingTool extends Component {
               />
             </div>
 
-            <style jsx>
-              {styles}
-            </style>
+            <style jsx>{styles}</style>
           </div>
         </IntlProvider>
       </Provider>
@@ -384,6 +403,6 @@ export default class WritingTool extends Component {
   }
 
   componentWillUnmount () {
-    this.unsubscribe()
+    this.stopAutoCache()
   }
 }

@@ -54,23 +54,25 @@ const schema = {
         />
       )
     },
-    'align-left': props =>
+    'align-left': props => (
       <p
         style={{
           textAlign: 'left'
         }}
       >
         {props.children}
-      </p>,
-    'align-center': props =>
+      </p>
+    ),
+    'align-center': props => (
       <p
         style={{
           textAlign: 'center'
         }}
       >
         {props.children}
-      </p>,
-    'align-right': props =>
+      </p>
+    ),
+    'align-right': props => (
       <p
         style={{
           textAlign: 'right'
@@ -78,6 +80,7 @@ const schema = {
       >
         {props.children}
       </p>
+    )
   },
   rules: [
     // Rule to insert a paragraph block if the document is empty.
@@ -178,29 +181,13 @@ const rules = [
       if (object.kind !== 'block') return
       switch (object.type) {
         case 'paragraph':
-          return (
-            <p>
-              {children}
-            </p>
-          )
+          return <p>{children}</p>
         case 'align-left':
-          return (
-            <p style={{ textAlign: 'left' }}>
-              {children}
-            </p>
-          )
+          return <p style={{ textAlign: 'left' }}>{children}</p>
         case 'align-center':
-          return (
-            <p style={{ textAlign: 'center' }}>
-              {children}
-            </p>
-          )
+          return <p style={{ textAlign: 'center' }}>{children}</p>
         case 'align-right':
-          return (
-            <p style={{ textAlign: 'right' }}>
-              {children}
-            </p>
-          )
+          return <p style={{ textAlign: 'right' }}>{children}</p>
         case 'image':
           return (
             <img
@@ -237,23 +224,11 @@ const rules = [
       if (object.kind !== 'mark') return
       switch (object.type) {
         case 'bold':
-          return (
-            <strong>
-              {children}
-            </strong>
-          )
+          return <strong>{children}</strong>
         case 'italic':
-          return (
-            <em>
-              {children}
-            </em>
-          )
+          return <em>{children}</em>
         case 'underlined':
-          return (
-            <u>
-              {children}
-            </u>
-          )
+          return <u>{children}</u>
       }
     }
   }
@@ -419,7 +394,10 @@ export default class Writer extends Component {
   }
 
   focusEditor () {
-    const writingState = this.state.writingState.transform().focus().apply()
+    const writingState = this.state.writingState
+      .transform()
+      .focus()
+      .apply()
     this.setState({ writingState })
   }
 
@@ -432,7 +410,10 @@ export default class Writer extends Component {
   onClickMark = (e, type) => {
     e.preventDefault()
     let { writingState } = this.state
-    writingState = writingState.transform().toggleMark(type).apply()
+    writingState = writingState
+      .transform()
+      .toggleMark(type)
+      .apply()
     this.setState({ writingState })
   }
 
@@ -513,9 +494,7 @@ export default class Writer extends Component {
           </div>
           {this.renderEditor()}
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }
@@ -585,23 +564,21 @@ export default class Writer extends Component {
             </Button>
           </div>
 
-          {!this.props.hideSaveButton &&
+          {!this.props.hideSaveButton && (
             <div className='toolbar-button save'>
               <Button bgColor='white' shadow onClick={this.onSave}>
-                <FormattedMessage
-                  id='save'
-                  defaultMessage='Save' />
+                <FormattedMessage id='save' defaultMessage='Save' />
               </Button>
-            </div>}
+            </div>
+          )}
 
-          {!this.props.hideClearButton &&
+          {!this.props.hideClearButton && (
             <div className='toolbar-button clear'>
               <Button bgColor='white' shadow onClick={this.props.onClear}>
-                <FormattedMessage
-                  id='clear'
-                  defaultMessage='Clear' />
+                <FormattedMessage id='clear' defaultMessage='Clear' />
               </Button>
-            </div>}
+            </div>
+          )}
 
           {!this.props.hideTextStyleButtons &&
             this.renderMarkButton('bold', 'bold')}
@@ -619,9 +596,7 @@ export default class Writer extends Component {
             this.renderBlockButton('image', 'picture')}
         </div>
 
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }
@@ -662,9 +637,7 @@ export default class Writer extends Component {
         >
           <Icon name={icon} />
         </span>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </span>
     )
   }
@@ -735,9 +708,7 @@ export default class Writer extends Component {
         >
           <Icon name={icon} />
         </span>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </span>
     )
   }
@@ -818,9 +789,7 @@ export default class Writer extends Component {
             </Button>
           </div>
         </div>
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </Modal>
     )
   }
@@ -876,9 +845,7 @@ export default class Writer extends Component {
           />
         </div>
 
-        <style jsx>
-          {styles}
-        </style>
+        <style jsx>{styles}</style>
       </div>
     )
   }

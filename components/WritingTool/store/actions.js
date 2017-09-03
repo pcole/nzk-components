@@ -9,9 +9,10 @@ export function init (dispatch, settings) {
   const preset = writingTypePresets[settings.lang][settings.writingType]
   preset.icon = writingTypeIcons[settings.writingType]
 
-  const cachedState = window && window.localStorage.getItem('nzk-writing-tool-state')
-    ? JSON.parse(window.localStorage.getItem('nzk-writing-tool-state'))
-    : null
+  const cachedState =
+    window && window.localStorage.getItem('nzk-writing-tool-state')
+      ? JSON.parse(window.localStorage.getItem('nzk-writing-tool-state'))
+      : null
 
   if (cachedState) {
     settings.writing = cachedState.writing
@@ -34,10 +35,7 @@ export function clearCachedState (dispatch) {
 }
 
 export function cacheState (dispatch, state) {
-  window.localStorage.setItem(
-    'nzk-writing-tool-state',
-    JSON.stringify(state)
-  )
+  window.localStorage.setItem('nzk-writing-tool-state', JSON.stringify(state))
 
   dispatch({
     type: 'CACHE_STATE'

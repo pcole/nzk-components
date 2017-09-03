@@ -70,7 +70,8 @@ var StatusBar = (_dec = (0, _reactRedux.connect)(function (store) {
           },
           _react2.default.createElement(_reactIntl.FormattedMessage, {
             id: 'writingToolStatusBarWords',
-            defaultMessage: 'Words' }),
+            defaultMessage: 'Words'
+          }),
           ': ',
           this.props.wordCount
         ),
