@@ -35,9 +35,7 @@ var _color = require('color');
 
 var _color2 = _interopRequireDefault(_color);
 
-var _debounce = require('lodash/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
+var _lodash = require('lodash');
 
 var _reactIntl = require('react-intl');
 
@@ -118,6 +116,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     _this.toggleSidebar = _this.toggleSidebar.bind(_this);
     _this.closeSidebar = _this.closeSidebar.bind(_this);
     _this.onResize = _this.onResize.bind(_this);
+    _this.throttledCacheState = (0, _lodash.throttle)(_this.cacheState, 1000, { leading: false });
     return _this;
   }
 
@@ -168,31 +167,45 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 
       document.addEventListener('touchmove', function (e) {
         e.preventDefault();
-      });
+      }, { passive: true });
 
       document.getElementsByClassName('host')[0].addEventListener('touchmove', function (e) {
         e.preventDefault();
-      });
+      }, { passive: true });
 
       document.getElementsByClassName('background')[0].addEventListener('touchmove', function (e) {
         e.preventDefault();
-      });
+      }, { passive: true });
 
       this.startAutoCache();
     }
   }, {
+    key: 'cacheState',
+    value: function cacheState() {
+      var stateToCache = this.getStateToCache();
+      if (!(0, _lodash.isEqual)(this._cachedState, stateToCache)) {
+        this._cachedState = stateToCache;
+        (0, _actions.cacheState)(store.dispatch, this._cachedState);
+      }
+    }
+  }, {
+    key: 'getStateToCache',
+    value: function getStateToCache() {
+      return {
+        writing: store.getState().writing,
+        sections: store.getState().sections
+      };
+    }
+  }, {
     key: 'startAutoCache',
     value: function startAutoCache() {
-      this.unsubscribe = store.subscribe((0, _debounce2.default)(function () {
-        (0, _actions.cacheState)(store.dispatch, {
-          writing: store.getState().writing,
-          sections: store.getState().sections
-        });
-      }, 1000));
+      this._cachedState = this.getStateToCache();
+      this.unsubscribe = store.subscribe(this.throttledCacheState.bind(this));
     }
   }, {
     key: 'stopAutoCache',
     value: function stopAutoCache() {
+      this.throttledCacheState.cancel();
       if (this.unsubscribe) {
         this.unsubscribe();
       }

@@ -10,6 +10,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _dec, _dec2, _class;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+//import JsPDF from 'jspdf'
+
 
 var _style = require('styled-jsx/style');
 
@@ -38,10 +40,6 @@ var _reactIntl = require('react-intl');
 var _debounce = require('lodash/debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
-
-var _jspdf = require('jspdf');
-
-var _jspdf2 = _interopRequireDefault(_jspdf);
 
 var _words = require('lodash/words');
 
@@ -908,23 +906,48 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       }
     }
   }, {
-    key: 'exportAsPdf',
-    value: function exportAsPdf() {
-      var plain = _slate.Plain.serialize(this.state.writingState);
-      plain = '<p>' + plain.replace(/\n\n/g, '</p><p>');
-      plain += '</p>';
-      var content = '\n    <div style="height: 100%; background: red;">\n        <h1> Writing Sparks </h1>\n        \n        \n        <h2>Your ' + this.props.planning.title + '</h2>\n        <div><b>Date:</b> ' + new Date() + '</div>\n        \n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <h2>' + this.props.writing.title + '</h2>\n        <div>' + plain.replace(/\n/g, '<br />') + '</div>\n        <br/>\n        <div>__________________________________________________________________________________</div>\n        <br/>\n        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>\n    </div>\n    ';
-
-      var pdf = new _jspdf2.default();
-
-      pdf.fromHTML(content, 15, 15, {
-        width: 175
-      }, function () {
-        pdf.save('WritingToolExport.pdf');
-      });
-    }
-  }, {
     key: 'openImageUploaderModal',
+
+
+    // exportAsPdf () {
+    //   var plain = Plain.serialize(this.state.writingState)
+    //   plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
+    //   plain += '</p>'
+    //   var content = `
+    //   <div style="height: 100%; background: red;">
+    //       <h1> Writing Sparks </h1>
+
+
+    //       <h2>Your ${this.props.planning.title}</h2>
+    //       <div><b>Date:</b> ${new Date()}</div>
+
+    //       <br/>
+    //       <div>__________________________________________________________________________________</div>
+    //       <br/>
+    //       <h2>${this.props.writing.title}</h2>
+    //       <div>${plain.replace(/\n/g, '<br />')}</div>
+    //       <br/>
+    //       <div>__________________________________________________________________________________</div>
+    //       <br/>
+    //       <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>
+    //   </div>
+    //   `
+
+    //   var pdf = new JsPDF()
+
+    //   pdf.fromHTML(
+    //     content,
+    //     15,
+    //     15,
+    //     {
+    //       width: 175
+    //     },
+    //     () => {
+    //       pdf.save('WritingToolExport.pdf')
+    //     }
+    //   )
+    // }
+
     value: function openImageUploaderModal() {
       this.setState({
         imageUploaderModalIsOpen: true
