@@ -65,26 +65,26 @@
   },
   "scripts": {
     "precommit": "yarn run test",
-    "build": "rimraf dist/ && babel components --ignore 'storyshot**,**stories.js' --out-dir dist/ --copy-files",
+    "build": "rimraf dist/ && babel src --ignore 'storyshot**,**stories.js' --out-dir dist/ --copy-files",
     "test": "jest",
     "standard": "standard --verbose | snazzy",
     "standard-fix": "standard --fix | snazzy",
     "format": "prettier-standard '**/*.js' | standard --fix | snazzy",
-    "storybook": "start-storybook -p 6006 -s ./static",
+    "storybook": "start-storybook -p 6006 -s ./src/static",
     "build-storybook": "build-storybook",
     "translations": "node ./tools/translationRunner.js"
   },
   "standard": {
     "ignore": [
       "dist/",
-      "static/"
+      "src/static/"
     ],
     "parser": "babel-eslint"
   },
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/dis/"
+      "/dist/"
     ]
   },
   "author": "Night Zookeeper",
