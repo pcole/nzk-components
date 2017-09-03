@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
 import { FormattedMessage } from 'react-intl'
 import debounce from 'lodash/debounce'
-import JsPDF from 'jspdf'
+//import JsPDF from 'jspdf'
 import words from 'lodash/words'
 import { setWordCount, setWriting } from '../../store/actions'
 import Modal from '../../../Modal'
@@ -713,44 +713,44 @@ export default class Writer extends Component {
     )
   }
 
-  exportAsPdf () {
-    var plain = Plain.serialize(this.state.writingState)
-    plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
-    plain += '</p>'
-    var content = `
-    <div style="height: 100%; background: red;">
-        <h1> Writing Sparks </h1>
+  // exportAsPdf () {
+  //   var plain = Plain.serialize(this.state.writingState)
+  //   plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
+  //   plain += '</p>'
+  //   var content = `
+  //   <div style="height: 100%; background: red;">
+  //       <h1> Writing Sparks </h1>
         
         
-        <h2>Your ${this.props.planning.title}</h2>
-        <div><b>Date:</b> ${new Date()}</div>
+  //       <h2>Your ${this.props.planning.title}</h2>
+  //       <div><b>Date:</b> ${new Date()}</div>
         
-        <br/>
-        <div>__________________________________________________________________________________</div>
-        <br/>
-        <h2>${this.props.writing.title}</h2>
-        <div>${plain.replace(/\n/g, '<br />')}</div>
-        <br/>
-        <div>__________________________________________________________________________________</div>
-        <br/>
-        <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>
-    </div>
-    `
+  //       <br/>
+  //       <div>__________________________________________________________________________________</div>
+  //       <br/>
+  //       <h2>${this.props.writing.title}</h2>
+  //       <div>${plain.replace(/\n/g, '<br />')}</div>
+  //       <br/>
+  //       <div>__________________________________________________________________________________</div>
+  //       <br/>
+  //       <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>
+  //   </div>
+  //   `
 
-    var pdf = new JsPDF()
+  //   var pdf = new JsPDF()
 
-    pdf.fromHTML(
-      content,
-      15,
-      15,
-      {
-        width: 175
-      },
-      () => {
-        pdf.save('WritingToolExport.pdf')
-      }
-    )
-  }
+  //   pdf.fromHTML(
+  //     content,
+  //     15,
+  //     15,
+  //     {
+  //       width: 175
+  //     },
+  //     () => {
+  //       pdf.save('WritingToolExport.pdf')
+  //     }
+  //   )
+  // }
 
   openImageUploaderModal () {
     this.setState({

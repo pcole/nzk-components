@@ -4,7 +4,7 @@ import GSAP from 'react-gsap-enhancer'
 import { TimelineMax, Bounce } from 'gsap'
 import PropTypes from 'prop-types'
 import Color from 'color'
-import debounce from 'lodash/debounce'
+import { throttle, isEqual } from 'lodash'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 import getColorFromImage from '../../util/getColorFromImage'
 import Writer from './components/Writer/Writer'
@@ -97,6 +97,7 @@ export default class WritingTool extends Component {
     this.toggleSidebar = this.toggleSidebar.bind(this)
     this.closeSidebar = this.closeSidebar.bind(this)
     this.onResize = this.onResize.bind(this)
+    this.throttledCacheState = throttle(this.cacheState, 1000, {leading: false})
   }
 
   componentWillMount () {
@@ -142,35 +143,45 @@ export default class WritingTool extends Component {
 
     document.addEventListener('touchmove', function (e) {
       e.preventDefault()
-    })
+    }, { passive: true })
 
     document
       .getElementsByClassName('host')[0]
       .addEventListener('touchmove', function (e) {
         e.preventDefault()
-      })
+      }, { passive: true })
 
     document
       .getElementsByClassName('background')[0]
       .addEventListener('touchmove', function (e) {
         e.preventDefault()
-      })
+      }, { passive: true })
 
     this.startAutoCache()
   }
 
+  cacheState () {
+    const stateToCache = this.getStateToCache()
+    if (!isEqual(this._cachedState, stateToCache)) {
+      this._cachedState = stateToCache
+      cacheState(store.dispatch, this._cachedState)
+    }
+  }
+
+  getStateToCache () {
+    return {
+      writing: store.getState().writing,
+      sections: store.getState().sections
+    }
+  }
+
   startAutoCache () {
-    this.unsubscribe = store.subscribe(
-      debounce(() => {
-        cacheState(store.dispatch, {
-          writing: store.getState().writing,
-          sections: store.getState().sections
-        })
-      }, 1000)
-    )
+    this._cachedState = this.getStateToCache()
+    this.unsubscribe = store.subscribe(this.throttledCacheState.bind(this))
   }
 
   stopAutoCache () {
+    this.throttledCacheState.cancel()
     if (this.unsubscribe) {
       this.unsubscribe()
     }
