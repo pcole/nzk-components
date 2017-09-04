@@ -144,6 +144,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 
       (0, _getColorFromImage2.default)(this.props.backgroundImage, function (err, color) {
         if (err) {
+          console.log(err);
           return;
         }
 
@@ -151,6 +152,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
         var light = primaryColor.light();
         var secondaryColor = light ? primaryColor.darken(0.3) : primaryColor.lighten(0.3);
 
+        console.log(primaryColor, light, secondaryColor);
         _this2.setState({
           primaryColor: primaryColor,
           primaryFadedColor: primaryColor.fade(0.3),

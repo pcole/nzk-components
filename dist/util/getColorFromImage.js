@@ -34,7 +34,15 @@ function getColorFromImage(url, callback) {
       return;
     }
 
-    var color = palette.Vibrant.getRgb();
+    var selected = void 0;
+
+    for (var key in palette) {
+      if (!selected || palette[key] && selected.population < palette[key].population) {
+        selected = palette[key];
+      }
+    }
+
+    var color = selected.getRgb();
 
     cache.unshift({ url: url, color: color });
 
