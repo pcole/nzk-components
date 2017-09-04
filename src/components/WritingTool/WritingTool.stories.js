@@ -23,7 +23,7 @@ storiesOf('WritingTool', module)
   .addDecorator(withKnobs)
   .add('WritingTool', () => (
     <WritingTool
-      image={text('BackgroundImage', '/assets/temple.jpg')}
+      backgroundImage={text('BackgroundImage', '/assets/temple.jpg')}
       prompt={{
         image: text('Image', '/assets/temple.jpg'),
         description: text(

@@ -119,6 +119,7 @@ export default class WritingTool extends Component {
   setColorsFromBackgroundImage () {
     getColorFromImage(this.props.backgroundImage, (err, color) => {
       if (err) {
+        console.log(err)
         return
       }
 
@@ -128,6 +129,7 @@ export default class WritingTool extends Component {
         ? primaryColor.darken(0.3)
         : primaryColor.lighten(0.3)
 
+      console.log(primaryColor, light, secondaryColor)
       this.setState({
         primaryColor,
         primaryFadedColor: primaryColor.fade(0.3),

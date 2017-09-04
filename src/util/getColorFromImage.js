@@ -19,7 +19,15 @@ export default function getColorFromImage (url, callback) {
       return
     }
 
-    const color = palette.Vibrant.getRgb()
+    let selected
+
+    for (let key in palette) {
+      if (!selected || (palette[key] && selected.population < palette[key].population)) {
+        selected = palette[key]
+      }
+    }
+
+    const color = selected.getRgb()
 
     cache.unshift({ url, color })
 
