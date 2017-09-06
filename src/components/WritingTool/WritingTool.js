@@ -4,7 +4,7 @@ import GSAP from 'react-gsap-enhancer'
 import { TimelineMax, Bounce } from 'gsap'
 import PropTypes from 'prop-types'
 import Color from 'color'
-import { throttle, isEqual, cloneDeep} from 'lodash'
+import { throttle, isEqual, cloneDeep } from 'lodash'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 import getColorFromImage from '../../util/getColorFromImage'
 import Writer from './components/Writer/Writer'
@@ -129,7 +129,6 @@ export default class WritingTool extends Component {
         ? primaryColor.darken(0.3)
         : primaryColor.lighten(0.3)
 
-      console.log(primaryColor, light, secondaryColor)
       this.setState({
         primaryColor,
         primaryFadedColor: primaryColor.fade(0.3),

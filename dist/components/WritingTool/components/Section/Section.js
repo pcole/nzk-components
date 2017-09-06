@@ -113,13 +113,8 @@ var Section = (_dec = (0, _reactRedux.connect)(function (store, ownProps) {
         'div',
         { className: 'host', ref: this.hostRef.bind(this), style: hostStyle, 'data-jsx-ext': _Section2.default.__scopedHash
         },
-        _react2.default.createElement(
-          'h3',
-          {
-            'data-jsx-ext': _Section2.default.__scopedHash
-          },
-          this.props.title
-        ),
+        _react2.default.createElement('h3', { dangerouslySetInnerHTML: { __html: this.props.title }, 'data-jsx-ext': _Section2.default.__scopedHash
+        }),
         _react2.default.createElement(
           'ul',
           { className: 'fields', 'data-jsx-ext': _Section2.default.__scopedHash

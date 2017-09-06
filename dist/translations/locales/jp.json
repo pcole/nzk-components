@@ -1,9 +1,9 @@
 {
-  "clear": "Clear",
-  "save": "Save",
-  "uploaderDragOrClick": "Drag your image here or click to upload",
-  "writingBackConfirm": "Are you sure? You will lose your work if you don't save it.",
-  "writingToolClearConfirm": "Are you sure? Your work will be lost.",
-  "writingToolSaveOnBack": "Would you like to save your work?",
-  "writingToolStatusBarWords": "Words"
+  "clear": "消す",
+  "save": "保存",
+  "uploaderDragOrClick": "ファイルをドラッグ または クリック",
+  "writingBackConfirm": "よろしいですか？保存されません",
+  "writingToolClearConfirm": "よろしいですか？保存されません",
+  "writingToolSaveOnBack": "保存しますか？",
+  "writingToolStatusBarWords": "文字"
 }

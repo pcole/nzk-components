@@ -1,7 +1,4 @@
 export default `
-
-
-  
   .host {
     padding: 0;
     margin: 0;

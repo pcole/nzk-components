@@ -1,4 +1,4 @@
-import writingTypePresets from '../assets/writing-type-presets.json'
+import writingTypePresets from '../assets/writing-type-presets'
 import writingTypeIcons from '../assets/writing-type-icons.json'
 
 export function init (dispatch, settings) {

@@ -1,0 +1,659 @@
+{
+  "poem": {
+    "label": "Poem",
+    "titlePlaceholder": "Write the title of your poem here",
+    "textPlaceholder": "Write your poem here",
+    "planningPrompt": "Plan your poem",
+    "planning": [
+      {
+        "title": "How will your poem begin?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What rhyming words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Will you use alliteration?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What similes will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Can you use a metaphor?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "adventure-story": {
+    "label": "Story",
+    "titlePlaceholder": "Write your title here",
+    "textPlaceholder": "Write your story here",
+    "planningPrompt": "Plan your story",
+    "planning": [
+      {
+        "title": "How will your story start?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Who are the characters?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What problem will they have?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Where will your story happen?",
+        "fieldType": "input",
+        "numberOfFields": 2,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What describing words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What verbs will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What nouns will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      }
+    ]
+  },
+  "explanation": {
+    "label": "Explanation",
+    "titlePlaceholder": "Write the subject of your explanation text here",
+    "textPlaceholder": "Write your explanation here",
+    "planningPrompt": "Plan your explanation",
+    "planning": [
+      {
+        "title": "Opening sentence",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What question words will you include?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What cause and effect words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Which words will you use to display time?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What technical vocabulary do you need to use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "instructions": {
+    "label": "Instructions",
+    "titlePlaceholder": "Write your heading here, e.g: How to play Night Zooball",
+    "textPlaceholder": "Write your instructions here",
+    "planningPrompt": "Plan your intstructions",
+    "planning": [
+      {
+        "title": "What are your instructions about?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What equipment do you need?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What ingredients do you need?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What verbs will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "persuasive-writing": {
+    "label": "Opinion",
+    "titlePlaceholder": "Write the title of your argument here",
+    "textPlaceholder": "Write your persuasive argument here",
+    "planningPrompt": "Plan your argument",
+    "planning": [
+      {
+        "title": "What is your opinion?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Give a reason for your opinion",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Back this up with a fact",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Give another reason for your opinion",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Back this up with a fact",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What opinion words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 1,  
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Which transition words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "write your opinion again in your conclusion",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "newspaper-article": {
+    "label": "Newspaper article",
+    "titlePlaceholder": "Write your headline here",
+    "textPlaceholder": "Write your newspaper article here",
+    "planningPrompt": "Plan your article",
+    "planning": [
+      {
+        "title": "Who is the article about?",
+        "fieldType": "input",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What is the article about?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "When did it happen?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Where did it happen?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Why did it happen?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "How did the events happen?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What quotes will you include?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "letter-writing": {
+    "title": "Letter",
+    "titlePlaceholder": "Write the address here e.g. To Grudge the Bear, Waterfly Woods",
+    "textPlaceholder": "Write your letter here",
+    "planningPrompt": "Plan your letter",
+    "planning": [
+      {
+        "title": "Write a fictional address",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Date of postage",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What is their address",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What is your letter about",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "How will you begin your letter?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "How will you end your letter?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "diary-entry": {
+    "label": "Diary",
+    "titlePlaceholder": "Write the title of your diary entry here",
+    "textPlaceholder": "Write your diary entry here",
+    "planningPrompt": "Plan your diary entry",
+    "planning": [
+      {
+        "title": "What date are you writing about?",
+        "fieldType": "input",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Who's point of view are you writing from?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What question will you include?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What words could describe the events?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "playscript": {
+    "label": "Playscript",
+    "titlePlaceholder": "Write the title of your play script here",
+    "textPlaceholder": "Write your playscript here",
+    "planningPrompt": "Plan your playscript",
+    "planning": [
+      {
+        "title": "Who is in your play?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Where will the play happen?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What will the first piece of dialogue be?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What describing words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "recounts": {
+    "title": "Recount",
+    "titlePlaceholder": "Write the title of your recount here",
+    "textPlaceholder": "Write your recount here",
+    "planningPrompt": "Plan your recount",
+    "planning": [
+      {
+        "title": "When did you arrive and leave?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Who did you go with?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What did you do?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Where did you go?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "How did you feel?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What describing words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      }
+    ]
+  },
+  "biography": {
+    "label": "Biography",
+    "titlePlaceholder": "Write the title of your biography here",
+    "textPlaceholder": "Write your biography here",
+    "planningPrompt": "Plan your biography",
+    "planning": [
+      {
+        "title": "Who is this biography about?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "List facts about their life",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "When were they born?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Where did they grow up?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What are they famous for?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What did people say about them?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "How would you describe them?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Write any other notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "report": {
+    "label": "Report",
+    "titlePlaceholder": "Write your title here",
+    "textPlaceholder": "Write your report here",
+    "planningPrompt": "Plan your report",
+    "planning": [
+      {
+        "title": "How will you start your report?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "Can you list facts about your subject?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What technical words do you need to use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "How will your report end?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What sub-headings will you include?",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      }
+    ]
+  },
+  "free-write": {
+    "title": "Free write",
+    "titlePlaceholder": "Write your title here",
+    "textPlaceholder": "Write your story here",
+    "planningPrompt": "Plan your story",
+    "planning": [
+      {
+        "title": "Write your notes here",
+        "fieldType": "textarea",
+        "numberOfFields": 1,
+        "fieldsAreRemovable": false,
+        "userCanAddFields": false
+      },
+      {
+        "title": "What describing words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "Which action words will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      },
+      {
+        "title": "What nouns will you use?",
+        "fieldType": "input",
+        "numberOfFields": 3,
+        "fieldsAreRemovable": true,
+        "userCanAddFields": true
+      }
+    ]
+  }
+}

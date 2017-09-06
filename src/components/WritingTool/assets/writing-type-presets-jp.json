@@ -1,0 +1,661 @@
+{
+  "en": {
+    "poem": {
+      "label": "詩",
+      "titlePlaceholder": "<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>するか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>の<ruby><rb>始</rb><rp>(</rp><rt>は</rt><rp>)</rp></ruby>じまりは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>終</rb><rp>(</rp><rt>お</rt><rp>)</rp></ruby>わりに<ruby><rb>韻</rb><rp>(</rp><rt>いん</rt><rp>)</rp></ruby>を<ruby><rb>踏</rb><rをp>(</rp><rt>ふむ</rt><rp>)</rp></ruby><ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>頭</rb><rp>(</rp><rt>あたま</rt><rp>)</rp></ruby>に<ruby><rb>韻</rb><rp>(</rp><rt>いん</rt><rp>)</rp></ruby>を<ruby><rb>踏</rb><rp>(</rp><rt>ふむ</rt><rp>)</rp></ruby><ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う<ruby><rb>直喩</rb><rp>(</rp><rt>ちょくゆ</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う<ruby><rb>暗喩</rb><rp>(</rp><rt>あんゆ</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "adventure-story": {
+      "label": "物語",
+      "titlePlaceholder": "<ruby><rb>物語</rb><rp>(</rp><rt>ものがたり</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>物語</rb><rp>(</rp><rt>ものがたり</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>物語</rb><rp>(</rp><rt>物語</rt><rp>)</rp></ruby>するか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>物語</rb><rp>(</rp><rt>ものがたり</rt><rp>)</rp></ruby>の<ruby><rb>始</rb><rp>(</rp><rt>は</rt><rp>)</rp></ruby>じまりは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>登場人物</rb><rp>(</rp><rt>とうじょうじんぶつ</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どんなことが<ruby><rb>起</rb><rp>(</rp><rt>お</rt><rp>)</rp></ruby>こる？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>場所</rb><rp>(</rp><rt>ばしょ</rt><rp>)</rp></ruby>はどこ？",
+          "fieldType": "input",
+          "numberOfFields": 2,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どんな<ruby><rb>表現</rb><rp>(</rp><rt>ひょうげん</rt><rp>)</rp></ruby>の<ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どんな<ruby><rb>動詞</rb><rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どんな<ruby><rb>名詞</rb><rp>(</rp><rt>めいし</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        }
+      ]
+    },
+    "explanation": {
+      "label": "説明",
+      "titlePlaceholder": "<ruby><rb>説明</rb><rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby>をするものごとのタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>説明文</rb><rp>(</rp><rt>せつめいぶん</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>説明文</rb><rp>(</rp><rt>せつめいぶん</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>始</rb><rp>(</rp><rt>は</rt><rp>)</rp></ruby>じめに<ruby><rb>何</rb><rp>(</rp><rt>なん</rt><rp>)</rp></ruby>の<ruby><rb>説明</rb><rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby>をするか<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんなように<ruby><rb>説明</rb><rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby>する？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>原因</rb><rp>(</rp><rt>げんいん</rt><rp>)</rp></ruby>と<ruby><rb>結果</rb><rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>の<ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どのように<ruby><rb>時間</rb><rp>(</rp><rt>じかん</rt><rp>)</rp></ruby>を<ruby><rb>表</rb><rp>(</rp><rt>あらわ</rt><rp>)</rp></ruby>す？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>専門</rb><rp>(</rp><rt>せんもん</rt><rp>)</rp></ruby><ruby><rb>用語</rb><rp>(</rp><rt>ようご</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "instructions": {
+      "label": "手順",
+      "titlePlaceholder": "<ruby><rb>見出</rb><rp>(</rp><rt>みだ</rt><rp>)</rp></ruby><ruby><rb>しを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>手順</rb><rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby><ruby><rb>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>文章</rb><rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby><ruby><rb>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>何</rb><rp>(</rp><rt>なに</rt><rp>)</rp></ruby><ruby><rb>について<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>く？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんな<ruby><rb>道具</rb><rp>(</rp><rt>どうぐ</rt><rp>)</rp></ruby><ruby><rb>が<ruby><rb>必要</rb><rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんな<ruby><rb>材料</rb><rp>(</rp><rt>ざいりょう</rt><rp>)</rp></ruby><ruby><rb>が<ruby><rb>必要</rb><rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どんな<ruby><rb>指示動詞</rb><rp>(</rp><rt>しじどうし</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "persuasive-writing": {
+      "label": "意見",
+      "titlePlaceholder": "<ruby><rb>意見</rb><rp>(</rp><rt>いけん</rt><rp>)</rp></ruby>する<ruby><rb>物事</rb><rp>(</rp><rt>ものごと</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>意見文</rb><rp>(</rp><rt>いけんぶん</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>意見文</rb><rp>(</rp><rt>いけんぶん</rt><rp>)</rp>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "あなたの<ruby><rb>意見</rb><rp>(</rp><rt>いけん</rt><rp>)</rp>は？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>理由</rb><rp>(</rp><rt>りゆう</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>理由</rb><rp>(</rp><rt>りゆう</rt><rp>)</rp>の<ruby><rb>根拠</rb><rp>(</rp><rt>こんきょ</rt><rp>)</rp>や<ruby><rb>例</rb><rp>(</rp><rt>れい</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp>こう<ruby><rb>",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "もう1つの<ruby><rb>理由</rb><rp>(</rp><rt>りゆう</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>理由</rb><rp>(</rp><rt>りゆう</rt><rp>)</rp>の<ruby><rb>根拠</rb><rp>(</rp><rt>こんきょ</rt><rp>)</rp>や<ruby><rb>例</rb><rp>(</rp><rt>れい</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp>こう<ruby><rb>",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>反対</rb><rp>(</rp><rt>はんたい</rt><rp>)</rp>の<ruby><rb>意見</rb><rp>(</rp><rt>いけん</rt><rp>)</rp>がある？",
+          "fieldType": "input",
+          "numberOfFields": 1,  
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>転換語</rb><rp>(</rp><rt>てんかんご</rt><rp>)</rp>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp>う？",
+          "fieldType": "input",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "まとめにもう一度<ruby><rb>一度自分</rb><rp>(</rp><rt>いちどじぶん</rt><rp>)</rp>の<ruby><rb>意見</rb><rp>(</rp><rt>いけん</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "newspaper-article": {
+      "label": "新聞記事",
+      "titlePlaceholder": "<ruby><rb>記事</rb><rp>(</rp><rt>きじ</rt><rp>)</rp></ruby>の<ruby><rb>見出</rb><rp>(</rp><rt>みだ</rt><rp>)</rp></ruby>しを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>記事</rb><rp>(</rp><rt>きじ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>記事</rb><rp>(</rp><rt>きじ</rt><rp>)</rp></ruby>するか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>誰</rb><rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>について<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>く？",
+          "fieldType": "input",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>何</rb><rp>(</rp><rt>なに</rt><rp>)</rp></ruby>について<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>く？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "いつの<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>場所</rb><rp>(</rp><rt>ばしょ</rt><rp>)</rp></ruby>は？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "なぜ<ruby><rb>起</rb><rp>(</rp><rt>お</rt><rp>)</rp></ruby>きた？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "それからどうなった？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんな<ruby><rb>引用</rb><rp>(</rp><rt>いんよう</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "letter-writing": {
+      "title": "手紙",
+      "titlePlaceholder": "<ruby><rb>宛先</rb><rp>(</rp><rt>あてさき</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>送</rb><rp>(</rp><rt>おく</rt><rp>)</rp></ruby>り<ruby><rb>主</rb><rp>(</rp><rt>ぬし</rt><rp>)</rp></ruby>の<ruby><rb>架空</rb><rp>(</rp><rt>かくう</rt><rp>)</rp></ruby>の<ruby><rb>授所</rb><rp>(</rp><rt>じゅしょ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>日付</rb><rp>(</rp><rt>ひづけ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>宛先</rb><rp>(</rp><rt>あてさき</rt><rp>)</rp></ruby>の<ruby><rb>授所</rb><rp>(</rp><rt>じゅしょ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>何</rb><rp>(</rp><rt>なに</rt><rp>)</rp></ruby>についての<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>の<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>しは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>の<ruby><rb>終</rb><rp>(</rp><rt>お</rt><rp>)</rp></ruby>わりは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "diary-entry": {
+      "label": "日記",
+      "titlePlaceholder": "<ruby><rb>日記</rb><rp>(</rp><rt>にっき</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>日記</rb><rp>(</rp><rt>にっき</rt><rp>)</rp></ruby>のを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>日記</rb><rp>(</rp><rt>にっき</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>日付</rb><rp>(</rp><rt>ひづけ</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんな<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>について<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>く？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "その<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>で<ruby><rb>一番</rb><rp>(</rp><rt>いちばん</rt><rp>)</rp></ruby><ruby><rb>印象</rb><rp>(</rp><rt>いんしょう</rt><rp>)</rp></ruby>に<ruby><rb>残</rb><rp>(</rp><rt>のこ</rt><rp>)</rp></ruby>ったことは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "その<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>について<ruby><rb>感</rb><rp>(</rp><rt>かん</rt><rp>)</rp></ruby>じたこと？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "playscript": {
+      "label": "台本",
+      "titlePlaceholder": "<ruby><rb>台本</rb><rp>(</rp><rt>だいほん</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>台本</rb><rp>(</rp><rt>だいほん</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>台本</rb><rp>(</rp><rt>だいほん</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>主役</rb><rp>(</rp><rt>しゅやく</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>舞台</rb><rp>(</rp><rt>ぶたい</rt><rp>)</rp></ruby>はどこ？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "セリフの<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>始</rb><rp>(</rp><rt>はじ</rt><rp>)</rp></ruby>めは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんな<ruby><rb>表現</rb><rp>(</rp><rt>ひょうげん</rt><rp>)</rp></ruby>の<ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "recounts": {
+      "title": "出来事",
+      "titlePlaceholder": "<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>をどう<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>くか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "いつからいつまで？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>誰</rb><rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>と？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>何</rb><rp>(</rp><rt>なに</rt><rp>)</rp></ruby>をした？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>場所</rb><rp>(</rp><rt>ばしょ</rt><rp>)</rp></ruby>はどこ？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どのように<ruby><rb>時間</rb><rp>(</rp><rt>じかん</rt><rp>)</rp></ruby>を<ruby><rb>表</rb><rp>(</rp><rt>あらわ</rt><rp>)</rp></ruby>す？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う<ruby><rb>表現</rb><rp>(</rp><rt>ひょうげん</rt><rp>)</rp></ruby>の<ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        }
+      ]
+    },
+    "biography": {
+      "label": "伝記",
+      "titlePlaceholder": "<ruby><rb>伝記</rb><rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>伝記</rb><rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "<ruby><rb>伝記</rb><rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>をどう<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>くか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>誰</rb><rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>について<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>く？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "その<ruby><rb>人</rb><rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>に<ruby><rb>関</rb><rp>(</rp><rt>かか</rt><rp>)</rp></ruby>わる<ruby><rb>事実</rb><rp>(</rp><rt>じじす</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>生</rb><rp>(</rp><rt>う</rt><rp>)</rp></ruby>まれたのはいつ？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どこで<ruby><rb>育</rb><rp>(</rp><rt>そだ</rt><rp>)</rp></ruby>った？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんなことで<ruby><rb>有名</rb><rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby>？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>世間</rb><rp>(</rp><rt>せけん</rt><rp>)</rp></ruby>の<ruby><rb>評判</rb><rp>(</rp><rt>ひょうばん</rt><rp>)</rp></ruby>は？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "その<ruby><rb>人</rb><rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>についてどう<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>他</rb><rp>(</rp><rt>ほか</rt><rp>)</rp></ruby>に<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>いたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "report": {
+      "label": "レポート",
+      "titlePlaceholder": "レポートのタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "レポートを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんなレポートを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>くか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "レポートを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>始</rb><rp>(</rp><rt>はじ</rt><rp>)</rp></ruby>めは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "レポートに<ruby><rb>関</rb><rp>(</rp><rt>かか</rt><rp>)</rp></ruby>わる<ruby><rb>事実</rb><rp>(</rp><rt>じじす</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>専門</rb><rp>(</rp><rt>せんもん</rt><rp>)</rp></ruby><ruby><rb>用語</rb><rp>(</rp><rt>ようご</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "レポートの<ruby><rb>終</rb><rp>(</rp><rt>お</rt><rp>)</rp></ruby>わりは？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "<ruby><rb>小見出</rb><rp>(</rp><rt>こみだ</rt><rp>)</rp></ruby>しを<ruby><rb>入</rt><rp>(</rp><rt>い</rt><rp>)</rp></ruby>れる？",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        }
+      ]
+    },
+    "free-write": {
+      "title": "自由作文",
+      "titlePlaceholder": "タイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "textPlaceholder": "<ruby><rb>作文</rb><rp>(</rp><rt>さくぶん</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+      "planningPrompt": "どんな<ruby><rb>作文</rb><rp>(</rp><rt>さくぶん</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
+      "planning": [
+        {
+          "title": "<ruby><rb>思</rb><rp>(</rp><rt>おも</rt><rp>)</rp></ruby>についたことを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>き<ruby><rb>出</rb><rp>(</rp><rt>だ</rt><rp>)</rp></ruby>そう",
+          "fieldType": "textarea",
+          "numberOfFields": 1,
+          "fieldsAreRemovable": false,
+          "userCanAddFields": false
+        },
+        {
+          "title": "どんな<ruby><rb>表現</rb><rp>(</rp><rt>ひょうげん</rt><rp>)</rp></ruby>の<ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>う？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "<ruby><rb>動作</rb><rp>(</rp><rt>動作</rt><rp>)</rp></ruby>を<ruby><rb>表</rb><rp>(</rp><rt>あらわ</rt><rp>)</rp></ruby>す<ruby><rb>言葉</rb><rp>(</rp><rt>ことば</rt><rp>)</rp></ruby>は？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        },
+        {
+          "title": "どんな<ruby><rb>名詞</rb><rp>(</rp><rt>めいし</rt><rp>)</rp></ruby>を<ruby><rb>使</rb><rp>(</rp><rt>つか</rt><rp>)</rp></ruby>うか？",
+          "fieldType": "input",
+          "numberOfFields": 3,
+          "fieldsAreRemovable": true,
+          "userCanAddFields": true
+        }
+      ]
+    }
+  }
+}

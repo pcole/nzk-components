@@ -22,7 +22,7 @@ exports.addField = addField;
 exports.setFieldValue = setFieldValue;
 exports.clear = clear;
 
-var _writingTypePresets = require('../assets/writing-type-presets.json');
+var _writingTypePresets = require('../assets/writing-type-presets');
 
 var _writingTypePresets2 = _interopRequireDefault(_writingTypePresets);
 
