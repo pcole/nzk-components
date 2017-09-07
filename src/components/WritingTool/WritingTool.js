@@ -54,7 +54,7 @@ export default class WritingTool extends Component {
       image: PropTypes.string
     }),
     loadPresetSections: PropTypes.bool,
-    sections: PropTypes.shape({
+    sections: PropTypes.arrayOf(PropTypes.shape({
       prepend: PropTypes.bool,
       title: PropTypes.string,
       component: PropTypes.node,
@@ -62,7 +62,7 @@ export default class WritingTool extends Component {
       numberOfFields: PropTypes.number,
       userCanAddFields: PropTypes.bool,
       fieldsAreRemovable: PropTypes.bool
-    }),
+    })),
     onBack: PropTypes.func,
     onSave: PropTypes.func,
     askToSaveOnBack: PropTypes.bool,

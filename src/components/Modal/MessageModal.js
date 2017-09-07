@@ -72,7 +72,7 @@ export default class MessageModal extends Component {
                 return (
                   <Button
                     key={index}
-                    onClick={ () => {this.onButtonClick(index)}}
+                    onClick={() => { this.onButtonClick(index) }}
                     {...props}
                   >
                     {icon && <Icon {...icon} />}

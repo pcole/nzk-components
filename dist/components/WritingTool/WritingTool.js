@@ -511,7 +511,7 @@ WritingTool.propTypes = {
     image: _propTypes2.default.string
   }),
   loadPresetSections: _propTypes2.default.bool,
-  sections: _propTypes2.default.shape({
+  sections: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     prepend: _propTypes2.default.bool,
     title: _propTypes2.default.string,
     component: _propTypes2.default.node,
@@ -519,7 +519,7 @@ WritingTool.propTypes = {
     numberOfFields: _propTypes2.default.number,
     userCanAddFields: _propTypes2.default.bool,
     fieldsAreRemovable: _propTypes2.default.bool
-  }),
+  })),
   onBack: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
   askToSaveOnBack: _propTypes2.default.bool,
