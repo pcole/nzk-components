@@ -362,6 +362,8 @@ export default class WritingTool extends Component {
       ? messages['simp-en']
       : messages[lang]
 
+    console.log('writing too', lang, localMessages)
+
     return (
       <Provider store={store}>
         <IntlProvider key={lang} locale={lang} messages={localMessages} >

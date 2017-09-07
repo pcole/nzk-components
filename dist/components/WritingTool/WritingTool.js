@@ -390,6 +390,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       lang = this.props.lang === 'simp-en' ? 'en' : this.props.lang;
       var localMessages = this.props.lang === 'simp-en' ? messages['simp-en'] : messages[lang];
 
+      console.log('writing too', lang, localMessages);
+
       return _react2.default.createElement(
         _reactRedux.Provider,
         { store: store },
