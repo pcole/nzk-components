@@ -2,7 +2,7 @@
   
   "poem": {
     "label": "詩",
-    "titlePlaceholder": "<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "詩のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>詩</rb><rp>(</rp><rt>じ</rt><rp>)</rp></ruby>するか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -52,7 +52,7 @@
   },
   "adventure-story": {
     "label": "物語",
-    "titlePlaceholder": "<ruby><rb>物語</rb><rp>(</rp><rt>ものがたり</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "物語のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>物語</rb><rp>(</rp><rt>ものがたり</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>物語</rb><rp>(</rp><rt>物語</rt><rp>)</rp></ruby>するか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -109,7 +109,7 @@
   },
   "explanation": {
     "label": "説明",
-    "titlePlaceholder": "<ruby><rb>説明</rb><rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby>をするものごとのタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "説明をするものごとのタイトルを書こう",
     "textPlaceholder": "<ruby><rb>説明文</rb><rp>(</rp><rt>せつめいぶん</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>説明文</rb><rp>(</rp><rt>せつめいぶん</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -159,7 +159,7 @@
   },
   "instructions": {
     "label": "手順",
-    "titlePlaceholder": "<ruby><rb>見出</rb><rp>(</rp><rt>みだ</rt><rp>)</rp></ruby><ruby><rb>しを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "見出しを書こう",
     "textPlaceholder": "<ruby><rb>手順</rb><rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby><ruby><rb>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>文章</rb><rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby><ruby><rb>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -202,7 +202,7 @@
   },
   "persuasive-writing": {
     "label": "意見",
-    "titlePlaceholder": "<ruby><rb>意見</rb><rp>(</rp><rt>いけん</rt><rp>)</rp></ruby>する<ruby><rb>物事</rb><rp>(</rp><rt>ものごと</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "意見する物事のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>意見文</rb><rp>(</rp><rt>いけんぶん</rt><rp>)</rp>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>意見文</rb><rp>(</rp><rt>いけんぶん</rt><rp>)</rp>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -266,7 +266,7 @@
   },
   "newspaper-article": {
     "label": "新聞記事",
-    "titlePlaceholder": "<ruby><rb>記事</rb><rp>(</rp><rt>きじ</rt><rp>)</rp></ruby>の<ruby><rb>見出</rb><rp>(</rp><rt>みだ</rt><rp>)</rp></ruby>しを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "記事の見出しを書こう",
     "textPlaceholder": "<ruby><rb>記事</rb><rp>(</rp><rt>きじ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>記事</rb><rp>(</rp><rt>きじ</rt><rp>)</rp></ruby>するか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -323,7 +323,7 @@
   },
   "letter-writing": {
     "title": "手紙",
-    "titlePlaceholder": "<ruby><rb>宛先</rb><rp>(</rp><rt>あてさき</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "宛先を書こう",
     "textPlaceholder": "<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>手紙</rb><rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -380,7 +380,7 @@
   },
   "diary-entry": {
     "label": "日記",
-    "titlePlaceholder": "<ruby><rb>日記</rb><rp>(</rp><rt>にっき</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "日記のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>日記</rb><rp>(</rp><rt>にっき</rt><rp>)</rp></ruby>のを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>日記</rb><rp>(</rp><rt>にっき</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -423,7 +423,7 @@
   },
   "playscript": {
     "label": "台本",
-    "titlePlaceholder": "<ruby><rb>台本</rb><rp>(</rp><rt>だいほん</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "台本のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>台本</rb><rp>(</rp><rt>だいほん</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>台本</rb><rp>(</rp><rt>だいほん</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -466,7 +466,7 @@
   },
   "recounts": {
     "title": "出来事",
-    "titlePlaceholder": "<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "出来事のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "<ruby><rb>出来事</rb><rp>(</rp><rt>できごと</rt><rp>)</rp></ruby>をどう<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>くか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -516,7 +516,7 @@
   },
   "biography": {
     "label": "伝記",
-    "titlePlaceholder": "<ruby><rb>伝記</rb><rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>のタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "伝記のタイトルを書こう",
     "textPlaceholder": "<ruby><rb>伝記</rb><rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "<ruby><rb>伝記</rb><rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>をどう<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>くか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -580,7 +580,7 @@
   },
   "report": {
     "label": "レポート",
-    "titlePlaceholder": "レポートのタイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "レポートのタイトルを書こう",
     "textPlaceholder": "レポートを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんなレポートを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>くか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
@@ -623,7 +623,7 @@
   },
   "free-write": {
     "title": "自由作文",
-    "titlePlaceholder": "タイトルを<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
+    "titlePlaceholder": "タイトルを書こう",
     "textPlaceholder": "<ruby><rb>作文</rb><rp>(</rp><rt>さくぶん</rt><rp>)</rp></ruby>を<ruby><rb>書</rb><rp>(</rp><rt>か</rt><rp>)</rp></ruby>こう",
     "planningPrompt": "どんな<ruby><rb>作文</rb><rp>(</rp><rt>さくぶん</rt><rp>)</rp></ruby>にするか<ruby><rb>考</rb><rp>(</rp><rt>かんが</rt><rp>)</rp></ruby>えよう",
     "planning": [
