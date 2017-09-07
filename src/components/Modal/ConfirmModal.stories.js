@@ -55,8 +55,8 @@ export default class StoryContainer extends Component {
         <ConfirmModal
           isOpen={this.state.modalAIsOpen}
           message='Go to modal B?'
-          confirmText='Yes'
-          cancelText='No'
+          confirmLabel='Yes'
+          cancelLabel='No'
           onConfirm={this.openB.bind(this)}
           onCancel={this.openC.bind(this)}
           delayCloseTimeoutMS={0}
@@ -75,8 +75,8 @@ export default class StoryContainer extends Component {
         <ConfirmModal
           isOpen={this.state.modalCIsOpen}
           message='Close All'
-          confirmText='YES!'
-          cancelText='Back to B'
+          confirmLabel='YES!'
+          cancelLabel='Back to B'
           onConfirm={this.closeAll.bind(this)}
           onCancel={this.openB.bind(this)}
           contentLabel='modalC'

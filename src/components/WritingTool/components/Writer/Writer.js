@@ -245,6 +245,7 @@ const html = new Html({ rules })
 @GSAP()
 export default class Writer extends Component {
   static propTypes = {
+    lang: PropTypes.string,
     placeholders: PropTypes.object,
     writing: PropTypes.object,
     constraints: PropTypes.object,
@@ -267,6 +268,7 @@ export default class Writer extends Component {
     hideTextStyleButtons: false,
     hideAlignButtons: false,
     hideClearButton: true,
+    lang: 'en',
     onBack: () => {},
     onClear: () => {},
     onSave: () => {}
@@ -390,7 +392,12 @@ export default class Writer extends Component {
   }
 
   getWordCountForState = state => {
-    return words(Plain.serialize(state)).length
+    const text = Plain.serialize(state)
+
+    if (this.props.lang === 'jp') {
+      return text.replace(/\s+/g, '').length
+    }
+    return words(text).length
   }
 
   focusEditor () {
@@ -829,7 +836,7 @@ export default class Writer extends Component {
               color: this.props.light
                 ? 'rgba(0,0,0, .7)'
                 : 'rgba(255,255,255, .7)'
-            }}>{this.props.placeholders.text}</span>}
+            }} dangerouslySetInnerHTML={{__html: this.props.placeholders.text}} />}
             schema={schema}
             tabIndex={2}
             ref={this.slateEditorRef}

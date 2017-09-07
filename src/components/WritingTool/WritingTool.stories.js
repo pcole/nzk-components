@@ -32,7 +32,7 @@ storiesOf('WritingTool', module)
         )
       }}
       writingType={select('type', types, 'poem')}
-      lang='en'
+      lang='jp'
       hideImageButton={boolean('hideImageButton', false)}
       hideTextStyleButtons={boolean('hideTextStyleButtons', false)}
       hideAlignButtons={boolean('hideAlignButtons', false)}

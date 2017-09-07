@@ -191,7 +191,7 @@ export default class Sidebar extends Component {
             className='prompt-icon'
             style={{ backgroundImage: `url("${icon}")` }}
           />
-          <div className='prompt-title'>{title}</div>
+          <div className='prompt-title' dangerouslySetInnerHTML={{__html:title}} />
         </div>
 
         {(image || description) && (

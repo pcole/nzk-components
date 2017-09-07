@@ -5,7 +5,7 @@ import { TimelineMax, Bounce } from 'gsap'
 import PropTypes from 'prop-types'
 import Color from 'color'
 import { throttle, isEqual, cloneDeep } from 'lodash'
-import { IntlProvider, FormattedMessage } from 'react-intl'
+import { IntlProvider, FormattedMessage, addLocaleData } from 'react-intl'
 import getColorFromImage from '../../util/getColorFromImage'
 import Writer from './components/Writer/Writer'
 import Sidebar from './components/Sidebar/Sidebar'
@@ -16,6 +16,17 @@ import ConfirmModal from '../Modal/ConfirmModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
 import { init, clear, clearCachedState, cacheState } from './store/actions'
+import jpMessages from '../../translations/locales/jp.json'
+import simpEnMessages from '../../translations/locales/simp-en.json'
+import jv from 'react-intl/locale-data/jv'
+
+const messages = {
+  'jv': jpMessages,
+  'simp-en': simpEnMessages
+}
+
+addLocaleData([...jv])
+
 const store = Store()
 
 @GSAP()
@@ -345,9 +356,15 @@ export default class WritingTool extends Component {
   }
 
   render () {
+    let lang = this.props.lang === 'jp' ? 'jv' : this.props.lang
+    lang = this.props.lang === 'simp-en' ? 'en' : this.props.lang
+    let localMessages = this.props.lang === 'simp-en' 
+      ? messages['simp-en']
+      : messages[lang]
+
     return (
       <Provider store={store}>
-        <IntlProvider locale={this.props.lang}>
+        <IntlProvider key={lang} locale={lang} messages={localMessages} >
           <div className='host'>
             {this.renderConfirmModal()}
             <div
@@ -359,6 +376,7 @@ export default class WritingTool extends Component {
 
             <div className='column left sidebarOpen' name='leftCol'>
               <Writer
+                lang={this.props.lang}
                 primaryColor={this.state.primaryColor}
                 secondaryColor={this.state.primaryFadedColor}
                 textColor={this.state.textColor}
@@ -402,6 +420,7 @@ export default class WritingTool extends Component {
 
             <div className='status-bar'>
               <StatusBar
+                lang={this.props.lang}
                 bgColor={this.state.primaryColor}
                 light={this.state.light}
               />

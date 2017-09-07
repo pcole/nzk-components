@@ -1,33 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Button from '../Button'
-import Icon from '../Icon'
-import Modal from './Modal'
-import styles from './ConfirmModal.styles'
+import MessageModal from './MessageModal'
 
 export default class ConfirmModal extends Component {
   static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
     onConfirm: PropTypes.func,
     onCancel: PropTypes.func,
-    message: PropTypes.string,
-    confirmText: PropTypes.string,
-    cancelText: PropTypes.string,
-    contentLabel: PropTypes.string,
-    delayCloseTimeoutMS: PropTypes.number
+    confirmLabel: PropTypes.string,
+    cancelLabel: PropTypes.string
   }
 
   static defaultProps = {
-    contentLabel: 'confirm',
-    delayCloseTimeoutMS: 500
+    contentLabel: 'confirm'
   }
 
   constructor (props) {
     super(props)
 
     this.state = {
-      open: this.props.isOpen,
-      confirm: false
+      open: this.props.isOpen
     }
   }
 
@@ -41,60 +32,46 @@ export default class ConfirmModal extends Component {
 
   onConfirm () {
     this.setState({
-      confirm: true,
-      open: false
+      open: false,
+      confirm: true
     })
+    this.props.onConfirm && this.props.onConfirm()
   }
 
   onCancel () {
     this.setState({
-      confirm: false,
-      open: false
+      open: false,
+      confirm: false
     })
-  }
-
-  onAfterClose () {
-    this.props.onAfterClose && this.props.onAfterClose(this.state.confirm)
-    this.state.confirm && this.props.onConfirm && this.props.onConfirm()
-    !this.state.confirm && this.props.onCancel && this.props.onCancel()
+    this.props.onCancel && this.props.onCancel()
   }
 
   render () {
-    return (
-      <Modal
-        isOpen={this.state.open}
-        delayCloseTimeoutMS={this.props.delayCloseTimeoutMS}
-        overlayColor='transparent'
-        onAfterClose={this.onAfterClose.bind(this)}
-        contentLabel={this.props.contentLabel}
-      >
-        <div className={`host${this.state.open ? ' fadeIn' : ''}`}>
-          <div className='modal'>
-            <div className='message'>{this.props.message}</div>
-            <div className='buttons'>
-              <Button
-                bgColor='green'
-                shadow
-                round={!this.props.confirmText}
-                size='large'
-                onClick={this.onConfirm.bind(this)}
-              >
-                {this.props.confirmText || <Icon name='check' color='white' />}
-              </Button>
-              <Button
-                bgColor='red'
-                shadow
-                round={!this.props.cancelText}
-                size='large'
-                onClick={this.onCancel.bind(this)}
-              >
-                {this.props.cancelText || <Icon name='cross' color='white' />}
-              </Button>
-            </div>
-          </div>
-        </div>
-        <style jsx>{styles}</style>
-      </Modal>
-    )
+    const {onConfirm, onCancel, isOpen, confirmLabel, cancelLabel, ...props} = this.props
+
+    const buttons = [{
+      bgColor: 'green',
+      label: confirmLabel,
+      icon: confirmLabel
+        ? false
+        : {name: 'check', color: 'white'},
+      shadow: true,
+      round: !confirmLabel,
+      size: 'large',
+      onClick: this.onConfirm.bind(this)
+    },
+    {
+      bgColor: 'red',
+      label: cancelLabel,
+      icon: cancelLabel
+        ? false
+        : {name: 'cross', color: 'white'},
+      shadow: true,
+      round: !cancelLabel,
+      size: 'large',
+      onClick: this.onCancel.bind(this)
+    }]
+
+    return <MessageModal isOpen={this.state.open} buttons={buttons} {...props} />
   }
 }

@@ -366,7 +366,12 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.getWordCountForState = function (state) {
-      return (0, _words2.default)(_slate.Plain.serialize(state)).length;
+      var text = _slate.Plain.serialize(state);
+
+      if (_this.props.lang === 'jp') {
+        return text.replace(/\s+/g, '').length;
+      }
+      return (0, _words2.default)(text).length;
     };
 
     _this.onClickMark = function (e, type) {
@@ -672,14 +677,10 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           _react2.default.createElement(_slate.Editor, {
             key: 'editor',
             spellCheck: true,
-            placeholder: _react2.default.createElement(
-              'span',
-              { style: {
-                  color: _this.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
-                }, 'data-jsx-ext': _Writer2.default.__scopedHash
-              },
-              _this.props.placeholders.text
-            ),
+            placeholder: _react2.default.createElement('span', { style: {
+                color: _this.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
+              }, dangerouslySetInnerHTML: { __html: _this.props.placeholders.text }, 'data-jsx-ext': _Writer2.default.__scopedHash
+            }),
             schema: schema,
             tabIndex: 2,
             ref: _this.slateEditorRef,
@@ -976,6 +977,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   return Writer;
 }(_react.Component)) || _class) || _class);
 Writer.propTypes = {
+  lang: _propTypes2.default.string,
   placeholders: _propTypes2.default.object,
   writing: _propTypes2.default.object,
   constraints: _propTypes2.default.object,
@@ -997,6 +999,7 @@ Writer.defaultProps = {
   hideTextStyleButtons: false,
   hideAlignButtons: false,
   hideClearButton: true,
+  lang: 'en',
   onBack: function onBack() {},
   onClear: function onClear() {},
   onSave: function onSave() {}

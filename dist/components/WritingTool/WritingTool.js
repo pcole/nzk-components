@@ -77,6 +77,18 @@ var _store2 = _interopRequireDefault(_store);
 
 var _actions = require('./store/actions');
 
+var _jp = require('../../translations/locales/jp.json');
+
+var _jp2 = _interopRequireDefault(_jp);
+
+var _simpEn = require('../../translations/locales/simp-en.json');
+
+var _simpEn2 = _interopRequireDefault(_simpEn);
+
+var _jv = require('react-intl/locale-data/jv');
+
+var _jv2 = _interopRequireDefault(_jv);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84,6 +96,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var messages = {
+  'jv': _jp2.default,
+  'simp-en': _simpEn2.default
+};
+
+(0, _reactIntl.addLocaleData)([].concat(_toConsumableArray(_jv2.default)));
 
 var store = (0, _store2.default)();
 
@@ -365,12 +386,16 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'render',
     value: function render() {
+      var lang = this.props.lang === 'jp' ? 'jv' : this.props.lang;
+      lang = this.props.lang === 'simp-en' ? 'en' : this.props.lang;
+      var localMessages = this.props.lang === 'simp-en' ? messages['simp-en'] : messages[lang];
+
       return _react2.default.createElement(
         _reactRedux.Provider,
         { store: store },
         _react2.default.createElement(
           _reactIntl.IntlProvider,
-          { locale: this.props.lang },
+          { key: lang, locale: lang, messages: localMessages },
           _react2.default.createElement(
             'div',
             { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
@@ -388,6 +413,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
               },
               _react2.default.createElement(_Writer2.default, {
+                lang: this.props.lang,
                 primaryColor: this.state.primaryColor,
                 secondaryColor: this.state.primaryFadedColor,
                 textColor: this.state.textColor,
@@ -440,6 +466,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               { className: 'status-bar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
               },
               _react2.default.createElement(_StatusBar2.default, {
+                lang: this.props.lang,
                 bgColor: this.state.primaryColor,
                 light: this.state.light
               })

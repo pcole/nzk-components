@@ -261,12 +261,8 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
             style: { backgroundImage: 'url("' + icon + '")' },
             'data-jsx-ext': _Sidebar2.default.__scopedHash
           }),
-          _react2.default.createElement(
-            'div',
-            { className: 'prompt-title', 'data-jsx-ext': _Sidebar2.default.__scopedHash
-            },
-            title
-          )
+          _react2.default.createElement('div', { className: 'prompt-title', dangerouslySetInnerHTML: { __html: title }, 'data-jsx-ext': _Sidebar2.default.__scopedHash
+          })
         ),
         (image || description) && _react2.default.createElement(PromptContainer, _extends({}, this.props.prompt, {
           onImageClick: this.onPromptImageClicked
