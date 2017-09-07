@@ -387,10 +387,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     key: 'render',
     value: function render() {
       var lang = this.props.lang === 'jp' ? 'jv' : this.props.lang;
-      lang = this.props.lang === 'simp-en' ? 'en' : this.props.lang;
+      lang = this.props.lang === 'simp-en' ? 'en' : lang;
       var localMessages = this.props.lang === 'simp-en' ? messages['simp-en'] : messages[lang];
-
-      console.log('writing too', lang, localMessages);
 
       return _react2.default.createElement(
         _reactRedux.Provider,

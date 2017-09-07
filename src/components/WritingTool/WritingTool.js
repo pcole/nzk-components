@@ -357,12 +357,10 @@ export default class WritingTool extends Component {
 
   render () {
     let lang = this.props.lang === 'jp' ? 'jv' : this.props.lang
-    lang = this.props.lang === 'simp-en' ? 'en' : this.props.lang
-    let localMessages = this.props.lang === 'simp-en' 
+    lang = this.props.lang === 'simp-en' ? 'en' : lang
+    let localMessages = this.props.lang === 'simp-en'
       ? messages['simp-en']
       : messages[lang]
-
-    console.log('writing too', lang, localMessages)
 
     return (
       <Provider store={store}>
