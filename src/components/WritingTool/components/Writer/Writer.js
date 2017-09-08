@@ -813,16 +813,16 @@ export default class Writer extends Component {
         className='editor-wrapper'
         style={{
           boxShadow: `0px 149px 207px 72px ${this.props.light
-            ? 'rgba(255,255,255,0.8)'
-            : 'rgba(0,0,0,0.8)'}`
+            ? 'rgba(255,255,255,0.7)'
+            : 'rgba(0,0,0,0.6)'}`
         }}
       >
         <div
           className='editor'
           style={{
             background: `${this.props.light
-              ? 'rgba(255,255,255,0.8)'
-              : 'rgba(0,0,0,0.8)'}`,
+              ? 'rgba(255,255,255,0.7)'
+              : 'rgba(0,0,0,0.6)'}`,
             color: this.props.light ? 'black' : 'white'
           }}
           ref={this.editorRef}
