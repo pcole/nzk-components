@@ -33,6 +33,10 @@ storiesOf('WritingTool', module)
       }}
       writingType={select('type', types, 'poem')}
       lang='jp'
+      constraints={{
+        minWords: 10,
+        maxWords: 20
+      }}
       hideImageButton={boolean('hideImageButton', false)}
       hideTextStyleButtons={boolean('hideTextStyleButtons', false)}
       hideAlignButtons={boolean('hideAlignButtons', false)}

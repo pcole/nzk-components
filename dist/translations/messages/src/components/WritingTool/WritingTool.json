@@ -1,5 +1,29 @@
 [
   {
+    "id": "writingToolAskForTitle",
+    "defaultMessage": "Please add a title"
+  },
+  {
+    "id": "writingToolWriteMore",
+    "defaultMessage": "Write at least {wordsUnder, plural, one {# more word} other {# more words}}!"
+  },
+  {
+    "id": "writingToolKeepWriting",
+    "defaultMessage": "Keep Writing"
+  },
+  {
+    "id": "writingToolWriteLess",
+    "defaultMessage": "Oops! That's too many words, take away at least {wordsOver, plural, one {# word} other {# words}}."
+  },
+  {
+    "id": "writingToolKeepEditing",
+    "defaultMessage": "Keep Editing"
+  },
+  {
+    "id": "writingToolSaveDraft",
+    "defaultMessage": "Save Draft"
+  },
+  {
     "id": "writingToolSaveOnBack",
     "defaultMessage": "Would you like to save your work?"
   },

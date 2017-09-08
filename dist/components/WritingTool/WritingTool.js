@@ -67,6 +67,10 @@ var _ConfirmModal = require('../Modal/ConfirmModal');
 
 var _ConfirmModal2 = _interopRequireDefault(_ConfirmModal);
 
+var _MessageModal = require('../Modal/MessageModal');
+
+var _MessageModal2 = _interopRequireDefault(_MessageModal);
+
 var _WritingTool = require('./WritingTool.styles');
 
 var _WritingTool2 = _interopRequireDefault(_WritingTool);
@@ -121,9 +125,10 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       primaryColor: undefined,
       secondaryColor: undefined,
       textColor: undefined,
-      confirmModal: {
-        isOpen: false
-      },
+      confirmModalIsOpen: false,
+      confirmModal: {},
+      messageModalIsOpen: false,
+      messageModal: {},
       wordLimit: false
     };
 
@@ -287,18 +292,98 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
       });
     }
   }, {
+    key: 'renderMessageModal',
+    value: function renderMessageModal() {
+      return _react2.default.createElement(_MessageModal2.default, _extends({
+        isOpen: this.state.messageModalIsOpen
+      }, this.state.messageModal));
+    }
+  }, {
     key: 'onSave',
     value: function onSave() {
+      var _this3 = this;
+
+      if (!store.getState().writing.title) {
+        this.setState({
+          messageModalIsOpen: true,
+          messageModal: {
+            message: _react2.default.createElement(_reactIntl.FormattedMessage, {
+              id: 'writingToolAskForTitle',
+              defaultMessage: 'Please add a title'
+            }),
+            onAfterClose: function onAfterClose() {
+              _this3.setState({
+                messageModalIsOpen: false
+              });
+            }
+          }
+        });
+        return;
+      }
+
+      var wordsUnder = store.getState().constraints.minWords - store.getState().wordCount;
+      var wordsOver = store.getState().wordCount - store.getState().constraints.maxWords;
+      var warnDraftMessage = void 0;
+      var buttonLabel = void 0;
+
+      if (wordsUnder > 0) {
+        warnDraftMessage = _react2.default.createElement(_reactIntl.FormattedMessage, {
+          id: 'writingToolWriteMore',
+          defaultMessage: 'Write at least {wordsUnder, plural, one {# more word} other {# more words}}!',
+          values: { wordsUnder: wordsUnder }
+        });
+        buttonLabel = _react2.default.createElement(_reactIntl.FormattedMessage, {
+          id: 'writingToolKeepWriting',
+          defaultMessage: 'Keep Writing'
+        });
+      } else if (wordsOver > 0) {
+        warnDraftMessage = _react2.default.createElement(_reactIntl.FormattedMessage, {
+          id: 'writingToolWriteLess',
+          defaultMessage: 'Oops! That\'s too many words, take away at least {wordsOver, plural, one {# word} other {# words}}.',
+          values: { wordsOver: wordsOver }
+        });
+        buttonLabel = _react2.default.createElement(_reactIntl.FormattedMessage, {
+          id: 'writingToolKeepEditing',
+          defaultMessage: 'Keep Editing'
+        });
+      }
+
+      if (warnDraftMessage) {
+        this.setState({
+          messageModalIsOpen: true,
+          messageModal: {
+            message: warnDraftMessage,
+            buttons: [{
+              label: _react2.default.createElement(_reactIntl.FormattedMessage, {
+                id: 'writingToolSaveDraft',
+                defaultMessage: 'Save Draft'
+              }),
+              bgColor: 'white',
+              color: 'black',
+              onClick: this.save.bind(this)
+            }, {
+              label: buttonLabel
+            }],
+            onAfterClose: function onAfterClose() {
+              _this3.setState({
+                messageModalIsOpen: false
+              });
+            }
+          }
+        });
+        return;
+      }
+
       this.save();
     }
   }, {
     key: 'save',
     value: function save() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.props.onSave(store.getState().writing, store.getState().sections, function (err) {
         if (!err) {
-          _this3.stopAutoCache();
+          _this4.stopAutoCache();
           (0, _actions.clearCachedState)(store.dispatch);
         }
       });
@@ -315,7 +400,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'openSaveOnBackModal',
     value: function openSaveOnBackModal() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.setState({
         confirmModalIsOpen: true,
@@ -325,8 +410,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             defaultMessage: 'Would you like to save your work?'
           }),
           onConfirm: function onConfirm() {
-            _this4.closeConfirmModal();
-            _this4.onSave();
+            _this5.closeConfirmModal();
+            _this5.onSave();
           },
           onCancel: this.onBackConfirm
         }
@@ -365,7 +450,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
   }, {
     key: 'openClearConfirmModal',
     value: function openClearConfirmModal() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.setState({
         confirmModalIsOpen: true,
@@ -375,7 +460,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             defaultMessage: 'Are you sure? Your work will be lost.'
           }),
           onConfirm: function onConfirm() {
-            _this5.closeConfirmModal();
+            _this6.closeConfirmModal();
             store.dispatch((0, _actions.clear)());
             (0, _actions.clearCachedState)(store.dispatch);
           },
@@ -401,6 +486,7 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
             { className: 'host', 'data-jsx-ext': _WritingTool2.default.__scopedHash
             },
             this.renderConfirmModal(),
+            this.renderMessageModal(),
             _react2.default.createElement('div', {
               className: 'background',
               style: {
@@ -523,6 +609,7 @@ WritingTool.propTypes = {
   onBack: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
   askToSaveOnBack: _propTypes2.default.bool,
+  warnDraftStatus: _propTypes2.default.bool,
   clearCacheOnBack: _propTypes2.default.bool,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
@@ -538,6 +625,7 @@ WritingTool.defaultProps = {
   hideClearButton: true,
   hideSaveButton: false,
   clearCacheOnBack: false,
-  askToSaveOnBack: false
+  askToSaveOnBack: false,
+  warnDraftStatus: true
 };
 exports.default = WritingTool;

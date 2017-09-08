@@ -657,7 +657,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         {
           className: 'editor-wrapper',
           style: {
-            boxShadow: '0px 149px 207px 72px ' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+            boxShadow: '0px 149px 207px 72px ' + (_this.props.light ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)')
           },
           'data-jsx-ext': _Writer2.default.__scopedHash
         },
@@ -666,7 +666,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           {
             className: 'editor',
             style: {
-              background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)'),
+              background: '' + (_this.props.light ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)'),
               color: _this.props.light ? 'black' : 'white'
             },
             ref: _this.editorRef,

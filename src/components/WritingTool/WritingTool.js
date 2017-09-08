@@ -13,6 +13,7 @@ import Icon from '../Icon'
 import Button from '../Button'
 import StatusBar from './components/StatusBar/StatusBar'
 import ConfirmModal from '../Modal/ConfirmModal'
+import MessageModal from '../Modal/MessageModal'
 import styles from './WritingTool.styles'
 import Store from './store/store'
 import { init, clear, clearCachedState, cacheState } from './store/actions'
@@ -66,6 +67,7 @@ export default class WritingTool extends Component {
     onBack: PropTypes.func,
     onSave: PropTypes.func,
     askToSaveOnBack: PropTypes.bool,
+    warnDraftStatus: PropTypes.bool,
     clearCacheOnBack: PropTypes.bool,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
@@ -82,7 +84,8 @@ export default class WritingTool extends Component {
     hideClearButton: true,
     hideSaveButton: false,
     clearCacheOnBack: false,
-    askToSaveOnBack: false
+    askToSaveOnBack: false,
+    warnDraftStatus: true
   }
 
   state = {
@@ -90,9 +93,10 @@ export default class WritingTool extends Component {
     primaryColor: undefined,
     secondaryColor: undefined,
     textColor: undefined,
-    confirmModal: {
-      isOpen: false
-    },
+    confirmModalIsOpen: false,
+    confirmModal: {},
+    messageModalIsOpen: false,
+    messageModal: {},
     wordLimit: false
   }
 
@@ -262,7 +266,89 @@ export default class WritingTool extends Component {
     })
   }
 
+  renderMessageModal () {
+    return (
+      <MessageModal
+        isOpen={this.state.messageModalIsOpen}
+        {...this.state.messageModal}
+      />
+    )
+  }
+
   onSave () {
+    if (!store.getState().writing.title) {
+      this.setState({
+        messageModalIsOpen: true,
+        messageModal: {
+          message: (
+            <FormattedMessage
+              id='writingToolAskForTitle'
+              defaultMessage='Please add a title'
+          />
+          ),
+          onAfterClose: () => {
+            this.setState({
+              messageModalIsOpen: false
+            })
+          }
+        }
+      })
+      return
+    }
+
+    const wordsUnder = store.getState().constraints.minWords - store.getState().wordCount
+    const wordsOver = store.getState().wordCount - store.getState().constraints.maxWords
+    let warnDraftMessage
+    let buttonLabel
+
+    if (wordsUnder > 0) {
+      warnDraftMessage = <FormattedMessage
+        id='writingToolWriteMore'
+        defaultMessage='Write at least {wordsUnder, plural, one {# more word} other {# more words}}!'
+        values={{wordsUnder}}
+      />
+      buttonLabel = <FormattedMessage
+        id='writingToolKeepWriting'
+        defaultMessage='Keep Writing'
+      />
+    } else if (wordsOver > 0) {
+      warnDraftMessage = <FormattedMessage
+        id='writingToolWriteLess'
+        defaultMessage="Oops! That's too many words, take away at least {wordsOver, plural, one {# word} other {# words}}."
+        values={{wordsOver}}
+      />
+      buttonLabel = <FormattedMessage
+        id='writingToolKeepEditing'
+        defaultMessage='Keep Editing'
+      />
+    }
+
+    if (warnDraftMessage) {
+      this.setState({
+        messageModalIsOpen: true,
+        messageModal: {
+          message: warnDraftMessage,
+          buttons: [{
+            label: <FormattedMessage
+              id='writingToolSaveDraft'
+              defaultMessage='Save Draft'
+            />,
+            bgColor: 'white',
+            color: 'black',
+            onClick: this.save.bind(this)
+          }, {
+            label: buttonLabel
+          }],
+          onAfterClose: () => {
+            this.setState({
+              messageModalIsOpen: false
+            })
+          }
+        }
+      })
+      return
+    }
+
     this.save()
   }
 
@@ -367,6 +453,7 @@ export default class WritingTool extends Component {
         <IntlProvider key={lang} locale={lang} messages={localMessages} >
           <div className='host'>
             {this.renderConfirmModal()}
+            {this.renderMessageModal()}
             <div
               className='background'
               style={{

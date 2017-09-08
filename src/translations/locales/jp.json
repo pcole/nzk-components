@@ -3,7 +3,13 @@
   "save": "保存",
   "uploaderDragOrClick": "ファイルをドラッグ または クリック",
   "writingBackConfirm": "よろしいですか？保存されません",
+  "writingToolAskForTitle": "タイトルを入力してください。",
   "writingToolClearConfirm": "よろしいですか？保存されません",
+  "writingToolKeepEditing": "編集する",
+  "writingToolKeepWriting": "続きを書く",
+  "writingToolSaveDraft": "下書きを保存",
   "writingToolSaveOnBack": "保存しますか？",
-  "writingToolStatusBarWords": "文字"
+  "writingToolStatusBarWords": "単語",
+  "writingToolWriteLess": "ちょっと多く書きすぎたみたい。 {wordsOver}単語減らしてください。",
+  "writingToolWriteMore": "あと{wordsUnder}単語以上書かなければいけません。"
 }
