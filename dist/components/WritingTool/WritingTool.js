@@ -282,7 +282,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function renderConfirmModal() {
       return _react2.default.createElement(_ConfirmModal2.default, _extends({
         isOpen: this.state.confirmModalIsOpen
-      }, this.state.confirmModal));
+      }, this.state.confirmModal, {
+        contentLabel: 'confirmModal'
+      }));
     }
   }, {
     key: 'closeConfirmModal',
@@ -296,7 +298,9 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
     value: function renderMessageModal() {
       return _react2.default.createElement(_MessageModal2.default, _extends({
         isOpen: this.state.messageModalIsOpen
-      }, this.state.messageModal));
+      }, this.state.messageModal, {
+        contentLabel: 'messageModal'
+      }));
     }
   }, {
     key: 'onSave',
@@ -360,15 +364,15 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               }),
               bgColor: 'white',
               color: 'black',
-              onClick: this.save.bind(this)
+              onClick: function onClick() {
+                _this3.setState({
+                  messageModalIsOpen: false
+                });
+                _this3.save();
+              }
             }, {
               label: buttonLabel
-            }],
-            onAfterClose: function onAfterClose() {
-              _this3.setState({
-                messageModalIsOpen: false
-              });
-            }
+            }]
           }
         });
         return;

@@ -256,6 +256,7 @@ export default class WritingTool extends Component {
       <ConfirmModal
         isOpen={this.state.confirmModalIsOpen}
         {...this.state.confirmModal}
+        contentLabel='confirmModal'
       />
     )
   }
@@ -271,6 +272,7 @@ export default class WritingTool extends Component {
       <MessageModal
         isOpen={this.state.messageModalIsOpen}
         {...this.state.messageModal}
+        contentLabel='messageModal'
       />
     )
   }
@@ -335,15 +337,15 @@ export default class WritingTool extends Component {
             />,
             bgColor: 'white',
             color: 'black',
-            onClick: this.save.bind(this)
+            onClick: () => {
+              this.setState({
+                messageModalIsOpen: false
+              })
+              this.save()
+            }
           }, {
             label: buttonLabel
-          }],
-          onAfterClose: () => {
-            this.setState({
-              messageModalIsOpen: false
-            })
-          }
+          }]
         }
       })
       return
