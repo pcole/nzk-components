@@ -409,7 +409,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
 
     _this.render = function () {
       var hostStyle = {
-        boxShadow: (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)') + ' 0px 60px 59px 140px'
+        boxShadow: (_this.props.light ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)') + ' 0px 60px 59px 140px'
       };
 
       var colorStyle = {
@@ -417,7 +417,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       };
 
       var bgColorStyle = {
-        background: '' + (_this.props.light ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)')
+        background: '' + (_this.props.light ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)')
       };
 
       return _react2.default.createElement(

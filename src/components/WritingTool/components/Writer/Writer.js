@@ -461,8 +461,8 @@ export default class Writer extends Component {
   render = () => {
     const hostStyle = {
       boxShadow: `${this.props.light
-        ? 'rgba(255,255,255,0.8)'
-        : 'rgba(0,0,0,0.8)'} 0px 60px 59px 140px`
+        ? 'rgba(255,255,255,0.6)'
+        : 'rgba(0,0,0,0.6)'} 0px 60px 59px 140px`
     }
 
     const colorStyle = {
@@ -471,8 +471,8 @@ export default class Writer extends Component {
 
     const bgColorStyle = {
       background: `${this.props.light
-        ? 'rgba(255,255,255,0.8)'
-        : 'rgba(0,0,0,0.8)'}`
+        ? 'rgba(255,255,255,0.6)'
+        : 'rgba(0,0,0,0.6)'}`
     }
 
     return (
