@@ -86,7 +86,7 @@ export default `
     top: 20px;
     right: 20px;
   }
-  .title-container{
+  .title-container {
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 30px;
@@ -109,12 +109,12 @@ export default `
     line-height: 1.5;
   }
   
-  .dark .title::placeholder {
-    color: rgba(255,255,255,0.7)
+  .title::placeholder {
+    color: rgba(0,0,0,0.6)
   }
-  
-  .light .title::placeholder {
-    color: rgba(0,0,0,0.7)
+
+  .dark .title::placeholder {
+    color: rgba(255,255,255,0.6)
   }
  
   .title:focus {

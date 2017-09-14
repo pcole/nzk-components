@@ -140,13 +140,15 @@ export default class WritingTool extends Component {
 
       let primaryColor = new Color(color)
       let light = primaryColor.light()
+
       let secondaryColor = light
         ? primaryColor.darken(0.3)
         : primaryColor.lighten(0.3)
 
       this.setState({
         primaryColor,
-        primaryFadedColor: primaryColor.fade(0.3),
+        toolbarColor: light ? primaryColor.whiten(0.2).rgb() : primaryColor.blacken(0.2).rgb(),
+        writerBgColor: light ? primaryColor.whiten(0.5).fade(0.1).rgb() : primaryColor.blacken(0.5).fade(0.1).rgb(),
         secondaryColor,
         textColor: light ? 'black' : 'white',
         light
@@ -462,59 +464,64 @@ export default class WritingTool extends Component {
                 backgroundImage: 'url("' + this.props.backgroundImage + '")'
               }}
             />
-
-            <div className='column left sidebarOpen' name='leftCol'>
-              <Writer
-                lang={this.props.lang}
-                primaryColor={this.state.primaryColor}
-                secondaryColor={this.state.primaryFadedColor}
-                textColor={this.state.textColor}
-                backgroundImage={this.props.backgroundImage}
-                light={this.state.light}
-                onMobileFocus={this.closeSidebar}
-                hideTextStyleButtons={this.props.hideTextStyleButtons}
-                hideAlignButtons={this.props.hideAlignButtons}
-                hideImageButton={this.props.hideImageButton}
-                hideClearButton={this.props.hideClearButton}
-                hideSaveButton={this.props.hideSaveButton}
-                onBack={this.onBack}
-                onSave={this.onSave}
-                onClear={this.onClear}
-              />
-            </div>
-
-            <div className='column right sidebarOpen' name='rightCol'>
-              <div
-                className='sidebar-toggle-btn-container'
-                style={{
-                  backgroundColor: this.state.primaryColor
-                }}
-              >
-                <Button
-                  onClick={this.toggleSidebar}
-                  bgColor={this.state.secondaryColor}
-                  color={this.state.textColor}
-                  round
-                  shadow
-                >
-                  <Icon name={'menu'} color={this.state.textColor} />
-                </Button>
+            { this.state.primaryColor && <div className='colorOverlay' style={{
+              backgroundColor: this.state.writerBgColor,
+              height: '100vh',
+              width: '100vw'
+            }}>
+              <div className='column left sidebarOpen' name='leftCol'>
+                <Writer
+                  lang={this.props.lang}
+                  primaryColor={this.state.primaryColor}
+                  toolbarColor={this.state.toolbarColor}
+                  textColor={this.state.textColor}
+                  backgroundImage={this.props.backgroundImage}
+                  light={this.state.light}
+                  onMobileFocus={this.closeSidebar}
+                  hideTextStyleButtons={this.props.hideTextStyleButtons}
+                  hideAlignButtons={this.props.hideAlignButtons}
+                  hideImageButton={this.props.hideImageButton}
+                  hideClearButton={this.props.hideClearButton}
+                  hideSaveButton={this.props.hideSaveButton}
+                  onBack={this.onBack}
+                  onSave={this.onSave}
+                  onClear={this.onClear}
+                />
               </div>
-              <Sidebar
-                primaryColor={this.state.primaryColor}
-                secondaryColor={this.state.secondaryColor}
-                textColor={this.state.textColor}
-              />
-            </div>
 
-            <div className='status-bar'>
-              <StatusBar
-                lang={this.props.lang}
-                bgColor={this.state.primaryColor}
-                light={this.state.light}
-              />
-            </div>
+              <div className='column right sidebarOpen' name='rightCol'>
+                <div
+                  className='sidebar-toggle-btn-container'
+                  style={{
+                    backgroundColor: this.state.primaryColor
+                  }}
+                >
+                  <Button
+                    onClick={this.toggleSidebar}
+                    bgColor={this.state.secondaryColor}
+                    color={this.state.textColor}
+                    round
+                    shadow
+                  >
+                    <Icon name={'menu'} color={this.state.textColor} />
+                  </Button>
+                </div>
+                <Sidebar
+                  primaryColor={this.state.primaryColor}
+                  secondaryColor={this.state.secondaryColor}
+                  textColor={this.state.textColor}
+                />
+              </div>
 
+              <div className='status-bar'>
+                <StatusBar
+                  lang={this.props.lang}
+                  bgColor={this.state.primaryColor}
+                  light={this.state.light}
+                />
+              </div>
+            </div>
+            }
             <style jsx>{styles}</style>
           </div>
         </IntlProvider>

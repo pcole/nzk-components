@@ -250,7 +250,7 @@ export default class Writer extends Component {
     writing: PropTypes.object,
     constraints: PropTypes.object,
     primaryColor: PropTypes.any,
-    secondaryColor: PropTypes.any,
+    toolbarColor: PropTypes.any,
     textColor: PropTypes.any,
     light: PropTypes.bool,
     onMobileFocus: PropTypes.func,
@@ -282,6 +282,7 @@ export default class Writer extends Component {
       writingState: html.deserialize(this.props.writing.text || '<p></p>', {
         terse: true
       }),
+      placeholderColor: this.props.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)',
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
@@ -328,6 +329,12 @@ export default class Writer extends Component {
       this.setState({
         writingTitle: '',
         writingState: html.deserialize('<p></p>')
+      })
+    }
+
+    if (nextProps.light !== this.props.light) {
+      this.setState({
+        placeholderColor: nextProps.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)'
       })
     }
   }
@@ -459,31 +466,21 @@ export default class Writer extends Component {
   }
 
   render = () => {
-    const hostStyle = {
-      boxShadow: `${this.props.light
-        ? 'rgba(255,255,255,0.6)'
-        : 'rgba(0,0,0,0.6)'} 0px 60px 59px 140px`
-    }
 
     const colorStyle = {
       color: this.props.textColor
     }
 
-    const bgColorStyle = {
-      background: `${this.props.light
-        ? 'rgba(255,255,255,0.6)'
-        : 'rgba(0,0,0,0.6)'}`
-    }
+    const dividerColor = this.props.light ? 'rgba(0, 0, 0, .25)' : 'rgba(255, 255, 255, .25)'
 
     return (
-      <div className='host' style={hostStyle}>
+      <div className='host'>
         {this.renderToolbar()}
         {this.renderImageUploaderModal()}
 
         <div className='writer' ref={this.writerRef}>
           <div
             className={`title-container ${this.props.light ? 'light' : 'dark'}`}
-            style={{ ...bgColorStyle }}
           >
             <textarea
               className='title'
@@ -493,7 +490,7 @@ export default class Writer extends Component {
               onKeyDown={this.onTitleKeyDown}
               style={{
                 ...colorStyle,
-                borderBottom: `2px solid ${this.props.primaryColor}`
+                borderBottom: `2px solid ${dividerColor}`
               }}
               onChange={this.onTitleChange}
               value={this.state.writingTitle}
@@ -556,7 +553,7 @@ export default class Writer extends Component {
   renderToolbar = () => {
     const bgStyle = {
       color: this.props.textColor,
-      backgroundColor: this.props.secondaryColor
+      backgroundColor: this.props.toolbarColor
     }
     return (
       <div
@@ -808,22 +805,16 @@ export default class Writer extends Component {
    */
 
   renderEditor = () => {
+    const placeholder = <span style={{
+      color: this.state.placeholderColor
+    }} dangerouslySetInnerHTML={{__html: this.props.placeholders.text}} />
+
     return (
-      <div
-        className='editor-wrapper'
-        style={{
-          boxShadow: `0px 149px 207px 72px ${this.props.light
-            ? 'rgba(255,255,255,0.7)'
-            : 'rgba(0,0,0,0.6)'}`
-        }}
-      >
+      <div className='editor-wrapper'>
         <div
           className='editor'
           style={{
-            background: `${this.props.light
-              ? 'rgba(255,255,255,0.7)'
-              : 'rgba(0,0,0,0.6)'}`,
-            color: this.props.light ? 'black' : 'white'
+            color: this.props.textColor
           }}
           ref={this.editorRef}
           onClick={this.focusEditor.bind(this)}
@@ -832,11 +823,7 @@ export default class Writer extends Component {
           <Editor
             key='editor'
             spellCheck
-            placeholder={<span style={{
-              color: this.props.light
-                ? 'rgba(0,0,0, .7)'
-                : 'rgba(255,255,255, .7)'
-            }} dangerouslySetInnerHTML={{__html: this.props.placeholders.text}} />}
+            placeholder={placeholder}
             schema={schema}
             tabIndex={2}
             ref={this.slateEditorRef}
@@ -846,7 +833,8 @@ export default class Writer extends Component {
             onChange={this.onStateChange}
             onDocumentChange={this.onDocumentChange}
             style={{
-              height: '100%'
+              height: 'calc(100% - 40px)',
+              paddingBottom: '100px'
             }}
           />
         </div>

@@ -11,6 +11,12 @@ var _nodeVibrant = require('node-vibrant');
 
 var Vibrant = _interopRequireWildcard(_nodeVibrant);
 
+var _color = require('color');
+
+var _color2 = _interopRequireDefault(_color);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 // Extracts the primary color from an image at the given url
@@ -34,17 +40,15 @@ function getColorFromImage(url, callback) {
       return;
     }
 
-    var selected = void 0;
+    var color = new _color2.default(getColorFromPalette(palette));
 
-    for (var key in palette) {
-      if (!selected || palette[key] && selected.population < palette[key].population) {
-        selected = palette[key];
-      }
+    if (color.luminosity() < 0.1) {
+      color = new _color2.default([65, 74, 76]);
+    } else if (color.luminosity() > 0.9) {
+      color = new _color2.default([240, 240, 240]);
     }
 
-    var color = selected.getRgb();
-
-    cache.unshift({ url: url, color: color });
+    cache.unshift({ url: url, color: color.rgb().array() });
 
     if (cache.length > 10) {
       cache.pop();
@@ -52,7 +56,7 @@ function getColorFromImage(url, callback) {
 
     saveCacheToStore(cache);
 
-    callback(null, color);
+    callback(null, color.rgb().array());
   });
 }
 
@@ -66,4 +70,30 @@ function saveCacheToStore() {
   var cache = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
   window.localStorage.setItem('nzk-image-color-cache', JSON.stringify(cache));
+}
+
+function getColorFromPalette(palette) {
+  var paletteArray = [];
+
+  for (var key in palette) {
+    if (palette[key]) {
+      paletteArray.push(palette[key]);
+    }
+  }
+
+  console.log(paletteArray);
+
+  var candidates = paletteArray.sort(function (a, b) {
+    return b.population - a.population;
+  }).slice(0, 3);
+
+  for (var i = 0; i < candidates.length; i++) {
+    candidates[i].lum = new _color2.default(candidates[i].getRgb()).luminosity();
+  }
+
+  var selected = candidates.sort(function (a, b) {
+    return Math.abs(0.5 - a.lum) - Math.abs(0.5 - b.lum);
+  }).slice(0, 1)[0];
+
+  return selected.getRgb();
 }

@@ -176,11 +176,13 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
 
         var primaryColor = new _color2.default(color);
         var light = primaryColor.light();
+
         var secondaryColor = light ? primaryColor.darken(0.3) : primaryColor.lighten(0.3);
 
         _this2.setState({
           primaryColor: primaryColor,
-          primaryFadedColor: primaryColor.fade(0.3),
+          toolbarColor: light ? primaryColor.whiten(0.2).rgb() : primaryColor.blacken(0.2).rgb(),
+          writerBgColor: light ? primaryColor.whiten(0.5).fade(0.1).rgb() : primaryColor.blacken(0.5).fade(0.1).rgb(),
           secondaryColor: secondaryColor,
           textColor: light ? 'black' : 'white',
           light: light
@@ -498,68 +500,77 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
               },
               'data-jsx-ext': _WritingTool2.default.__scopedHash
             }),
-            _react2.default.createElement(
+            this.state.primaryColor && _react2.default.createElement(
               'div',
-              { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-              },
-              _react2.default.createElement(_Writer2.default, {
-                lang: this.props.lang,
-                primaryColor: this.state.primaryColor,
-                secondaryColor: this.state.primaryFadedColor,
-                textColor: this.state.textColor,
-                backgroundImage: this.props.backgroundImage,
-                light: this.state.light,
-                onMobileFocus: this.closeSidebar,
-                hideTextStyleButtons: this.props.hideTextStyleButtons,
-                hideAlignButtons: this.props.hideAlignButtons,
-                hideImageButton: this.props.hideImageButton,
-                hideClearButton: this.props.hideClearButton,
-                hideSaveButton: this.props.hideSaveButton,
-                onBack: this.onBack,
-                onSave: this.onSave,
-                onClear: this.onClear
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'column right sidebarOpen', name: 'rightCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+              { className: 'colorOverlay', style: {
+                  backgroundColor: this.state.writerBgColor,
+                  height: '100vh',
+                  width: '100vw'
+                }, 'data-jsx-ext': _WritingTool2.default.__scopedHash
               },
               _react2.default.createElement(
                 'div',
-                {
-                  className: 'sidebar-toggle-btn-container',
-                  style: {
-                    backgroundColor: this.state.primaryColor
-                  },
-                  'data-jsx-ext': _WritingTool2.default.__scopedHash
+                { className: 'column left sidebarOpen', name: 'leftCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+                },
+                _react2.default.createElement(_Writer2.default, {
+                  lang: this.props.lang,
+                  primaryColor: this.state.primaryColor,
+                  toolbarColor: this.state.toolbarColor,
+                  textColor: this.state.textColor,
+                  backgroundImage: this.props.backgroundImage,
+                  light: this.state.light,
+                  onMobileFocus: this.closeSidebar,
+                  hideTextStyleButtons: this.props.hideTextStyleButtons,
+                  hideAlignButtons: this.props.hideAlignButtons,
+                  hideImageButton: this.props.hideImageButton,
+                  hideClearButton: this.props.hideClearButton,
+                  hideSaveButton: this.props.hideSaveButton,
+                  onBack: this.onBack,
+                  onSave: this.onSave,
+                  onClear: this.onClear
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'column right sidebarOpen', name: 'rightCol', 'data-jsx-ext': _WritingTool2.default.__scopedHash
                 },
                 _react2.default.createElement(
-                  _Button2.default,
+                  'div',
                   {
-                    onClick: this.toggleSidebar,
-                    bgColor: this.state.secondaryColor,
-                    color: this.state.textColor,
-                    round: true,
-                    shadow: true
+                    className: 'sidebar-toggle-btn-container',
+                    style: {
+                      backgroundColor: this.state.primaryColor
+                    },
+                    'data-jsx-ext': _WritingTool2.default.__scopedHash
                   },
-                  _react2.default.createElement(_Icon2.default, { name: 'menu', color: this.state.textColor })
-                )
+                  _react2.default.createElement(
+                    _Button2.default,
+                    {
+                      onClick: this.toggleSidebar,
+                      bgColor: this.state.secondaryColor,
+                      color: this.state.textColor,
+                      round: true,
+                      shadow: true
+                    },
+                    _react2.default.createElement(_Icon2.default, { name: 'menu', color: this.state.textColor })
+                  )
+                ),
+                _react2.default.createElement(_Sidebar2.default, {
+                  primaryColor: this.state.primaryColor,
+                  secondaryColor: this.state.secondaryColor,
+                  textColor: this.state.textColor
+                })
               ),
-              _react2.default.createElement(_Sidebar2.default, {
-                primaryColor: this.state.primaryColor,
-                secondaryColor: this.state.secondaryColor,
-                textColor: this.state.textColor
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'status-bar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
-              },
-              _react2.default.createElement(_StatusBar2.default, {
-                lang: this.props.lang,
-                bgColor: this.state.primaryColor,
-                light: this.state.light
-              })
+              _react2.default.createElement(
+                'div',
+                { className: 'status-bar', 'data-jsx-ext': _WritingTool2.default.__scopedHash
+                },
+                _react2.default.createElement(_StatusBar2.default, {
+                  lang: this.props.lang,
+                  bgColor: this.state.primaryColor,
+                  light: this.state.light
+                })
+              )
             ),
             _react2.default.createElement(_style2.default, {
               styleId: _WritingTool2.default.__scopedHash,

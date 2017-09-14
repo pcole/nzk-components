@@ -32,7 +32,7 @@ storiesOf('WritingTool', module)
         )
       }}
       writingType={select('type', types, 'poem')}
-      lang='jp'
+      lang='en'
       constraints={{
         minWords: 10,
         maxWords: 20

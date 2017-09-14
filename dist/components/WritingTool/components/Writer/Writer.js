@@ -408,21 +408,16 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.render = function () {
-      var hostStyle = {
-        boxShadow: (_this.props.light ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)') + ' 0px 60px 59px 140px'
-      };
 
       var colorStyle = {
         color: _this.props.textColor
       };
 
-      var bgColorStyle = {
-        background: '' + (_this.props.light ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)')
-      };
+      var dividerColor = _this.props.light ? 'rgba(0, 0, 0, .25)' : 'rgba(255, 255, 255, .25)';
 
       return _react2.default.createElement(
         'div',
-        { className: 'host', style: hostStyle, 'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'host', 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _this.renderToolbar(),
         _this.renderImageUploaderModal(),
@@ -434,7 +429,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             'div',
             {
               className: 'title-container ' + (_this.props.light ? 'light' : 'dark'),
-              style: _extends({}, bgColorStyle),
               'data-jsx-ext': _Writer2.default.__scopedHash
             },
             _react2.default.createElement('textarea', {
@@ -444,7 +438,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
               ref: _this.titleRef,
               onKeyDown: _this.onTitleKeyDown,
               style: _extends({}, colorStyle, {
-                borderBottom: '2px solid ' + _this.props.primaryColor
+                borderBottom: '2px solid ' + dividerColor
               }),
               onChange: _this.onTitleChange,
               value: _this.state.writingTitle,
@@ -463,7 +457,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.renderToolbar = function () {
       var bgStyle = {
         color: _this.props.textColor,
-        backgroundColor: _this.props.secondaryColor
+        backgroundColor: _this.props.toolbarColor
       };
       return _react2.default.createElement(
         'div',
@@ -652,22 +646,20 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.renderEditor = function () {
+      var placeholder = _react2.default.createElement('span', { style: {
+          color: _this.state.placeholderColor
+        }, dangerouslySetInnerHTML: { __html: _this.props.placeholders.text } });
+
       return _react2.default.createElement(
         'div',
-        {
-          className: 'editor-wrapper',
-          style: {
-            boxShadow: '0px 149px 207px 72px ' + (_this.props.light ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)')
-          },
-          'data-jsx-ext': _Writer2.default.__scopedHash
+        { className: 'editor-wrapper', 'data-jsx-ext': _Writer2.default.__scopedHash
         },
         _react2.default.createElement(
           'div',
           {
             className: 'editor',
             style: {
-              background: '' + (_this.props.light ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)'),
-              color: _this.props.light ? 'black' : 'white'
+              color: _this.props.textColor
             },
             ref: _this.editorRef,
             onClick: _this.focusEditor.bind(_this),
@@ -677,10 +669,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           _react2.default.createElement(_slate.Editor, {
             key: 'editor',
             spellCheck: true,
-            placeholder: _react2.default.createElement('span', { style: {
-                color: _this.props.light ? 'rgba(0,0,0, .7)' : 'rgba(255,255,255, .7)'
-              }, dangerouslySetInnerHTML: { __html: _this.props.placeholders.text }, 'data-jsx-ext': _Writer2.default.__scopedHash
-            }),
+            placeholder: placeholder,
             schema: schema,
             tabIndex: 2,
             ref: _this.slateEditorRef,
@@ -690,7 +679,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             onChange: _this.onStateChange,
             onDocumentChange: _this.onDocumentChange,
             style: {
-              height: '100%'
+              height: 'calc(100% - 40px)',
+              paddingBottom: '100px'
             }
           })
         ),
@@ -706,6 +696,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       writingState: html.deserialize(_this.props.writing.text || '<p></p>', {
         terse: true
       }),
+      placeholderColor: _this.props.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)',
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
@@ -753,6 +744,12 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         this.setState({
           writingTitle: '',
           writingState: html.deserialize('<p></p>')
+        });
+      }
+
+      if (nextProps.light !== this.props.light) {
+        this.setState({
+          placeholderColor: nextProps.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)'
         });
       }
     }
@@ -982,7 +979,7 @@ Writer.propTypes = {
   writing: _propTypes2.default.object,
   constraints: _propTypes2.default.object,
   primaryColor: _propTypes2.default.any,
-  secondaryColor: _propTypes2.default.any,
+  toolbarColor: _propTypes2.default.any,
   textColor: _propTypes2.default.any,
   light: _propTypes2.default.bool,
   onMobileFocus: _propTypes2.default.func,

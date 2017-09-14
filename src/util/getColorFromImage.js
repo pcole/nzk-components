@@ -1,4 +1,5 @@
 import * as Vibrant from 'node-vibrant'
+import Color from 'color'
 
 // Extracts the primary color from an image at the given url
 // Caches 10 results in localstorage for speed
@@ -19,17 +20,15 @@ export default function getColorFromImage (url, callback) {
       return
     }
 
-    let selected
+    let color = new Color(getColorFromPalette(palette))
 
-    for (let key in palette) {
-      if (!selected || (palette[key] && selected.population < palette[key].population)) {
-        selected = palette[key]
-      }
+    if (color.luminosity() < 0.1) {
+      color = new Color([65, 74, 76])
+    } else if (color.luminosity() > 0.9) {
+      color = new Color([240, 240, 240])
     }
 
-    const color = selected.getRgb()
-
-    cache.unshift({ url, color })
+    cache.unshift({ url, color: color.rgb().array() })
 
     if (cache.length > 10) {
       cache.pop()
@@ -37,7 +36,7 @@ export default function getColorFromImage (url, callback) {
 
     saveCacheToStore(cache)
 
-    callback(null, color)
+    callback(null, color.rgb().array())
   })
 }
 
@@ -49,4 +48,30 @@ export function getCacheFromStore () {
 
 export function saveCacheToStore (cache = []) {
   window.localStorage.setItem('nzk-image-color-cache', JSON.stringify(cache))
+}
+
+function getColorFromPalette (palette) {
+  const paletteArray = []
+
+  for (let key in palette) {
+    if (palette[key]) {
+      paletteArray.push(palette[key])
+    }
+  }
+
+  console.log(paletteArray)
+
+  let candidates = paletteArray.sort((a, b) => {
+    return b.population - a.population
+  }).slice(0, 3)
+
+  for (let i = 0; i < candidates.length; i++) {
+    candidates[i].lum = (new Color(candidates[i].getRgb())).luminosity()
+  }
+
+  let selected = candidates.sort((a, b) => {
+    return Math.abs(0.5 - a.lum) - Math.abs(0.5 - b.lum)
+  }).slice(0, 1)[0]
+
+  return selected.getRgb()
 }
