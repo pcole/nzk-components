@@ -497,7 +497,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
           ),
           !_this.props.hideTextStyleButtons && _this.renderMarkButton('bold', 'bold'),
           !_this.props.hideTextStyleButtons && _this.renderMarkButton('italic', 'italic'),
-          !_this.props.hideTextStyleButtons && _this.renderMarkButton('underlined', 'underline'),
+          !_this.props.hideTextStyleButtons && _this.renderMarkButton('underline', 'underline'),
           !_this.props.hideAlignButtons && _this.renderBlockButton('align-left', 'align-left'),
           !_this.props.hideAlignButtons && _this.renderBlockButton('align-center', 'align-center'),
           !_this.props.hideAlignButtons && _this.renderBlockButton('align-right', 'align-right'),
@@ -597,7 +597,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.renderImageUploaderModal = function () {
       return _react2.default.createElement(
         _Modal2.default,
-        { isOpen: _this.state.imageUploaderModalIsOpen },
+        { contentLabel: 'image-uploader', isOpen: _this.state.imageUploaderModalIsOpen },
         _react2.default.createElement(
           'div',
           {
@@ -684,8 +684,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         })
       );
     };
-
-    console.log(_this.props.writing.text);
 
     _this.state = {
       writingTitle: _this.props.writing.title,

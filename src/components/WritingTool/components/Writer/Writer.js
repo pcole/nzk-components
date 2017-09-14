@@ -266,8 +266,6 @@ export default class Writer extends Component {
   constructor (props) {
     super(props)
 
-    console.log(this.props.writing.text)
-
     this.state = {
       writingTitle: this.props.writing.title,
       writingState: html.deserialize(this.props.writing.text || '<p></p>', {
@@ -580,7 +578,7 @@ export default class Writer extends Component {
           {!this.props.hideTextStyleButtons &&
             this.renderMarkButton('italic', 'italic')}
           {!this.props.hideTextStyleButtons &&
-            this.renderMarkButton('underlined', 'underline')}
+            this.renderMarkButton('underline', 'underline')}
           {!this.props.hideAlignButtons &&
             this.renderBlockButton('align-left', 'align-left')}
           {!this.props.hideAlignButtons &&
@@ -761,7 +759,7 @@ export default class Writer extends Component {
 
   renderImageUploaderModal = () => {
     return (
-      <Modal isOpen={this.state.imageUploaderModalIsOpen}>
+      <Modal contentLabel='image-uploader' isOpen={this.state.imageUploaderModalIsOpen}>
         <div
           onClick={this.closeImageUploaderModal}
           className='image-uploader-container'
