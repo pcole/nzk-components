@@ -343,7 +343,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.onStateChange = function (state) {
-      console.log('state change');
       _this.setState({
         writingState: state
       });

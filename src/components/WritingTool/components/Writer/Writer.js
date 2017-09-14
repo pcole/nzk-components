@@ -365,7 +365,6 @@ export default class Writer extends Component {
   }
 
   onStateChange = state => {
-    console.log('state change')
     this.setState({
       writingState: state
     })
