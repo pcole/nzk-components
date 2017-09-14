@@ -81,8 +81,6 @@ function getColorFromPalette(palette) {
     }
   }
 
-  console.log(paletteArray);
-
   var candidates = paletteArray.sort(function (a, b) {
     return b.population - a.population;
   }).slice(0, 3);

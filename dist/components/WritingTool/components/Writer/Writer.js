@@ -181,7 +181,7 @@ var defaultBlock = {
     italic: {
       fontStyle: 'italic'
     },
-    underlined: {
+    underline: {
       textDecoration: 'underline'
     }
   }
@@ -189,27 +189,21 @@ var defaultBlock = {
 
 var BLOCK_TAGS = {
   p: 'paragraph',
-  em: 'italic',
-  u: 'underline',
   img: 'image'
 };
 
 var MARK_TAGS = {
-  strong: 'bold',
   em: 'italic',
+  strong: 'bold',
   u: 'underline'
 };
 
 var rules = [{
   deserialize: function deserialize(el, next) {
-    if (!el.tagName) return;
-    var block = BLOCK_TAGS[el.tagName.toLowerCase()];
+    var type = BLOCK_TAGS[el.tagName.toLowerCase()];
+    if (!type) return;
 
-    if (!block) return;
-
-    var type = block;
-
-    if (block === 'paragraph' && el.style && el.style['text-align']) {
+    if (type === 'paragraph' && el.style && el.style['text-align']) {
       switch (el.style['text-align']) {
         case 'left':
           type = 'align-left';
@@ -235,10 +229,10 @@ var rules = [{
       nodes: next(el.childNodes),
       data: data
     };
-  }
-}, {
+  },
   serialize: function serialize(object, children) {
     if (object.kind !== 'block') return;
+
     switch (object.type) {
       case 'paragraph':
         return _react2.default.createElement(
@@ -283,11 +277,11 @@ var rules = [{
   }
 }, {
   deserialize: function deserialize(el, next) {
-    var mark = MARK_TAGS[el.tagName];
-    if (!mark) return;
+    var type = MARK_TAGS[el.tagName.toLowerCase()];
+    if (!type) return;
     return {
       kind: 'mark',
-      type: mark,
+      type: type,
       nodes: next(el.childNodes)
     };
   }
@@ -307,7 +301,7 @@ var rules = [{
           null,
           children
         );
-      case 'underlined':
+      case 'underline':
         return _react2.default.createElement(
           'u',
           null,
@@ -349,9 +343,11 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.onStateChange = function (state) {
+      console.log('state change');
       _this.setState({
         writingState: state
       });
+      _this.onDebouncedDocumentChange(document, state);
     };
 
     _this.onDebouncedDocumentChange = function (document, state) {
@@ -361,7 +357,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.onDocumentChange = function (document, state) {
-      _this.onDebouncedDocumentChange(document, state);
       _this.updateWordCount(state);
     };
 
@@ -408,7 +403,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.render = function () {
-
       var colorStyle = {
         color: _this.props.textColor
       };
@@ -690,6 +684,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
         })
       );
     };
+
+    console.log(_this.props.writing.text);
 
     _this.state = {
       writingTitle: _this.props.writing.title,

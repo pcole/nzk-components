@@ -119,7 +119,7 @@ const schema = {
     italic: {
       fontStyle: 'italic'
     },
-    underlined: {
+    underline: {
       textDecoration: 'underline'
     }
   }
@@ -127,28 +127,22 @@ const schema = {
 
 const BLOCK_TAGS = {
   p: 'paragraph',
-  em: 'italic',
-  u: 'underline',
   img: 'image'
 }
 
 const MARK_TAGS = {
-  strong: 'bold',
   em: 'italic',
+  strong: 'bold',
   u: 'underline'
 }
 
 const rules = [
   {
     deserialize (el, next) {
-      if (!el.tagName) return
-      const block = BLOCK_TAGS[el.tagName.toLowerCase()]
+      let type = BLOCK_TAGS[el.tagName.toLowerCase()]
+      if (!type) return
 
-      if (!block) return
-
-      let type = block
-
-      if (block === 'paragraph' && el.style && el.style['text-align']) {
+      if (type === 'paragraph' && el.style && el.style['text-align']) {
         switch (el.style['text-align']) {
           case 'left':
             type = 'align-left'
@@ -174,14 +168,12 @@ const rules = [
         nodes: next(el.childNodes),
         data: data
       }
-    }
-  },
-  {
+    },
     serialize (object, children) {
       if (object.kind !== 'block') return
+
       switch (object.type) {
-        case 'paragraph':
-          return <p>{children}</p>
+        case 'paragraph': return <p>{children}</p>
         case 'align-left':
           return <p style={{ textAlign: 'left' }}>{children}</p>
         case 'align-center':
@@ -210,11 +202,11 @@ const rules = [
   },
   {
     deserialize (el, next) {
-      const mark = MARK_TAGS[el.tagName]
-      if (!mark) return
+      const type = MARK_TAGS[el.tagName.toLowerCase()]
+      if (!type) return
       return {
         kind: 'mark',
-        type: mark,
+        type: type,
         nodes: next(el.childNodes)
       }
     }
@@ -223,12 +215,9 @@ const rules = [
     serialize (object, children) {
       if (object.kind !== 'mark') return
       switch (object.type) {
-        case 'bold':
-          return <strong>{children}</strong>
-        case 'italic':
-          return <em>{children}</em>
-        case 'underlined':
-          return <u>{children}</u>
+        case 'bold': return <strong>{children}</strong>
+        case 'italic': return <em>{children}</em>
+        case 'underline': return <u>{children}</u>
       }
     }
   }
@@ -276,6 +265,8 @@ export default class Writer extends Component {
 
   constructor (props) {
     super(props)
+
+    console.log(this.props.writing.text)
 
     this.state = {
       writingTitle: this.props.writing.title,
@@ -376,9 +367,11 @@ export default class Writer extends Component {
   }
 
   onStateChange = state => {
+    console.log('state change')
     this.setState({
       writingState: state
     })
+    this.onDebouncedDocumentChange(document, state)
   }
 
   onDebouncedDocumentChange = (document, state) => {
@@ -394,7 +387,6 @@ export default class Writer extends Component {
   }
 
   onDocumentChange = (document, state) => {
-    this.onDebouncedDocumentChange(document, state)
     this.updateWordCount(state)
   }
 
@@ -466,7 +458,6 @@ export default class Writer extends Component {
   }
 
   render = () => {
-
     const colorStyle = {
       color: this.props.textColor
     }

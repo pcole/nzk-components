@@ -59,8 +59,6 @@ function getColorFromPalette (palette) {
     }
   }
 
-  console.log(paletteArray)
-
   let candidates = paletteArray.sort((a, b) => {
     return b.population - a.population
   }).slice(0, 3)
