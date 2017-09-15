@@ -18,7 +18,6 @@ export default `
   }
 
   .modal {
-    position: absolute;
     max-width: 500px;
     width: 100%;
     border-radius: 10px;
