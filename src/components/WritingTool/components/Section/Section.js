@@ -82,10 +82,11 @@ export default class Section extends Component {
                 bgColor={this.props.bgColor}
                 color={this.props.textColor}
                 shadow
-                height='37px'
-                width='183px'
+                block
+                height='35px'
+                style={{padding: '6px'}}
               >
-                <Icon name='plus' />
+                <Icon name='plus' fontSize='24px' />
               </Button>
             </li>
           )}

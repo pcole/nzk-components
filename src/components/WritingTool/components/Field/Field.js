@@ -165,10 +165,11 @@ export default class Field extends Component {
           <div className='remove-button'>
             <Button
               round
+              shadow
               height='20px'
               width='20px'
-              color={this.props.bgColor}
-              bgColor={this.props.textColor}
+              bgColor={this.props.bgColor}
+              color={this.props.textColor}
               onClick={this.onRemove}
             >
               <Icon name='cross' fontSize='13px' />

@@ -765,7 +765,7 @@ export default class Writer extends Component {
         >
           <div className='image-uploader'>
             <Uploader
-              api='http://file.nightzookeeper.com/images/upload'
+              api='https://file.nightzookeeper.com/images/upload'
               uploadedImage={url => {
                 if (!url) return
                 let { writingState } = this.state

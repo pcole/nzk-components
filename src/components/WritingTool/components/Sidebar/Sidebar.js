@@ -157,16 +157,20 @@ export default class Sidebar extends Component {
       <div className='host' ref={this.hostRef.bind(this)} style={hostStyle}>
         <div className='host-inner'>
           {this.renderPrompt()}
-          {this.props.sections.map((section, index) => {
-            return (
-              <Section
-                key={index}
-                index={index}
-                bgColor={this.props.secondaryColor}
-                textColor={this.props.textColor}
-              />
-            )
-          })}
+          <div className='sections'>
+            {this.props.sections.map((section, index) => {
+              return (
+                <div key={index} className='section-container'>
+                  <Section
+                    key={index}
+                    index={index}
+                    bgColor={this.props.secondaryColor}
+                    textColor={this.props.textColor}
+                  />
+                </div>
+              )
+            })}
+          </div>
 
           <div className='bottom-gradient' />
         </div>

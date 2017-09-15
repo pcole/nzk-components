@@ -215,14 +215,24 @@ var Sidebar = (_dec = (0, _reactRedux.connect)(function (store) {
           { className: 'host-inner', 'data-jsx-ext': _Sidebar2.default.__scopedHash
           },
           this.renderPrompt(),
-          this.props.sections.map(function (section, index) {
-            return _react2.default.createElement(_Section2.default, {
-              key: index,
-              index: index,
-              bgColor: _this3.props.secondaryColor,
-              textColor: _this3.props.textColor
-            });
-          }),
+          _react2.default.createElement(
+            'div',
+            { className: 'sections', 'data-jsx-ext': _Sidebar2.default.__scopedHash
+            },
+            this.props.sections.map(function (section, index) {
+              return _react2.default.createElement(
+                'div',
+                { key: index, className: 'section-container', 'data-jsx-ext': _Sidebar2.default.__scopedHash
+                },
+                _react2.default.createElement(_Section2.default, {
+                  key: index,
+                  index: index,
+                  bgColor: _this3.props.secondaryColor,
+                  textColor: _this3.props.textColor
+                })
+              );
+            })
+          ),
           _react2.default.createElement('div', { className: 'bottom-gradient', 'data-jsx-ext': _Sidebar2.default.__scopedHash
           })
         ),

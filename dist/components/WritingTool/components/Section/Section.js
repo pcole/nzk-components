@@ -144,10 +144,11 @@ var Section = (_dec = (0, _reactRedux.connect)(function (store, ownProps) {
                 bgColor: this.props.bgColor,
                 color: this.props.textColor,
                 shadow: true,
-                height: '37px',
-                width: '183px'
+                block: true,
+                height: '35px',
+                style: { padding: '6px' }
               },
-              _react2.default.createElement(_Icon2.default, { name: 'plus' })
+              _react2.default.createElement(_Icon2.default, { name: 'plus', fontSize: '24px' })
             )
           )
         ),

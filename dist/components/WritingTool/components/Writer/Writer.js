@@ -609,7 +609,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             { className: 'image-uploader', 'data-jsx-ext': _Writer2.default.__scopedHash
             },
             _react2.default.createElement(_Uploader2.default, {
-              api: 'http://file.nightzookeeper.com/images/upload',
+              api: 'https://file.nightzookeeper.com/images/upload',
               uploadedImage: function uploadedImage(url) {
                 if (!url) return;
                 var writingState = _this.state.writingState;

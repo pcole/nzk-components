@@ -195,10 +195,11 @@ var Field = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = function (
             _Button2.default,
             {
               round: true,
+              shadow: true,
               height: '20px',
               width: '20px',
-              color: this.props.bgColor,
-              bgColor: this.props.textColor,
+              bgColor: this.props.bgColor,
+              color: this.props.textColor,
               onClick: this.onRemove
             },
             _react2.default.createElement(_Icon2.default, { name: 'cross', fontSize: '13px' })
