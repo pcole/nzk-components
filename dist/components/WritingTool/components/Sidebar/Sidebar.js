@@ -122,16 +122,11 @@ var PromptContainer = exports.PromptContainer = function (_React$Component) {
               'a',
               { className: 'read-more', onClick: this.readMore.bind(this), 'data-jsx-ext': _Sidebar2.default.__scopedHash
               },
-              this.state.content.length < this.props.description.length ? _react2.default.createElement(
+              this.state.content.length < this.props.description.length && _react2.default.createElement(
                 'span',
                 { className: 'read-more', 'data-jsx-ext': _Sidebar2.default.__scopedHash
                 },
                 'Read\xA0more'
-              ) : _react2.default.createElement(
-                'span',
-                { className: 'read-less', 'data-jsx-ext': _Sidebar2.default.__scopedHash
-                },
-                'Read\xA0less'
               )
             )
           )

@@ -88,10 +88,8 @@ export class PromptContainer extends React.Component {
 
             {this.props.description.length > this.maxLength && (
               <a className='read-more' onClick={this.readMore.bind(this)}>
-                {this.state.content.length < this.props.description.length ? (
+                {this.state.content.length < this.props.description.length && (
                   <span className='read-more'>Read&nbsp;more</span>
-                ) : (
-                  <span className='read-less'>Read&nbsp;less</span>
                 )}
               </a>
             )}
