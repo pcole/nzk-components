@@ -527,7 +527,8 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
                   hideSaveButton: this.props.hideSaveButton,
                   onBack: this.onBack,
                   onSave: this.onSave,
-                  onClear: this.onClear
+                  onClear: this.onClear,
+                  saveAsHtml: this.props.saveAsHtml
                 })
               ),
               _react2.default.createElement(
@@ -630,7 +631,8 @@ WritingTool.propTypes = {
   hideTextStyleButtons: _propTypes2.default.bool,
   hideAlignButtons: _propTypes2.default.bool,
   hideClearButton: _propTypes2.default.bool,
-  hideSaveButton: _propTypes2.default.bool
+  hideSaveButton: _propTypes2.default.bool,
+  saveAsHtml: _propTypes2.default.bool
 };
 WritingTool.defaultProps = {
   lang: 'en',
@@ -641,6 +643,7 @@ WritingTool.defaultProps = {
   hideSaveButton: false,
   clearCacheOnBack: false,
   askToSaveOnBack: false,
-  warnDraftStatus: true
+  warnDraftStatus: true,
+  saveAsHtml: true
 };
 exports.default = WritingTool;

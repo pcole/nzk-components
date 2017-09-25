@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { TimelineMax } from 'gsap'
 import { FormattedMessage } from 'react-intl'
 import debounce from 'lodash/debounce'
-//import JsPDF from 'jspdf'
 import words from 'lodash/words'
 import { setWordCount, setWriting } from '../../store/actions'
 import Modal from '../../../Modal'
@@ -246,6 +245,7 @@ export default class Writer extends Component {
     onBack: PropTypes.func,
     onClear: PropTypes.func,
     onSave: PropTypes.func,
+    saveAsHtml: PropTypes.bool,
     hideImageButton: PropTypes.bool,
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
@@ -257,6 +257,7 @@ export default class Writer extends Component {
     hideTextStyleButtons: false,
     hideAlignButtons: false,
     hideClearButton: true,
+    saveAsHtml: true,
     lang: 'en',
     onBack: () => {},
     onClear: () => {},
@@ -492,11 +493,11 @@ export default class Writer extends Component {
   }
 
   onSave () {
-    this.props.dispatch(
-      setWriting({
-        text: html.serialize(this.state.writingState)
-      })
-    )
+    const text = this.props.saveAsHtml
+      ? html.serialize(this.state.writingState)
+      : Plain.serialize(this.state.writingState)
+
+    this.props.dispatch(setWriting({ text }))
     this.props.onSave()
   }
 
@@ -704,45 +705,6 @@ export default class Writer extends Component {
       </span>
     )
   }
-
-  // exportAsPdf () {
-  //   var plain = Plain.serialize(this.state.writingState)
-  //   plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
-  //   plain += '</p>'
-  //   var content = `
-  //   <div style="height: 100%; background: red;">
-  //       <h1> Writing Sparks </h1>
-        
-        
-  //       <h2>Your ${this.props.planning.title}</h2>
-  //       <div><b>Date:</b> ${new Date()}</div>
-        
-  //       <br/>
-  //       <div>__________________________________________________________________________________</div>
-  //       <br/>
-  //       <h2>${this.props.writing.title}</h2>
-  //       <div>${plain.replace(/\n/g, '<br />')}</div>
-  //       <br/>
-  //       <div>__________________________________________________________________________________</div>
-  //       <br/>
-  //       <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>
-  //   </div>
-  //   `
-
-  //   var pdf = new JsPDF()
-
-  //   pdf.fromHTML(
-  //     content,
-  //     15,
-  //     15,
-  //     {
-  //       width: 175
-  //     },
-  //     () => {
-  //       pdf.save('WritingToolExport.pdf')
-  //     }
-  //   )
-  // }
 
   openImageUploaderModal () {
     this.setState({

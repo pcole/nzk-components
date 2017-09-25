@@ -9,7 +9,7 @@
   "writingToolKeepWriting": "続きを書く",
   "writingToolSaveDraft": "下書きを保存",
   "writingToolSaveOnBack": "保存しますか？",
-  "writingToolStatusBarWords": "単語",
+  "writingToolStatusBarWords": "文字",
   "writingToolWriteLess": "ちょっと多く書きすぎたみたい。 {wordsOver}単語減らしてください。",
   "writingToolWriteMore": "あと{wordsUnder}単語以上書かなければいけません。"
 }

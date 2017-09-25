@@ -73,7 +73,8 @@ export default class WritingTool extends Component {
     hideTextStyleButtons: PropTypes.bool,
     hideAlignButtons: PropTypes.bool,
     hideClearButton: PropTypes.bool,
-    hideSaveButton: PropTypes.bool
+    hideSaveButton: PropTypes.bool,
+    saveAsHtml: PropTypes.bool
   }
 
   static defaultProps = {
@@ -85,7 +86,8 @@ export default class WritingTool extends Component {
     hideSaveButton: false,
     clearCacheOnBack: false,
     askToSaveOnBack: false,
-    warnDraftStatus: true
+    warnDraftStatus: true,
+    saveAsHtml: true
   }
 
   state = {
@@ -486,6 +488,7 @@ export default class WritingTool extends Component {
                   onBack={this.onBack}
                   onSave={this.onSave}
                   onClear={this.onClear}
+                  saveAsHtml={this.props.saveAsHtml}
                 />
               </div>
 

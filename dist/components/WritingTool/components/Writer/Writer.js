@@ -10,8 +10,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _dec, _dec2, _class;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-//import JsPDF from 'jspdf'
-
 
 var _style = require('styled-jsx/style');
 
@@ -802,9 +800,9 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'onSave',
     value: function onSave() {
-      this.props.dispatch((0, _actions.setWriting)({
-        text: html.serialize(this.state.writingState)
-      }));
+      var text = this.props.saveAsHtml ? html.serialize(this.state.writingState) : _slate.Plain.serialize(this.state.writingState);
+
+      this.props.dispatch((0, _actions.setWriting)({ text: text }));
       this.props.onSave();
     }
   }, {
@@ -902,47 +900,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     }
   }, {
     key: 'openImageUploaderModal',
-
-
-    // exportAsPdf () {
-    //   var plain = Plain.serialize(this.state.writingState)
-    //   plain = '<p>' + plain.replace(/\n\n/g, '</p><p>')
-    //   plain += '</p>'
-    //   var content = `
-    //   <div style="height: 100%; background: red;">
-    //       <h1> Writing Sparks </h1>
-
-
-    //       <h2>Your ${this.props.planning.title}</h2>
-    //       <div><b>Date:</b> ${new Date()}</div>
-
-    //       <br/>
-    //       <div>__________________________________________________________________________________</div>
-    //       <br/>
-    //       <h2>${this.props.writing.title}</h2>
-    //       <div>${plain.replace(/\n/g, '<br />')}</div>
-    //       <br/>
-    //       <div>__________________________________________________________________________________</div>
-    //       <br/>
-    //       <div style="position: absolute; bottom: 0;">Writing Sparks was created by the team at Night Zookeeper. Visit nightzookeeper.com for more writing challenges and interactive lessons.</div>
-    //   </div>
-    //   `
-
-    //   var pdf = new JsPDF()
-
-    //   pdf.fromHTML(
-    //     content,
-    //     15,
-    //     15,
-    //     {
-    //       width: 175
-    //     },
-    //     () => {
-    //       pdf.save('WritingToolExport.pdf')
-    //     }
-    //   )
-    // }
-
     value: function openImageUploaderModal() {
       this.setState({
         imageUploaderModalIsOpen: true
@@ -979,6 +936,7 @@ Writer.propTypes = {
   onBack: _propTypes2.default.func,
   onClear: _propTypes2.default.func,
   onSave: _propTypes2.default.func,
+  saveAsHtml: _propTypes2.default.bool,
   hideImageButton: _propTypes2.default.bool,
   hideTextStyleButtons: _propTypes2.default.bool,
   hideAlignButtons: _propTypes2.default.bool,
@@ -989,6 +947,7 @@ Writer.defaultProps = {
   hideTextStyleButtons: false,
   hideAlignButtons: false,
   hideClearButton: true,
+  saveAsHtml: true,
   lang: 'en',
   onBack: function onBack() {},
   onClear: function onClear() {},
