@@ -90,13 +90,15 @@ var PromptContainer = exports.PromptContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      if (!this.state.image) return _react2.default.createElement('div', null);
-
-      var imageClassName = (0, _classnames2.default)({
-        'prompt-image': true,
-        full: !this.props.description,
-        portrait: this.state.image.width < this.state.image.height
-      });
+      if (this.state.image) {
+        var _imageClassName = (0, _classnames2.default)({
+          'prompt-image': true,
+          full: !this.props.description,
+          portrait: this.state.image.width < this.state.image.height
+        });
+      } else {
+        var _imageClassName2 = '';
+      }
 
       return _react2.default.createElement(
         'div',

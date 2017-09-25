@@ -64,13 +64,15 @@ export class PromptContainer extends React.Component {
   }
 
   render () {
-    if (!this.state.image) return <div />
-
-    const imageClassName = cn({
-      'prompt-image': true,
-      full: !this.props.description,
-      portrait: this.state.image.width < this.state.image.height
-    })
+    if (this.state.image){
+      const imageClassName = cn({
+        'prompt-image': true,
+        full: !this.props.description,
+        portrait: this.state.image.width < this.state.image.height
+      })
+    } else {
+      const imageClassName = ''
+    }
 
     return (
       <div className='prompt-content'>
