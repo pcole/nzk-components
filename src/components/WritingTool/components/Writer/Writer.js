@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Editor, Block, Html, Plain } from 'slate'
+import { State, Block } from 'slate'
+import { Editor } from 'slate-react'
+import Html from 'slate-html-serializer'
+import Plain from 'slate-plain-serializer'
 import PropTypes from 'prop-types'
 import GSAP from 'react-gsap-enhancer'
 import { connect } from 'react-redux'
@@ -20,6 +23,7 @@ import styles from './Writer.styles'
 const DEFAULT_NODE = 'paragraph'
 
 const defaultBlock = {
+  kind: 'block',
   type: 'paragraph',
   isVoid: false,
   data: {}
@@ -82,19 +86,6 @@ const schema = {
     )
   },
   rules: [
-    // Rule to insert a paragraph block if the document is empty.
-    {
-      match: node => {
-        return node.kind === 'document'
-      },
-      validate: document => {
-        return document.nodes.size ? null : true
-      },
-      normalize: (transform, document) => {
-        const block = Block.create(defaultBlock)
-        transform.insertNodeByKey(document.key, 0, block)
-      }
-    },
     // Rule to insert a paragraph below a void node (the image) if that node is
     // the last one in the document.
     {
@@ -267,11 +258,11 @@ export default class Writer extends Component {
   constructor (props) {
     super(props)
 
+    const initialState = this.props.writing.text || '<p></p>'
+
     this.state = {
       writingTitle: this.props.writing.title,
-      writingState: html.deserialize(this.props.writing.text || '<p></p>', {
-        terse: true
-      }),
+      writingState: html.deserialize(initialState),
       placeholderColor: this.props.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)',
       mobile: false,
       focusSlateEditor: false,
@@ -280,7 +271,6 @@ export default class Writer extends Component {
     }
 
     this.onStateChange = this.onStateChange.bind(this)
-    this.onDocumentChange = this.onDocumentChange.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
     this.resizeTitle = this.resizeTitle.bind(this)
     this.titleRef = this.titleRef.bind(this)
@@ -365,14 +355,16 @@ export default class Writer extends Component {
     this.addAnimation(this.resizeTitle)
   }
 
-  onStateChange = state => {
-    this.setState({
-      writingState: state
-    })
-    this.onDebouncedDocumentChange(document, state)
+  onStateChange = ({state}) => {
+    if (state.document != this.state.writingState.document) {
+      this.updateWordCount(state)
+      this.onDebouncedDocumentChange(state)
+    }
+
+    this.setState({ writingState: state })
   }
 
-  onDebouncedDocumentChange = (document, state) => {
+  onDebouncedDocumentChange = (state) => {
     this.props.dispatch(
       setWriting({
         text: html.serialize(state)
@@ -382,10 +374,6 @@ export default class Writer extends Component {
 
   updateWordCount (state) {
     this.props.dispatch(setWordCount(this.getWordCountForState(state)))
-  }
-
-  onDocumentChange = (document, state) => {
-    this.updateWordCount(state)
   }
 
   getWordCountForState = state => {
@@ -781,7 +769,6 @@ export default class Writer extends Component {
             onFocus={this.onSlateEditorFocus.bind(this)}
             onBlur={this.onBlur.bind(this)}
             onChange={this.onStateChange}
-            onDocumentChange={this.onDocumentChange}
             style={{
               height: 'calc(100% - 40px)',
               paddingBottom: '100px'

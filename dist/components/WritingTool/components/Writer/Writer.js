@@ -21,6 +21,16 @@ var _react2 = _interopRequireDefault(_react);
 
 var _slate = require('slate');
 
+var _slateReact = require('slate-react');
+
+var _slateHtmlSerializer = require('slate-html-serializer');
+
+var _slateHtmlSerializer2 = _interopRequireDefault(_slateHtmlSerializer);
+
+var _slatePlainSerializer = require('slate-plain-serializer');
+
+var _slatePlainSerializer2 = _interopRequireDefault(_slatePlainSerializer);
+
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -79,6 +89,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var DEFAULT_NODE = 'paragraph';
 
 var defaultBlock = {
+  kind: 'block',
   type: 'paragraph',
   isVoid: false,
   data: {}
@@ -144,19 +155,6 @@ var defaultBlock = {
     }
   },
   rules: [
-  // Rule to insert a paragraph block if the document is empty.
-  {
-    match: function match(node) {
-      return node.kind === 'document';
-    },
-    validate: function validate(document) {
-      return document.nodes.size ? null : true;
-    },
-    normalize: function normalize(transform, document) {
-      var block = _slate.Block.create(defaultBlock);
-      transform.insertNodeByKey(document.key, 0, block);
-    }
-  },
   // Rule to insert a paragraph below a void node (the image) if that node is
   // the last one in the document.
   {
@@ -308,7 +306,7 @@ var rules = [{
     }
   }
 }];
-var html = new _slate.Html({ rules: rules });
+var html = new _slateHtmlSerializer2.default({ rules: rules });
 
 var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   return {
@@ -340,25 +338,25 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       });
     };
 
-    _this.onStateChange = function (state) {
-      _this.setState({
-        writingState: state
-      });
-      _this.onDebouncedDocumentChange(document, state);
+    _this.onStateChange = function (_ref) {
+      var state = _ref.state;
+
+      if (state.document != _this.state.writingState.document) {
+        _this.updateWordCount(state);
+        _this.onDebouncedDocumentChange(state);
+      }
+
+      _this.setState({ writingState: state });
     };
 
-    _this.onDebouncedDocumentChange = function (document, state) {
+    _this.onDebouncedDocumentChange = function (state) {
       _this.props.dispatch((0, _actions.setWriting)({
         text: html.serialize(state)
       }));
     };
 
-    _this.onDocumentChange = function (document, state) {
-      _this.updateWordCount(state);
-    };
-
     _this.getWordCountForState = function (state) {
-      var text = _slate.Plain.serialize(state);
+      var text = _slatePlainSerializer2.default.serialize(state);
 
       if (_this.props.lang === 'jp') {
         return text.replace(/\s+/g, '').length;
@@ -657,7 +655,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             name: 'editor',
             'data-jsx-ext': _Writer2.default.__scopedHash
           },
-          _react2.default.createElement(_slate.Editor, {
+          _react2.default.createElement(_slateReact.Editor, {
             key: 'editor',
             spellCheck: true,
             placeholder: placeholder,
@@ -668,7 +666,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
             onFocus: _this.onSlateEditorFocus.bind(_this),
             onBlur: _this.onBlur.bind(_this),
             onChange: _this.onStateChange,
-            onDocumentChange: _this.onDocumentChange,
             style: {
               height: 'calc(100% - 40px)',
               paddingBottom: '100px'
@@ -682,11 +679,11 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       );
     };
 
+    var initialState = _this.props.writing.text || '<p></p>';
+
     _this.state = {
       writingTitle: _this.props.writing.title,
-      writingState: html.deserialize(_this.props.writing.text || '<p></p>', {
-        terse: true
-      }),
+      writingState: html.deserialize(initialState),
       placeholderColor: _this.props.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)',
       mobile: false,
       focusSlateEditor: false,
@@ -695,7 +692,6 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     };
 
     _this.onStateChange = _this.onStateChange.bind(_this);
-    _this.onDocumentChange = _this.onDocumentChange.bind(_this);
     _this.onTitleChange = _this.onTitleChange.bind(_this);
     _this.resizeTitle = _this.resizeTitle.bind(_this);
     _this.titleRef = _this.titleRef.bind(_this);
@@ -800,7 +796,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
   }, {
     key: 'onSave',
     value: function onSave() {
-      var text = this.props.saveAsHtml ? html.serialize(this.state.writingState) : _slate.Plain.serialize(this.state.writingState);
+      var text = this.props.saveAsHtml ? html.serialize(this.state.writingState) : _slatePlainSerializer2.default.serialize(this.state.writingState);
 
       this.props.dispatch((0, _actions.setWriting)({ text: text }));
       this.props.onSave();
@@ -858,8 +854,8 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
 
   }, {
     key: 'resizeEditorAnimation',
-    value: function resizeEditorAnimation(_ref) {
-      var target = _ref.target;
+    value: function resizeEditorAnimation(_ref2) {
+      var target = _ref2.target;
 
       var editor = target.find({ name: 'editor' });
       return new _gsap.TimelineMax().to(editor, 1, {
