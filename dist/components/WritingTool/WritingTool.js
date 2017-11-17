@@ -373,7 +373,12 @@ var WritingTool = (_dec = (0, _reactGsapEnhancer2.default)(), _dec(_class = func
                 _this3.save();
               }
             }, {
-              label: buttonLabel
+              label: buttonLabel,
+              onClick: function onClick() {
+                _this3.setState({
+                  messageModalIsOpen: false
+                });
+              }
             }]
           }
         });

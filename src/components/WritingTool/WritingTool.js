@@ -348,7 +348,12 @@ export default class WritingTool extends Component {
               this.save()
             }
           }, {
-            label: buttonLabel
+            label: buttonLabel,
+            onClick: () => {
+              this.setState({
+                messageModalIsOpen: false
+              })
+            }
           }]
         }
       })
