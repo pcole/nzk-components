@@ -1,6 +1,6 @@
 {
   "name": "nzk-components",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.1",
   "peerDependencies": {
     "axios": "0.x",
     "classnames": "2.x",
@@ -61,7 +61,11 @@
     "slate": "^0.32.4",
     "snazzy": "^7.0.0",
     "standard": "^11.0.0",
-    "styled-jsx": "^2.2.5"
+    "styled-jsx": "^2.2.5",
+    "immutable": "^3.8.2",
+    "slate-html-serializer": "^0.5.4",
+    "slate-plain-serializer": "^0.5.4",
+    "slate-react": "^0.11.4"
   },
   "scripts": {
     "precommit": "yarn run test",
@@ -88,11 +92,5 @@
     ]
   },
   "author": "Night Zookeeper",
-  "private": true,
-  "dependencies": {
-    "immutable": "^3.8.2",
-    "slate-html-serializer": "^0.5.4",
-    "slate-plain-serializer": "^0.5.4",
-    "slate-react": "^0.11.4"
-  }
+  "private": true
 }
