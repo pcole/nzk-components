@@ -47,31 +47,38 @@ export default class ConfirmModal extends Component {
   }
 
   render () {
-    const {onConfirm, onCancel, isOpen, confirmLabel, cancelLabel, ...props} = this.props
+    const {
+      onConfirm,
+      onCancel,
+      isOpen,
+      confirmLabel,
+      cancelLabel,
+      ...props
+    } = this.props
 
-    const buttons = [{
-      bgColor: 'green',
-      label: confirmLabel,
-      icon: confirmLabel
-        ? false
-        : {name: 'check', color: 'white'},
-      shadow: true,
-      round: !confirmLabel,
-      size: 'large',
-      onClick: this.onConfirm.bind(this)
-    },
-    {
-      bgColor: 'red',
-      label: cancelLabel,
-      icon: cancelLabel
-        ? false
-        : {name: 'cross', color: 'white'},
-      shadow: true,
-      round: !cancelLabel,
-      size: 'large',
-      onClick: this.onCancel.bind(this)
-    }]
+    const buttons = [
+      {
+        bgColor: 'green',
+        label: confirmLabel,
+        icon: confirmLabel ? false : { name: 'check', color: 'white' },
+        shadow: true,
+        round: !confirmLabel,
+        size: 'large',
+        onClick: this.onConfirm.bind(this)
+      },
+      {
+        bgColor: 'red',
+        label: cancelLabel,
+        icon: cancelLabel ? false : { name: 'cross', color: 'white' },
+        shadow: true,
+        round: !cancelLabel,
+        size: 'large',
+        onClick: this.onCancel.bind(this)
+      }
+    ]
 
-    return <MessageModal isOpen={this.state.open} buttons={buttons} {...props} />
+    return (
+      <MessageModal isOpen={this.state.open} buttons={buttons} {...props} />
+    )
   }
 }

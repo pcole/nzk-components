@@ -53,12 +53,12 @@ export class PromptContainer extends React.Component {
       content:
         this.state.content.length > this.props.description.length - 3
           ? this.props.description
-              .substring(0, this.maxLength)
-              .split(' ')
-              .filter(word => {
-                return word !== ''
-              })
-              .join(' ') + '... '
+            .substring(0, this.maxLength)
+            .split(' ')
+            .filter(word => {
+              return word !== ''
+            })
+            .join(' ') + '... '
           : this.props.description + ' '
     })
   }
@@ -120,26 +120,34 @@ export default class Sidebar extends Component {
 
   componentDidMount () {
     var scrolling = false
-    this.host.addEventListener('touchstart', e => {
-      // Only execute the below code once at a time
-      if (!scrolling) {
-        scrolling = true
-        if (e.currentTarget.scrollTop === 0) {
-          e.currentTarget.scrollTop = 1
-        } else if (
-          e.currentTarget.scrollHeight ===
-          e.currentTarget.scrollTop + e.currentTarget.offsetHeight
-        ) {
-          e.currentTarget.scrollTop -= 1
+    this.host.addEventListener(
+      'touchstart',
+      e => {
+        // Only execute the below code once at a time
+        if (!scrolling) {
+          scrolling = true
+          if (e.currentTarget.scrollTop === 0) {
+            e.currentTarget.scrollTop = 1
+          } else if (
+            e.currentTarget.scrollHeight ===
+            e.currentTarget.scrollTop + e.currentTarget.offsetHeight
+          ) {
+            e.currentTarget.scrollTop -= 1
+          }
+          scrolling = false
         }
-        scrolling = false
-      }
-      e.stopPropagation()
-    }, {passive: true})
+        e.stopPropagation()
+      },
+      { passive: true }
+    )
 
-    this.host.addEventListener('touchmove', function (e) {
-      e.stopPropagation()
-    }, {passive: true})
+    this.host.addEventListener(
+      'touchmove',
+      function (e) {
+        e.stopPropagation()
+      },
+      { passive: true }
+    )
   }
 
   hostRef (el) {
@@ -177,8 +185,7 @@ export default class Sidebar extends Component {
     )
   }
 
-  onPromptImageClicked () {
-  }
+  onPromptImageClicked () {}
 
   renderPrompt () {
     const { icon, title, image, description } = this.props.prompt
@@ -193,7 +200,10 @@ export default class Sidebar extends Component {
             className='prompt-icon'
             style={{ backgroundImage: `url("${icon}")` }}
           />
-          <div className='prompt-title' dangerouslySetInnerHTML={{__html:title}} />
+          <div
+            className='prompt-title'
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
         </div>
 
         {(image || description) && (

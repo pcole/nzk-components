@@ -6,10 +6,7 @@ export default class StoryContainer extends Component {
   render () {
     return (
       <div>
-        <MessageModal
-          isOpen
-          message='Hello World!'
-        />
+        <MessageModal isOpen message='Hello World!' />
       </div>
     )
   }

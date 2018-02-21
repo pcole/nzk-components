@@ -1,25 +1,29 @@
-'use strict';
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
-});
+})
 
-var _writingTypePresetsEn = require('./writing-type-presets-en.json');
+var _writingTypePresetsEn = require('./writing-type-presets-en.json')
 
-var _writingTypePresetsEn2 = _interopRequireDefault(_writingTypePresetsEn);
+var _writingTypePresetsEn2 = _interopRequireDefault(_writingTypePresetsEn)
 
-var _writingTypePresetsSimpEn = require('./writing-type-presets-simp-en.json');
+var _writingTypePresetsSimpEn = require('./writing-type-presets-simp-en.json')
 
-var _writingTypePresetsSimpEn2 = _interopRequireDefault(_writingTypePresetsSimpEn);
+var _writingTypePresetsSimpEn2 = _interopRequireDefault(
+  _writingTypePresetsSimpEn
+)
 
-var _writingTypePresetsJp = require('./writing-type-presets-jp.json');
+var _writingTypePresetsJp = require('./writing-type-presets-jp.json')
 
-var _writingTypePresetsJp2 = _interopRequireDefault(_writingTypePresetsJp);
+var _writingTypePresetsJp2 = _interopRequireDefault(_writingTypePresetsJp)
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault (obj) {
+  return obj && obj.__esModule ? obj : { default: obj }
+}
 
 exports.default = {
-  'en': _writingTypePresetsEn2.default,
+  en: _writingTypePresetsEn2.default,
   'simp-en': _writingTypePresetsSimpEn2.default,
-  'jp': _writingTypePresetsJp2.default
-};
+  jp: _writingTypePresetsJp2.default
+}

@@ -146,16 +146,14 @@ export default class AutosizeInput extends Component {
   }
 
   render () {
-    let sizerValue = [
-      this.props.defaultValue,
-      this.props.value,
-      ''
-    ].reduce((previousValue, currentValue) => {
-      if (previousValue !== null && previousValue !== undefined) {
-        return previousValue
+    let sizerValue = [this.props.defaultValue, this.props.value, ''].reduce(
+      (previousValue, currentValue) => {
+        if (previousValue !== null && previousValue !== undefined) {
+          return previousValue
+        }
+        return currentValue
       }
-      return currentValue
-    })
+    )
 
     let wrapperStyle = this.props.style || {}
 

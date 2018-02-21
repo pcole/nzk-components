@@ -1,11 +1,13 @@
-export default `
+import css from 'styled-jsx/css'
+
+export default css`
   .host {
     position: absolute;
     height: 100vh;
     width: 100vw;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
     transition: opacity 500ms ease-in-out;
     display: flex;
@@ -27,7 +29,7 @@ export default `
     font-family: 'Open Sans';
     text-align: center;
   }
-    
+
   .buttons {
     display: flex;
     justify-content: center;

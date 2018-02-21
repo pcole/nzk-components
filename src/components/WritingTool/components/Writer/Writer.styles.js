@@ -1,4 +1,6 @@
-export default `
+import css from 'styled-jsx/css'
+
+export default css`
   .writer {
     position: absolute;
     top: 0;
@@ -11,9 +13,9 @@ export default `
   }
 
   .writer * {
-    -webkit-transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
-  
+
   .menu.toolbar-menu {
     position: absolute;
     display: inline-block;
@@ -25,22 +27,22 @@ export default `
     line-height: 63px;
     width: 100%;
   }
-  
+
   .toolbar-button {
     display: inline-block;
     transform: translateY(5px);
   }
 
-
-  .toolbar-button.clear, .toolbar-button.save {
+  .toolbar-button.clear,
+  .toolbar-button.save {
     margin-left: 20px;
   }
-  
+
   .menu.toolbar-menu .button {
     margin-left: 28px;
     font-size: 23px;
   }
-  
+
   .host {
     position: relative;
     height: 100vh;
@@ -49,10 +51,12 @@ export default `
     overflow-x: hidden;
     z-index: 0;
   }
-  
+
   .editor {
-    font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+    font-family: 'Libre Baskerville', Baskerville, 'Baskerville Old Face',
+      'Hoefler Text', Garamond, 'Times New Roman', serif;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0,
+      'onum' 1, 'lnum' 0, 'dlig' 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
@@ -72,7 +76,7 @@ export default `
     height: 100vh;
     width: 100vw;
   }
-  
+
   .image-uploader {
     position: absolute;
     top: calc(50% - 100px);
@@ -80,8 +84,8 @@ export default `
     width: 300px;
     left: calc(50% - 100px);
   }
-  
-  .image-uploader-close-button{
+
+  .image-uploader-close-button {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -102,21 +106,23 @@ export default `
     border: none;
     resize: none;
     height: 46px;
-    font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+    font-family: 'Libre Baskerville', Baskerville, 'Baskerville Old Face',
+      'Hoefler Text', Garamond, 'Times New Roman', serif;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0,
+      'onum' 1, 'lnum' 0, 'dlig' 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
   }
-  
+
   .title::placeholder {
-    color: rgba(0,0,0,0.6)
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .dark .title::placeholder {
-    color: rgba(255,255,255,0.6)
+    color: rgba(255, 255, 255, 0.6);
   }
- 
+
   .title:focus {
     opacity: 1;
   }

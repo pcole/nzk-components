@@ -1,11 +1,13 @@
-export default `
+import css from 'styled-jsx/css'
+
+export default css`
   .host {
     display: flex;
     height: 100%;
     width: 100%;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     opacity: 0;
     transition: opacity 1s ease-in-out;
   }
@@ -21,10 +23,10 @@ export default `
 
   @keyframes spin {
     from {
-      transform:rotate(0deg);
+      transform: rotate(0deg);
     }
     to {
-      transform:rotate(360deg);
+      transform: rotate(360deg);
     }
   }
 `

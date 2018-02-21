@@ -56,7 +56,7 @@ export default class Section extends Component {
 
     return (
       <div className='host' ref={this.hostRef.bind(this)} style={hostStyle}>
-        <h3 dangerouslySetInnerHTML={{__html: this.props.title}} />
+        <h3 dangerouslySetInnerHTML={{ __html: this.props.title }} />
         <ul className='fields'>
           {this.props.fields.map((elem, index) => {
             return (
@@ -84,7 +84,7 @@ export default class Section extends Component {
                 shadow
                 block
                 height='35px'
-                style={{padding: '6px'}}
+                style={{ padding: '6px' }}
               >
                 <Icon name='plus' fontSize='24px' />
               </Button>

@@ -3,7 +3,7 @@ import writingTypePresetsSimpEn from './writing-type-presets-simp-en.json'
 import writingTypePresetsJp from './writing-type-presets-jp.json'
 
 export default {
-  'en': writingTypePresetsEn,
+  en: writingTypePresetsEn,
   'simp-en': writingTypePresetsSimpEn,
-  'jp': writingTypePresetsJp
+  jp: writingTypePresetsJp
 }

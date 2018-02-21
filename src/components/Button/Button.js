@@ -26,8 +26,6 @@ export default class Button extends Component {
     children: PropTypes.any
   }
 
-  handleClick: Function
-
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

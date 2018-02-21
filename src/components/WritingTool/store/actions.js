@@ -20,7 +20,7 @@ export function init (dispatch, settings) {
     settings.loadPresetSections = false
   }
 
-  dispatch({type: 'RESET'})
+  dispatch({ type: 'RESET' })
   dispatch(initPlaceholders(dispatch, preset, settings))
   dispatch(initWriting(dispatch, preset, settings))
   dispatch(initConstraints(dispatch, preset, settings))

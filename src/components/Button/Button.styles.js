@@ -1,5 +1,7 @@
-export default `
-  .button { 
+import css from 'styled-jsx/css'
+
+export default css`
+  .button {
     box-sizing: border-box;
     display: inline-flex;
     margin: 0px;
@@ -7,7 +9,7 @@ export default `
     font-family: 'NZK';
     letter-spacing: 1px;
     text-transform: uppercase;
-    font-size: 16px; 
+    font-size: 16px;
     line-height: 1.2em;
     border: none;
     outline: none;
@@ -29,7 +31,8 @@ export default `
     margin-left: 10px;
   }
 
-  .button:active, .button:hover{
+  .button:active,
+  .button:hover {
     text-decoration: none;
     color: inherit;
   }
@@ -38,7 +41,7 @@ export default `
     text-decoration: none;
   }
 
-  .shadow{
+  .shadow {
     padding: 12px 12px 8px;
   }
 
@@ -101,7 +104,9 @@ export default `
     padding: 10px;
   }
 
-  .button:active, .active, .disabled {
+  .button:active,
+  .active,
+  .disabled {
     transform: translateY(4px);
     box-shadow: none !important;
   }

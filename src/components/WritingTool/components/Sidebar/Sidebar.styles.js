@@ -1,4 +1,6 @@
-export default `
+import css from 'styled-jsx/css'
+
+export default css`
   .host {
     position: relative;
     height: 100vh;
@@ -24,9 +26,9 @@ export default `
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .host-inner * {
-    -webkit-transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
 
   .prompt {
@@ -56,8 +58,10 @@ export default `
     display: inline-block;
     font-size: 26px;
     letter-spacing: 1.2px;
-    font-family: 'Libre Baskerville', Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+    font-family: 'Libre Baskerville', Baskerville, 'Baskerville Old Face',
+      'Hoefler Text', Garamond, 'Times New Roman', serif;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0,
+      'onum' 1, 'lnum' 0, 'dlig' 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.2em;
@@ -73,7 +77,7 @@ export default `
     font-weight: bold;
     text-decoration: underline;
   }
-  
+
   .prompt-image {
     position: relative;
     display: inline-block;
@@ -100,7 +104,8 @@ export default `
     line-height: 1.2em;
   }
 
-  .read-more, .read-less {
+  .read-more,
+  .read-less {
     cursor: pointer;
   }
 
@@ -110,14 +115,18 @@ export default `
     left: 0;
     height: 20px;
     width: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
   }
 
   .section-container:nth-child(odd) {
-    background-color: rgba(255,255,255,.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
-  .section-container{
+  .section-container {
     padding: 15px;
   }
 `

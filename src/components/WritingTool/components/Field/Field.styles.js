@@ -1,6 +1,8 @@
-export default `
+import css from 'styled-jsx/css'
+
+export default css`
   * {
-     box-sizing: border-box;
+    box-sizing: border-box;
   }
 
   .host {
@@ -11,7 +13,7 @@ export default `
     margin: 5px;
     width: 100%;
   }
-  
+
   .remove-button {
     position: absolute;
     top: -8px;

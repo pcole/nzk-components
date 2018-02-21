@@ -1,4 +1,6 @@
-export default `
+import css from 'styled-jsx/css'
+
+export default css`
   .host {
     padding: 0;
     margin: 0;
@@ -9,14 +11,14 @@ export default `
     top: 0;
     height: 100vh;
   }
-  
+
   .right {
     position: absolute;
     top: 0;
     right: 0;
     float: right;
   }
-  
+
   .sidebar-toggle-btn {
     position: absolute;
     left: -50px;
@@ -26,7 +28,7 @@ export default `
     border-radius: 9px 0px 0px 9px;
     cursor: pointer;
   }
-  
+
   .sidebar-toggle-btn-container {
     position: absolute;
     height: 55px;
@@ -36,7 +38,7 @@ export default `
     padding-left: 7px;
     border-radius: 9px 0px 0px 9px;
   }
-  
+
   .status-bar {
     position: fixed;
     bottom: 0;
@@ -55,7 +57,7 @@ export default `
     background-size: cover;
     background-position: center;
   }
-  
+
   .left-margin {
     position: absolute;
     left: 0;
@@ -71,52 +73,52 @@ export default `
     max-width: calc(100vw - 30px);
     min-width: 677px;
   }
-  
-  @media screen and (max-width: 1280px) {
-     .left {
-       width: calc(100vw - 20px);
-     }
-     
-     .right {
-       position: absolute;
-       right: 0;
-       top: 0;
-       width: 20px;
-       transform: translateX(0px);
-     }
- 
-     .right.sidebarOpen {
-       width: 415px;
-     }
-     
-     .left.sidebarOpen {
-       width: calc(100vw - 415px);
-     }
-  }
-  
-  @media screen and (min-width: 1281px) {
-     .left {
-       width: calc(100vw - 20px);
-     }
-     
-     .right {
-       width: 20px;
-       transform: translateX(0px);
-     }
 
-     .sidebar-toggle-btn-container{
-       display: none;
-     }
-     
-     .right.sidebarOpen {
-       width: 40%;
-     }
-     
-     .left.sidebarOpen {
-       width: 60%;
-     }
+  @media screen and (max-width: 1280px) {
+    .left {
+      width: calc(100vw - 20px);
+    }
+
+    .right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 20px;
+      transform: translateX(0px);
+    }
+
+    .right.sidebarOpen {
+      width: 415px;
+    }
+
+    .left.sidebarOpen {
+      width: calc(100vw - 415px);
+    }
   }
-  
+
+  @media screen and (min-width: 1281px) {
+    .left {
+      width: calc(100vw - 20px);
+    }
+
+    .right {
+      width: 20px;
+      transform: translateX(0px);
+    }
+
+    .sidebar-toggle-btn-container {
+      display: none;
+    }
+
+    .right.sidebarOpen {
+      width: 40%;
+    }
+
+    .left.sidebarOpen {
+      width: 60%;
+    }
+  }
+
   @media screen and (max-width: 925px) {
     .right {
       position: absolute;

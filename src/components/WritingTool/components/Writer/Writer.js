@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { State, Block } from 'slate'
+import { Block } from 'slate'
 import { Editor } from 'slate-react'
 import Html from 'slate-html-serializer'
 import Plain from 'slate-plain-serializer'
@@ -163,7 +163,8 @@ const rules = [
       if (object.kind !== 'block') return
 
       switch (object.type) {
-        case 'paragraph': return <p>{children}</p>
+        case 'paragraph':
+          return <p>{children}</p>
         case 'align-left':
           return <p style={{ textAlign: 'left' }}>{children}</p>
         case 'align-center':
@@ -205,9 +206,12 @@ const rules = [
     serialize (object, children) {
       if (object.kind !== 'mark') return
       switch (object.type) {
-        case 'bold': return <strong>{children}</strong>
-        case 'italic': return <em>{children}</em>
-        case 'underline': return <u>{children}</u>
+        case 'bold':
+          return <strong>{children}</strong>
+        case 'italic':
+          return <em>{children}</em>
+        case 'underline':
+          return <u>{children}</u>
       }
     }
   }
@@ -263,7 +267,9 @@ export default class Writer extends Component {
     this.state = {
       writingTitle: this.props.writing.title,
       writingState: html.deserialize(initialState),
-      placeholderColor: this.props.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)',
+      placeholderColor: this.props.light
+        ? 'rgba(0,0,0,.6)'
+        : 'rgba(255,255,255,.6)',
       mobile: false,
       focusSlateEditor: false,
       toolbarDisabled: true,
@@ -294,9 +300,13 @@ export default class Writer extends Component {
       this.writer.style.height = 'calc(100vh - 155px)'
     }
 
-    this.editor.addEventListener('touchmove', function (e) {
-      e.stopPropagation()
-    }, {passive: true})
+    this.editor.addEventListener(
+      'touchmove',
+      function (e) {
+        e.stopPropagation()
+      },
+      { passive: true }
+    )
 
     this.writer.addEventListener('click', function (e) {})
 
@@ -314,7 +324,9 @@ export default class Writer extends Component {
 
     if (nextProps.light !== this.props.light) {
       this.setState({
-        placeholderColor: nextProps.light ? 'rgba(0,0,0,.6)' : 'rgba(255,255,255,.6)'
+        placeholderColor: nextProps.light
+          ? 'rgba(0,0,0,.6)'
+          : 'rgba(255,255,255,.6)'
       })
     }
   }
@@ -355,8 +367,8 @@ export default class Writer extends Component {
     this.addAnimation(this.resizeTitle)
   }
 
-  onStateChange = ({state}) => {
-    if (state.document != this.state.writingState.document) {
+  onStateChange = ({ state }) => {
+    if (state.document !== this.state.writingState.document) {
       this.updateWordCount(state)
       this.onDebouncedDocumentChange(state)
     }
@@ -364,7 +376,7 @@ export default class Writer extends Component {
     this.setState({ writingState: state })
   }
 
-  onDebouncedDocumentChange = (state) => {
+  onDebouncedDocumentChange = state => {
     this.props.dispatch(
       setWriting({
         text: html.serialize(state)
@@ -448,7 +460,9 @@ export default class Writer extends Component {
       color: this.props.textColor
     }
 
-    const dividerColor = this.props.light ? 'rgba(0, 0, 0, .25)' : 'rgba(255, 255, 255, .25)'
+    const dividerColor = this.props.light
+      ? 'rgba(0, 0, 0, .25)'
+      : 'rgba(255, 255, 255, .25)'
 
     return (
       <div className='host'>
@@ -638,15 +652,15 @@ export default class Writer extends Component {
       this.props.onMobileFocus()
 
       // Disables iPad view pushing
-      window.scrollTo(0, 0)
-      document.body.scrollTop = 0
+      // window.scrollTo(0, 0)
+      // document.body.scrollTop = 0
 
       if (window.innerHeight < window.innerWidth) {
-        this.writer.style.minHeight = '218px'
-        this.writer.style.height = '218px'
+        this.writer.style.minHeight = '240px'
+        this.writer.style.height = '240px'
       } else {
-        this.writer.style.minHeight = '565px'
-        this.writer.style.height = '565px'
+        this.writer.style.minHeight = '590px'
+        this.writer.style.height = '590px'
       }
     }
   }
@@ -708,7 +722,10 @@ export default class Writer extends Component {
 
   renderImageUploaderModal = () => {
     return (
-      <Modal contentLabel='image-uploader' isOpen={this.state.imageUploaderModalIsOpen}>
+      <Modal
+        contentLabel='image-uploader'
+        isOpen={this.state.imageUploaderModalIsOpen}
+      >
         <div
           onClick={this.closeImageUploaderModal}
           className='image-uploader-container'
@@ -743,9 +760,14 @@ export default class Writer extends Component {
    */
 
   renderEditor = () => {
-    const placeholder = <span style={{
-      color: this.state.placeholderColor
-    }} dangerouslySetInnerHTML={{__html: this.props.placeholders.text}} />
+    const placeholder = (
+      <span
+        style={{
+          color: this.state.placeholderColor
+        }}
+        dangerouslySetInnerHTML={{ __html: this.props.placeholders.text }}
+      />
+    )
 
     return (
       <div className='editor-wrapper'>

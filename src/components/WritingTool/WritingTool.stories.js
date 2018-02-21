@@ -43,7 +43,7 @@ storiesOf('WritingTool', module)
       hideClearButton={boolean('hideClearButton', false)}
       hideSaveButton={boolean('hideSaveButton', false)}
       askToSaveOnBack
-      warnDraftStatus={true}
+      warnDraftStatus
       clearOnBack
       onBack={() => {
         window.location.reload()

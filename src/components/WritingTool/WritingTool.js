@@ -22,7 +22,7 @@ import simpEnMessages from '../../translations/locales/simp-en.json'
 import jv from 'react-intl/locale-data/jv'
 
 const messages = {
-  'jv': jpMessages,
+  jv: jpMessages,
   'simp-en': simpEnMessages
 }
 
@@ -55,15 +55,17 @@ export default class WritingTool extends Component {
       image: PropTypes.string
     }),
     loadPresetSections: PropTypes.bool,
-    sections: PropTypes.arrayOf(PropTypes.shape({
-      prepend: PropTypes.bool,
-      title: PropTypes.string,
-      component: PropTypes.node,
-      fieldType: PropTypes.oneOf(['input', 'textarea']),
-      numberOfFields: PropTypes.number,
-      userCanAddFields: PropTypes.bool,
-      fieldsAreRemovable: PropTypes.bool
-    })),
+    sections: PropTypes.arrayOf(
+      PropTypes.shape({
+        prepend: PropTypes.bool,
+        title: PropTypes.string,
+        component: PropTypes.node,
+        fieldType: PropTypes.oneOf(['input', 'textarea']),
+        numberOfFields: PropTypes.number,
+        userCanAddFields: PropTypes.bool,
+        fieldsAreRemovable: PropTypes.bool
+      })
+    ),
     onBack: PropTypes.func,
     onSave: PropTypes.func,
     askToSaveOnBack: PropTypes.bool,
@@ -114,7 +116,9 @@ export default class WritingTool extends Component {
     this.toggleSidebar = this.toggleSidebar.bind(this)
     this.closeSidebar = this.closeSidebar.bind(this)
     this.onResize = this.onResize.bind(this)
-    this.throttledCacheState = throttle(this.cacheState, 1000, {leading: false})
+    this.throttledCacheState = throttle(this.cacheState, 1000, {
+      leading: false
+    })
   }
 
   componentWillMount () {
@@ -141,7 +145,7 @@ export default class WritingTool extends Component {
       }
 
       let primaryColor = new Color(color)
-      let light = primaryColor.light()
+      let light = primaryColor.isLight()
 
       let secondaryColor = light
         ? primaryColor.darken(0.3)
@@ -149,8 +153,18 @@ export default class WritingTool extends Component {
 
       this.setState({
         primaryColor,
-        toolbarColor: light ? primaryColor.whiten(0.2).rgb() : primaryColor.blacken(0.2).rgb(),
-        writerBgColor: light ? primaryColor.whiten(0.5).fade(0.1).rgb() : primaryColor.blacken(0.5).fade(0.1).rgb(),
+        toolbarColor: light
+          ? primaryColor.whiten(0.2).rgb()
+          : primaryColor.blacken(0.2).rgb(),
+        writerBgColor: light
+          ? primaryColor
+            .whiten(0.5)
+            .fade(0.1)
+            .rgb()
+          : primaryColor
+            .blacken(0.5)
+            .fade(0.1)
+            .rgb(),
         secondaryColor,
         textColor: light ? 'black' : 'white',
         light
@@ -161,21 +175,29 @@ export default class WritingTool extends Component {
   componentDidMount () {
     this.setColorsFromBackgroundImage()
 
-    document.addEventListener('touchmove', function (e) {
-      e.preventDefault()
-    }, { passive: true })
-
-    document
-      .getElementsByClassName('host')[0]
-      .addEventListener('touchmove', function (e) {
+    document.addEventListener(
+      'touchmove',
+      function (e) {
         e.preventDefault()
-      }, { passive: true })
+      },
+      { passive: true }
+    )
 
-    document
-      .getElementsByClassName('background')[0]
-      .addEventListener('touchmove', function (e) {
+    document.getElementsByClassName('host')[0].addEventListener(
+      'touchmove',
+      function (e) {
         e.preventDefault()
-      }, { passive: true })
+      },
+      { passive: true }
+    )
+
+    document.getElementsByClassName('background')[0].addEventListener(
+      'touchmove',
+      function (e) {
+        e.preventDefault()
+      },
+      { passive: true }
+    )
 
     this.startAutoCache()
   }
@@ -223,19 +245,19 @@ export default class WritingTool extends Component {
         .to(
           left,
           1,
-        {
-          ease: Bounce.easeOut,
-          width: 'calc(100vw - 20px)'
-        },
+          {
+            ease: Bounce.easeOut,
+            width: 'calc(100vw - 20px)'
+          },
           0
         )
         .to(
           right,
           1,
-        {
-          ease: Bounce.easeOut,
-          width: '20px'
-        },
+          {
+            ease: Bounce.easeOut,
+            width: '20px'
+          },
           0
         )
     } else {
@@ -290,7 +312,7 @@ export default class WritingTool extends Component {
             <FormattedMessage
               id='writingToolAskForTitle'
               defaultMessage='Please add a title'
-          />
+            />
           ),
           onAfterClose: () => {
             this.setState({
@@ -302,31 +324,41 @@ export default class WritingTool extends Component {
       return
     }
 
-    const wordsUnder = store.getState().constraints.minWords - store.getState().wordCount
-    const wordsOver = store.getState().wordCount - store.getState().constraints.maxWords
+    const wordsUnder =
+      store.getState().constraints.minWords - store.getState().wordCount
+    const wordsOver =
+      store.getState().wordCount - store.getState().constraints.maxWords
     let warnDraftMessage
     let buttonLabel
 
     if (wordsUnder > 0) {
-      warnDraftMessage = <FormattedMessage
-        id='writingToolWriteMore'
-        defaultMessage='Write at least {wordsUnder, plural, one {# more word} other {# more words}}!'
-        values={{wordsUnder}}
-      />
-      buttonLabel = <FormattedMessage
-        id='writingToolKeepWriting'
-        defaultMessage='Keep Writing'
-      />
+      warnDraftMessage = (
+        <FormattedMessage
+          id='writingToolWriteMore'
+          defaultMessage='Write at least {wordsUnder, plural, one {# more word} other {# more words}}!'
+          values={{ wordsUnder }}
+        />
+      )
+      buttonLabel = (
+        <FormattedMessage
+          id='writingToolKeepWriting'
+          defaultMessage='Keep Writing'
+        />
+      )
     } else if (wordsOver > 0) {
-      warnDraftMessage = <FormattedMessage
-        id='writingToolWriteLess'
-        defaultMessage="Oops! That's too many words, take away at least {wordsOver, plural, one {# word} other {# words}}."
-        values={{wordsOver}}
-      />
-      buttonLabel = <FormattedMessage
-        id='writingToolKeepEditing'
-        defaultMessage='Keep Editing'
-      />
+      warnDraftMessage = (
+        <FormattedMessage
+          id='writingToolWriteLess'
+          defaultMessage="Oops! That's too many words, take away at least {wordsOver, plural, one {# word} other {# words}}."
+          values={{ wordsOver }}
+        />
+      )
+      buttonLabel = (
+        <FormattedMessage
+          id='writingToolKeepEditing'
+          defaultMessage='Keep Editing'
+        />
+      )
     }
 
     if (warnDraftMessage) {
@@ -334,27 +366,32 @@ export default class WritingTool extends Component {
         messageModalIsOpen: true,
         messageModal: {
           message: warnDraftMessage,
-          buttons: [{
-            label: <FormattedMessage
-              id='writingToolSaveDraft'
-              defaultMessage='Save Draft'
-            />,
-            bgColor: 'white',
-            color: 'black',
-            onClick: () => {
-              this.setState({
-                messageModalIsOpen: false
-              })
-              this.save()
+          buttons: [
+            {
+              label: (
+                <FormattedMessage
+                  id='writingToolSaveDraft'
+                  defaultMessage='Save Draft'
+                />
+              ),
+              bgColor: 'white',
+              color: 'black',
+              onClick: () => {
+                this.setState({
+                  messageModalIsOpen: false
+                })
+                this.save()
+              }
+            },
+            {
+              label: buttonLabel,
+              onClick: () => {
+                this.setState({
+                  messageModalIsOpen: false
+                })
+              }
             }
-          }, {
-            label: buttonLabel,
-            onClick: () => {
-              this.setState({
-                messageModalIsOpen: false
-              })
-            }
-          }]
+          ]
         }
       })
       return
@@ -455,13 +492,12 @@ export default class WritingTool extends Component {
   render () {
     let lang = this.props.lang === 'jp' ? 'jv' : this.props.lang
     lang = this.props.lang === 'simp-en' ? 'en' : lang
-    let localMessages = this.props.lang === 'simp-en'
-      ? messages['simp-en']
-      : messages[lang]
+    let localMessages =
+      this.props.lang === 'simp-en' ? messages['simp-en'] : messages[lang]
 
     return (
       <Provider store={store}>
-        <IntlProvider key={lang} locale={lang} messages={localMessages} >
+        <IntlProvider key={lang} locale={lang} messages={localMessages}>
           <div className='host'>
             {this.renderConfirmModal()}
             {this.renderMessageModal()}
@@ -471,65 +507,69 @@ export default class WritingTool extends Component {
                 backgroundImage: 'url("' + this.props.backgroundImage + '")'
               }}
             />
-            { this.state.primaryColor && <div className='colorOverlay' style={{
-              backgroundColor: this.state.writerBgColor,
-              height: '100vh',
-              width: '100vw'
-            }}>
-              <div className='column left sidebarOpen' name='leftCol'>
-                <Writer
-                  lang={this.props.lang}
-                  primaryColor={this.state.primaryColor}
-                  toolbarColor={this.state.toolbarColor}
-                  textColor={this.state.textColor}
-                  backgroundImage={this.props.backgroundImage}
-                  light={this.state.light}
-                  onMobileFocus={this.closeSidebar}
-                  hideTextStyleButtons={this.props.hideTextStyleButtons}
-                  hideAlignButtons={this.props.hideAlignButtons}
-                  hideImageButton={this.props.hideImageButton}
-                  hideClearButton={this.props.hideClearButton}
-                  hideSaveButton={this.props.hideSaveButton}
-                  onBack={this.onBack}
-                  onSave={this.onSave}
-                  onClear={this.onClear}
-                  saveAsHtml={this.props.saveAsHtml}
-                />
-              </div>
-
-              <div className='column right sidebarOpen' name='rightCol'>
-                <div
-                  className='sidebar-toggle-btn-container'
-                  style={{
-                    backgroundColor: this.state.primaryColor
-                  }}
-                >
-                  <Button
-                    onClick={this.toggleSidebar}
-                    bgColor={this.state.secondaryColor}
-                    color={this.state.textColor}
-                    round
-                    shadow
-                  >
-                    <Icon name={'menu'} color={this.state.textColor} />
-                  </Button>
+            {this.state.primaryColor && (
+              <div
+                className='colorOverlay'
+                style={{
+                  backgroundColor: this.state.writerBgColor,
+                  height: '100vh',
+                  width: '100vw'
+                }}
+              >
+                <div className='column left sidebarOpen' name='leftCol'>
+                  <Writer
+                    lang={this.props.lang}
+                    primaryColor={this.state.primaryColor}
+                    toolbarColor={this.state.toolbarColor}
+                    textColor={this.state.textColor}
+                    backgroundImage={this.props.backgroundImage}
+                    light={this.state.light}
+                    onMobileFocus={this.closeSidebar}
+                    hideTextStyleButtons={this.props.hideTextStyleButtons}
+                    hideAlignButtons={this.props.hideAlignButtons}
+                    hideImageButton={this.props.hideImageButton}
+                    hideClearButton={this.props.hideClearButton}
+                    hideSaveButton={this.props.hideSaveButton}
+                    onBack={this.onBack}
+                    onSave={this.onSave}
+                    onClear={this.onClear}
+                    saveAsHtml={this.props.saveAsHtml}
+                  />
                 </div>
-                <Sidebar
-                  primaryColor={this.state.primaryColor}
-                  secondaryColor={this.state.secondaryColor}
-                  textColor={this.state.textColor}
-                />
-              </div>
 
-              <div className='status-bar'>
-                <StatusBar
-                  lang={this.props.lang}
-                  bgColor={this.state.primaryColor}
-                  light={this.state.light}
-                />
+                <div className='column right sidebarOpen' name='rightCol'>
+                  <div
+                    className='sidebar-toggle-btn-container'
+                    style={{
+                      backgroundColor: this.state.primaryColor
+                    }}
+                  >
+                    <Button
+                      onClick={this.toggleSidebar}
+                      bgColor={this.state.secondaryColor}
+                      color={this.state.textColor}
+                      round
+                      shadow
+                    >
+                      <Icon name={'menu'} color={this.state.textColor} />
+                    </Button>
+                  </div>
+                  <Sidebar
+                    primaryColor={this.state.primaryColor}
+                    secondaryColor={this.state.secondaryColor}
+                    textColor={this.state.textColor}
+                  />
+                </div>
+
+                <div className='status-bar'>
+                  <StatusBar
+                    lang={this.props.lang}
+                    bgColor={this.state.primaryColor}
+                    light={this.state.light}
+                  />
+                </div>
               </div>
-            </div>
-            }
+            )}
             <style jsx>{styles}</style>
           </div>
         </IntlProvider>

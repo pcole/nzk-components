@@ -16,7 +16,7 @@ export default class MessageModal extends Component {
   static defaultProps = {
     contentLabel: 'message',
     delayCloseTimeoutMS: 500,
-    buttons: [{label: 'OK', shadow: true, size: 'large'}]
+    buttons: [{ label: 'OK', shadow: true, size: 'large' }]
   }
 
   constructor (props) {
@@ -36,8 +36,10 @@ export default class MessageModal extends Component {
   }
 
   onAfterClose () {
-    this.props.onAfterClose && this.props.onAfterClose(this.state.buttonClickedIndex)
-    this.props.buttons[this.state.buttonClickedIndex].onAfterClose && this.props.buttons[this.state.buttonClickedIndex].onAfterClose()
+    this.props.onAfterClose &&
+      this.props.onAfterClose(this.state.buttonClickedIndex)
+    this.props.buttons[this.state.buttonClickedIndex].onAfterClose &&
+      this.props.buttons[this.state.buttonClickedIndex].onAfterClose()
   }
 
   onButtonClick (index) {
@@ -68,11 +70,13 @@ export default class MessageModal extends Component {
             <div className='message'>{this.props.message}</div>
             <div className='buttons'>
               {this.props.buttons.map((button, index) => {
-                const {onClick, onAfterClose, label, icon, ...props} = button
+                const { onClick, onAfterClose, label, icon, ...props } = button
                 return (
                   <Button
                     key={index}
-                    onClick={() => { this.onButtonClick(index) }}
+                    onClick={() => {
+                      this.onButtonClick(index)
+                    }}
                     {...props}
                   >
                     {icon && <Icon {...icon} />}

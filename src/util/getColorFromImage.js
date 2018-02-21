@@ -59,17 +59,21 @@ function getColorFromPalette (palette) {
     }
   }
 
-  let candidates = paletteArray.sort((a, b) => {
-    return b.population - a.population
-  }).slice(0, 3)
+  let candidates = paletteArray
+    .sort((a, b) => {
+      return b.population - a.population
+    })
+    .slice(0, 3)
 
   for (let i = 0; i < candidates.length; i++) {
-    candidates[i].lum = (new Color(candidates[i].getRgb())).luminosity()
+    candidates[i].lum = new Color(candidates[i].getRgb()).luminosity()
   }
 
-  let selected = candidates.sort((a, b) => {
-    return Math.abs(0.5 - a.lum) - Math.abs(0.5 - b.lum)
-  }).slice(0, 1)[0]
+  let selected = candidates
+    .sort((a, b) => {
+      return Math.abs(0.5 - a.lum) - Math.abs(0.5 - b.lum)
+    })
+    .slice(0, 1)[0]
 
   return selected.getRgb()
 }
