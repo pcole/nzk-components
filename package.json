@@ -1,12 +1,12 @@
 {
   "name": "nzk-components",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "peerDependencies": {
     "axios": "0.x",
     "classnames": "2.x",
     "color": "2.x",
     "gsap": "1.x",
-    "lodash": "4.x",
+    "lodash": "3.x",
     "node-vibrant": "2.x",
     "prop-types": "15.x",
     "react": "15.x",
@@ -68,7 +68,6 @@
     "slate-react": "^0.11.4"
   },
   "scripts": {
-    "precommit": "yarn run test",
     "build": "rimraf dist/ && babel src --ignore 'storyshot**,**stories.js' --out-dir dist/ --copy-files",
     "test": "jest",
     "standard": "standard --verbose | snazzy",
