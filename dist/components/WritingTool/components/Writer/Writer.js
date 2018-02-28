@@ -45,13 +45,7 @@ var _gsap = require('gsap');
 
 var _reactIntl = require('react-intl');
 
-var _debounce = require('lodash/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _words = require('lodash/words');
-
-var _words2 = _interopRequireDefault(_words);
+var _lodash = require('lodash');
 
 var _actions = require('../../store/actions');
 
@@ -361,7 +355,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
       if (_this.props.lang === 'jp') {
         return text.replace(/\s+/g, '').length;
       }
-      return (0, _words2.default)(text).length;
+      return (0, _lodash.words)(text).length;
     };
 
     _this.onClickMark = function (e, type) {
@@ -703,7 +697,7 @@ var Writer = (_dec = (0, _reactRedux.connect)(function (store) {
     _this.insertImage = _this.insertImage.bind(_this);
     _this.onSave = _this.onSave.bind(_this);
 
-    _this.onDebouncedDocumentChange = (0, _debounce2.default)(_this.onDebouncedDocumentChange, 1000);
+    _this.onDebouncedDocumentChange = (0, _lodash.debounce)(_this.onDebouncedDocumentChange, 1000);
     return _this;
   }
 
